@@ -15,6 +15,11 @@ const router = createRouter({
       name: "not-found",
       component: NotFoundView,
     },
+    {
+      path: "/shopping-list",
+      name: "shopping-list",
+      component: () => import("../views/ShoppingListView.vue"),
+    },
   ],
 });
 
