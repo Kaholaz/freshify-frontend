@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import { RouterView } from "vue-router";
-import SideNavBar from "@/components/SideNavBar.vue";
-import TopNavBar from "@/components/TopNavBar.vue";
 import { computed, onMounted, ref } from "vue";
+import { RouterView } from "vue-router";
 import { useToggle } from "@vueuse/core";
 import { Expand } from "@element-plus/icons-vue";
+
+import SideNavBar from "@/components/SideNavBar.vue";
+import TopNavBar from "@/components/TopNavBar.vue";
+import LoginComponent from "@/components/LoginComponent.vue";
 
 const windowSize = ref(window.innerWidth);
 
@@ -47,6 +49,7 @@ const [drawer, drawerToggle] = useToggle();
       </el-drawer>
       <el-main>
         <RouterView />
+        <LoginComponent />
       </el-main>
     </el-container>
   </el-container>
