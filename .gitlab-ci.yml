@@ -30,6 +30,7 @@ unit-test-job:
 
 e2e-test-job:
   stage: test
+  image: cypress/base:18.16.0
   script:
     - echo "Running end to end tests..."
     - npm run test:e2e
