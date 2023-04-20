@@ -1,20 +1,35 @@
 <template>
   <div id="inventory" class="inventory-wrapper">
-    <h1>Inventory</h1>
-    <div class="inventory-items-list"></div>
+    <h1>Mitt Kjøleskap</h1>
+    <div class="inventory-items-list">
+      <ItemCard v-for="item in items" :key="item.id" :item="item" />
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { ref } from "vue";
+
+import type { Item } from "@/services/index";
+import ItemCard from "@/components/ItemCard.vue";
+
 // Define refs
-
-// Define computed values
-
-// Define callback functions
-
-// Vue hooks
+const items = ref<Item[]>([
+  {
+    id: 1,
+    type: {
+      id: 1,
+      name: "Item 1",
+    },
+    addedBy: {
+      id: 1,
+      firstName: "John",
+    },
+  } as Item,
+]);
 
 // Other script logic
+// TODO: Fetch items from API
 </script>
 
 <style scoped>
