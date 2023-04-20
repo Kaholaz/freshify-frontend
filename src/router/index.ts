@@ -20,6 +20,11 @@ const router = createRouter({
       name: "shopping-list",
       component: () => import("../views/ShoppingListView.vue"),
     },
+    {
+      path: "/inventory",
+      name: "inventory",
+      component: () => import("@/views/InventoryView.vue"),
+    },
   ],
 });
 
