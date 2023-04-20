@@ -1,0 +1,31 @@
+stages:
+  - code-quality
+  - test
+
+lint-job:
+  stage: code-quality
+  script:
+    - echo "Running linter..."
+    - npm run lint
+    - echo "Lint complete."
+
+format-job:
+  stage: code-quality
+  script:
+    - echo "Checking code formatting..."
+    - npx prettier --check src/ cypress
+    - echo "Finished checking code format."
+
+unit-test-job:
+  stage: test
+  script:
+    - echo "Running unit tests..."
+    - npm run test:unit
+    - echo "Finished running unit tests."
+
+e2e-test-job:
+  stage: test
+  script:
+    - echo "Running end to end tests..."
+    - npm run test:e2e
+    - echo "Finished running end to end tests."
