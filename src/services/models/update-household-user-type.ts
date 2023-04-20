@@ -11,16 +11,23 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { HouseholdUserType } from "./household-user-type";
 /**
  *
  * @export
- * @interface IdInventoryBody
+ * @interface UpdateHouseholdUserType
  */
-export interface IdInventoryBody {
+export interface UpdateHouseholdUserType {
   /**
    *
    * @type {number}
-   * @memberof IdInventoryBody
+   * @memberof UpdateHouseholdUserType
    */
-  itemTypeId?: number;
+  userId?: number;
+  /**
+   *
+   * @type {HouseholdUserType}
+   * @memberof UpdateHouseholdUserType
+   */
+  type?: HouseholdUserType;
 }

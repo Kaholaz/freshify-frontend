@@ -14,13 +14,25 @@
 /**
  *
  * @export
- * @interface IdInventoryBody
+ * @interface CreateShoppingListEntry
  */
-export interface IdInventoryBody {
+export interface CreateShoppingListEntry {
   /**
    *
    * @type {number}
-   * @memberof IdInventoryBody
+   * @memberof CreateShoppingListEntry
    */
   itemTypeId?: number;
+  /**
+   *
+   * @type {number}
+   * @memberof CreateShoppingListEntry
+   */
+  count?: number;
+  /**
+   *
+   * @type {boolean}
+   * @memberof CreateShoppingListEntry
+   */
+  suggested?: boolean;
 }

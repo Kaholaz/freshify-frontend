@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * let API - OpenAPI 3.0
- * An API for creating and managing a household inventory and shopping list. The API is written in Java using the Spring Boot framework. The API uses a MySQL database. The API is documented using Swagger. The API is hosted using Apache. Some useful links: - [The GitLab repository](https://gitlab.stud.idi.ntnu.no/idatt2106-v23-10/smartmat-backend) 
+ * An API for creating and managing a household inventory and shopping list. The API is written in Java using the Spring Boot framework. The API uses a MySQL database. The API is documented using Swagger. The API is hosted using Apache. Some useful links: - [The GitLab repository](https://gitlab.stud.idi.ntnu.no/idatt2106-v23-10/smartmat-backend)
  *
  * OpenAPI spec version: 1.0.0
  * Contact: vkbugge@hotmail.com
@@ -11,24 +11,24 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { HouseholdUserType } from './household-user-type';
-import { UserFull } from './user-full';
+import { HouseholdUserType } from "./household-user-type";
+import { UserFull } from "./user-full";
 /**
- * 
+ *
  * @export
  * @interface InlineResponse200
  */
 export interface InlineResponse200 {
-    /**
-     * 
-     * @type {UserFull}
-     * @memberof InlineResponse200
-     */
-    user?: UserFull;
-    /**
-     * 
-     * @type {HouseholdUserType}
-     * @memberof InlineResponse200
-     */
-    userType?: HouseholdUserType;
+  /**
+   *
+   * @type {UserFull}
+   * @memberof InlineResponse200
+   */
+  user?: UserFull;
+  /**
+   *
+   * @type {HouseholdUserType}
+   * @memberof InlineResponse200
+   */
+  userType?: HouseholdUserType;
 }

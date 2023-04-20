@@ -14,13 +14,31 @@
 /**
  *
  * @export
- * @interface IdInventoryBody
+ * @interface UpdateShoppingListEntry
  */
-export interface IdInventoryBody {
+export interface UpdateShoppingListEntry {
   /**
    *
    * @type {number}
-   * @memberof IdInventoryBody
+   * @memberof UpdateShoppingListEntry
    */
-  itemTypeId?: number;
+  id?: number;
+  /**
+   *
+   * @type {number}
+   * @memberof UpdateShoppingListEntry
+   */
+  count?: number;
+  /**
+   *
+   * @type {boolean}
+   * @memberof UpdateShoppingListEntry
+   */
+  suggested?: boolean;
+  /**
+   *
+   * @type {boolean}
+   * @memberof UpdateShoppingListEntry
+   */
+  checked?: boolean;
 }
