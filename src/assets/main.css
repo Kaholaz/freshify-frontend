@@ -8,3 +8,10 @@ body {
 main {
   padding: 0;
 }
+
+.spacer {
+  flex-grow: 1;
+  margin: 0;
+  width: 0;
+  padding: 0;
+}
