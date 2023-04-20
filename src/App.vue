@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue";
-import { RouterView } from "vue-router";
-import { useToggle } from "@vueuse/core";
 import { Expand } from "@element-plus/icons-vue";
+import { useToggle } from "@vueuse/core";
+import { RouterView } from "vue-router";
+import router from "@/router";
 
 import SideNavBar from "@/components/SideNavBar.vue";
 import TopNavBar from "@/components/TopNavBar.vue";
@@ -21,6 +22,10 @@ const collapsed = computed(() => {
 });
 
 const [drawer, drawerToggle] = useToggle();
+
+function isLoginPage() {
+  return computed(() => router.currentRoute.value.name !== "login" );
+}
 </script>
 
 <template>
@@ -41,7 +46,7 @@ const [drawer, drawerToggle] = useToggle();
       </el-menu>
     </div>
     <el-container>
-      <el-aside width="300px" v-if="!collapsed">
+      <el-aside width="300px" v-if="!collapsed && !isLoginPage">
         <SideNavBar class="sidenav" />
       </el-aside>
       <el-drawer v-model="drawer" direction="ltr" size="306px">
