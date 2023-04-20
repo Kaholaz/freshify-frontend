@@ -18,14 +18,20 @@ const router = createRouter({
     {
       path: "/shopping-list",
       name: "shopping-list",
-      component: () => import("../views/ShoppingListView.vue"),
+      component: () => import("@/views/ShoppingListView.vue"),
     },
     {
       path: "/inventory",
       name: "inventory",
       component: () => import("@/views/InventoryView.vue"),
     },
+    {
+      path: "/login",
+      name: "login",
+      component: () => import("@/views/LoginView.vue"),
+    }
   ],
 });
 
 export default router;
+
