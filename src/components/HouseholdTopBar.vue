@@ -1,11 +1,5 @@
 <template>
-  <el-menu
-    :default-active="activeIndex"
-    mode="horizontal"
-    :ellipsis="false"
-    @select="handleSelect"
-    class="menu"
-  >
+  <el-container>
     <el-text type="primary" size="large" class="menu-item-text">
       Legg til nytt medlem i husholdningen
     </el-text>
@@ -19,7 +13,7 @@
     <el-button type="danger" class="menu-item-button">
       <span>Slett Husholdning</span>
     </el-button>
-  </el-menu>
+</el-container>
 </template>
 
 <script setup lang="ts">
