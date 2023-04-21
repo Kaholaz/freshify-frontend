@@ -48,6 +48,7 @@ npm run lint
 
 ## Contributing
 
+### Setup
 The frontend is formatted with [Prettier](https://prettier.io/), and linted with [ESLint](https://eslint.org/), and the
 backend is formatted with
 Spotless. To ensure that your code is formatted correctly, you should ensure to format your code before committing. To
@@ -67,3 +68,19 @@ if [ -n "$FILES" ]; then
     git add $FILES
 fi
 ``` 
+
+### Mocking an api
+
+To mock the api, you may use the prism. To install prism, run the following command:
+
+```shell
+npm install -g @stoplight/prism-cli
+``` 
+
+Prism needs a swagger file to mock the api. This can be found in the backend repository. To start the mock server, run:
+
+```shell
+prism mock <path to swagger file>
+```
+
+
