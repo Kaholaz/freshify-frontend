@@ -7,26 +7,26 @@
     }"
     class="relative m-2 w-full max-w-xl overflow-visible"
   >
-    <h2 class="mb-5">{{ props.userName }}</h2>
+    <h2 class="mb-5">{{ user.firstName }}</h2>
     <p class="text-[#868e96]">Superbruker</p>
+    <p class="text-[#868e96]">{{ user.email }}</p>
     <div class="absolute -top-10 right-5">
       <el-icon color="black" size="80">
         <UserFilled />
       </el-icon>
     </div>
     <footer class="mt-2 text-right">
-      <el-link href="https://vg.no" type="primary" target="_blank">
-        Utnevn til superbruker
-      </el-link>
+      <el-button type="primary"> Utnevn til superbruker </el-button>
     </footer>
   </el-card>
 </template>
 
 <script setup lang="ts">
+import type { UserFull } from "@/services";
 import { UserFilled } from "@element-plus/icons-vue";
 
 const props = defineProps<{
-  userName: string;
+  user: UserFull;
 }>();
 </script>
 

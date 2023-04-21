@@ -13,7 +13,7 @@
           :xl="16"
           class="mb-5"
         >
-          <UserCard :user-name="user.name" />
+          <UserCard :user="user" />
         </el-col>
       </el-row>
     </div>
@@ -21,47 +21,23 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from "vue";
+import type { UserFull } from "@/services";
 import UserCard from "@/components/UserCard.vue";
 import HouseholdTopBar from "@/components/HouseholdTopBar.vue";
 
-const users = [
+const users = ref<UserFull[]>([
   {
     id: 1,
-    name: "Trond Arild",
-  },
+    email: "trond@gmail.com",
+    firstName: "Trond",
+  } as UserFull,
   {
     id: 2,
-    name: "Kåre Konradsen",
-  },
-  {
-    id: 3,
-    name: "Trond Arild",
-  },
-  {
-    id: 4,
-    name: "Kåre Konradsen",
-  },
-  {
-    id: 5,
-    name: "Kåre Konradsen",
-  },
-  {
-    id: 6,
-    name: "Kåre Konradsen",
-  },
-  {
-    id: 7,
-    name: "Kåre Konradsen",
-  },
-  {
-    id: 8,
-    name: "Kåre Konradsen",
-  },
-  {
-    id: 9,
-    name: "Kåre Konradsen",
-  },
-];
+    email: "gjøran@gmail.com",
+    firstName: "Gjøran",
+  } as UserFull,
+]);
 </script>
 
 <style scoped>

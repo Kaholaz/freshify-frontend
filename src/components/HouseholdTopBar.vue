@@ -33,7 +33,7 @@ const handleSelect = (key: string, keyPath: string[]) => {
 };
 </script>
 
-<style>
+<style scoped>
 .menu {
   padding: 10px;
 }
