@@ -29,6 +29,7 @@
       <div v-if="activeItems.size">
         <ShoppingListCard
           @click="handleClickCheckbox(item)"
+          @delete="deleteItem(item)"
           v-for="item in Array.from(activeItems.values()).reverse()"
           :item="item"
           :key="item.id"
@@ -52,6 +53,7 @@
           @click="handleClickCheckbox(item)"
           @accept="acceptSuggestion(item)"
           @decline="acceptSuggestion(item)"
+          @delete="deleteItem(item)"
           v-for="item in Array.from(requestedItems.values()).reverse()"
           :item="item"
           :key="item.id"
@@ -72,6 +74,7 @@
         </el-row>
         <ShoppingListCard
           @click="handleClickCheckbox(item)"
+          @delete="deleteItem(item)"
           v-for="item in Array.from(boughtItems.values()).reverse()"
           :item="item"
           :key="item.id"
@@ -100,7 +103,6 @@ const itemTypes = [
   } as ItemType,
 ];
 
-// Fix so that the drawer is open when there are items in it when api
 const drawers = ref(["active", "requested", "bought"] as string[]);
 
 const newItem = ref({
@@ -146,6 +148,9 @@ function addItem(item: ShoppingListEntry) {
 function addNewItem(item: ShoppingListEntry) {
   item.count = parseInt(item.count);
   console.log(item.count);
+  if (activeItems.value.size === 0 && activeItems.value.size === 0) {
+    drawers.value.push("active");
+  }
   if (checkIfExistsAndUpdateCount(item, activeItems.value, item.count)) {
     ElMessage({
       message: "Vare har blitt oppdatert",
@@ -177,10 +182,8 @@ function handleClickCheckbox(item: ShoppingListEntry) {
       if (activeItems.value.size == 0 && !drawers.value.includes("active")) {
         drawers.value.push("active");
       }
-      if (boughtItems.value.size == 0) {
-        drawers.value.splice(drawers.value.indexOf("bought"), 1);
-      }
       activeItems.value.set(itemToKey(item), item);
+      closeEmptyDrawers();
     }
     return;
   }
@@ -190,31 +193,37 @@ function handleClickCheckbox(item: ShoppingListEntry) {
     if (boughtItems.value.size == 0 && !drawers.value.includes("bought")) {
       drawers.value.push("bought");
     }
-    if (activeItems.value.size == 0) {
-      drawers.value.splice(drawers.value.indexOf("active"), 1);
-    }
     boughtItems.value.set(itemToKey(item), item);
-  }
-}
-
-function fixDrawersOnSuggestion() {
-  if (requestedItems.value.size == 0) {
-    drawers.value.splice(drawers.value.indexOf("requested"), 1);
+    closeEmptyDrawers();
   }
 }
 
 function acceptSuggestion(item: ShoppingListEntry) {
+  if (activeItems.value.size == 0 && !drawers.value.includes("active")) {
+    drawers.value.push("active");
+  }
   item.suggested = false;
   requestedItems.value.delete(itemToKey(item));
   activeItems.value.set(itemToKey(item), item);
-  fixDrawersOnSuggestion();
+  closeEmptyDrawers();
   console.log("accept suggestion");
 }
 
 function declineSuggestion(item: ShoppingListEntry) {
-  fixDrawersOnSuggestion();
   requestedItems.value.delete(itemToKey(item));
+  closeEmptyDrawers();
   console.log("decline suggestion");
+}
+
+function deleteItem(item: ShoppingListEntry) {
+  if (item.checked) {
+    boughtItems.value.delete(itemToKey(item));
+  } else if (item.suggested) {
+    requestedItems.value.delete(itemToKey(item));
+  } else {
+    activeItems.value.delete(itemToKey(item));
+  }
+  closeEmptyDrawers();
 }
 
 function acceptAllSuggestions() {
@@ -232,6 +241,7 @@ function declineAllSuggestions() {
 function completeShopping() {
   console.log("complete shopping");
   boughtItems.value.clear();
+  closeEmptyDrawers();
 }
 
 function itemToKey(item: ShoppingListEntry) {
@@ -250,6 +260,18 @@ function checkIfExistsAndUpdateCount(
     return true;
   }
   return false;
+}
+
+function closeEmptyDrawers() {
+  if (activeItems.value.size == 0) {
+    drawers.value.splice(drawers.value.indexOf("active"), 1);
+  }
+  if (requestedItems.value.size == 0) {
+    drawers.value.splice(drawers.value.indexOf("requested"), 1);
+  }
+  if (boughtItems.value.size == 0) {
+    drawers.value.splice(drawers.value.indexOf("bought"), 1);
+  }
 }
 </script>
 <style scoped>
