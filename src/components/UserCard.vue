@@ -7,25 +7,33 @@
     }"
     class="relative m-2 w-full max-w-xl overflow-visible"
   >
-    <h2 class="mb-5">Bruker</h2>
+    <h2 class="mb-5">{{ props.userName }}</h2>
     <p class="text-[#868e96]">
-      Front-end developer and open source enthusiast. We hope to develop a UI platform that can help
-      many people in the future. I still working hard to make this dream come true.
+      Superbruker
     </p>
     <div class="absolute -top-10 right-5">
-      <el-avatar src="https://avatars.githubusercontent.com/u/27342882?v=4" :size="80" />
+      <el-icon color="black" size="80" >
+        <UserFilled />
+      </el-icon>
     </div>
     <footer class="mt-2 text-right">
-      <el-link href="https://github.com/ryuhangyeong" type="primary" target="_blank">
+      <el-link href="https://vg.no" type="primary" target="_blank">
         Utnevn til superbruker
       </el-link>
     </footer>
   </el-card>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+
+import { UserFilled } from '@element-plus/icons-vue'
+
+
+
+const props = defineProps<{
+  userName: string;
+}>();
+</script>
 
 <style scoped>
-.component-name-wrapper {
-}
 </style>
