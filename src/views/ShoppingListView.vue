@@ -1,6 +1,6 @@
 <template>
   <h1 style="font-size: 60px">Handleliste</h1>
-  <el-card>
+  <el-card style="margin-bottom: 1rem">
     <h1>Legg til ny vare</h1>
     <el-row>
       <el-select v-model="newItem.type" style="width: 10rem">
@@ -26,45 +26,60 @@
       <template #title>
         <el-text>Varer</el-text>
       </template>
-      <ShoppingListCard
-        @click="handleClickCheckbox(item)"
-        v-for="item in Array.from(activeItems.values()).reverse()"
-        :item="item"
-        :key="item.id"
-      ></ShoppingListCard>
+      <div v-if="activeItems.size">
+        <ShoppingListCard
+          @click="handleClickCheckbox(item)"
+          v-for="item in Array.from(activeItems.values()).reverse()"
+          :item="item"
+          :key="item.id"
+        ></ShoppingListCard>
+      </div>
+      <div v-else>
+        <el-alert title="Det er ingen varer i handlelista" type="info" center />
+      </div>
     </el-collapse-item>
     <el-collapse-item name="requested">
       <template #title>
         <el-text>Foreslåtte varer</el-text>
       </template>
-      <el-row class="divider-row">
-        <div style="flex-grow: 1"></div>
-        <el-button @click="acceptAllSuggestions" type="success" plain>Godta alle</el-button>
-        <el-button @click="declineAllSuggestions" type="danger" plain>Avslå alle</el-button>
-      </el-row>
-      <ShoppingListCard
-        @click="handleClickCheckbox(item)"
-        @accept="acceptSuggestion(item)"
-        @decline="acceptSuggestion(item)"
-        v-for="item in Array.from(requestedItems.values()).reverse()"
-        :item="item"
-        :key="item.id"
-      ></ShoppingListCard>
+      <div v-if="requestedItems.size">
+        <el-row class="divider-row">
+          <div style="flex-grow: 1"></div>
+          <el-button @click="acceptAllSuggestions" type="success" plain>Godta alle</el-button>
+          <el-button @click="declineAllSuggestions" type="danger" plain>Avslå alle</el-button>
+        </el-row>
+        <ShoppingListCard
+          @click="handleClickCheckbox(item)"
+          @accept="acceptSuggestion(item)"
+          @decline="acceptSuggestion(item)"
+          v-for="item in Array.from(requestedItems.values()).reverse()"
+          :item="item"
+          :key="item.id"
+        ></ShoppingListCard>
+      </div>
+      <div v-else>
+        <el-alert title="Det er ingen forespurte varer" type="info" center />
+      </div>
     </el-collapse-item>
     <el-collapse-item name="bought">
       <template #title>
         <el-text>Kjøpte varer</el-text>
       </template>
-      <el-row class="divider-row">
-        <div style="flex-grow: 1"></div>
-        <el-button @click="completeShopping" type="primary" plain>Avslutt handel</el-button>
-      </el-row>
-      <ShoppingListCard
-        @click="handleClickCheckbox(item)"
-        v-for="item in Array.from(boughtItems.values()).reverse()"
-        :item="item"
-        :key="item.id"
-      ></ShoppingListCard>
+      <div v-if="boughtItems.size">
+        <el-row class="divider-row">
+          <div style="flex-grow: 1"></div>
+          <el-button @click="completeShopping" type="primary" plain>Avslutt handel</el-button>
+        </el-row>
+        <ShoppingListCard
+          @click="handleClickCheckbox(item)"
+          v-for="item in Array.from(boughtItems.values()).reverse()"
+          :item="item"
+          :key="item.id"
+        ></ShoppingListCard>
+      </div>
+      <div v-else>
+        <el-alert title="Husholdningen har ingen kjøpte varer" type="info" center />
+      </div>
     </el-collapse-item>
   </el-collapse>
 </template>
