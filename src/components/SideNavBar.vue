@@ -46,6 +46,8 @@
 
 <script lang="ts" setup>
 import router from "@/router";
+import { DataAnalysis, Dish, HomeFilled, List, Management, Setting } from "@element-plus/icons-vue";
+import { onMounted, ref } from "vue";
 
 const defaultActive = ref("/");
 onMounted(async () => {
@@ -53,18 +55,6 @@ onMounted(async () => {
   defaultActive.value = router.currentRoute.value.path;
   console.log(defaultActive.value);
 });
-
-import {
-  DataAnalysis,
-  Dish,
-  HomeFilled,
-  House,
-  List,
-  Location,
-  Management,
-  Setting,
-} from "@element-plus/icons-vue";
-import { onMounted, ref } from "vue";
 
 const handleOpen = (key: string, keyPath: string[]) => {
   console.log(key, keyPath);
