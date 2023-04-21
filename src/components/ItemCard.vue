@@ -10,7 +10,9 @@
       <h3>{{ item.type?.name }}</h3>
       <p v-if="item.bought">Kjøpt for {{ getDaysSinceBought(item) }} dager siden.</p>
     </div>
-    <slot class="buttons-slot"></slot>
+    <div class="buttons">
+      <slot></slot>
+    </div>
   </div>
 </template>
 
@@ -19,10 +21,12 @@ import { computed } from "vue";
 
 import type { Item } from "@/services/index";
 
-// Define props
-defineProps<{
+export interface ItemCardProps {
   item: Item;
-}>();
+}
+
+// Define props
+defineProps<ItemCardProps>();
 
 // Define callback functions
 function getDaysSinceBought(item: Item): number {
@@ -48,7 +52,7 @@ div.item-card-only-title {
   padding: 0.8rem 0.6rem !important;
 }
 
-.item-card-wrapper > .buttons-slot {
+.item-card-wrapper > .buttons {
   display: flex;
   justify-content: flex-end;
   align-items: center;
