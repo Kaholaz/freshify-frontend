@@ -26,15 +26,10 @@ defineProps<{
 
 // Define callback functions
 function getDaysSinceBought(item: Item): number {
-  if (!item.bought) return 0;
+  if (!item.bought) return NaN;
 
-  const today = new Date();
-  const bought = new Date(item.bought);
-
-  const diffTime = Math.abs(today.getTime() - bought.getTime());
-  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-
-  return diffDays;
+  const timeDelta = Date.now() - Date.parse(item.bought);
+  return Math.floor(timeDelta / (1000 * 60 * 60 * 24));
 }
 </script>
 
