@@ -100,6 +100,7 @@ const itemTypes = [
   } as ItemType,
 ];
 
+// Fix so that the drawer is open when there are items in it when api
 const drawers = ref(["active", "requested", "bought"] as string[]);
 
 const newItem = ref({
@@ -173,6 +174,12 @@ function handleClickCheckbox(item: ShoppingListEntry) {
         type: "info",
       });
     } else {
+      if (activeItems.value.size == 0 && !drawers.value.includes("active")) {
+        drawers.value.push("active");
+      }
+      if (boughtItems.value.size == 0) {
+        drawers.value.splice(drawers.value.indexOf("bought"), 1);
+      }
       activeItems.value.set(itemToKey(item), item);
     }
     return;
@@ -180,7 +187,19 @@ function handleClickCheckbox(item: ShoppingListEntry) {
   item.checked = true;
   activeItems.value.delete(itemToKey(item));
   if (!checkIfExistsAndUpdateCount(item, boughtItems.value, item.count)) {
+    if (boughtItems.value.size == 0 && !drawers.value.includes("bought")) {
+      drawers.value.push("bought");
+    }
+    if (activeItems.value.size == 0) {
+      drawers.value.splice(drawers.value.indexOf("active"), 1);
+    }
     boughtItems.value.set(itemToKey(item), item);
+  }
+}
+
+function fixDrawersOnSuggestion() {
+  if (requestedItems.value.size == 0) {
+    drawers.value.splice(drawers.value.indexOf("requested"), 1);
   }
 }
 
@@ -188,10 +207,12 @@ function acceptSuggestion(item: ShoppingListEntry) {
   item.suggested = false;
   requestedItems.value.delete(itemToKey(item));
   activeItems.value.set(itemToKey(item), item);
+  fixDrawersOnSuggestion();
   console.log("accept suggestion");
 }
 
 function declineSuggestion(item: ShoppingListEntry) {
+  fixDrawersOnSuggestion();
   requestedItems.value.delete(itemToKey(item));
   console.log("decline suggestion");
 }
@@ -220,7 +241,7 @@ function itemToKey(item: ShoppingListEntry) {
 function checkIfExistsAndUpdateCount(
   item: ShoppingListEntry,
   map: Map<string, ShoppingListEntry>,
-  count: number
+  count: number | undefined
 ) {
   if (map.has(itemToKey(item))) {
     let previousItem = map.get(itemToKey(item));
