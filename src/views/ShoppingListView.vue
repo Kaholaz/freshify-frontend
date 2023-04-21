@@ -32,11 +32,13 @@
   <el-row class="divider-row">
     <el-text>Foreslåtte varer</el-text>
     <div style="flex-grow: 1"></div>
-    <el-button type="success" plain>Godta alle</el-button>
-    <el-button type="danger" plain>Avslå alle</el-button>
+    <el-button @click="acceptAllSuggestions" type="success" plain>Godta alle</el-button>
+    <el-button @click="declineAllSuggestions" type="danger" plain>Avslå alle</el-button>
   </el-row>
   <ShoppingListCard
     @click="handleClickCheckbox(item)"
+    @accept="acceptSuggestion(item)"
+    @decline="acceptSuggestion(item)"
     v-for="item in Array.from(requestedItems.values()).reverse()"
     :item="item"
     :key="item.id"
@@ -45,7 +47,7 @@
   <el-row class="divider-row">
     <el-text>Kjøpte varer</el-text>
     <div style="flex-grow: 1"></div>
-    <el-button type="primary" plain>Avslutt handel</el-button>
+    <el-button @click="completeShopping" type="primary" plain>Avslutt handel</el-button>
   </el-row>
   <ShoppingListCard
     @click="handleClickCheckbox(item)"
@@ -101,10 +103,6 @@ addItem({
   id: 1,
 });
 
-function itemToKey(item: ShoppingListEntry) {
-  return JSON.stringify({ type: item.type?.id, addedBy: item.addedBy?.id });
-}
-
 function addItem(item: ShoppingListEntry) {
   if (item.suggested) {
     requestedItems.value.set(itemToKey(item), item);
@@ -113,20 +111,6 @@ function addItem(item: ShoppingListEntry) {
   } else {
     boughtItems.value.set(itemToKey(item), item);
   }
-}
-
-function checkIfExistsAndUpdateCount(
-  item: ShoppingListEntry,
-  map: Map<string, ShoppingListEntry>,
-  count: number
-) {
-  if (map.has(itemToKey(item))) {
-    let previousItem = map.get(itemToKey(item));
-    previousItem.count += count;
-    map.set(itemToKey(item), previousItem);
-    return true;
-  }
-  return false;
 }
 
 function addNewItem(item: ShoppingListEntry) {
@@ -169,6 +153,53 @@ function handleClickCheckbox(item: ShoppingListEntry) {
   if (!checkIfExistsAndUpdateCount(item, boughtItems.value, item.count)) {
     boughtItems.value.set(itemToKey(item), item);
   }
+}
+
+function acceptSuggestion(item: ShoppingListEntry) {
+  item.suggested = false;
+  requestedItems.value.delete(itemToKey(item));
+  activeItems.value.set(itemToKey(item), item);
+  console.log("accept suggestion");
+}
+
+function declineSuggestion(item: ShoppingListEntry) {
+  requestedItems.value.delete(itemToKey(item));
+  console.log("decline suggestion");
+}
+
+function acceptAllSuggestions() {
+  for (let item of requestedItems.value.values()) {
+    acceptSuggestion(item);
+  }
+}
+
+function declineAllSuggestions() {
+  for (let item of requestedItems.value.values()) {
+    declineSuggestion(item);
+  }
+}
+
+function completeShopping() {
+  console.log("complete shopping");
+  boughtItems.value.clear();
+}
+
+function itemToKey(item: ShoppingListEntry) {
+  return JSON.stringify({ type: item.type?.id, addedBy: item.addedBy?.id });
+}
+
+function checkIfExistsAndUpdateCount(
+  item: ShoppingListEntry,
+  map: Map<string, ShoppingListEntry>,
+  count: number
+) {
+  if (map.has(itemToKey(item))) {
+    let previousItem = map.get(itemToKey(item));
+    previousItem.count += count;
+    map.set(itemToKey(item), previousItem);
+    return true;
+  }
+  return false;
 }
 </script>
 <style scoped>
