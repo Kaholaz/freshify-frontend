@@ -3,7 +3,7 @@
   <el-card style="margin-bottom: 1rem">
     <h1>Legg til ny vare</h1>
     <el-row>
-      <el-select v-model="newItem.type" style="width: 10rem">
+      <el-select v-model="newItem.type" :value="newItem.type.name" style="width: 10rem">
         <el-option
           v-for="type in itemTypes"
           :key="type.id"
@@ -36,7 +36,7 @@
         ></ShoppingListCard>
       </div>
       <div v-else>
-        <el-alert title="Det er ingen varer i handlelista" type="info" center />
+        <el-alert title="Det er ingen varer i handlelista" type="info" center :closable="false" />
       </div>
     </el-collapse-item>
     <el-collapse-item name="requested">
@@ -46,13 +46,21 @@
       <div v-if="requestedItems.size">
         <el-row class="divider-row">
           <div style="flex-grow: 1"></div>
-          <el-button @click="acceptAllSuggestions" type="success" plain>Godta alle</el-button>
-          <el-button @click="declineAllSuggestions" type="danger" plain>Avslå alle</el-button>
+          <el-popconfirm @confirm="acceptAllSuggestions" title="Godkjenn alle varer">
+            <template #reference>
+              <el-button type="success" plain>Godta alle</el-button>
+            </template>
+          </el-popconfirm>
+          <el-popconfirm @confirm="declineAllSuggestions" title="Slett alle varer">
+            <template #reference>
+              <el-button type="danger" plain>Avslå alle</el-button>
+            </template>
+          </el-popconfirm>
         </el-row>
         <ShoppingListCard
           @click="handleClickCheckbox(item)"
           @accept="acceptSuggestion(item)"
-          @decline="acceptSuggestion(item)"
+          @decline="declineSuggestion(item)"
           @delete="deleteItem(item)"
           v-for="item in Array.from(requestedItems.values()).reverse()"
           :item="item"
@@ -60,7 +68,7 @@
         ></ShoppingListCard>
       </div>
       <div v-else>
-        <el-alert title="Det er ingen forespurte varer" type="info" center />
+        <el-alert title="Det er ingen forespurte varer" type="info" center :closable="false" />
       </div>
     </el-collapse-item>
     <el-collapse-item name="bought">
@@ -81,7 +89,12 @@
         ></ShoppingListCard>
       </div>
       <div v-else>
-        <el-alert title="Husholdningen har ingen kjøpte varer" type="info" center />
+        <el-alert
+          title="Husholdningen har ingen kjøpte varer"
+          type="info"
+          center
+          :closable="false"
+        />
       </div>
     </el-collapse-item>
   </el-collapse>
@@ -153,7 +166,7 @@ function addNewItem(item: ShoppingListEntry) {
   }
   if (checkIfExistsAndUpdateCount(item, activeItems.value, item.count)) {
     ElMessage({
-      message: "Vare har blitt oppdatert",
+      message: `${item.type?.name} har blitt oppdatert`,
       type: "info",
     });
   } else if (checkIfExistsAndUpdateCount(item, requestedItems.value, item.count)) {
@@ -165,6 +178,10 @@ function addNewItem(item: ShoppingListEntry) {
     console.log("new item");
     activeItems.value.set(itemToKey(item), {
       ...item,
+    });
+    ElMessage({
+      message: "Vare har blitt lagt til",
+      type: "success",
     });
   }
 }
@@ -183,7 +200,6 @@ function handleClickCheckbox(item: ShoppingListEntry) {
         drawers.value.push("active");
       }
       activeItems.value.set(itemToKey(item), item);
-      closeEmptyDrawers();
     }
     return;
   }
@@ -194,24 +210,25 @@ function handleClickCheckbox(item: ShoppingListEntry) {
       drawers.value.push("bought");
     }
     boughtItems.value.set(itemToKey(item), item);
-    closeEmptyDrawers();
   }
 }
 
 function acceptSuggestion(item: ShoppingListEntry) {
+  ElMessage({
+    message: `${item.type?.name} har blitt lagt til i handlelisten`,
+    type: "info",
+  });
   if (activeItems.value.size == 0 && !drawers.value.includes("active")) {
     drawers.value.push("active");
   }
   item.suggested = false;
   requestedItems.value.delete(itemToKey(item));
   activeItems.value.set(itemToKey(item), item);
-  closeEmptyDrawers();
   console.log("accept suggestion");
 }
 
 function declineSuggestion(item: ShoppingListEntry) {
   requestedItems.value.delete(itemToKey(item));
-  closeEmptyDrawers();
   console.log("decline suggestion");
 }
 
@@ -223,25 +240,30 @@ function deleteItem(item: ShoppingListEntry) {
   } else {
     activeItems.value.delete(itemToKey(item));
   }
-  closeEmptyDrawers();
+
+  ElMessage({
+    message: `${item.type?.name} har blitt fjernet fra handlelisten`,
+    type: "info",
+  });
 }
 
 function acceptAllSuggestions() {
-  for (let item of requestedItems.value.values()) {
-    acceptSuggestion(item);
-  }
+  requestedItems.value.clear();
+  ElMessage({
+    message: "Alle foreslåtte varer har blitt lagt til i handlelisten",
+    type: "success",
+  });
+  console.log("accept all suggestions");
 }
 
 function declineAllSuggestions() {
-  for (let item of requestedItems.value.values()) {
-    declineSuggestion(item);
-  }
+  requestedItems.value.clear();
+  console.log("decline all suggestions");
 }
 
 function completeShopping() {
   console.log("complete shopping");
   boughtItems.value.clear();
-  closeEmptyDrawers();
 }
 
 function itemToKey(item: ShoppingListEntry) {
@@ -260,18 +282,6 @@ function checkIfExistsAndUpdateCount(
     return true;
   }
   return false;
-}
-
-function closeEmptyDrawers() {
-  if (activeItems.value.size == 0) {
-    drawers.value.splice(drawers.value.indexOf("active"), 1);
-  }
-  if (requestedItems.value.size == 0) {
-    drawers.value.splice(drawers.value.indexOf("requested"), 1);
-  }
-  if (boughtItems.value.size == 0) {
-    drawers.value.splice(drawers.value.indexOf("bought"), 1);
-  }
 }
 </script>
 <style scoped>
