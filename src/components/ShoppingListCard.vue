@@ -12,7 +12,7 @@
       </el-col>
       <el-col :xs="7" :span="12">
         <el-row>
-          <h1>{{ props.item.type.name }}</h1>
+          <h5>{{ props.item.type.name }}</h5>
         </el-row>
         <el-row>
           <el-text>Lagt til av: {{ props.item.addedBy.firstName }}</el-text>

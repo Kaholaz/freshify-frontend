@@ -1,7 +1,7 @@
 <template>
   <h1 style="font-size: 60px">Handleliste</h1>
   <el-card style="margin-bottom: 1rem">
-    <h1>Legg til ny vare</h1>
+    <h5>Legg til ny vare</h5>
     <el-row>
       <el-select v-model="newItem.type" :value="newItem.type.name" style="width: 10rem">
         <el-option
