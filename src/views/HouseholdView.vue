@@ -32,26 +32,24 @@ const users = ref([
     user: {
       id: 1,
       email: "tore@gmail.com",
-      firstName: "Tore"
+      firstName: "Tore",
     } as UserFull,
-    userType: "Superbruker" as String
+    userType: "Superbruker" as String,
   },
   {
     user: {
       id: 2,
       email: "trond@gmail.com",
-      firstName: "Trond"
+      firstName: "Trond",
     } as UserFull,
-    userType: "Bruker" as String
+    userType: "Bruker" as String,
   },
 ]);
 
-const household = ref<Household>(
-  {
-    id: 1,
-    name: "Husholdning 1",
-  } as Household,
-);
+const household = ref<Household>({
+  id: 1,
+  name: "Husholdning 1",
+} as Household);
 </script>
 
 <style scoped>

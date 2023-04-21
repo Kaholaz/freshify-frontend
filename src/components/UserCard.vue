@@ -16,12 +16,8 @@
       </el-icon>
     </div>
     <footer class="mt-2 text-right">
-      <el-button v-if="userType == 'Bruker'" type="primary">
-        Utnevn til superbruker
-      </el-button>
-      <el-button v-else type="primary">
-        Degrader til bruker
-      </el-button>
+      <el-button v-if="userType == 'Bruker'" type="primary"> Utnevn til superbruker </el-button>
+      <el-button v-else type="primary"> Degrader til bruker </el-button>
     </footer>
   </el-card>
 </template>
@@ -32,10 +28,8 @@ import { UserFilled } from "@element-plus/icons-vue";
 
 const props = defineProps<{
   user: UserFull;
-  userType: String,
+  userType: String;
 }>();
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

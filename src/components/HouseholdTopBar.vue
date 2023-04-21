@@ -4,27 +4,56 @@
       Legg til nytt medlem i husholdningen
     </el-text>
 
-    <el-button type="primary" class="menu-item-button">
+    <el-button class="menu-item-button" @click="dialogFormVisible = true" type="primary">
       <el-icon>
         <Plus />
       </el-icon>
     </el-button>
+
+    <el-dialog v-model="dialogFormVisible" title="Legg til nytt medlem i husholdningen">
+      <el-form :model="form">
+        <el-form-item label="Brukerens epost" :label-width="formLabelWidth">
+          <el-input v-model="form.name" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="nivå" :label-width="formLabelWidth">
+          <el-select v-model="form.region" placeholder="Velg brukerens rettighets nivå">
+            <el-option label="suberbruker" value="SUPERBRUKER" />
+            <el-option label="bruker" value="BRUKER" />
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="dialogFormVisible = false">Cancel</el-button>
+          <el-button type="primary" @click="dialogFormVisible = false"> Confirm </el-button>
+        </span>
+      </template>
+    </el-dialog>
+
     <div class="flex-grow" />
     <el-button type="danger" class="menu-item-button">
       <span>Slett Husholdning</span>
     </el-button>
-</el-container>
+  </el-container>
 </template>
 
 <script setup lang="ts">
 import { Plus } from "@element-plus/icons-vue";
-import { ref } from "vue";
+import { ref, reactive } from "vue";
 
-const activeIndex = ref("1");
+const dialogFormVisible = ref(false);
+const formLabelWidth = "140px";
 
-const handleSelect = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath);
-};
+const form = reactive({
+  name: "",
+  region: "",
+  date1: "",
+  date2: "",
+  delivery: false,
+  type: [],
+  resource: "",
+  desc: "",
+});
 </script>
 
 <style scoped>
