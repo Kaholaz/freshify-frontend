@@ -3,7 +3,7 @@
   <el-card>
     <h1>Legg til ny vare</h1>
     <el-row>
-      <el-select v-model="newItem.type">
+      <el-select v-model="newItem.type" style="width: 10rem">
         <el-option
           v-for="type in itemTypes"
           :key="type.id"
@@ -21,40 +21,52 @@
       <el-button type="success" @click="addNewItem(newItem)">legg til</el-button>
     </el-row>
   </el-card>
-  <el-divider />
-  <ShoppingListCard
-    @click="handleClickCheckbox(item)"
-    v-for="item in Array.from(activeItems.values()).reverse()"
-    :item="item"
-    :key="item.id"
-  ></ShoppingListCard>
-  <el-divider />
-  <el-row class="divider-row">
-    <el-text>Foreslåtte varer</el-text>
-    <div style="flex-grow: 1"></div>
-    <el-button @click="acceptAllSuggestions" type="success" plain>Godta alle</el-button>
-    <el-button @click="declineAllSuggestions" type="danger" plain>Avslå alle</el-button>
-  </el-row>
-  <ShoppingListCard
-    @click="handleClickCheckbox(item)"
-    @accept="acceptSuggestion(item)"
-    @decline="acceptSuggestion(item)"
-    v-for="item in Array.from(requestedItems.values()).reverse()"
-    :item="item"
-    :key="item.id"
-  ></ShoppingListCard>
-  <el-divider />
-  <el-row class="divider-row">
-    <el-text>Kjøpte varer</el-text>
-    <div style="flex-grow: 1"></div>
-    <el-button @click="completeShopping" type="primary" plain>Avslutt handel</el-button>
-  </el-row>
-  <ShoppingListCard
-    @click="handleClickCheckbox(item)"
-    v-for="item in Array.from(boughtItems.values()).reverse()"
-    :item="item"
-    :key="item.id"
-  ></ShoppingListCard>
+  <el-collapse v-model="drawers">
+    <el-collapse-item name="active">
+      <template #title>
+        <el-text>Varer</el-text>
+      </template>
+      <ShoppingListCard
+        @click="handleClickCheckbox(item)"
+        v-for="item in Array.from(activeItems.values()).reverse()"
+        :item="item"
+        :key="item.id"
+      ></ShoppingListCard>
+    </el-collapse-item>
+    <el-collapse-item name="requested">
+      <template #title>
+        <el-text>Foreslåtte varer</el-text>
+      </template>
+      <el-row class="divider-row">
+        <div style="flex-grow: 1"></div>
+        <el-button @click="acceptAllSuggestions" type="success" plain>Godta alle</el-button>
+        <el-button @click="declineAllSuggestions" type="danger" plain>Avslå alle</el-button>
+      </el-row>
+      <ShoppingListCard
+        @click="handleClickCheckbox(item)"
+        @accept="acceptSuggestion(item)"
+        @decline="acceptSuggestion(item)"
+        v-for="item in Array.from(requestedItems.values()).reverse()"
+        :item="item"
+        :key="item.id"
+      ></ShoppingListCard>
+    </el-collapse-item>
+    <el-collapse-item name="bought">
+      <template #title>
+        <el-text>Kjøpte varer</el-text>
+      </template>
+      <el-row class="divider-row">
+        <div style="flex-grow: 1"></div>
+        <el-button @click="completeShopping" type="primary" plain>Avslutt handel</el-button>
+      </el-row>
+      <ShoppingListCard
+        @click="handleClickCheckbox(item)"
+        v-for="item in Array.from(boughtItems.values()).reverse()"
+        :item="item"
+        :key="item.id"
+      ></ShoppingListCard>
+    </el-collapse-item>
+  </el-collapse>
 </template>
 <script setup lang="ts">
 import ShoppingListCard from "@/components/ShoppingListCard.vue";
@@ -72,6 +84,8 @@ const itemTypes = [
     id: 1,
   } as ItemType,
 ];
+
+const drawers = ref(["active", "requested", "bought"] as string[]);
 
 const newItem = ref({
   type: itemTypes[1],
