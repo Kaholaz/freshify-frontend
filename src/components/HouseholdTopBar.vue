@@ -34,8 +34,8 @@
     <el-popconfirm
       confirm-button-text="Yes"
       cancel-button-text="No"
-      :icon="Plus"
-      icon-color="#626AEF"
+      :icon="WarnTriangleFilled"
+      icon-color="#F89898"
       title="Are you sure to delete this?"
       @confirm="deleteHousehold"
     >
@@ -50,7 +50,7 @@
 
 <script setup lang="ts">
 import { ref, reactive } from "vue";
-import { Plus } from "@element-plus/icons-vue";
+import { Plus, WarnTriangleFilled } from "@element-plus/icons-vue";
 import { ElMessage } from "element-plus";
 
 const dialogFormVisible = ref(false);
