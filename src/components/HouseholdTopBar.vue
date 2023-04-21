@@ -15,8 +15,8 @@
         <el-form-item label="Brukerens epost" :label-width="formLabelWidth">
           <el-input v-model="form.name" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="nivå" :label-width="formLabelWidth">
-          <el-select v-model="form.region" placeholder="Velg brukerens rettighets nivå">
+        <el-form-item label="Rettighetsnivå" :label-width="formLabelWidth">
+          <el-select v-model="form.region" placeholder="Velg rettighetsnivå">
             <el-option label="suberbruker" value="SUPERBRUKER" />
             <el-option label="bruker" value="BRUKER" />
           </el-select>
@@ -31,15 +31,27 @@
     </el-dialog>
 
     <div class="flex-grow" />
-    <el-button type="danger" class="menu-item-button">
-      <span>Slett Husholdning</span>
-    </el-button>
+    <el-popconfirm
+      confirm-button-text="Yes"
+      cancel-button-text="No"
+      :icon="Plus"
+      icon-color="#626AEF"
+      title="Are you sure to delete this?"
+      @confirm="deleteHousehold"
+    >
+      <template #reference>
+        <el-button type="danger" class="menu-item-button">
+          <span>Slett Husholdning</span>
+        </el-button>
+      </template>
+    </el-popconfirm>
   </el-container>
 </template>
 
 <script setup lang="ts">
-import { Plus } from "@element-plus/icons-vue";
 import { ref, reactive } from "vue";
+import { Plus } from "@element-plus/icons-vue";
+import { ElMessage } from "element-plus";
 
 const dialogFormVisible = ref(false);
 const formLabelWidth = "140px";
@@ -54,6 +66,13 @@ const form = reactive({
   resource: "",
   desc: "",
 });
+
+const deleteHousehold = () => {
+  ElMessage({
+    message: "Husholdningen er blitt slettet",
+    type: "success",
+  });
+};
 </script>
 
 <style scoped>
