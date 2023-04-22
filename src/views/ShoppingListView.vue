@@ -45,7 +45,10 @@
           :key="item.id"
         ></ShoppingListCard>
       </div>
-      <div v-else>
+      <div v-else-if="loading == true">
+        <ShoppingListCardSkeleton></ShoppingListCardSkeleton>
+      </div>
+      <div v-else-if="loading == false && !activeItems.size">
         <el-alert title="Det er ingen varer i handlelista" type="info" center :closable="false" />
       </div>
     </el-collapse-item>
@@ -74,9 +77,13 @@
           v-for="item in Array.from(requestedItems.values()).reverse()"
           :item="item"
           :key="item.id"
+          :loading="loading"
         ></ShoppingListCard>
       </div>
-      <div v-else>
+      <div v-else-if="loading == true">
+        <ShoppingListCardSkeleton></ShoppingListCardSkeleton>
+      </div>
+      <div v-else-if="loading == false && !activeItems.size">
         <el-alert title="Det er ingen forespurte varer" type="info" center :closable="false" />
       </div>
     </el-collapse-item>
@@ -95,9 +102,13 @@
           v-for="item in Array.from(boughtItems.values()).reverse()"
           :item="item"
           :key="item.id"
+          :loading="loading"
         ></ShoppingListCard>
       </div>
-      <div v-else>
+      <div v-else-if="loading == true">
+        <ShoppingListCardSkeleton></ShoppingListCardSkeleton>
+      </div>
+      <div v-else-if="loading == false && !activeItems.size">
         <el-alert
           title="Husholdningen har ingen kjøpte varer"
           type="info"
@@ -116,11 +127,11 @@ import type {
   ShoppinglistBuyBody,
   ShoppingListEntry,
   UpdateShoppingListEntry,
-  UserFull,
 } from "@/services";
 import { ref } from "vue";
 import { ElMessage, FormInstance } from "element-plus";
 import { ItemTypeApi, ShoppingListApi } from "@/services/index";
+import ShoppingListCardSkeleton from "@/components/ShoppingListCardSkeleton.vue";
 
 const itemTypes = ref([] as ItemType[]);
 
@@ -169,7 +180,9 @@ const shoppingListApi = new ShoppingListApi();
 const itemTypesApi = new ItemTypeApi();
 const testHouseholdId = -7165074982418084000;
 const itemTypeAutocomplete = ref(null as any);
+const loading = ref(undefined);
 
+/*
 addItem({
   type: { name: "Melk", id: 0 },
   count: 1,
@@ -187,20 +200,18 @@ addItem({
   addedBy: { id: 0, firstName: "Sebastian" } as UserFull,
   id: 0,
 } as ShoppingListEntry);
+ */
 
-addItem({
-  type: { name: "Melk", id: 0 },
-  count: 1,
-  checked: false,
-  suggested: true,
-  addedBy: { id: 1, firstName: "Eric" } as UserFull,
-  id: 1,
-});
-
+const id = setTimeout(() => (loading.value = true), 100);
 shoppingListApi.getShoppingList(testHouseholdId).then((response) => {
+  activeItems.value.clear();
+  requestedItems.value.clear();
+  boughtItems.value.clear();
   response.data.forEach((item) => {
     addItem(item);
   });
+  clearTimeout(id);
+  loading.value = false;
 });
 
 itemTypesApi.searchItemTypes("").then((response) => {

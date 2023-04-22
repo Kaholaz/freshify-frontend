@@ -23,8 +23,8 @@
           <div class="spacer"></div>
           <el-button type="primary" text>antall: {{ props.item.count }}</el-button>
           <el-button @click="emit('accept', item)" v-if="props.item.suggested" type="success" text
-            >godta</el-button
-          >
+            >godta
+          </el-button>
           <el-button @click="emit('delete', item)" type="danger" text>slett</el-button>
         </el-row>
       </el-col>
