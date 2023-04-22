@@ -2,24 +2,34 @@
   <h1 style="font-size: 60px">Handleliste</h1>
   <el-card style="margin-bottom: 1rem">
     <h5>Legg til ny vare</h5>
-    <el-row>
-      <el-autocomplete
-        v-model="itemTypeAutocomplete"
-        :fetch-suggestions="querySearch"
-        value-key="name"
-        debounce="300"
-        @select="newItem.itemTypeId = $event.id"
-      >
-      </el-autocomplete>
-      <el-input
-        placeholder="antall"
-        style="max-width: 5rem; margin-left: 1rem"
-        v-model="newItem.count"
-        type="number"
-      />
-      <div class="spacer" />
-      <el-button type="success" @click="addNewItem(newItem)">legg til</el-button>
-    </el-row>
+    <el-form
+      ref="ruleFormRef"
+      inline
+      style="margin-top: 0.5rem"
+      :model="newItem"
+      :rules="validationRules"
+      status-icon
+    >
+      <el-row>
+        <el-form-item label="Vare" prop="itemTypeId" required>
+          <el-autocomplete
+            v-model="itemTypeAutocomplete"
+            :fetch-suggestions="querySearch"
+            value-key="name"
+            :debounce="300"
+            @select="newItem.itemTypeId = $event.id"
+            @change="newItem.itemTypeId = undefined"
+            placeholder="Vare"
+            fit-input-width
+          />
+        </el-form-item>
+        <el-form-item label="Antall" prop="count" required>
+          <el-input placeholder="Antall" v-model="newItem.count" type="number" />
+        </el-form-item>
+        <div class="spacer" />
+        <el-button type="primary" @click="validateAndAddNewItem(newItem)">legg til</el-button>
+      </el-row>
+    </el-form>
   </el-card>
   <el-collapse v-model="drawers">
     <el-collapse-item name="active">
@@ -109,18 +119,47 @@ import type {
   UserFull,
 } from "@/services";
 import { ref } from "vue";
-import { ElMessage } from "element-plus";
+import { ElMessage, FormInstance } from "element-plus";
 import { ItemTypeApi, ShoppingListApi } from "@/services/index";
 
 const itemTypes = ref([] as ItemType[]);
 
 const drawers = ref(["active", "requested", "bought"] as string[]);
 
+const ruleFormRef = ref<FormInstance>();
 const newItem = ref({
   itemTypeId: undefined,
   count: undefined,
   suggested: false,
 } as CreateShoppingListEntry);
+
+const validationRules = ref({
+  itemTypeId: [
+    {
+      required: true,
+      message: "Vare må velges",
+      trigger: "blur",
+    },
+  ],
+  count: [
+    {
+      required: true,
+      message: "Antall må velges",
+      trigger: "blur",
+    },
+    {
+      validator: (rule: any, value: any, callback: any) => {
+        if (value <= 0) {
+          callback(new Error("Antall må være større enn 0"));
+        } else {
+          callback();
+        }
+      },
+      message: "Antall må være større enn 0",
+      trigger: "change",
+    },
+  ],
+});
 
 const activeItems = ref(new Map() as Map<string, ShoppingListEntry>);
 const requestedItems = ref(new Map() as Map<string, ShoppingListEntry>);
@@ -279,6 +318,15 @@ async function deleteAndMoveItemChecked(item: ShoppingListEntry, checked: boolea
   if (reverseMap.size == 0 && !drawers.value.includes(drawer)) {
     drawers.value.push(drawer);
   }
+}
+
+function validateAndAddNewItem(item: CreateShoppingListEntry) {
+  if (!ruleFormRef.value) return;
+  ruleFormRef.value.validate((valid) => {
+    if (valid) {
+      addNewItem(item);
+    }
+  });
 }
 
 function addNewItem(item: CreateShoppingListEntry) {
