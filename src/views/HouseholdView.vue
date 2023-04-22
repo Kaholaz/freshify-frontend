@@ -1,6 +1,6 @@
 <template>
   <el-main id="component-name" class="component-name-wrapper">
-    <h1>{{ household.name }}</h1>
+    <h1>{{ householdStore.getHousehold()?.name }}</h1>
     <div class="top-bar"><HouseholdTopBar /></div>
     <div>
       <el-row gutter="20">
@@ -22,10 +22,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import type { UserFull, Household } from "@/services";
 import UserCard from "@/components/UserCard.vue";
 import HouseholdTopBar from "@/components/HouseholdTopBar.vue";
+import { useHouseholdStore } from "@/stores/household";
+
+const householdStore = useHouseholdStore();
 
 const users = ref([
   {
@@ -46,10 +49,13 @@ const users = ref([
   },
 ]);
 
-const household = ref<Household>({
-  id: 1,
-  name: "Husholdning 1",
-} as Household);
+onMounted(() => {
+  householdStore.setHousehold({
+    id: 1,
+    name: "Husholdning 15",
+  } as Household);
+  console.log("mounted");
+});
 </script>
 
 <style scoped>

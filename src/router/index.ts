@@ -58,9 +58,9 @@ const router = createRouter({
       },
     },
     {
-      path: "/household",
-      name: "household",
-      component: HouseholdView,
+      path: "/edit-household",
+      name: "edit household",
+      component: () => import("@/views/HouseholdView.vue"),
     },
   ],
 });
