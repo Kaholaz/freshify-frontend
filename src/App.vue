@@ -40,7 +40,7 @@ const [drawer, drawerToggle] = useToggle();
     </div>
     <el-container>
       <el-aside width="300px" v-if="!collapsed">
-        <SideNavBar />
+        <SideNavBar class="sidenav" />
       </el-aside>
       <el-drawer v-model="drawer" direction="ltr" size="306px">
         <SideNavBar />
@@ -52,4 +52,8 @@ const [drawer, drawerToggle] = useToggle();
   </el-container>
 </template>
 
-<style scoped></style>
+<style scoped>
+.sidenav {
+  height: 100%;
+}
+</style>

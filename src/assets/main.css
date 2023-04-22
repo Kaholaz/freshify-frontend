@@ -6,7 +6,13 @@ body {
 }
 
 main {
-  padding: 0;
+  padding: 0 !important;
+}
+
+#app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .spacer {

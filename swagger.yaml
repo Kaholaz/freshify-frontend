@@ -1,0 +1,906 @@
+openapi: 3.0.3
+info:
+  title: Freshify API Documentation
+  description: |-
+    An API for creating and managing a household inventory and shopping list.
+    The API is written in Java using the Spring Boot framework. The API uses a
+    MySQL database. The API is documented using Swagger. The API is hosted using
+    Apache.
+    Some useful links:
+    - [The GitLab repository](https://gitlab.stud.idi.ntnu.no/idatt2106-v23-10/smartmat-backend) 
+  contact:
+    email: vkbugge@hotmail.com
+  license:
+    name: MIT License
+    url: 'https://opensource.org/licenses/MIT'
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+tags:
+  - name: account
+    description: Operations about account
+  - name: household
+    description: Operations about household
+  - name: inventory
+    description: Operations about inventory
+  - name: shopping list
+    description: Operations about shopping list
+paths:
+  /user:
+    post:
+      tags:
+        - account
+      summary: Create a user
+      description: Creates a user
+      operationId: createUser
+      requestBody:
+        description: The user to be created
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUser'
+      responses:
+        '201':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserFull'
+        '409':
+          description: User already exists
+    put:
+      tags:
+        - account
+      summary: Update user
+      description: Updates a user
+      operationId: updateUser
+      requestBody:
+        description: The user to be updated
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUser'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserFull'
+        '404':
+          description: User not found
+  /user/{id}:
+    get:
+      tags:
+        - account
+      summary: Get user by id
+      description: Returns a single user
+      operationId: getUserById
+      parameters:
+        - name: id
+          in: path
+          description: ID of user to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserFull'
+        '404':
+          description: User not found
+    delete:
+      tags:
+        - account
+      summary: Delete user
+      description: Deletes a user
+      operationId: deleteUser
+      parameters:
+        - name: id
+          in: path
+          description: ID of user to delete
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: successful operation
+        '401':
+          description: Access denied
+        '404':
+          description: User not found
+  /user/{id}/households:
+    get:
+      tags:
+        - household
+        - account
+      summary: Get a user's households
+      description: Gets a list of households of a given user
+      operationId: getHouseholds
+      parameters:
+        - name: id
+          in: path
+          description: ID of user to get households from
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+          '200':
+            description: successful operation
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Household'
+          '401':
+            description: Access denied
+          '404':
+            description: User not found
+  /user/login:
+    post:
+      tags:
+        - account
+      summary: Login user
+      description: Logs in a user
+      operationId: loginUser
+      requestBody:
+        description: The user to be logged in
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginUser'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserFull'
+        '401':
+          description: User could not be logged in
+  /user/logout:
+    post:
+      tags:
+        - account
+      summary: Logout user
+      description: Logs out a user
+      operationId: logoutUser
+      responses:
+        '200':
+          description: successful operation
+        '401':
+          description: User could not be logged out
+  /household:
+    post:
+      tags:
+        - household
+      summary: Create a household
+      description: Creates a household
+      operationId: createHousehold
+      requestBody:
+        description: The household to be created
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Household'
+      responses:
+        '201':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Household'
+        '409':
+          description: Household already exists
+  /household/{id}/users:
+    get:
+      tags:
+        - household
+      summary: Get household users
+      description: Gets all the users that are member of a household
+      operationId: getUsers
+      parameters:
+        - name: id
+          in: path
+          description: ID of household to get users from
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    user:
+                      $ref: '#/components/schemas/UserFull'
+                    userType:
+                      $ref: '#/components/schemas/HouseholdUserType'
+        '401':
+          description: Access denied
+        '404':
+            description: Household not found
+    put:
+      tags:
+        - household
+      summary: Update household member role of user
+      description: Updates the role of a user withing a given household. Can only be done by a superuser
+      operationId: updateHouseholdMemberRole
+      parameters:
+        - name: id
+          in: path
+          description: ID of household to update a user type in
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Updated the type of user in the household
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateHouseholdUserType"
+      responses:
+        '200':
+          description: The updated household member
+          content:
+            schema:
+              $ref: '#/components/schemas/HouseholdMember'
+        '400':
+          description: Illegal household member role/User does not belong to household
+        '401':
+          description: Access denied
+        '404':
+            description: Household not found/user not found
+    post:
+      tags:
+        - household
+      summary: Add user
+      description: Adds a user to the household. Can only be done by a superuser
+      operationId: addUser
+      parameters:
+        - name: id
+          in: path
+          description: ID of household to add a user to
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: User to add to the household
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: integer
+                  format: int64
+      responses:
+        '201':
+          description: successful operation
+        '409':
+          description: User already exists in the household
+        '401':
+          description: Access denied
+        '404':
+            description: Household not found
+  /household/{id}/users/{userId}:
+    delete:
+      tags:
+        - household
+      summary: Remove a user from a household
+      description: Removes a user from a household. Can only be done by a superuser or the user themselves
+      operationId: removeUserFromHousehold
+      parameters:
+        - name: id
+          in: path
+          description: ID of household to delete a user from
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: userId
+          in: path
+          description: ID of user to delete from the household
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: successful operation
+        '404':
+          description: User not found in the household
+        '401':
+          description: Access denied
+  /household/{id}:
+    delete:
+      tags:
+        - household
+      summary: Delete a household
+      description: Deletes a household. Can only be done by superusers.
+      operationId: deleteHousehold
+      parameters:
+        - name: id
+          in: path
+          description: ID of household to delete
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: successful operation
+        '404':
+          description: Household not found
+        '401':
+          description: Access denied
+    get:
+      tags:
+        - household
+      summary: Get household by id
+      description: Returns a single household
+      operationId: getHouseholdById
+      parameters:
+        - name: id
+          in: path
+          description: ID of household to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Household'
+        '404':
+          description: Household not found
+    put:
+      tags:
+          - household
+      summary: Update household
+      description: Updates the household's attributes. Can only be done by a superuser
+      operationId: updateHousehold
+      parameters:
+        - name: id
+          in: path
+          description: ID of household to update
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: The household to be updated
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Household'
+      responses:
+          '200':
+            description: successful operation
+          '404':
+            description: Household not found
+          '401':
+            description: Access denied
+  /household/{id}/shoppinglist:
+    get:
+      tags:
+       - shopping list
+      summary: Get the shopping list of a household
+      description: Gets a shopping list with item id from shopping list
+      operationId: getShoppingList
+      parameters:
+        - name: id
+          in: path
+          description: ID of household's shopping list to get items from
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: household ShoppingList items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ShoppingListEntry'
+        '401':
+          description: Unauthorized
+    post: 
+      tags:
+        - shopping list
+      summary: Add item to shopping list
+      description: Adds a selected item to shopping list, user has to be validated. Both ItemType id and amount should be sent in request body.
+      parameters:
+        - name: id
+          in: path
+          description: ID of household's shopping list to add items to
+          required: true
+          schema:
+            type: integer
+            format: int64
+      operationId: addItem
+      requestBody:
+        description: Item to be added to shopping list
+        content:
+          applicatin/json:
+            schema:
+              $ref: '#/components/schemas/CreateShoppingListEntry'
+      responses:
+        '201':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShoppingListEntry'
+        '401':
+          description: Unauthorized response
+        '409':
+          description: Item already exists in shopping list
+    put:
+      tags:
+        - shopping list
+      summary: Update shopping list entry
+      description: Updates an entry in the shopping list of a household
+      operationId: updateShoppingListEntry
+      parameters:
+        - name: id
+          in: path
+          description: ID of household's shopping list to mark items as bought
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: ItemType and count to change in shopping list
+        content:
+          application/json:
+           schema:
+            $ref: '#/components/schemas/UpdateShoppingListEntry'
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid operation. More items are removed than in shopping list.
+        '401':
+          description: Unauthorized response, user is not validated or does not have access
+  /household/{id}/shoppinglist/{listEntryId}:
+    delete:
+      tags:
+        - shopping list
+      summary: Delete item from shopping list
+      description: Delete an item from shopping list of a household, both ItemType and count of the item should be passed
+      operationId: deleteShoppingListEntry
+      parameters:
+        - name: id
+          in: path
+          description: ID of household's shopping list to delete items from
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: listEntryId
+          in: path
+          description: ID of shopping list entry to delete
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid operation. More items are removed than in shopping list.
+        '401':
+          description: Unauthorized response, user is not validated or does not have access
+  /household/{id}/shoppinglist/buy:
+    post:
+      tags:
+        - shopping list
+      summary: Mark items as bought
+      description: Mark items as bought. Items are removed from shopping list.
+      operationId: markItemsAsBought
+      parameters:
+        - name: id
+          in: path
+          description: ID of household's shopping list to mark items as bought
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Items to be marked as bought
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                listEntryIds:
+                  type: array
+                  items:
+                    type: integer
+                    format: int64
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid operation. More items are removed than in shopping list.
+        '401':
+          description: Unauthorized response, user is not validated or does not have access
+        '404':
+          description: Item not found in shopping list
+  /household/{id}/inventory:
+    post:
+      tags:
+        - inventory
+      summary: Add item to inventory
+      description: Takes a list of entries, each entry contains an item type id and count. This way multiple items can be added.
+      operationId: addInventoryItem
+      parameters:
+        - name: id
+          in: path
+          description: ID of the household to add items to.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: List of items to be added to inventory
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  itemTypeId:
+                    type: integer
+                    format: int64
+                  count:
+                    type: integer
+                    format: int64
+      responses:
+        '201':
+          description: Returns a list of the newly added items.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InventoryItems'
+        '401':
+          description: Unauthorized response, user is not validated or does not have access
+        '404':
+          description: Household not found/User not found/Item type not found
+    get:
+      tags:
+       - inventory
+      summary: Gets all items from inventory
+      description: Gets all items of a specific inventory
+      operationId: getInventoryItems
+      parameters:
+        - name: id
+          in: path
+          description: ID of household's shopping list to get items from
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: item found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Item'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Household not found
+    put:
+      tags:
+        - inventory
+      summary: Alters an item in inventory
+      description: Alters an item in inventory. Either the state or the remaining amount can be changed.
+      operationId: updateInventoryItem
+      parameters:
+        - name: id
+          in: path
+          description: ID of household's inventory to update the item in
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: The item to be updated
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateItem"
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: The given item status is not a valid status for item/item does not belong to household
+        '401':
+          description: Unauthorized response, user is not validated or does not have access
+        '404':
+          description: Item not found/household not found
+  /household/{id}/inventory/{itemId}:
+    delete:
+      tags:
+        - inventory
+      summary: Delete item from inventory
+      description: Delete an item from inventory of a household.
+      operationId: deleteInventoryItem
+      parameters:
+        - name: id
+          in: path
+          description: ID of household's inventory to delete the item from 
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: itemId
+          in: path
+          description: ID of item to delete
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful operation
+        '401':
+          description: Unauthorized response, user is not validated or does not have access
+        '404':
+          description: Item not found/household not found
+  /itemtype:
+    get:
+      tags:
+        - item type
+      summary: Get all item types
+      operationId: getAllItemTypes
+      responses:
+        200:
+          description: Successful operation returns a list of all item types
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ItemType'
+components:
+  schemas:
+    CreateUser:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          example: jens@gmail.com
+        password:
+          type: string
+          format: password
+          example: password123
+        firstName:
+          type: string
+          example: John
+    LoginUser:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          example: lennon@gmail.com
+        password:
+          type: string
+          format: password
+          example: hunter2
+    UpdateUser:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        email:
+          type: string
+          format: email
+          example: jens@gmail.com
+        password:
+          type: string
+          format: password
+          example: password123
+        firstName:
+          type: string
+          example: John
+    UserFull:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        email:
+          type: string
+          format: email
+          example: example@example.org
+        firstName:
+          type: string
+          example: John
+    ItemType:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 123
+        name:
+          type: string
+          example: "Milk"
+    CreateShoppingListEntry:
+      type: object
+      properties:
+        itemTypeId:
+          type: integer
+          example: 123
+        count:
+          type: integer
+          format: int32
+          example: 1
+        suggested:
+          type: boolean
+    UpdateShoppingListEntry:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 123
+        count:
+          type: integer
+          format: int32
+          example: 1
+        suggested:
+          type: boolean
+        checked:
+          type: boolean
+    ShoppingListEntry:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 123
+        count:
+          type: integer
+          format: int32
+          example: 1
+        type:
+          $ref: '#/components/schemas/ItemType'
+        suggested:
+          type: boolean
+        checked:
+          type: boolean
+        addedBy:
+          $ref: '#/components/schemas/UserFull'
+    ItemState:
+      type: string
+      enum:
+        - INVENTORY
+        - USED
+    UpdateItem:
+      type: object
+      properties:
+        itemId:
+          type: integer
+          format: int64
+        remaining:
+          description: The proportion of the item that was wasted
+          type: number
+          format: double
+          example: 0.5
+        state:
+          description: The state of the item
+          $ref: "#/components/schemas/ItemState"
+    Item:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 123
+        state:
+          $ref: '#/components/schemas/ItemState' 
+        remaining:
+          type: number
+          format: double
+          example: 0.5
+        bought:
+          type: string
+          format: date
+          example: "2020-01-01"
+        suggested:
+          type: boolean
+        type:
+          $ref: '#/components/schemas/ItemType'
+        addedBy:
+          $ref: '#/components/schemas/UserFull'
+    InventoryItems:
+      type: array
+      items:
+          properties:
+            id:
+              type: integer
+              example: 123
+            state:
+              $ref: '#/components/schemas/ItemState' 
+            remaining:
+              type: number
+              format: double
+              example: 1
+            bought:
+              type: string
+              format: date
+              example: "2020-01-01"
+            suggested:
+              type: boolean
+            type:
+              $ref: '#/components/schemas/ItemType'
+            addedBy:
+              $ref: '#/components/schemas/UserFull'
+    HouseholdUserType:
+      type: string
+      enum:
+        - SUPERUSER
+        - USER
+    UpdateHouseholdUserType:
+      type: object
+      properties:
+        userId:
+          type: integer
+          example: 123
+        type:
+          $ref: '#/components/schemas/HouseholdUserType'
+    HouseholdMemberKey:
+      type: object
+      properties:
+        householdId:
+          type: integer
+          example: 1
+        userId:
+          type: integer
+          example: 1
+    HouseholdMember:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/HouseholdMemberKey'
+        user:
+          $ref: '#/components/schemas/UserFull'
+        type:
+          $ref: '#/components/schemas/HouseholdUserType'
+    Household:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 123
+        name:
+          type: string
+          example: "My family"
