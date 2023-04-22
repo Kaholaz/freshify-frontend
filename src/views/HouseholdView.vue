@@ -51,8 +51,8 @@ const users = ref([
 
 onMounted(() => {
   householdStore.setHousehold({
-    id: 1,
-    name: "Husholdning 15",
+    id: 234,
+    name: "Hjemme",
   } as Household);
   console.log("mounted");
 });
