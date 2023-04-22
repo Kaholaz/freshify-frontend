@@ -10,7 +10,7 @@
           @change="$emit('click', item.checked)"
         ></el-checkbox>
       </el-col>
-      <el-col :span="12" :xs="7">
+      <el-col :sm="8" :xs="6">
         <el-row>
           <h5>{{ props.item.type.name }}</h5>
         </el-row>
@@ -18,7 +18,7 @@
           <el-text>Lagt til av: {{ props.item.addedBy.firstName }}</el-text>
         </el-row>
       </el-col>
-      <el-col :span="10" :xs="15">
+      <el-col :sm="14" :xs="15">
         <el-row>
           <div class="spacer"></div>
           <el-button text type="primary">antall: {{ props.item.count }}</el-button>
