@@ -56,7 +56,7 @@
       <template #title>
         <el-text>Foreslåtte varer</el-text>
       </template>
-      <div v-if="requestedItems.size">
+      <div v-if="suggestedItems.size">
         <el-row class="divider-row">
           <div style="flex-grow: 1"></div>
           <el-popconfirm @confirm="acceptAllSuggestions" title="Godkjenn alle varer">
@@ -74,7 +74,7 @@
           @click="handleClickCheckbox(item)"
           @accept="acceptSuggestion(item)"
           @delete="deleteItem(item)"
-          v-for="item in Array.from(requestedItems.values()).reverse()"
+          v-for="item in Array.from(suggestedItems.values()).reverse()"
           :item="item"
           :key="item.id"
           :loading="loading"
@@ -173,7 +173,7 @@ const validationRules = ref({
 });
 
 const activeItems = ref(new Map() as Map<string, ShoppingListEntry>);
-const requestedItems = ref(new Map() as Map<string, ShoppingListEntry>);
+const suggestedItems = ref(new Map() as Map<string, ShoppingListEntry>);
 const boughtItems = ref(new Map() as Map<string, ShoppingListEntry>);
 
 const shoppingListApi = new ShoppingListApi();
@@ -205,7 +205,7 @@ addItem({
 const timeout = setTimeout(() => (loading.value = true), 100);
 shoppingListApi.getShoppingList(testHouseholdId).then((response) => {
   activeItems.value.clear();
-  requestedItems.value.clear();
+  suggestedItems.value.clear();
   boughtItems.value.clear();
   response.data.forEach((item) => {
     addItemLocal(item);
@@ -227,7 +227,7 @@ function addNewItem(item: CreateShoppingListEntry) {
   if (activeItems.value.size === 0 && activeItems.value.size === 0) {
     drawers.value.push("active");
   }
-  if (activeItems.value.has(itemToKey(item)) || requestedItems.value.has(itemToKey(item))) {
+  if (activeItems.value.has(itemToKey(item)) || suggestedItems.value.has(itemToKey(item))) {
     updateItem(item);
     return;
   }
@@ -256,7 +256,7 @@ function acceptSuggestion(item: ShoppingListEntry, showSuccessMessage = true) {
       checked: cloneItem.checked,
     })
     .then(() => {
-      requestedItems.value.delete(itemToKey(item));
+      suggestedItems.value.delete(itemToKey(item));
       if (!updateCountIfExists(cloneItem, cloneItem.count)) {
         activeItems.value.set(itemToKey(cloneItem), cloneItem);
       }
@@ -278,7 +278,7 @@ function acceptSuggestion(item: ShoppingListEntry, showSuccessMessage = true) {
 }
 
 async function acceptAllSuggestions() {
-  for (const item of requestedItems.value.values()) {
+  for (const item of suggestedItems.value.values()) {
     if (!(await acceptSuggestion(item, false))) {
       console.log(await acceptSuggestion(item, false));
       console.log("accept all suggestions failed");
@@ -293,7 +293,7 @@ async function acceptAllSuggestions() {
 }
 
 async function declineAllSuggestions() {
-  for (const item of requestedItems.value.values()) {
+  for (const item of suggestedItems.value.values()) {
     if (!(await deleteItem(item, false))) {
       return;
     }
@@ -412,7 +412,7 @@ async function deleteAndMoveItemChecked(item: ShoppingListEntry, checked: boolea
 
 function addItemLocal(item: ShoppingListEntry) {
   if (item.suggested) {
-    requestedItems.value.set(itemToKey(item), item);
+    suggestedItems.value.set(itemToKey(item), item);
   } else if (!item.checked) {
     activeItems.value.set(itemToKey(item), item);
   } else {
@@ -422,7 +422,7 @@ function addItemLocal(item: ShoppingListEntry) {
 
 function deleteLocalItem(item: ShoppingListEntry) {
   if (item.suggested) {
-    requestedItems.value.delete(itemToKey(item));
+    suggestedItems.value.delete(itemToKey(item));
   } else if (!item.checked) {
     activeItems.value.delete(itemToKey(item));
   } else {
@@ -446,7 +446,7 @@ function itemToKey(item: ShoppingListEntry) {
 function updateCountIfExists(item: ShoppingListEntry, count: number | undefined) {
   let map = null;
   if (item.suggested) {
-    map = requestedItems.value;
+    map = suggestedItems.value;
   } else if (!item.checked) {
     map = activeItems.value;
   } else {
