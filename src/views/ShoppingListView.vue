@@ -14,7 +14,7 @@
         <el-form-item label="Vare" prop="itemTypeId" required>
           <el-autocomplete
             v-model="itemTypeAutocomplete"
-            :fetch-suggestions="querySearch"
+            :fetch-suggestions="searchItemType"
             value-key="name"
             :debounce="300"
             @select="newItem.itemTypeId = $event.id"
@@ -202,142 +202,23 @@ addItem({
 } as ShoppingListEntry);
  */
 
-const id = setTimeout(() => (loading.value = true), 100);
+const timeout = setTimeout(() => (loading.value = true), 100);
 shoppingListApi.getShoppingList(testHouseholdId).then((response) => {
   activeItems.value.clear();
   requestedItems.value.clear();
   boughtItems.value.clear();
   response.data.forEach((item) => {
-    addItem(item);
+    addItemLocal(item);
   });
-  clearTimeout(id);
+  clearTimeout(timeout);
   loading.value = false;
 });
 
-itemTypesApi.searchItemTypes("").then((response) => {
-  itemTypes.value = response.data;
-});
-
-async function querySearch(queryString: string, cb: any) {
+async function searchItemType(queryString: string, cb: any) {
   const results = await itemTypesApi.searchItemTypes(queryString).then((response) => {
     return response.data;
   });
   cb(results);
-}
-
-function addItem(item: ShoppingListEntry) {
-  if (item.suggested) {
-    requestedItems.value.set(itemToKey(item), item);
-  } else if (!item.checked) {
-    activeItems.value.set(itemToKey(item), item);
-  } else {
-    boughtItems.value.set(itemToKey(item), item);
-  }
-}
-
-async function updateItem(item: ShoppingListEntry, showSuccessMessage = true) {
-  const updateItem = {
-    itemTypeId: item.type?.id,
-    count: item.count,
-    suggested: item.suggested,
-    checked: item.checked,
-  } as UpdateShoppingListEntry;
-  return shoppingListApi
-    .updateShoppingListEntry(testHouseholdId, updateItem)
-    .then(() => {
-      if (showSuccessMessage) {
-        ElMessage({
-          message: `Vare ${item.type?.name} har blitt oppdatert`,
-          type: "info",
-        });
-      }
-      updateCountIfExists(item, item.count);
-      return true;
-    })
-    .catch(() => {
-      ElMessage({
-        message: "Vare kunne ikke bli oppdatert",
-        type: "error",
-      });
-      return false;
-    });
-}
-
-function saveItem(item: CreateShoppingListEntry) {
-  return shoppingListApi
-    .addItem(testHouseholdId, item)
-    .then((response) => {
-      ElMessage({
-        message: "Vare har blitt oppdatert",
-        type: "info",
-      });
-      addItem(response.data);
-    })
-    .catch(() => {
-      ElMessage({
-        message: "En feil oppstod ved lagring av vare",
-        type: "error",
-      });
-    });
-}
-
-function deleteLocalItem(item: ShoppingListEntry) {
-  if (item.suggested) {
-    requestedItems.value.delete(itemToKey(item));
-  } else if (!item.checked) {
-    activeItems.value.delete(itemToKey(item));
-  } else {
-    boughtItems.value.delete(itemToKey(item));
-  }
-}
-
-function deleteItem(item: ShoppingListEntry, showSuccessMessage = true) {
-  return shoppingListApi
-    .deleteShoppingListEntry(testHouseholdId, item.id)
-    .then(() => {
-      if (showSuccessMessage) {
-        ElMessage({
-          message: `Vare ${item.type?.name} har blitt slettet`,
-          type: "success",
-        });
-      }
-      deleteLocalItem(item);
-      return true;
-    })
-    .catch(() => {
-      ElMessage({
-        message: "Vare kunne ikke bli slettet",
-        type: "error",
-      });
-      return false;
-    });
-}
-
-async function deleteAndMoveItemChecked(item: ShoppingListEntry, checked: boolean) {
-  const map = checked ? activeItems.value : boughtItems.value;
-  const reverseMap = checked ? boughtItems.value : activeItems.value;
-  const cloneItem = { ...item };
-  cloneItem.checked = checked;
-
-  if (map.has(itemToKey(cloneItem))) {
-    if (await updateItem(cloneItem, false)) {
-      deleteLocalItem(item);
-      reverseMap.set(itemToKey(cloneItem), cloneItem);
-    }
-  }
-  const drawer = checked ? "active" : "bought";
-  if (reverseMap.size == 0 && !drawers.value.includes(drawer)) {
-    drawers.value.push(drawer);
-  }
-}
-
-function validateAndAddNewItem(item: CreateShoppingListEntry) {
-  if (!ruleFormRef.value) return;
-  ruleFormRef.value.validate((valid) => {
-    if (valid) {
-      addNewItem(item);
-    }
-  });
 }
 
 function addNewItem(item: CreateShoppingListEntry) {
@@ -346,11 +227,7 @@ function addNewItem(item: CreateShoppingListEntry) {
   if (activeItems.value.size === 0 && activeItems.value.size === 0) {
     drawers.value.push("active");
   }
-  if (activeItems.value.has(itemToKey(item))) {
-    updateItem(item);
-    return;
-  }
-  if (requestedItems.value.has(itemToKey(item))) {
+  if (activeItems.value.has(itemToKey(item)) || requestedItems.value.has(itemToKey(item))) {
     updateItem(item);
     return;
   }
@@ -445,6 +322,121 @@ function completeShopping() {
         type: "error",
       });
     });
+}
+
+function saveItem(item: CreateShoppingListEntry) {
+  return shoppingListApi
+    .addItem(testHouseholdId, item)
+    .then((response) => {
+      ElMessage({
+        message: "Vare har blitt oppdatert",
+        type: "info",
+      });
+      addItemLocal(response.data);
+    })
+    .catch(() => {
+      ElMessage({
+        message: "En feil oppstod ved lagring av vare",
+        type: "error",
+      });
+    });
+}
+
+async function updateItem(item: ShoppingListEntry, showSuccessMessage = true) {
+  const updateItem = {
+    itemTypeId: item.type?.id,
+    count: item.count,
+    suggested: item.suggested,
+    checked: item.checked,
+  } as UpdateShoppingListEntry;
+  return shoppingListApi
+    .updateShoppingListEntry(testHouseholdId, updateItem)
+    .then(() => {
+      if (showSuccessMessage) {
+        ElMessage({
+          message: `Vare ${item.type?.name} har blitt oppdatert`,
+          type: "info",
+        });
+      }
+      updateCountIfExists(item, item.count);
+      return true;
+    })
+    .catch(() => {
+      ElMessage({
+        message: "Vare kunne ikke bli oppdatert",
+        type: "error",
+      });
+      return false;
+    });
+}
+
+function deleteItem(item: ShoppingListEntry, showSuccessMessage = true) {
+  return shoppingListApi
+    .deleteShoppingListEntry(testHouseholdId, item.id)
+    .then(() => {
+      if (showSuccessMessage) {
+        ElMessage({
+          message: `Vare ${item.type?.name} har blitt slettet`,
+          type: "success",
+        });
+      }
+      deleteLocalItem(item);
+      return true;
+    })
+    .catch(() => {
+      ElMessage({
+        message: "Vare kunne ikke bli slettet",
+        type: "error",
+      });
+      return false;
+    });
+}
+
+async function deleteAndMoveItemChecked(item: ShoppingListEntry, checked: boolean) {
+  const map = checked ? activeItems.value : boughtItems.value;
+  const reverseMap = checked ? boughtItems.value : activeItems.value;
+  const cloneItem = { ...item };
+  cloneItem.checked = checked;
+
+  if (map.has(itemToKey(cloneItem))) {
+    if (await updateItem(cloneItem, false)) {
+      deleteLocalItem(item);
+      reverseMap.set(itemToKey(cloneItem), cloneItem);
+    }
+  }
+  const drawer = checked ? "active" : "bought";
+  if (reverseMap.size == 0 && !drawers.value.includes(drawer)) {
+    drawers.value.push(drawer);
+  }
+}
+
+function addItemLocal(item: ShoppingListEntry) {
+  if (item.suggested) {
+    requestedItems.value.set(itemToKey(item), item);
+  } else if (!item.checked) {
+    activeItems.value.set(itemToKey(item), item);
+  } else {
+    boughtItems.value.set(itemToKey(item), item);
+  }
+}
+
+function deleteLocalItem(item: ShoppingListEntry) {
+  if (item.suggested) {
+    requestedItems.value.delete(itemToKey(item));
+  } else if (!item.checked) {
+    activeItems.value.delete(itemToKey(item));
+  } else {
+    boughtItems.value.delete(itemToKey(item));
+  }
+}
+
+function validateAndAddNewItem(item: CreateShoppingListEntry) {
+  if (!ruleFormRef.value) return;
+  ruleFormRef.value.validate((valid) => {
+    if (valid) {
+      addNewItem(item);
+    }
+  });
 }
 
 function itemToKey(item: ShoppingListEntry) {
