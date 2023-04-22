@@ -103,6 +103,7 @@ import ShoppingListCard from "@/components/ShoppingListCard.vue";
 import type {
   CreateShoppingListEntry,
   ItemType,
+  ShoppinglistBuyBody,
   ShoppingListEntry,
   UpdateShoppingListEntry,
   UserFull,
@@ -360,8 +361,23 @@ async function declineAllSuggestions() {
 }
 
 function completeShopping() {
-  console.log("complete shopping");
-  boughtItems.value.clear();
+  shoppingListApi
+    .markItemsAsBought(testHouseholdId, {
+      listEntryIds: Array.from(boughtItems.value.values()).map((item) => item.id),
+    } as ShoppinglistBuyBody)
+    .then(() => {
+      ElMessage({
+        message: "Handel fullført",
+        type: "success",
+      });
+      boughtItems.value.clear();
+    })
+    .catch(() => {
+      ElMessage({
+        message: "En feil oppstod ved avslutning av handleliste",
+        type: "error",
+      });
+    });
 }
 
 function itemToKey(item: ShoppingListEntry) {
