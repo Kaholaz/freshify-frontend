@@ -4,27 +4,27 @@
     <h5>Legg til ny vare</h5>
     <el-form
       ref="ruleFormRef"
-      inline
-      style="margin-top: 0.5rem"
       :model="newItem"
       :rules="validationRules"
+      inline
       status-icon
+      style="margin-top: 0.5rem"
     >
       <el-row>
         <el-form-item label="Vare" prop="itemTypeId" required>
           <el-autocomplete
             v-model="itemTypeAutocomplete"
-            :fetch-suggestions="searchItemType"
-            value-key="name"
             :debounce="300"
-            @select="newItem.itemTypeId = $event.id"
-            @change="newItem.itemTypeId = undefined"
-            placeholder="Vare"
+            :fetch-suggestions="searchItemType"
             fit-input-width
+            placeholder="Vare"
+            value-key="name"
+            @change="newItem.itemTypeId = undefined"
+            @select="newItem.itemTypeId = $event.id"
           />
         </el-form-item>
         <el-form-item label="Antall" prop="count" required>
-          <el-input placeholder="Antall" v-model="newItem.count" type="number" />
+          <el-input v-model="newItem.count" placeholder="Antall" type="number" />
         </el-form-item>
         <div class="spacer" />
         <el-button type="primary" @click="validateAndAddNewItem(newItem)">legg til</el-button>
@@ -38,18 +38,18 @@
       </template>
       <div v-if="activeItems.size">
         <ShoppingListCard
+          v-for="item in Array.from(activeItems.values()).reverse()"
+          :key="item.id"
+          :item="item"
           @click="handleClickCheckbox(item)"
           @delete="deleteItem(item)"
-          v-for="item in Array.from(activeItems.values()).reverse()"
-          :item="item"
-          :key="item.id"
         ></ShoppingListCard>
       </div>
       <div v-else-if="loading == true">
         <ShoppingListCardSkeleton></ShoppingListCardSkeleton>
       </div>
       <div v-else-if="loading == false && !activeItems.size">
-        <el-alert title="Det er ingen varer i handlelista" type="info" center :closable="false" />
+        <el-alert :closable="false" center title="Det er ingen varer i handlelista" type="info" />
       </div>
     </el-collapse-item>
     <el-collapse-item name="requested">
@@ -59,32 +59,32 @@
       <div v-if="suggestedItems.size">
         <el-row class="divider-row">
           <div style="flex-grow: 1"></div>
-          <el-popconfirm @confirm="acceptAllSuggestions" title="Godkjenn alle varer">
+          <el-popconfirm title="Godkjenn alle varer" @confirm="acceptAllSuggestions">
             <template #reference>
-              <el-button type="success" plain>Godta alle</el-button>
+              <el-button plain type="success">Godta alle</el-button>
             </template>
           </el-popconfirm>
-          <el-popconfirm @confirm="declineAllSuggestions" title="Slett alle varer">
+          <el-popconfirm title="Slett alle varer" @confirm="declineAllSuggestions">
             <template #reference>
-              <el-button type="danger" plain>Avslå alle</el-button>
+              <el-button plain type="danger">Avslå alle</el-button>
             </template>
           </el-popconfirm>
         </el-row>
         <ShoppingListCard
-          @click="handleClickCheckbox(item)"
-          @accept="acceptSuggestion(item)"
-          @delete="deleteItem(item)"
           v-for="item in Array.from(suggestedItems.values()).reverse()"
-          :item="item"
           :key="item.id"
+          :item="item"
           :loading="loading"
+          @accept="acceptSuggestion(item)"
+          @click="handleClickCheckbox(item)"
+          @delete="deleteItem(item)"
         ></ShoppingListCard>
       </div>
       <div v-else-if="loading == true">
         <ShoppingListCardSkeleton></ShoppingListCardSkeleton>
       </div>
       <div v-else-if="loading == false && !activeItems.size">
-        <el-alert title="Det er ingen forespurte varer" type="info" center :closable="false" />
+        <el-alert :closable="false" center title="Det er ingen forespurte varer" type="info" />
       </div>
     </el-collapse-item>
     <el-collapse-item name="bought">
@@ -94,15 +94,15 @@
       <div v-if="boughtItems.size">
         <el-row class="divider-row">
           <div style="flex-grow: 1"></div>
-          <el-button @click="completeShopping" type="primary" plain>Avslutt handel</el-button>
+          <el-button plain type="primary" @click="completeShopping">Avslutt handel</el-button>
         </el-row>
         <ShoppingListCard
+          v-for="item in Array.from(boughtItems.values()).reverse()"
+          :key="item.id"
+          :item="item"
+          :loading="loading"
           @click="handleClickCheckbox(item)"
           @delete="deleteItem(item)"
-          v-for="item in Array.from(boughtItems.values()).reverse()"
-          :item="item"
-          :key="item.id"
-          :loading="loading"
         ></ShoppingListCard>
       </div>
       <div v-else-if="loading == true">
@@ -110,20 +110,19 @@
       </div>
       <div v-else-if="loading == false && !activeItems.size">
         <el-alert
+          :closable="false"
+          center
           title="Husholdningen har ingen kjøpte varer"
           type="info"
-          center
-          :closable="false"
         />
       </div>
     </el-collapse-item>
   </el-collapse>
 </template>
-<script setup lang="ts">
+<script lang="ts" setup>
 import ShoppingListCard from "@/components/ShoppingListCard.vue";
 import type {
   CreateShoppingListEntry,
-  ItemType,
   ShoppinglistBuyBody,
   ShoppingListEntry,
   UpdateShoppingListEntry,
@@ -132,8 +131,6 @@ import { ref } from "vue";
 import { ElMessage, FormInstance } from "element-plus";
 import { ItemTypeApi, ShoppingListApi } from "@/services/index";
 import ShoppingListCardSkeleton from "@/components/ShoppingListCardSkeleton.vue";
-
-const itemTypes = ref([] as ItemType[]);
 
 const drawers = ref(["active", "requested", "bought"] as string[]);
 

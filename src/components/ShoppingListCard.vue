@@ -3,14 +3,14 @@
     <el-row align="middle">
       <el-col :span="2">
         <el-checkbox
-          size="large"
           :checked="item.checked"
           :disabled="item.suggested"
           class="checkbox"
+          size="large"
           @change="$emit('click', item.checked)"
         ></el-checkbox>
       </el-col>
-      <el-col :xs="7" :span="12">
+      <el-col :span="12" :xs="7">
         <el-row>
           <h5>{{ props.item.type.name }}</h5>
         </el-row>
@@ -18,14 +18,14 @@
           <el-text>Lagt til av: {{ props.item.addedBy.firstName }}</el-text>
         </el-row>
       </el-col>
-      <el-col :xs="15" :span="10">
+      <el-col :span="10" :xs="15">
         <el-row>
           <div class="spacer"></div>
-          <el-button type="primary" text>antall: {{ props.item.count }}</el-button>
-          <el-button @click="emit('accept', item)" v-if="props.item.suggested" type="success" text
+          <el-button text type="primary">antall: {{ props.item.count }}</el-button>
+          <el-button v-if="props.item.suggested" text type="success" @click="emit('accept', item)"
             >godta
           </el-button>
-          <el-button @click="emit('delete', item)" type="danger" text>slett</el-button>
+          <el-button text type="danger" @click="emit('delete', item)">slett</el-button>
         </el-row>
       </el-col>
     </el-row>
