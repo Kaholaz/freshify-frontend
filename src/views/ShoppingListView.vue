@@ -3,14 +3,14 @@
   <el-card style="margin-bottom: 1rem">
     <h5>Legg til ny vare</h5>
     <el-row>
-      <el-select v-model="newItem.itemTypeId" style="width: 10rem">
-        <el-option
-          v-for="type in itemTypes"
-          :key="type.id"
-          :label="type.name"
-          :value="type.id"
-        ></el-option>
-      </el-select>
+      <el-autocomplete
+        v-model="itemTypeAutocomplete"
+        :fetch-suggestions="querySearch"
+        value-key="name"
+        debounce="300"
+        @select="newItem.itemTypeId = $event.id"
+      >
+      </el-autocomplete>
       <el-input
         placeholder="antall"
         style="max-width: 5rem; margin-left: 1rem"
@@ -129,6 +129,7 @@ const boughtItems = ref(new Map() as Map<string, ShoppingListEntry>);
 const shoppingListApi = new ShoppingListApi();
 const itemTypesApi = new ItemTypeApi();
 const testHouseholdId = -7165074982418084000;
+const itemTypeAutocomplete = ref(null as any);
 
 addItem({
   type: { name: "Melk", id: 0 },
@@ -166,6 +167,13 @@ shoppingListApi.getShoppingList(testHouseholdId).then((response) => {
 itemTypesApi.searchItemTypes("").then((response) => {
   itemTypes.value = response.data;
 });
+
+async function querySearch(queryString: string, cb: any) {
+  const results = await itemTypesApi.searchItemTypes(queryString).then((response) => {
+    return response.data;
+  });
+  cb(results);
+}
 
 function addItem(item: ShoppingListEntry) {
   if (item.suggested) {
