@@ -176,7 +176,7 @@ function addItem(item: ShoppingListEntry) {
   }
 }
 
-async function updateItem(item: ShoppingListEntry) {
+async function updateItem(item: ShoppingListEntry, showSuccessMessage = true) {
   const updateItem = {
     itemTypeId: item.type?.id,
     count: item.count,
@@ -186,10 +186,12 @@ async function updateItem(item: ShoppingListEntry) {
   return shoppingListApi
     .updateShoppingListEntry(testHouseholdId, updateItem)
     .then(() => {
-      ElMessage({
-        message: "Vare har blitt oppdatert",
-        type: "info",
-      });
+      if (showSuccessMessage) {
+        ElMessage({
+          message: `Vare ${item.type?.name} har blitt oppdatert`,
+          type: "info",
+        });
+      }
       updateCountIfExists(item, item.count);
       return true;
     })
@@ -236,8 +238,8 @@ function deleteItem(item: ShoppingListEntry, showSuccessMessage = true) {
     .then(() => {
       if (showSuccessMessage) {
         ElMessage({
-          message: "Vare har blitt slettet",
-          type: "info",
+          message: `Vare ${item.type?.name} har blitt slettet`,
+          type: "success",
         });
       }
       deleteLocalItem(item);
@@ -259,7 +261,7 @@ async function deleteAndMoveItemChecked(item: ShoppingListEntry, checked: boolea
   cloneItem.checked = checked;
 
   if (map.has(itemToKey(cloneItem))) {
-    if (await updateItem(cloneItem)) {
+    if (await updateItem(cloneItem, false)) {
       deleteLocalItem(item);
       reverseMap.set(itemToKey(cloneItem), cloneItem);
     }
@@ -318,8 +320,8 @@ function acceptSuggestion(item: ShoppingListEntry, showSuccessMessage = true) {
           message: `${cloneItem.type?.name} har blitt lagt til i handlelisten`,
           type: "success",
         });
-        return true;
       }
+      return true;
     })
     .catch(() => {
       ElMessage({
@@ -333,6 +335,8 @@ function acceptSuggestion(item: ShoppingListEntry, showSuccessMessage = true) {
 async function acceptAllSuggestions() {
   for (const item of requestedItems.value.values()) {
     if (!(await acceptSuggestion(item, false))) {
+      console.log(await acceptSuggestion(item, false));
+      console.log("accept all suggestions failed");
       return;
     }
   }
@@ -349,6 +353,10 @@ async function declineAllSuggestions() {
       return;
     }
   }
+  ElMessage({
+    message: "Alle foreslåtte varer har blitt fjernet fra handlelisten",
+    type: "success",
+  });
 }
 
 function completeShopping() {
