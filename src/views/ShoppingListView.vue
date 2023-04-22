@@ -3,12 +3,12 @@
   <el-card style="margin-bottom: 1rem">
     <h5>Legg til ny vare</h5>
     <el-row>
-      <el-select v-model="newItem.type" :value="newItem.type.name" style="width: 10rem">
+      <el-select v-model="newItem.itemTypeId" style="width: 10rem">
         <el-option
           v-for="type in itemTypes"
           :key="type.id"
           :label="type.name"
-          :value="type"
+          :value="type.id"
         ></el-option>
       </el-select>
       <el-input
@@ -101,34 +101,34 @@
 </template>
 <script setup lang="ts">
 import ShoppingListCard from "@/components/ShoppingListCard.vue";
-import type { ItemType, ShoppingListEntry, UserFull } from "@/services";
+import type {
+  CreateShoppingListEntry,
+  ItemType,
+  ShoppingListEntry,
+  UpdateShoppingListEntry,
+  UserFull,
+} from "@/services";
 import { ref } from "vue";
 import { ElMessage } from "element-plus";
+import { ShoppingListApi, ItemTypeApi } from "@/services/index";
 
-const itemTypes = [
-  {
-    name: "Melk",
-    id: 0,
-  } as ItemType,
-  {
-    name: "Sjokolade",
-    id: 1,
-  } as ItemType,
-];
+const itemTypes = ref([] as ItemType[]);
 
 const drawers = ref(["active", "requested", "bought"] as string[]);
 
 const newItem = ref({
-  type: itemTypes[1],
+  itemTypeId: undefined,
   count: undefined,
-  checked: false,
   suggested: false,
-  addedBy: { id: 3, firstName: "Arunan" } as UserFull,
-} as ShoppingListEntry);
+} as CreateShoppingListEntry);
 
 const activeItems = ref(new Map() as Map<string, ShoppingListEntry>);
 const requestedItems = ref(new Map() as Map<string, ShoppingListEntry>);
 const boughtItems = ref(new Map() as Map<string, ShoppingListEntry>);
+
+const shoppingListApi = new ShoppingListApi();
+const itemTypesApi = new ItemTypeApi();
+const testHouseholdId = -7165074982418084000;
 
 addItem({
   type: { name: "Melk", id: 0 },
@@ -148,6 +148,16 @@ addItem({
   id: 1,
 });
 
+shoppingListApi.getShoppingList(testHouseholdId).then((response) => {
+  response.data.forEach((item) => {
+    addItem(item);
+  });
+});
+
+itemTypesApi.searchItemTypes("").then((response) => {
+  itemTypes.value = response.data;
+});
+
 function addItem(item: ShoppingListEntry) {
   if (item.suggested) {
     requestedItems.value.set(itemToKey(item), item);
@@ -158,58 +168,125 @@ function addItem(item: ShoppingListEntry) {
   }
 }
 
-function addNewItem(item: ShoppingListEntry) {
+async function updateItem(item: ShoppingListEntry) {
+  const updateItem = {
+    itemTypeId: item.type?.id,
+    count: item.count,
+    suggested: item.suggested,
+    checked: item.checked,
+  } as UpdateShoppingListEntry;
+  return shoppingListApi
+    .updateShoppingListEntry(testHouseholdId, updateItem)
+    .then(() => {
+      ElMessage({
+        message: "Vare har blitt oppdatert",
+        type: "info",
+      });
+      updateCountIfExists(item, item.count);
+      return true;
+    })
+    .catch(() => {
+      ElMessage({
+        message: "Vare kunne ikke bli oppdatert",
+        type: "error",
+      });
+      return false;
+    });
+}
+
+function saveItem(item: CreateShoppingListEntry) {
+  return shoppingListApi
+    .addItem(testHouseholdId, item)
+    .then((response) => {
+      ElMessage({
+        message: "Vare har blitt oppdatert",
+        type: "info",
+      });
+      addItem(response.data);
+    })
+    .catch((error) => {
+      ElMessage({
+        message: "En feil oppstod ved lagring av vare",
+        type: "error",
+      });
+    });
+}
+
+function deleteLocalItem(item: ShoppingListEntry) {
+  if (item.suggested) {
+    requestedItems.value.delete(itemToKey(item));
+  } else if (!item.checked) {
+    activeItems.value.delete(itemToKey(item));
+  } else {
+    boughtItems.value.delete(itemToKey(item));
+  }
+}
+
+async function deleteItem(item: ShoppingListEntry, showSuccessMessage = true) {
+  return shoppingListApi
+    .deleteShoppingListEntry(testHouseholdId, item.id)
+    .then((response) => {
+      if (showSuccessMessage) {
+        ElMessage({
+          message: "Vare har blitt slettet",
+          type: "info",
+        });
+      }
+      deleteLocalItem(item);
+      return true;
+    })
+    .catch((error) => {
+      ElMessage({
+        message: "Vare kunne ikke bli slettet",
+        type: "error",
+      });
+      return false;
+    });
+}
+
+async function deleteAndMoveItem(item: ShoppingListEntry, checked: boolean) {
+  const map = checked ? activeItems.value : boughtItems.value;
+  const reverseMap = checked ? boughtItems.value : activeItems.value;
+  const originalItem = { ...item };
+  item.checked = checked;
+
+  if (map.has(itemToKey(item))) {
+    if (await updateItem(item)) {
+      deleteLocalItem(originalItem);
+      reverseMap.set(itemToKey(item), item);
+    } else {
+      item.checked = !checked;
+    }
+    return;
+  }
+  const drawer = checked ? "active" : "bought";
+  if (reverseMap.size == 0 && !drawers.value.includes(drawer)) {
+    drawers.value.push(drawer);
+  }
+}
+
+function addNewItem(item: CreateShoppingListEntry) {
   item.count = parseInt(item.count);
   console.log(item.count);
   if (activeItems.value.size === 0 && activeItems.value.size === 0) {
     drawers.value.push("active");
   }
-  if (checkIfExistsAndUpdateCount(item, activeItems.value, item.count)) {
-    ElMessage({
-      message: `${item.type?.name} har blitt oppdatert`,
-      type: "info",
-    });
-  } else if (checkIfExistsAndUpdateCount(item, requestedItems.value, item.count)) {
-    ElMessage({
-      message: "Foreslåtte vare har blitt oppdatert",
-      type: "info",
-    });
-  } else {
-    console.log("new item");
-    activeItems.value.set(itemToKey(item), {
-      ...item,
-    });
-    ElMessage({
-      message: "Vare har blitt lagt til",
-      type: "success",
-    });
-  }
-}
-
-function handleClickCheckbox(item: ShoppingListEntry) {
-  if (item.checked) {
-    item.checked = false;
-    boughtItems.value.delete(itemToKey(item));
-    if (checkIfExistsAndUpdateCount(item, activeItems.value, item.count)) {
-      ElMessage({
-        message: "Vare har blitt oppdatert",
-        type: "info",
-      });
-    } else {
-      if (activeItems.value.size == 0 && !drawers.value.includes("active")) {
-        drawers.value.push("active");
-      }
-      activeItems.value.set(itemToKey(item), item);
-    }
+  if (activeItems.value.has(itemToKey(item))) {
+    updateItem(item);
     return;
   }
-  item.checked = true;
-  activeItems.value.delete(itemToKey(item));
-  if (!checkIfExistsAndUpdateCount(item, boughtItems.value, item.count)) {
-    if (boughtItems.value.size == 0 && !drawers.value.includes("bought")) {
-      drawers.value.push("bought");
-    }
-    boughtItems.value.set(itemToKey(item), item);
+  if (requestedItems.value.has(itemToKey(item))) {
+    updateItem(item);
+    return;
+  }
+  saveItem(item);
+}
+
+async function handleClickCheckbox(item: ShoppingListEntry) {
+  if (item.checked) {
+    await deleteAndMoveItem(item, false);
+  } else {
+    await deleteAndMoveItem(item, true);
   }
 }
 
@@ -230,21 +307,6 @@ function acceptSuggestion(item: ShoppingListEntry) {
 function declineSuggestion(item: ShoppingListEntry) {
   requestedItems.value.delete(itemToKey(item));
   console.log("decline suggestion");
-}
-
-function deleteItem(item: ShoppingListEntry) {
-  if (item.checked) {
-    boughtItems.value.delete(itemToKey(item));
-  } else if (item.suggested) {
-    requestedItems.value.delete(itemToKey(item));
-  } else {
-    activeItems.value.delete(itemToKey(item));
-  }
-
-  ElMessage({
-    message: `${item.type?.name} har blitt fjernet fra handlelisten`,
-    type: "info",
-  });
 }
 
 function acceptAllSuggestions() {
@@ -270,18 +332,22 @@ function itemToKey(item: ShoppingListEntry) {
   return JSON.stringify({ type: item.type?.id, addedBy: item.addedBy?.id });
 }
 
-function checkIfExistsAndUpdateCount(
-  item: ShoppingListEntry,
-  map: Map<string, ShoppingListEntry>,
-  count: number | undefined
-) {
+function updateCountIfExists(item: ShoppingListEntry, count: number | undefined) {
+  let map = null;
+  if (item.suggested) {
+    map = requestedItems.value;
+  } else if (!item.checked) {
+    map = activeItems.value;
+  } else {
+    map = boughtItems.value;
+  }
   if (map.has(itemToKey(item))) {
     let previousItem = map.get(itemToKey(item));
     previousItem.count += count;
     map.set(itemToKey(item), previousItem);
-    return true;
+    return item;
   }
-  return false;
+  return null;
 }
 </script>
 <style scoped>
