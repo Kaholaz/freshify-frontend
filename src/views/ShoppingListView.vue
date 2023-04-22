@@ -60,7 +60,6 @@
         <ShoppingListCard
           @click="handleClickCheckbox(item)"
           @accept="acceptSuggestion(item)"
-          @decline="declineSuggestion(item)"
           @delete="deleteItem(item)"
           v-for="item in Array.from(requestedItems.values()).reverse()"
           :item="item"
@@ -110,7 +109,7 @@ import type {
 } from "@/services";
 import { ref } from "vue";
 import { ElMessage } from "element-plus";
-import { ShoppingListApi, ItemTypeApi } from "@/services/index";
+import { ItemTypeApi, ShoppingListApi } from "@/services/index";
 
 const itemTypes = ref([] as ItemType[]);
 
@@ -135,6 +134,15 @@ addItem({
   count: 1,
   checked: false,
   suggested: false,
+  addedBy: { id: 0, firstName: "Sebastian" } as UserFull,
+  id: 0,
+} as ShoppingListEntry);
+
+addItem({
+  type: { name: "Melk", id: 0 },
+  count: 1,
+  checked: false,
+  suggested: true,
   addedBy: { id: 0, firstName: "Sebastian" } as UserFull,
   id: 0,
 } as ShoppingListEntry);
@@ -204,7 +212,7 @@ function saveItem(item: CreateShoppingListEntry) {
       });
       addItem(response.data);
     })
-    .catch((error) => {
+    .catch(() => {
       ElMessage({
         message: "En feil oppstod ved lagring av vare",
         type: "error",
@@ -222,10 +230,10 @@ function deleteLocalItem(item: ShoppingListEntry) {
   }
 }
 
-async function deleteItem(item: ShoppingListEntry, showSuccessMessage = true) {
+function deleteItem(item: ShoppingListEntry, showSuccessMessage = true) {
   return shoppingListApi
     .deleteShoppingListEntry(testHouseholdId, item.id)
-    .then((response) => {
+    .then(() => {
       if (showSuccessMessage) {
         ElMessage({
           message: "Vare har blitt slettet",
@@ -235,7 +243,7 @@ async function deleteItem(item: ShoppingListEntry, showSuccessMessage = true) {
       deleteLocalItem(item);
       return true;
     })
-    .catch((error) => {
+    .catch(() => {
       ElMessage({
         message: "Vare kunne ikke bli slettet",
         type: "error",
@@ -244,20 +252,17 @@ async function deleteItem(item: ShoppingListEntry, showSuccessMessage = true) {
     });
 }
 
-async function deleteAndMoveItem(item: ShoppingListEntry, checked: boolean) {
+async function deleteAndMoveItemChecked(item: ShoppingListEntry, checked: boolean) {
   const map = checked ? activeItems.value : boughtItems.value;
   const reverseMap = checked ? boughtItems.value : activeItems.value;
-  const originalItem = { ...item };
-  item.checked = checked;
+  const cloneItem = { ...item };
+  cloneItem.checked = checked;
 
-  if (map.has(itemToKey(item))) {
-    if (await updateItem(item)) {
-      deleteLocalItem(originalItem);
-      reverseMap.set(itemToKey(item), item);
-    } else {
-      item.checked = !checked;
+  if (map.has(itemToKey(cloneItem))) {
+    if (await updateItem(cloneItem)) {
+      deleteLocalItem(item);
+      reverseMap.set(itemToKey(cloneItem), cloneItem);
     }
-    return;
   }
   const drawer = checked ? "active" : "bought";
   if (reverseMap.size == 0 && !drawers.value.includes(drawer)) {
@@ -284,43 +289,66 @@ function addNewItem(item: CreateShoppingListEntry) {
 
 async function handleClickCheckbox(item: ShoppingListEntry) {
   if (item.checked) {
-    await deleteAndMoveItem(item, false);
+    await deleteAndMoveItemChecked(item, false);
   } else {
-    await deleteAndMoveItem(item, true);
+    await deleteAndMoveItemChecked(item, true);
   }
 }
 
-function acceptSuggestion(item: ShoppingListEntry) {
-  ElMessage({
-    message: `${item.type?.name} har blitt lagt til i handlelisten`,
-    type: "info",
-  });
+function acceptSuggestion(item: ShoppingListEntry, showSuccessMessage = true) {
   if (activeItems.value.size == 0 && !drawers.value.includes("active")) {
     drawers.value.push("active");
   }
-  item.suggested = false;
-  requestedItems.value.delete(itemToKey(item));
-  activeItems.value.set(itemToKey(item), item);
-  console.log("accept suggestion");
+  const cloneItem = { ...item };
+  cloneItem.suggested = false;
+  return shoppingListApi
+    .updateShoppingListEntry(testHouseholdId, {
+      id: cloneItem.id,
+      count: cloneItem.count,
+      suggested: cloneItem.suggested,
+      checked: cloneItem.checked,
+    })
+    .then(() => {
+      requestedItems.value.delete(itemToKey(item));
+      if (!updateCountIfExists(cloneItem, cloneItem.count)) {
+        activeItems.value.set(itemToKey(cloneItem), cloneItem);
+      }
+      if (showSuccessMessage) {
+        ElMessage({
+          message: `${cloneItem.type?.name} har blitt lagt til i handlelisten`,
+          type: "success",
+        });
+        return true;
+      }
+    })
+    .catch(() => {
+      ElMessage({
+        message: "En feil oppstod ved godkjenning av vare",
+        type: "error",
+      });
+      return false;
+    });
 }
 
-function declineSuggestion(item: ShoppingListEntry) {
-  requestedItems.value.delete(itemToKey(item));
-  console.log("decline suggestion");
-}
+async function acceptAllSuggestions() {
+  for (const item of requestedItems.value.values()) {
+    if (!(await acceptSuggestion(item, false))) {
+      return;
+    }
+  }
 
-function acceptAllSuggestions() {
-  requestedItems.value.clear();
   ElMessage({
     message: "Alle foreslåtte varer har blitt lagt til i handlelisten",
     type: "success",
   });
-  console.log("accept all suggestions");
 }
 
-function declineAllSuggestions() {
-  requestedItems.value.clear();
-  console.log("decline all suggestions");
+async function declineAllSuggestions() {
+  for (const item of requestedItems.value.values()) {
+    if (!(await deleteItem(item, false))) {
+      return;
+    }
+  }
 }
 
 function completeShopping() {
