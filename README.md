@@ -49,38 +49,20 @@ npm run lint
 ## Contributing
 
 ### Setup
-The frontend is formatted with [Prettier](https://prettier.io/), and linted with [ESLint](https://eslint.org/), and the
-backend is formatted with
-Spotless. To ensure that your code is formatted correctly, you should ensure to format your code before committing. To
-do this easily, you can add this
-hook in your `.git/hooks/pre-commit` file:
-
-For linux or mac:
-
-```shell
-#!/bin/bash
-
-FILES=$(git diff --cached --name-only --diff-filter=ACM)
-
-if [ -n "$FILES" ]; then
-    npm run lint
-    npm run format
-    git add $FILES
-fi
-``` 
+The frontend is formatted with [Prettier](https://prettier.io/), and linted with [ESLint](https://eslint.org/). To ensure
+correct formatting and linting, you should add the pre-commit file (found in the root of this repository) to your .git/hooks/
+folder after cloning this repository.
 
 ### Mocking an api
-
 To mock the api, you may use the prism. To install prism, run the following command:
-
 ```shell
 npm install -g @stoplight/prism-cli
 ``` 
 
-Prism needs a swagger file to mock the api. This can be found in the backend repository. To start the mock server, run:
+Prism needs a swagger file to mock the api. This can be found in the 
+[backend repository](https://gitlab.stud.idi.ntnu.no/idatt2106-v23-10/smartmat-backend/-/blob/dev/docs/swagger.yaml).
 
+To start the mock server, run:
 ```shell
-prism mock <path to swagger file>
+prism mock swagger.yaml
 ```
-
-

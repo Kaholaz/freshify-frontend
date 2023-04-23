@@ -1,0 +1,33 @@
+#!/bin/sh
+echo -e "\e[30mPre-commit hook invoked.\n\e[0m"
+
+# Get the names of all staged files that were added, copied, modified or renamed.
+FILES=$(git diff --name-only --staged --diff-filter=ACMR)
+
+# No (-zero) files were added, copied, modified or renamed. Commit is good to go.
+if [ -z "$FILES" ]; then
+    echo "No files to lint or format. Committing..."
+    exit 0
+fi
+
+# Check for lint errors
+echo -e -n "\e[36mRunning linter...\e[0m"
+npm run lint:check > /dev/null
+if [ $? -ne 0 ]; then
+    echo -e "\e[36m\rRunning linter... \e[31mFAILED\e[0m\n"
+    echo -e "\e[31mAborting commit due to linter errors. Please run \`npm run lint\` and fix these issues.\e[0m"
+    exit 1
+fi
+echo -e "\e[36m\rRunning linter... \e[32mOK\e[0m"
+
+# Check the code format
+echo -e -n "\e[36mChecking code formatting...\e[0m"
+npm run format:check > /dev/null
+if [ $? -ne 0 ]; then
+  echo -e "\e[31mAborting commit due to foramtting errors. Please run \`npm run format\` and fix these issues.\e[0m"
+  exit 1
+fi
+echo -e "\e[36m\rChecking code formatting... \e[32mOK\e[0m"
+echo ""
+
+exit 0
