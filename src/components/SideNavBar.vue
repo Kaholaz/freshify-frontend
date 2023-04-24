@@ -20,7 +20,7 @@
       </el-icon>
       <span>Handleliste</span>
     </el-menu-item>
-    <el-menu-item index="/">
+    <el-menu-item index="/inventory">
       <el-icon>
         <Management />
       </el-icon>
