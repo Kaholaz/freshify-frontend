@@ -7,8 +7,10 @@
         v-for="item in items"
         :key="item.id"
         :item="item"
+        @use="useItem(item, item.remaining!)"
+        @delete="deleteItem(item)"
       />
-      <div v-if="!items && error">Ingenting å vise.</div>
+      <div v-if="!items">Ingenting å vise.</div>
     </div>
   </div>
 </template>
@@ -18,7 +20,7 @@ import axios from "axios";
 import { ref, computed } from "vue";
 import { ElNotification } from "element-plus";
 
-import type { Item } from "@/services/index";
+import { ItemState, type Item, type UpdateItem } from "@/services/index";
 import { InventoryApi } from "@/services/index";
 import { useHouseholdStore } from "@/stores/household";
 import { getDaysSinceBought } from "@/utils/item-utils";
@@ -37,6 +39,49 @@ const error = ref<Error | null>(null);
 
 // Define computed values
 const isLoading = computed(() => items.value === null && error.value === null);
+
+// Define callbacks
+function useItem(item: Item, amount: number) {
+  let newAmount = item.remaining! - amount > 0 ? item.remaining! - amount : 0;
+
+  let updatedItem: UpdateItem = {
+    itemId: item.id!,
+    remaining: newAmount,
+    state: ItemState.USED,
+  };
+
+  inventoryApi.updateInventoryItem(item.id!, updatedItem).then(updateItems).catch(handleError);
+}
+
+function deleteItem(item: Item) {
+  let householdId = householdStore.getHousehold()?.id;
+  if (!householdId) {
+    console.error(`Could not delete item ${item.type?.name}. No household id was selected.`);
+
+    ElNotification({
+      title: "Ingen hjem valgt.",
+      message: "Velg et hjem for å slette et element.",
+      type: "error",
+      duration: 0,
+    });
+
+    return;
+  }
+
+  inventoryApi
+    .deleteInventoryItem(householdId, item.id!)
+    .then(() => {
+      // This will never happen, because this function is only called when an item is clicked,
+      // and items are only shown if they are in items.value.
+      if (!items.value) return;
+
+      let newItems = items.value.filter((i) => i.id !== item.id);
+      items.value = !newItems.length ? null : newItems;
+
+      console.info(`Deleted item ${item.type?.name}.`);
+    })
+    .catch(handleError);
+}
 
 // Other script logic
 function updateItems() {
@@ -86,7 +131,7 @@ function handleError(err: any) {
   }
 
   ElNotification({
-    title: "En feil oppstod under henting av inventaret.",
+    title: "En feil oppstod.",
     message: errorMessage,
     type: "error",
     duration: 0,

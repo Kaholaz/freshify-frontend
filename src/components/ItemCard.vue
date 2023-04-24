@@ -1,19 +1,23 @@
 <template>
-  <div
+  <el-card
     id="item-card"
     :class="{
       'item-card-wrapper': true,
       'item-card-only-title': computed(() => !item.addedBy),
     }"
   >
-    <div class="info">
-      <h3>{{ item.type?.name }}</h3>
-      <p v-if="item.bought">Kjøpt for {{ getDaysSinceBought(item) }} dager siden.</p>
+    <div class="card-body">
+      <div class="info">
+        <h3>{{ item.type?.name }}</h3>
+        <p v-if="item.bought">Kjøpt for {{ getDaysSinceBought(item) }} dager siden.</p>
+      </div>
+
+      <div class="buttons">
+        <el-button color="#6200EE" @click="emit('use', item)">Bruk</el-button>
+        <el-button type="danger" @click="emit('delete', item)">Slett</el-button>
+      </div>
     </div>
-    <div class="buttons">
-      <slot></slot>
-    </div>
-  </div>
+  </el-card>
 </template>
 
 <script setup lang="ts">
@@ -22,14 +26,18 @@ import { computed } from "vue";
 import type { Item } from "@/services/index";
 import { getDaysSinceBought } from "@/utils/item-utils";
 
+// Define props
+defineProps<ItemCardProps>();
 export interface ItemCardProps {
   item: Item;
 }
 
-// Define props
-defineProps<ItemCardProps>();
-
-// Define callback functions
+// Define emits
+const emit = defineEmits<ItemCardEmits>();
+export interface ItemCardEmits {
+  (event: "use", item: Item): void;
+  (event: "delete", item: Item): void;
+}
 </script>
 
 <style scoped>
@@ -37,20 +45,23 @@ defineProps<ItemCardProps>();
   width: 100%;
   border: 1px solid #eceff1;
   border-radius: 5px;
-  padding: 0.8rem 0.6rem 0.2rem 0.6rem;
 
   /* Item card shadow */
   box-shadow: 0 2px 1px rgba(0, 0, 0, 0.1);
 }
 
-div.item-card-only-title {
-  padding: 0.8rem 0.6rem !important;
+.card-body {
+  display: flex;
 }
 
-.item-card-wrapper > .buttons {
+.card-body > .buttons {
   display: flex;
   justify-content: flex-end;
   align-items: center;
+}
+
+.info {
+  flex: 1;
 }
 
 .info > p {
