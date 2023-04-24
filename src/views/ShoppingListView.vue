@@ -169,9 +169,9 @@ const validationRules = ref({
   ],
 });
 
-const activeItems = ref(new Map() as Map<string, ShoppingListEntry>);
-const suggestedItems = ref(new Map() as Map<string, ShoppingListEntry>);
-const boughtItems = ref(new Map() as Map<string, ShoppingListEntry>);
+const activeItems = ref(new Map() as Map<number, ShoppingListEntry>);
+const suggestedItems = ref(new Map() as Map<number, ShoppingListEntry>);
+const boughtItems = ref(new Map() as Map<number, ShoppingListEntry>);
 
 const shoppingListApi = new ShoppingListApi();
 const itemTypesApi = new ItemTypeApi();
@@ -186,7 +186,9 @@ shoppingListApi.getShoppingList(testHouseholdId).then((response) => {
   suggestedItems.value.clear();
   boughtItems.value.clear();
   response.data.forEach((item) => {
-    addItemLocal(item);
+    setItemLocal(item);
+    setItemLocal({ ...item, checked: false, suggested: false, id: 122 });
+    setItemLocal({ ...item, checked: true, suggested: false, id: 154 });
   });
   clearTimeout(timeout);
   loading.value = false;
@@ -199,18 +201,21 @@ async function searchItemType(queryString: string, cb: any) {
   cb(results);
 }
 
-async function addNewItem(item: CreateShoppingListEntry) {
+function validateAndAddNewItem(item: CreateShoppingListEntry) {
+  if (!ruleFormRef.value) return;
+  ruleFormRef.value.validate((valid) => {
+    if (valid) {
+      addNewItem(item);
+    }
+  });
+}
+
+function addNewItem(item: CreateShoppingListEntry) {
   item.count = parseInt(item.count);
   if (activeItems.value.size === 0 && activeItems.value.size === 0) {
     drawers.value.push("active");
   }
-  if (activeItems.value.has(itemToKey(item)) || suggestedItems.value.has(itemToKey(item))) {
-    if (await updateItem(item)) {
-      updateCountIfExists(item);
-    }
-    return;
-  }
-  await saveItem(item);
+  saveItem(item);
 }
 
 async function handleClickCheckbox(item: ShoppingListEntry) {
@@ -237,9 +242,6 @@ function acceptSuggestion(item: ShoppingListEntry, showSuccessMessage = true) {
     })
     .then(() => {
       suggestedItems.value.delete(itemToKey(item));
-      if (!updateCountIfExists(cloneItem)) {
-        activeItems.value.set(itemToKey(cloneItem), cloneItem);
-      }
       if (showSuccessMessage) {
         ElMessage({
           message: `${cloneItem.type?.name} har blitt lagt til i handlelisten`,
@@ -310,7 +312,7 @@ function saveItem(item: CreateShoppingListEntry) {
         message: "Vare har blitt oppdatert",
         type: "info",
       });
-      addItemLocal(response.data);
+      setItemLocal(response.data);
     })
     .catch(() => {
       ElMessage({
@@ -322,6 +324,7 @@ function saveItem(item: CreateShoppingListEntry) {
 
 async function updateItem(item: ShoppingListEntry, showSuccessMessage = true) {
   const updateItem = {
+    id: item.id,
     itemTypeId: item.type?.id,
     count: item.count,
     suggested: item.suggested,
@@ -336,6 +339,7 @@ async function updateItem(item: ShoppingListEntry, showSuccessMessage = true) {
           type: "info",
         });
       }
+      setItemLocal(item);
       return true;
     })
     .catch(() => {
@@ -370,26 +374,20 @@ function deleteItem(item: ShoppingListEntry, showSuccessMessage = true) {
 }
 
 async function deleteAndMoveItemChecked(item: ShoppingListEntry, checked: boolean) {
-  const map = checked ? activeItems.value : boughtItems.value;
-  const reverseMap = checked ? boughtItems.value : activeItems.value;
-  const cloneItem = { ...item };
+  const mapAddedTo = checked ? boughtItems.value : activeItems.value;
+  let cloneItem = { ...item };
   cloneItem.checked = checked;
 
-  if (map.has(itemToKey(cloneItem))) {
-    if (await updateItem(cloneItem, false)) {
-      deleteLocalItem(item);
-      if (!updateCountIfExists(cloneItem)) {
-        reverseMap.set(itemToKey(cloneItem), cloneItem);
-      }
-    }
+  if (await updateItem(cloneItem, false)) {
+    await deleteLocalItem(item);
   }
   const drawer = checked ? "active" : "bought";
-  if (reverseMap.size == 0 && !drawers.value.includes(drawer)) {
+  if (mapAddedTo.size == 0 && !drawers.value.includes(drawer)) {
     drawers.value.push(drawer);
   }
 }
 
-function addItemLocal(item: ShoppingListEntry) {
+function setItemLocal(item: ShoppingListEntry) {
   if (item.suggested) {
     suggestedItems.value.set(itemToKey(item), item);
   } else if (!item.checked) {
@@ -409,52 +407,8 @@ function deleteLocalItem(item: ShoppingListEntry) {
   }
 }
 
-function validateAndAddNewItem(item: CreateShoppingListEntry) {
-  if (!ruleFormRef.value) return;
-  ruleFormRef.value.validate((valid) => {
-    if (valid) {
-      addNewItem(item);
-    }
-  });
-}
-
 function itemToKey(item: ShoppingListEntry) {
-  return JSON.stringify({ type: item.type?.id, addedBy: item.addedBy?.id });
-}
-
-function updateCountIfExists(item: ShoppingListEntry) {
-  let map = null;
-  if (item.suggested) {
-    map = suggestedItems.value;
-  } else if (!item.checked) {
-    map = activeItems.value;
-  } else {
-    map = boughtItems.value;
-  }
-  if (map.has(itemToKey(item))) {
-    let previousItem = map.get(itemToKey(item));
-    previousItem.count += item.count;
-    map.set(itemToKey(item), previousItem);
-    return item;
-  }
-  return null;
-}
-
-function getUpdatedItemIfExists(item: ShoppingListEntry) {
-  let map = null;
-  if (item.suggested) {
-    map = suggestedItems.value;
-  } else if (!item.checked) {
-    map = activeItems.value;
-  } else {
-    map = boughtItems.value;
-  }
-  if (map.has(itemToKey(item))) {
-    const clone = map.get(itemToKey(item));
-    clone.count += item.count;
-    return clone;
-  }
-  return null;
+  return item.id;
 }
 </script>
 <style scoped>

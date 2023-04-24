@@ -50,7 +50,7 @@
 <script lang="ts" setup>
 import router from "@/router";
 import { DataAnalysis, Dish, HomeFilled, List, Management, Setting } from "@element-plus/icons-vue";
-import { onMounted, ref } from "vue";
+import { getCurrentInstance, onMounted, ref } from "vue";
 import { useHouseholdStore } from "@/stores/household";
 import { Household, HouseholdApi } from "@/services/index";
 import { useSessionStore } from "@/stores/session";
@@ -86,5 +86,7 @@ houseHoldApi.getHouseholds(10).then((res) => {
 
 function setHouseHold(val: Household) {
   houseHoldStore.setHousehold(val);
+  const root = getCurrentInstance();
+  root?.emit("household-changed", val);
 }
 </script>
