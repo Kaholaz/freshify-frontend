@@ -52,8 +52,6 @@ const currentUser = ref({
   firstName: "Tore",
 } as UserFull);
 
-const currentUserFromStore = ref(sessionStore.getUser);
-
 const emit = defineEmits<{
   (event: "removeUser", args: UserFull): void;
   (event: "updateUserPrivelige", args: UserFull): void;

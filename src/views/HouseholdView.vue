@@ -2,7 +2,7 @@
   <el-main id="component-name" class="component-name-wrapper">
     <h1>{{ householdStore.getHousehold()?.name }}</h1>
     <div class="top-bar">
-      <HouseholdTopBar :newUserEmail="users" @delete-household="deleteHousehold()" />
+      <HouseholdTopBar @delete-household="deleteHousehold()" @add-user="addUser" />
     </div>
     <div>
       <el-row gutter="20">
@@ -35,12 +35,13 @@ import UserCard from "@/components/HouseholdCard.vue";
 import HouseholdTopBar from "@/components/HouseholdTopBar.vue";
 import { useHouseholdStore } from "@/stores/household";
 import { useSessionStore } from "@/stores/session";
-import { HouseholdApi } from "@/services/index";
+import { HouseholdApi, AccountApi } from "@/services/index";
 import { ElMessage } from "element-plus";
 
 const householdStore = useHouseholdStore();
 const sessionStore = useSessionStore();
 const householdApi = new HouseholdApi();
+const accountApi = new AccountApi();
 
 //test data
 let users = ref([]);
@@ -75,9 +76,9 @@ function updateUserPrivelige(user: UserFull) {
     userToUpdate.userType = "SUPERUSER";
   }
   return householdApi
-    .updateHouseholdMemberRole(23, userToUpdate?.id, userToUpdate.userType)
+    .updateHouseholdMemberRole(23, userToUpdate.id, userToUpdate.userType)
     .then((data) => {
-      ElMessage.success("Oppdaterte bruker " + user.firstName + " til " + userToUpdate.userType);
+      ElMessage.success("Oppdaterte bruker " + user.firstName + " til: " + userToUpdate.userType);
       users.value = users.value.map((u) => {
         if (u.user.id === user.id && u.userType === "USER") {
           u.userType = "USER";
@@ -101,11 +102,37 @@ function updateUserPrivelige(user: UserFull) {
     });
 }
 
-/* 
-function addUser(email: String) {
-  console.log("added user: " + email);
+//This currently works with id and not email :( backend should return user
+function addUser(value: string) {
+  console.log("add user: " + value);
+  let userId: number = 3;
+  return householdApi
+    .addUser(23, { userId })
+    .then((data) => {
+      ElMessage.success("La til " + value + " i husholdning");
+      addUserLocally(userId);
+      console.log("added user: " + value + ", status: " + data.status);
+    })
+    .catch((error) => {
+      ElMessage.error("Kunne ikke legge til bruker" + error);
+      console.log(error);
+    });
 }
- */
+
+function addUserLocally(id: number) {
+  console.log("add user locally: " + id);
+  return accountApi
+    .getUserById(id)
+    .then((data) => {
+      users.value.push({ user: data.data, userType: "USER" });
+
+      console.log("added user: " + data.data.firstName);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
+
 function deleteHousehold() {
   console.log("deleted household");
 }

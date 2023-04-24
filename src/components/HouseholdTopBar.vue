@@ -23,6 +23,7 @@
             type="primary"
             @click="
               dialogFormVisible = false;
+              emit('addUser', form.newUserEmail as string);
               printTest();
             "
           >
@@ -58,7 +59,7 @@ const dialogFormVisible = ref(false);
 const formLabelWidth = "140px";
 
 const form = reactive({
-  newUserEmail: "" as String,
+  newUserEmail: "" as string,
 });
 
 //delete this
@@ -68,7 +69,7 @@ function printTest() {
 }
 
 const emit = defineEmits<{
-  (event: "addUser", args: String): void;
+  (event: "addUser", args: string): void;
   (event: "deleteHousehold"): void;
 }>();
 </script>
