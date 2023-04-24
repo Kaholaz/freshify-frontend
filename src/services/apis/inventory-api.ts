@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
- * let API - OpenAPI 3.0
+ * Freshify API Documentation
  * An API for creating and managing a household inventory and shopping list. The API is written in Java using the Spring Boot framework. The API uses a MySQL database. The API is documented using Swagger. The API is hosted using Apache. Some useful links: - [The GitLab repository](https://gitlab.stud.idi.ntnu.no/idatt2106-v23-10/smartmat-backend)
  *
  * OpenAPI spec version: 1.0.0
@@ -17,6 +17,7 @@ import { Configuration } from "../configuration";
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from "../base";
 import { IdInventoryBody } from "../models";
+import { InventoryItems } from "../models";
 import { Item } from "../models";
 import { UpdateItem } from "../models";
 /**
@@ -26,16 +27,16 @@ import { UpdateItem } from "../models";
 export const InventoryApiAxiosParamCreator = function (configuration?: Configuration) {
   return {
     /**
-     * Adds a selected itemtype to inventory using the itemtype id
+     * Takes a list of entries, each entry contains an item type id and count. This way multiple items can be added.
      * @summary Add item to inventory
-     * @param {number} id ID of household&#x27;s inventory to add items to
-     * @param {IdInventoryBody} [body] Item to be added to inventory
+     * @param {number} id ID of the household to add items to.
+     * @param {Array<IdInventoryBody>} [body] List of items to be added to inventory
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     addInventoryItem: async (
       id: number,
-      body?: IdInventoryBody,
+      body?: Array<IdInventoryBody>,
       options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       // verify required parameter 'id' is not null or undefined
@@ -287,18 +288,20 @@ export const InventoryApiAxiosParamCreator = function (configuration?: Configura
 export const InventoryApiFp = function (configuration?: Configuration) {
   return {
     /**
-     * Adds a selected itemtype to inventory using the itemtype id
+     * Takes a list of entries, each entry contains an item type id and count. This way multiple items can be added.
      * @summary Add item to inventory
-     * @param {number} id ID of household&#x27;s inventory to add items to
-     * @param {IdInventoryBody} [body] Item to be added to inventory
+     * @param {number} id ID of the household to add items to.
+     * @param {Array<IdInventoryBody>} [body] List of items to be added to inventory
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async addInventoryItem(
       id: number,
-      body?: IdInventoryBody,
+      body?: Array<IdInventoryBody>,
       options?: AxiosRequestConfig
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<Item>>> {
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<InventoryItems>>
+    > {
       const localVarAxiosArgs = await InventoryApiAxiosParamCreator(configuration).addInventoryItem(
         id,
         body,
@@ -396,18 +399,18 @@ export const InventoryApiFactory = function (
 ) {
   return {
     /**
-     * Adds a selected itemtype to inventory using the itemtype id
+     * Takes a list of entries, each entry contains an item type id and count. This way multiple items can be added.
      * @summary Add item to inventory
-     * @param {number} id ID of household&#x27;s inventory to add items to
-     * @param {IdInventoryBody} [body] Item to be added to inventory
+     * @param {number} id ID of the household to add items to.
+     * @param {Array<IdInventoryBody>} [body] List of items to be added to inventory
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async addInventoryItem(
       id: number,
-      body?: IdInventoryBody,
+      body?: Array<IdInventoryBody>,
       options?: AxiosRequestConfig
-    ): Promise<AxiosResponse<Item>> {
+    ): Promise<AxiosResponse<InventoryItems>> {
       return InventoryApiFp(configuration)
         .addInventoryItem(id, body, options)
         .then((request) => request(axios, basePath));
@@ -472,19 +475,19 @@ export const InventoryApiFactory = function (
  */
 export class InventoryApi extends BaseAPI {
   /**
-   * Adds a selected itemtype to inventory using the itemtype id
+   * Takes a list of entries, each entry contains an item type id and count. This way multiple items can be added.
    * @summary Add item to inventory
-   * @param {number} id ID of household&#x27;s inventory to add items to
-   * @param {IdInventoryBody} [body] Item to be added to inventory
+   * @param {number} id ID of the household to add items to.
+   * @param {Array<IdInventoryBody>} [body] List of items to be added to inventory
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof InventoryApi
    */
   public async addInventoryItem(
     id: number,
-    body?: IdInventoryBody,
+    body?: Array<IdInventoryBody>,
     options?: AxiosRequestConfig
-  ): Promise<AxiosResponse<Item>> {
+  ): Promise<AxiosResponse<InventoryItems>> {
     return InventoryApiFp(this.configuration)
       .addInventoryItem(id, body, options)
       .then((request) => request(this.axios, this.basePath));

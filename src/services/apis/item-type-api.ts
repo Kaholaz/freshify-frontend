@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
- * let API - OpenAPI 3.0
+ * Freshify API Documentation
  * An API for creating and managing a household inventory and shopping list. The API is written in Java using the Spring Boot framework. The API uses a MySQL database. The API is documented using Swagger. The API is hosted using Apache. Some useful links: - [The GitLab repository](https://gitlab.stud.idi.ntnu.no/idatt2106-v23-10/smartmat-backend)
  *
  * OpenAPI spec version: 1.0.0
@@ -25,22 +25,11 @@ export const ItemTypeApiAxiosParamCreator = function (configuration?: Configurat
   return {
     /**
      *
-     * @summary Search through item types
-     * @param {string} name Search string to find item types by name
+     * @summary Get all item types
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    searchItemTypes: async (
-      name: string,
-      options: AxiosRequestConfig = {}
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'name' is not null or undefined
-      if (name === null || name === undefined) {
-        throw new RequiredError(
-          "name",
-          "Required parameter name was null or undefined when calling searchItemTypes."
-        );
-      }
+    getAllItemTypes: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
       const localVarPath = `/itemtype`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, "https://example.com");
@@ -55,10 +44,6 @@ export const ItemTypeApiAxiosParamCreator = function (configuration?: Configurat
       };
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
-
-      if (name !== undefined) {
-        localVarQueryParameter["name"] = name;
-      }
 
       const query = new URLSearchParams(localVarUrlObj.search);
       for (const key in localVarQueryParameter) {
@@ -91,19 +76,16 @@ export const ItemTypeApiFp = function (configuration?: Configuration) {
   return {
     /**
      *
-     * @summary Search through item types
-     * @param {string} name Search string to find item types by name
+     * @summary Get all item types
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async searchItemTypes(
-      name: string,
+    async getAllItemTypes(
       options?: AxiosRequestConfig
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<Array<ItemType>>>
     > {
-      const localVarAxiosArgs = await ItemTypeApiAxiosParamCreator(configuration).searchItemTypes(
-        name,
+      const localVarAxiosArgs = await ItemTypeApiAxiosParamCreator(configuration).getAllItemTypes(
         options
       );
       return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
@@ -129,17 +111,13 @@ export const ItemTypeApiFactory = function (
   return {
     /**
      *
-     * @summary Search through item types
-     * @param {string} name Search string to find item types by name
+     * @summary Get all item types
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async searchItemTypes(
-      name: string,
-      options?: AxiosRequestConfig
-    ): Promise<AxiosResponse<Array<ItemType>>> {
+    async getAllItemTypes(options?: AxiosRequestConfig): Promise<AxiosResponse<Array<ItemType>>> {
       return ItemTypeApiFp(configuration)
-        .searchItemTypes(name, options)
+        .getAllItemTypes(options)
         .then((request) => request(axios, basePath));
     },
   };
@@ -154,18 +132,16 @@ export const ItemTypeApiFactory = function (
 export class ItemTypeApi extends BaseAPI {
   /**
    *
-   * @summary Search through item types
-   * @param {string} name Search string to find item types by name
+   * @summary Get all item types
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof ItemTypeApi
    */
-  public async searchItemTypes(
-    name: string,
+  public async getAllItemTypes(
     options?: AxiosRequestConfig
   ): Promise<AxiosResponse<Array<ItemType>>> {
     return ItemTypeApiFp(this.configuration)
-      .searchItemTypes(name, options)
+      .getAllItemTypes(options)
       .then((request) => request(this.axios, this.basePath));
   }
 }

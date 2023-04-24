@@ -11,34 +11,10 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { InventoryItemsInner } from "./inventory-items-inner";
 /**
  *
  * @export
- * @interface UpdateShoppingListEntry
+ * @interface InventoryItems
  */
-export interface UpdateShoppingListEntry {
-  /**
-   *
-   * @type {number}
-   * @memberof UpdateShoppingListEntry
-   */
-  id?: number;
-  /**
-   *
-   * @type {number}
-   * @memberof UpdateShoppingListEntry
-   */
-  count?: number;
-  /**
-   *
-   * @type {boolean}
-   * @memberof UpdateShoppingListEntry
-   */
-  suggested?: boolean;
-  /**
-   *
-   * @type {boolean}
-   * @memberof UpdateShoppingListEntry
-   */
-  checked?: boolean;
-}
+export interface InventoryItems extends Array<InventoryItemsInner> {}

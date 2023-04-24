@@ -11,34 +11,31 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { HouseholdMemberKey } from "./household-member-key";
+import { HouseholdUserType } from "./household-user-type";
+import { UserFull } from "./user-full";
 /**
  *
  * @export
- * @interface UpdateShoppingListEntry
+ * @interface HouseholdMember
  */
-export interface UpdateShoppingListEntry {
+export interface HouseholdMember {
   /**
    *
-   * @type {number}
-   * @memberof UpdateShoppingListEntry
+   * @type {HouseholdMemberKey}
+   * @memberof HouseholdMember
    */
-  id?: number;
+  id?: HouseholdMemberKey;
   /**
    *
-   * @type {number}
-   * @memberof UpdateShoppingListEntry
+   * @type {UserFull}
+   * @memberof HouseholdMember
    */
-  count?: number;
+  user?: UserFull;
   /**
    *
-   * @type {boolean}
-   * @memberof UpdateShoppingListEntry
+   * @type {HouseholdUserType}
+   * @memberof HouseholdMember
    */
-  suggested?: boolean;
-  /**
-   *
-   * @type {boolean}
-   * @memberof UpdateShoppingListEntry
-   */
-  checked?: boolean;
+  type?: HouseholdUserType;
 }

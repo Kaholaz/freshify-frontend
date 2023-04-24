@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
- * let API - OpenAPI 3.0
+ * Freshify API Documentation
  * An API for creating and managing a household inventory and shopping list. The API is written in Java using the Spring Boot framework. The API uses a MySQL database. The API is documented using Swagger. The API is hosted using Apache. Some useful links: - [The GitLab repository](https://gitlab.stud.idi.ntnu.no/idatt2106-v23-10/smartmat-backend)
  *
  * OpenAPI spec version: 1.0.0
@@ -17,6 +17,7 @@ import { Configuration } from "../configuration";
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from "../base";
 import { Household } from "../models";
+import { HouseholdMember } from "../models";
 import { IdUsersBody } from "../models";
 import { InlineResponse200 } from "../models";
 import { UpdateHouseholdUserType } from "../models";
@@ -86,6 +87,110 @@ export const HouseholdApiAxiosParamCreator = function (configuration?: Configura
       localVarRequestOptions.data = needsSerialization
         ? JSON.stringify(body !== undefined ? body : {})
         : body || "";
+
+      return {
+        url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * Creates a household
+     * @summary Create a household
+     * @param {Household} [body] The household to be created
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createHousehold: async (
+      body?: Household,
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/household`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, "https://example.com");
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+      const localVarRequestOptions: AxiosRequestConfig = {
+        method: "POST",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      localVarHeaderParameter["Content-Type"] = "application/json";
+
+      const query = new URLSearchParams(localVarUrlObj.search);
+      for (const key in localVarQueryParameter) {
+        query.set(key, localVarQueryParameter[key]);
+      }
+      for (const key in options.params) {
+        query.set(key, options.params[key]);
+      }
+      localVarUrlObj.search = new URLSearchParams(query).toString();
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+      const needsSerialization =
+        typeof body !== "string" ||
+        localVarRequestOptions.headers["Content-Type"] === "application/json";
+      localVarRequestOptions.data = needsSerialization
+        ? JSON.stringify(body !== undefined ? body : {})
+        : body || "";
+
+      return {
+        url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * Deletes a household. Can only be done by superusers.
+     * @summary Delete a household
+     * @param {number} id ID of household to delete
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    deleteHousehold: async (id: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      if (id === null || id === undefined) {
+        throw new RequiredError(
+          "id",
+          "Required parameter id was null or undefined when calling deleteHousehold."
+        );
+      }
+      const localVarPath = `/household/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(id)));
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, "https://example.com");
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+      const localVarRequestOptions: AxiosRequestConfig = {
+        method: "DELETE",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      const query = new URLSearchParams(localVarUrlObj.search);
+      for (const key in localVarQueryParameter) {
+        query.set(key, localVarQueryParameter[key]);
+      }
+      for (const key in options.params) {
+        query.set(key, options.params[key]);
+      }
+      localVarUrlObj.search = new URLSearchParams(query).toString();
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
 
       return {
         url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
@@ -379,14 +484,14 @@ export const HouseholdApiAxiosParamCreator = function (configuration?: Configura
       };
     },
     /**
-     * Updates the type of a user in the household. Can only be done by a superuser
-     * @summary Update user type
+     * Updates the role of a user withing a given household. Can only be done by a superuser
+     * @summary Update household member role of user
      * @param {number} id ID of household to update a user type in
      * @param {UpdateHouseholdUserType} [body] Updated the type of user in the household
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    updateUserType: async (
+    updateHouseholdMemberRole: async (
       id: number,
       body?: UpdateHouseholdUserType,
       options: AxiosRequestConfig = {}
@@ -395,7 +500,7 @@ export const HouseholdApiAxiosParamCreator = function (configuration?: Configura
       if (id === null || id === undefined) {
         throw new RequiredError(
           "id",
-          "Required parameter id was null or undefined when calling updateUserType."
+          "Required parameter id was null or undefined when calling updateHouseholdMemberRole."
         );
       }
       const localVarPath = `/household/{id}/users`.replace(
@@ -469,6 +574,52 @@ export const HouseholdApiFp = function (configuration?: Configuration) {
       const localVarAxiosArgs = await HouseholdApiAxiosParamCreator(configuration).addUser(
         id,
         body,
+        options
+      );
+      return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+        const axiosRequestArgs: AxiosRequestConfig = {
+          ...localVarAxiosArgs.options,
+          url: basePath + localVarAxiosArgs.url,
+        };
+        return axios.request(axiosRequestArgs);
+      };
+    },
+    /**
+     * Creates a household
+     * @summary Create a household
+     * @param {Household} [body] The household to be created
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async createHousehold(
+      body?: Household,
+      options?: AxiosRequestConfig
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<Household>>> {
+      const localVarAxiosArgs = await HouseholdApiAxiosParamCreator(configuration).createHousehold(
+        body,
+        options
+      );
+      return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+        const axiosRequestArgs: AxiosRequestConfig = {
+          ...localVarAxiosArgs.options,
+          url: basePath + localVarAxiosArgs.url,
+        };
+        return axios.request(axiosRequestArgs);
+      };
+    },
+    /**
+     * Deletes a household. Can only be done by superusers.
+     * @summary Delete a household
+     * @param {number} id ID of household to delete
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async deleteHousehold(
+      id: number,
+      options?: AxiosRequestConfig
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+      const localVarAxiosArgs = await HouseholdApiAxiosParamCreator(configuration).deleteHousehold(
+        id,
         options
       );
       return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
@@ -603,23 +754,23 @@ export const HouseholdApiFp = function (configuration?: Configuration) {
       };
     },
     /**
-     * Updates the type of a user in the household. Can only be done by a superuser
-     * @summary Update user type
+     * Updates the role of a user withing a given household. Can only be done by a superuser
+     * @summary Update household member role of user
      * @param {number} id ID of household to update a user type in
      * @param {UpdateHouseholdUserType} [body] Updated the type of user in the household
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async updateUserType(
+    async updateHouseholdMemberRole(
       id: number,
       body?: UpdateHouseholdUserType,
       options?: AxiosRequestConfig
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-      const localVarAxiosArgs = await HouseholdApiAxiosParamCreator(configuration).updateUserType(
-        id,
-        body,
-        options
-      );
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<HouseholdMember>>
+    > {
+      const localVarAxiosArgs = await HouseholdApiAxiosParamCreator(
+        configuration
+      ).updateHouseholdMemberRole(id, body, options);
       return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
         const axiosRequestArgs: AxiosRequestConfig = {
           ...localVarAxiosArgs.options,
@@ -656,6 +807,33 @@ export const HouseholdApiFactory = function (
     ): Promise<AxiosResponse<void>> {
       return HouseholdApiFp(configuration)
         .addUser(id, body, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     * Creates a household
+     * @summary Create a household
+     * @param {Household} [body] The household to be created
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async createHousehold(
+      body?: Household,
+      options?: AxiosRequestConfig
+    ): Promise<AxiosResponse<Household>> {
+      return HouseholdApiFp(configuration)
+        .createHousehold(body, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     * Deletes a household. Can only be done by superusers.
+     * @summary Delete a household
+     * @param {number} id ID of household to delete
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async deleteHousehold(id: number, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+      return HouseholdApiFp(configuration)
+        .deleteHousehold(id, options)
         .then((request) => request(axios, basePath));
     },
     /**
@@ -738,20 +916,20 @@ export const HouseholdApiFactory = function (
         .then((request) => request(axios, basePath));
     },
     /**
-     * Updates the type of a user in the household. Can only be done by a superuser
-     * @summary Update user type
+     * Updates the role of a user withing a given household. Can only be done by a superuser
+     * @summary Update household member role of user
      * @param {number} id ID of household to update a user type in
      * @param {UpdateHouseholdUserType} [body] Updated the type of user in the household
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async updateUserType(
+    async updateHouseholdMemberRole(
       id: number,
       body?: UpdateHouseholdUserType,
       options?: AxiosRequestConfig
-    ): Promise<AxiosResponse<void>> {
+    ): Promise<AxiosResponse<HouseholdMember>> {
       return HouseholdApiFp(configuration)
-        .updateUserType(id, body, options)
+        .updateHouseholdMemberRole(id, body, options)
         .then((request) => request(axios, basePath));
     },
   };
@@ -780,6 +958,38 @@ export class HouseholdApi extends BaseAPI {
   ): Promise<AxiosResponse<void>> {
     return HouseholdApiFp(this.configuration)
       .addUser(id, body, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+  /**
+   * Creates a household
+   * @summary Create a household
+   * @param {Household} [body] The household to be created
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof HouseholdApi
+   */
+  public async createHousehold(
+    body?: Household,
+    options?: AxiosRequestConfig
+  ): Promise<AxiosResponse<Household>> {
+    return HouseholdApiFp(this.configuration)
+      .createHousehold(body, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+  /**
+   * Deletes a household. Can only be done by superusers.
+   * @summary Delete a household
+   * @param {number} id ID of household to delete
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof HouseholdApi
+   */
+  public async deleteHousehold(
+    id: number,
+    options?: AxiosRequestConfig
+  ): Promise<AxiosResponse<void>> {
+    return HouseholdApiFp(this.configuration)
+      .deleteHousehold(id, options)
       .then((request) => request(this.axios, this.basePath));
   }
   /**
@@ -867,21 +1077,21 @@ export class HouseholdApi extends BaseAPI {
       .then((request) => request(this.axios, this.basePath));
   }
   /**
-   * Updates the type of a user in the household. Can only be done by a superuser
-   * @summary Update user type
+   * Updates the role of a user withing a given household. Can only be done by a superuser
+   * @summary Update household member role of user
    * @param {number} id ID of household to update a user type in
    * @param {UpdateHouseholdUserType} [body] Updated the type of user in the household
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof HouseholdApi
    */
-  public async updateUserType(
+  public async updateHouseholdMemberRole(
     id: number,
     body?: UpdateHouseholdUserType,
     options?: AxiosRequestConfig
-  ): Promise<AxiosResponse<void>> {
+  ): Promise<AxiosResponse<HouseholdMember>> {
     return HouseholdApiFp(this.configuration)
-      .updateUserType(id, body, options)
+      .updateHouseholdMemberRole(id, body, options)
       .then((request) => request(this.axios, this.basePath));
   }
 }

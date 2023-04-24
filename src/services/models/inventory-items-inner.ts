@@ -11,34 +11,55 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { ItemState } from "./item-state";
+import { ItemType } from "./item-type";
+import { UserFull } from "./user-full";
 /**
  *
  * @export
- * @interface UpdateShoppingListEntry
+ * @interface InventoryItemsInner
  */
-export interface UpdateShoppingListEntry {
+export interface InventoryItemsInner {
   /**
    *
    * @type {number}
-   * @memberof UpdateShoppingListEntry
+   * @memberof InventoryItemsInner
    */
   id?: number;
   /**
    *
-   * @type {number}
-   * @memberof UpdateShoppingListEntry
+   * @type {ItemState}
+   * @memberof InventoryItemsInner
    */
-  count?: number;
+  state?: ItemState;
+  /**
+   *
+   * @type {number}
+   * @memberof InventoryItemsInner
+   */
+  remaining?: number;
+  /**
+   *
+   * @type {string}
+   * @memberof InventoryItemsInner
+   */
+  bought?: string;
   /**
    *
    * @type {boolean}
-   * @memberof UpdateShoppingListEntry
+   * @memberof InventoryItemsInner
    */
   suggested?: boolean;
   /**
    *
-   * @type {boolean}
-   * @memberof UpdateShoppingListEntry
+   * @type {ItemType}
+   * @memberof InventoryItemsInner
    */
-  checked?: boolean;
+  type?: ItemType;
+  /**
+   *
+   * @type {UserFull}
+   * @memberof InventoryItemsInner
+   */
+  addedBy?: UserFull;
 }

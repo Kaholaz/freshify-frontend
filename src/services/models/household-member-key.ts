@@ -14,31 +14,19 @@
 /**
  *
  * @export
- * @interface UpdateShoppingListEntry
+ * @interface HouseholdMemberKey
  */
-export interface UpdateShoppingListEntry {
+export interface HouseholdMemberKey {
   /**
    *
    * @type {number}
-   * @memberof UpdateShoppingListEntry
+   * @memberof HouseholdMemberKey
    */
-  id?: number;
+  householdId?: number;
   /**
    *
    * @type {number}
-   * @memberof UpdateShoppingListEntry
+   * @memberof HouseholdMemberKey
    */
-  count?: number;
-  /**
-   *
-   * @type {boolean}
-   * @memberof UpdateShoppingListEntry
-   */
-  suggested?: boolean;
-  /**
-   *
-   * @type {boolean}
-   * @memberof UpdateShoppingListEntry
-   */
-  checked?: boolean;
+  userId?: number;
 }
