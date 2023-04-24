@@ -1,5 +1,5 @@
 <template>
-  <el-card style="margin-bottom: 1rem">
+  <el-card style="margin-bottom: 1rem" v-loading="props.item?.loading">
     <el-row align="middle">
       <el-col :span="2">
         <el-checkbox

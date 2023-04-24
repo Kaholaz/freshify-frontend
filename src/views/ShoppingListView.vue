@@ -1,6 +1,6 @@
 <template>
   <h1 style="font-size: 60px">Handleliste</h1>
-  <el-card style="margin-bottom: 1rem">
+  <el-card style="margin-bottom: 1rem" v-loading="loadingSubmit">
     <h5>Legg til ny vare</h5>
     <el-form
       ref="ruleFormRef"
@@ -38,7 +38,9 @@
       </template>
       <div v-if="activeItems.size">
         <ShoppingListCard
-          v-for="item in Array.from(activeItems.values()).reverse()"
+          v-for="item in Array.from(activeItems.values())
+            .sort((a, b) => a.type.name.localeCompare(b.type.name))
+            .reverse()"
           :key="item.id"
           :item="item"
           @click="handleClickCheckbox(item)"
@@ -71,7 +73,9 @@
           </el-popconfirm>
         </el-row>
         <ShoppingListCard
-          v-for="item in Array.from(suggestedItems.values()).reverse()"
+          v-for="item in Array.from(suggestedItems.values())
+            .sort((a, b) => a.type.name.localeCompare(b.type.name))
+            .reverse()"
           :key="item.id"
           :item="item"
           :loading="loading"
@@ -97,7 +101,9 @@
           <el-button plain type="primary" @click="completeShopping">Avslutt handel</el-button>
         </el-row>
         <ShoppingListCard
-          v-for="item in Array.from(boughtItems.values()).reverse()"
+          v-for="item in Array.from(boughtItems.values())
+            .sort((a, b) => a.type.name.localeCompare(b.type.name))
+            .reverse()"
           :key="item.id"
           :item="item"
           :loading="loading"
@@ -179,6 +185,7 @@ const itemTypesApi = new ItemTypeApi();
 const testHouseholdId = -7165074982418084000;
 const itemTypeAutocomplete = ref(null as any);
 const loading = ref(undefined);
+const loadingSubmit = ref(false);
 
 const timeout = setTimeout(() => (loading.value = true), 100);
 shoppingListApi.getShoppingList(testHouseholdId).then((response) => {
@@ -210,12 +217,15 @@ function validateAndAddNewItem(item: CreateShoppingListEntry) {
   });
 }
 
-function addNewItem(item: CreateShoppingListEntry) {
+async function addNewItem(item: CreateShoppingListEntry) {
   item.count = parseInt(item.count);
+  const id = setTimeout(() => (loadingSubmit.value = true), 100);
   if (activeItems.value.size === 0 && activeItems.value.size === 0) {
     drawers.value.push("active");
   }
-  saveItem(item);
+  await saveItem(item);
+  clearTimeout(id);
+  loadingSubmit.value = false;
 }
 
 async function handleClickCheckbox(item: ShoppingListEntry) {
@@ -242,6 +252,7 @@ function acceptSuggestion(item: ShoppingListEntry, showSuccessMessage = true) {
     })
     .then(() => {
       suggestedItems.value.delete(itemToKey(item));
+      setItemLocal(cloneItem);
       if (showSuccessMessage) {
         ElMessage({
           message: `${cloneItem.type?.name} har blitt lagt til i handlelisten`,
@@ -330,6 +341,7 @@ async function updateItem(item: ShoppingListEntry, showSuccessMessage = true) {
     suggested: item.suggested,
     checked: item.checked,
   } as UpdateShoppingListEntry;
+
   return shoppingListApi
     .updateShoppingListEntry(testHouseholdId, updateItem)
     .then(() => {
