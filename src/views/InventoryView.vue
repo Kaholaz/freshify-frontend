@@ -1,6 +1,6 @@
 <template>
   <div id="inventory" class="inventory-wrapper">
-    <h1>Mitt Kjøleskap</h1>
+    <h1 style="font-size: 60px; margin-left: 1rem">Mitt kjøleskap</h1>
     <div class="inventory-items-list" v-loading="isLoading">
       <ItemCard
         :class="{
@@ -13,7 +13,7 @@
         @use="useItemDialog(item)"
         @delete="deleteItem(item)"
       />
-      <div v-if="!items">Ingenting å vise.</div>
+      <div v-if="!items?.length">Ingenting å vise.</div>
     </div>
 
     <!-- Use item dialog -->
@@ -140,7 +140,6 @@ function updateItems() {
   items.value = null;
 
   let householdId = getHouseholdId();
-  householdId = 123;
   if (!householdId) return;
 
   // Load inventory items
@@ -158,7 +157,7 @@ function removeItemClientSide(item: Item) {
   let newItems = items.value?.filter((i) => i.id !== item.id);
   if (!newItems) return;
 
-  items.value = !newItems.length ? null : newItems;
+  items.value = !newItems.length ? [] : newItems;
 }
 
 function getHouseholdId(): number | null {
@@ -172,7 +171,7 @@ function getHouseholdId(): number | null {
       title: "Ingen hjem valgt.",
       message: "Velg et hjem for å se inventaret til hjemmet.",
       type: "error",
-      duration: 0,
+      duration: 15000,
     });
 
     return null;
@@ -209,7 +208,7 @@ updateItems();
 .inventory-wrapper {
   width: 100%;
   height: 100%;
-  padding: 2rem;
+  padding: 1rem 2rem;
   margin: 0;
   overflow: hidden;
 }
@@ -228,5 +227,11 @@ updateItems();
 
 .danger-age {
   border: 1px solid red !important;
+}
+
+.amount-selection-row {
+  display: flex;
+  justify-content: center;
+  margin-top: 5px;
 }
 </style>

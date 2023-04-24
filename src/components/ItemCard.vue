@@ -5,6 +5,7 @@
       'item-card-wrapper': true,
       'item-card-only-title': computed(() => !item.addedBy),
     }"
+    shadow="always"
   >
     <div class="card-body">
       <div class="info">
@@ -41,15 +42,6 @@ export interface ItemCardEmits {
 </script>
 
 <style scoped>
-.item-card-wrapper {
-  width: 100%;
-  border: 1px solid #eceff1;
-  border-radius: 5px;
-
-  /* Item card shadow */
-  box-shadow: 0 2px 1px rgba(0, 0, 0, 0.1);
-}
-
 .card-body {
   display: flex;
 }
