@@ -21,7 +21,7 @@ import { ElNotification } from "element-plus";
 import type { Item } from "@/services/index";
 import { InventoryApi } from "@/services/index";
 import { useHouseholdStore } from "@/stores/household";
-import { runApiRequest } from "@/utils/comoposable";
+import { getDaysSinceBought } from "@/utils/item-utils";
 
 import ItemCard from "@/components/ItemCard.vue";
 
@@ -112,5 +112,9 @@ updateItems();
   width: 100%;
   height: 100%;
   overflow-y: auto;
+}
+
+.warning-age {
+  border: 2px solid red !important;
 }
 </style>
