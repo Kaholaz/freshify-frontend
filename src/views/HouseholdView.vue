@@ -7,7 +7,7 @@
     <div>
       <el-row gutter="20">
         <el-col
-          v-for="user in users"
+          v-for="user in users.sort((a, b) => a.userType.localeCompare(b.userType))"
           :key="user.user.id"
           :xs="24"
           :sm="12"
@@ -125,7 +125,6 @@ function addUserLocally(id: number) {
     .getUserById(id)
     .then((data) => {
       users.value.push({ user: data.data, userType: "USER" });
-
       console.log("added user: " + data.data.firstName);
     })
     .catch((error) => {
