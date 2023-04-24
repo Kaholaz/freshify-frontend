@@ -17,16 +17,20 @@
     </div>
     <footer class="mt-2 text-right">
       <el-button
-        v-if="userType == 'Bruker'"
+        v-if="userType == 'Bruker' && currentUser.id != user.id"
         type="primary"
         @click="emit('updateUserPrivelige', user)"
       >
         Utnevn til superbruker
       </el-button>
-      <el-button v-else type="primary" @click="emit('updateUserPrivelige', user)">
+      <el-button
+        v-else-if="currentUser.id != user.id"
+        type="primary"
+        @click="emit('updateUserPrivelige', user)"
+      >
         Degrader til bruker
       </el-button>
-      <el-button type="danger" @click="emit('removeUser', user)">
+      <el-button v-if="currentUser.id != user.id" type="danger" @click="emit('removeUser', user)">
         Fjern bruker fra husholdning
       </el-button>
     </footer>
@@ -34,8 +38,21 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from "vue";
 import type { UserFull } from "@/services";
 import { UserFilled } from "@element-plus/icons-vue";
+import { useSessionStore } from "@/stores/session";
+
+const sessionStore = useSessionStore();
+
+//make use of sessionstore
+const currentUser = ref({
+  id: 1,
+  email: "tore@gmail.com",
+  firstName: "Tore",
+} as UserFull);
+
+const currentUserFromStore = ref(sessionStore.getUser);
 
 const emit = defineEmits<{
   (event: "removeUser", args: UserFull): void;
