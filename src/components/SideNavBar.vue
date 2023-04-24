@@ -1,16 +1,19 @@
 <template>
   <el-menu :default-active="defaultActive" @open="handleOpen" @close="handleClose" router>
-    <el-sub-menu>
-      <template #title>
-        <el-icon>
-          <HomeFilled />
-        </el-icon>
-        <span>Husholding</span>
-      </template>
-      <el-menu-item v-for="household in households" :key="household.id" :index="`${household.id}`">
-        {{ household.name }}
-      </el-menu-item>
-    </el-sub-menu>
+    <el-select
+      style="width: calc(100% - 2rem); margin: 1rem"
+      :placeholder="household.name"
+      @change="setHouseHold(household)"
+      v-model="household"
+      v-if="household"
+    >
+      <el-option
+        v-for="item in households"
+        :key="item.id"
+        :label="item.name"
+        :value="item.id"
+      ></el-option>
+    </el-select>
     <el-menu-item index="/shopping-list">
       <el-icon>
         <List />
@@ -48,6 +51,9 @@
 import router from "@/router";
 import { DataAnalysis, Dish, HomeFilled, List, Management, Setting } from "@element-plus/icons-vue";
 import { onMounted, ref } from "vue";
+import { useHouseholdStore } from "@/stores/household";
+import { Household, HouseholdApi } from "@/services/index";
+import { useSessionStore } from "@/stores/session";
 
 const defaultActive = ref("/");
 onMounted(async () => {
@@ -63,14 +69,22 @@ const handleClose = (key: string, keyPath: string[]) => {
   console.log(key, keyPath);
 };
 
-const households = [
-  {
-    id: 1,
-    name: "Hjemme",
-  },
-  {
-    id: 2,
-    name: "Arbeid",
-  },
-];
+const houseHoldStore = useHouseholdStore();
+const houseHoldApi = new HouseholdApi();
+const sessionStore = useSessionStore();
+
+const households = ref([]);
+const household = ref(houseHoldStore.getHousehold());
+
+houseHoldApi.getHouseholds(10).then((res) => {
+  households.value = res.data;
+  if (household.value == null) {
+    setHouseHold(res.data[0]);
+    household.value = res.data[0];
+  }
+});
+
+function setHouseHold(val: Household) {
+  houseHoldStore.setHousehold(val);
+}
 </script>
