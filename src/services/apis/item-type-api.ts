@@ -25,11 +25,22 @@ export const ItemTypeApiAxiosParamCreator = function (configuration?: Configurat
   return {
     /**
      *
-     * @summary Get all item types
+     * @summary Search through item types
+     * @param {string} name Search string to find item types by name
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getAllItemTypes: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+    searchItemTypes: async (
+      name: string,
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'name' is not null or undefined
+      if (name === null || name === undefined) {
+        throw new RequiredError(
+          "name",
+          "Required parameter name was null or undefined when calling searchItemTypes."
+        );
+      }
       const localVarPath = `/itemtype`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, "https://example.com");
@@ -44,6 +55,10 @@ export const ItemTypeApiAxiosParamCreator = function (configuration?: Configurat
       };
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
+
+      if (name !== undefined) {
+        localVarQueryParameter["name"] = name;
+      }
 
       const query = new URLSearchParams(localVarUrlObj.search);
       for (const key in localVarQueryParameter) {
@@ -76,16 +91,19 @@ export const ItemTypeApiFp = function (configuration?: Configuration) {
   return {
     /**
      *
-     * @summary Get all item types
+     * @summary Search through item types
+     * @param {string} name Search string to find item types by name
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async getAllItemTypes(
+    async searchItemTypes(
+      name: string,
       options?: AxiosRequestConfig
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<Array<ItemType>>>
     > {
-      const localVarAxiosArgs = await ItemTypeApiAxiosParamCreator(configuration).getAllItemTypes(
+      const localVarAxiosArgs = await ItemTypeApiAxiosParamCreator(configuration).searchItemTypes(
+        name,
         options
       );
       return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
@@ -111,13 +129,17 @@ export const ItemTypeApiFactory = function (
   return {
     /**
      *
-     * @summary Get all item types
+     * @summary Search through item types
+     * @param {string} name Search string to find item types by name
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async getAllItemTypes(options?: AxiosRequestConfig): Promise<AxiosResponse<Array<ItemType>>> {
+    async searchItemTypes(
+      name: string,
+      options?: AxiosRequestConfig
+    ): Promise<AxiosResponse<Array<ItemType>>> {
       return ItemTypeApiFp(configuration)
-        .getAllItemTypes(options)
+        .searchItemTypes(name, options)
         .then((request) => request(axios, basePath));
     },
   };
@@ -132,16 +154,18 @@ export const ItemTypeApiFactory = function (
 export class ItemTypeApi extends BaseAPI {
   /**
    *
-   * @summary Get all item types
+   * @summary Search through item types
+   * @param {string} name Search string to find item types by name
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof ItemTypeApi
    */
-  public async getAllItemTypes(
+  public async searchItemTypes(
+    name: string,
     options?: AxiosRequestConfig
   ): Promise<AxiosResponse<Array<ItemType>>> {
     return ItemTypeApiFp(this.configuration)
-      .getAllItemTypes(options)
+      .searchItemTypes(name, options)
       .then((request) => request(this.axios, this.basePath));
   }
 }

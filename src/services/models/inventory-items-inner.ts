@@ -43,7 +43,13 @@ export interface InventoryItemsInner {
    * @type {string}
    * @memberof InventoryItemsInner
    */
-  bought?: string;
+  lastChanged?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof InventoryItemsInner
+   */
+  addedDate?: string;
   /**
    *
    * @type {boolean}

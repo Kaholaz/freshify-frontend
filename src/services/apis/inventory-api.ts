@@ -93,6 +93,72 @@ export const InventoryApiAxiosParamCreator = function (configuration?: Configura
       };
     },
     /**
+     * Takes a list of entries, each entry contains an item type id and count. These item types are added as suggestions to the inventory.
+     * @summary Add suggestion to inventory
+     * @param {number} id ID of the household to add items to.
+     * @param {Array<IdInventoryBody>} [body] List of suggestions to be added to inventory
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    addInventorySuggestion: async (
+      id: number,
+      body?: Array<IdInventoryBody>,
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      if (id === null || id === undefined) {
+        throw new RequiredError(
+          "id",
+          "Required parameter id was null or undefined when calling addInventorySuggestion."
+        );
+      }
+      const localVarPath = `/household/{id}/inventory/suggest`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id))
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, "https://example.com");
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+      const localVarRequestOptions: AxiosRequestConfig = {
+        method: "POST",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      localVarHeaderParameter["Content-Type"] = "application/json";
+
+      const query = new URLSearchParams(localVarUrlObj.search);
+      for (const key in localVarQueryParameter) {
+        query.set(key, localVarQueryParameter[key]);
+      }
+      for (const key in options.params) {
+        query.set(key, options.params[key]);
+      }
+      localVarUrlObj.search = new URLSearchParams(query).toString();
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+      const needsSerialization =
+        typeof body !== "string" ||
+        localVarRequestOptions.headers["Content-Type"] === "application/json";
+      localVarRequestOptions.data = needsSerialization
+        ? JSON.stringify(body !== undefined ? body : {})
+        : body || "";
+
+      return {
+        url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+        options: localVarRequestOptions,
+      };
+    },
+    /**
      * Delete an item from inventory of a household.
      * @summary Delete item from inventory
      * @param {number} id ID of household&#x27;s inventory to delete the item from
@@ -316,6 +382,32 @@ export const InventoryApiFp = function (configuration?: Configuration) {
       };
     },
     /**
+     * Takes a list of entries, each entry contains an item type id and count. These item types are added as suggestions to the inventory.
+     * @summary Add suggestion to inventory
+     * @param {number} id ID of the household to add items to.
+     * @param {Array<IdInventoryBody>} [body] List of suggestions to be added to inventory
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async addInventorySuggestion(
+      id: number,
+      body?: Array<IdInventoryBody>,
+      options?: AxiosRequestConfig
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<InventoryItems>>
+    > {
+      const localVarAxiosArgs = await InventoryApiAxiosParamCreator(
+        configuration
+      ).addInventorySuggestion(id, body, options);
+      return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+        const axiosRequestArgs: AxiosRequestConfig = {
+          ...localVarAxiosArgs.options,
+          url: basePath + localVarAxiosArgs.url,
+        };
+        return axios.request(axiosRequestArgs);
+      };
+    },
+    /**
      * Delete an item from inventory of a household.
      * @summary Delete item from inventory
      * @param {number} id ID of household&#x27;s inventory to delete the item from
@@ -416,6 +508,23 @@ export const InventoryApiFactory = function (
         .then((request) => request(axios, basePath));
     },
     /**
+     * Takes a list of entries, each entry contains an item type id and count. These item types are added as suggestions to the inventory.
+     * @summary Add suggestion to inventory
+     * @param {number} id ID of the household to add items to.
+     * @param {Array<IdInventoryBody>} [body] List of suggestions to be added to inventory
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async addInventorySuggestion(
+      id: number,
+      body?: Array<IdInventoryBody>,
+      options?: AxiosRequestConfig
+    ): Promise<AxiosResponse<InventoryItems>> {
+      return InventoryApiFp(configuration)
+        .addInventorySuggestion(id, body, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
      * Delete an item from inventory of a household.
      * @summary Delete item from inventory
      * @param {number} id ID of household&#x27;s inventory to delete the item from
@@ -490,6 +599,24 @@ export class InventoryApi extends BaseAPI {
   ): Promise<AxiosResponse<InventoryItems>> {
     return InventoryApiFp(this.configuration)
       .addInventoryItem(id, body, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+  /**
+   * Takes a list of entries, each entry contains an item type id and count. These item types are added as suggestions to the inventory.
+   * @summary Add suggestion to inventory
+   * @param {number} id ID of the household to add items to.
+   * @param {Array<IdInventoryBody>} [body] List of suggestions to be added to inventory
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof InventoryApi
+   */
+  public async addInventorySuggestion(
+    id: number,
+    body?: Array<IdInventoryBody>,
+    options?: AxiosRequestConfig
+  ): Promise<AxiosResponse<InventoryItems>> {
+    return InventoryApiFp(this.configuration)
+      .addInventorySuggestion(id, body, options)
       .then((request) => request(this.axios, this.basePath));
   }
   /**
