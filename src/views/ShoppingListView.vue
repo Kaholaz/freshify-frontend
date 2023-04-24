@@ -83,7 +83,7 @@
       <div v-else-if="loading == true">
         <ShoppingListCardSkeleton></ShoppingListCardSkeleton>
       </div>
-      <div v-else-if="loading == false && !activeItems.size">
+      <div v-else-if="loading == false && !suggestedItems.size">
         <el-alert :closable="false" center title="Det er ingen forespurte varer" type="info" />
       </div>
     </el-collapse-item>
@@ -108,7 +108,7 @@
       <div v-else-if="loading == true">
         <ShoppingListCardSkeleton></ShoppingListCardSkeleton>
       </div>
-      <div v-else-if="loading == false && !activeItems.size">
+      <div v-else-if="loading == false && !boughtItems.size">
         <el-alert
           :closable="false"
           center
@@ -126,7 +126,6 @@ import type {
   ShoppinglistBuyBody,
   ShoppingListEntry,
   UpdateShoppingListEntry,
-  UserFull,
 } from "@/services";
 import { ref } from "vue";
 import { ElMessage, FormInstance } from "element-plus";
@@ -211,7 +210,7 @@ async function addNewItem(item: CreateShoppingListEntry) {
     }
     return;
   }
-  saveItem(item);
+  await saveItem(item);
 }
 
 async function handleClickCheckbox(item: ShoppingListEntry) {
