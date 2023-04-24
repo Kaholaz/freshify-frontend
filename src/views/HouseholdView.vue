@@ -34,32 +34,21 @@ import type { UserFull, Household } from "@/services";
 import UserCard from "@/components/HouseholdCard.vue";
 import HouseholdTopBar from "@/components/HouseholdTopBar.vue";
 import { useHouseholdStore } from "@/stores/household";
+import { useSessionStore } from "@/stores/session";
 import { HouseholdApi } from "@/services/index";
 import { ElMessage } from "element-plus";
 
 const householdStore = useHouseholdStore();
+const sessionStore = useSessionStore();
 const householdApi = new HouseholdApi();
 
 //test data
-let users = ref([
-  {
-    user: {
-      id: 1,
-      email: "tore@gmail.com",
-      firstName: "Tore",
-    } as UserFull,
-    userType: "Superbruker" as String,
-  },
-  {
-    user: {
-      id: 2,
-      email: "trond@gmail.com",
-      firstName: "Trond",
-    } as UserFull,
-    userType: "Bruker" as String,
-  },
-]);
-
+let users = ref([]);
+//test api
+householdApi.getUsers(23).then((data) => {
+  users.value = data.data;
+  console.log("users: " + users.value);
+});
 //test data
 const testHousehold = {
   id: 234,
@@ -70,7 +59,8 @@ function removeUser(user: UserFull) {
   return householdApi
     .removeUserFromHousehold(testHousehold.id !== undefined ? testHousehold.id : -1, user.id!)
     .then((data) => {
-      ElMessage.success("Fjernet bruker fra husholdning");
+      ElMessage.success("Fjernet " + user.firstName + " fra husholdning");
+      users.value = users.value.filter((u) => u.user.id !== user.id);
       console.log("removed user: " + user.firstName + ", status: " + data.status);
     })
     .catch((error) => {
@@ -98,6 +88,7 @@ onMounted(() => {
     id: 234,
     name: "Hjemme",
   } as Household);
+
   console.log("mounted");
 });
 </script>

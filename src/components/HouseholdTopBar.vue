@@ -4,7 +4,7 @@
       Legg til nytt medlem i husholdningen
     </el-text>
 
-    <el-button class="menu-item-button" @click="dialogFormVisible = true" type="primary">
+    <el-button class="menu-item-add-button" @click="dialogFormVisible = true" type="primary">
       <el-icon>
         <Plus />
       </el-icon>
@@ -82,12 +82,12 @@ const emit = defineEmits<{
   flex-grow: 1;
 }
 
-.menu-item-button {
+.menu-item-add-button {
   margin: auto 1rem;
-  align-content: center;
+  align-content: right;
 }
 
 .menu-item-text {
-  padding-left: 20px;
+  padding-left: 0px;
 }
 </style>
