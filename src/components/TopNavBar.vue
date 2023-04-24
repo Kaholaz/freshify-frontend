@@ -14,7 +14,7 @@
         </el-icon>
         <span>Profil</span>
       </el-menu-item>
-      <el-button type="primary" class="menu-item-button">
+      <el-button class="menu-item-button">
         <el-icon>
           <TurnOff />
         </el-icon>
