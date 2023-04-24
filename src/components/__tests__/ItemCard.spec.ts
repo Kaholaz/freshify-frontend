@@ -39,23 +39,35 @@ describe("ItemCard", () => {
     return true;
   });
 
-  it("can add buttons as slots", () => {
-    const testButton = h("el-button", {
-      type: "primary",
-    });
-
+  it("has days since added in subtitle", () => {
     const wrapper = mount(ItemCard as any, {
       props: {
         item,
       },
-      slots: {
-        default: testButton,
-      },
     });
 
-    console.log(wrapper.html());
+    const days = Math.floor(
+      (new Date().getTime() - new Date(item.bought!).getTime()) / (1000 * 3600 * 24)
+    );
 
-    // Check if button exists
-    expect(wrapper.find("#item-card > .buttons > el-button").exists()).toBe(true);
+    expect(wrapper.text()).toContain(`${days} dager siden.`);
+  });
+
+  it("has button to use item", () => {
+    const wrapper = mount(ItemCard as any, {
+      props: {
+        item,
+      },
+    });
+    expect(wrapper.find("el-button[color]").text()).toContain("Bruk");
+  });
+
+  it("has button to delete item", () => {
+    const wrapper = mount(ItemCard as any, {
+      props: {
+        item,
+      },
+    });
+    expect(wrapper.find("el-button[type=danger]").text()).toContain("Slett");
   });
 });
