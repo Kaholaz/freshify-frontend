@@ -44,20 +44,16 @@ const householdApi = new HouseholdApi();
 
 //test data
 let users = ref([]);
-//test api
+
+//use household store
 householdApi.getUsers(23).then((data) => {
   users.value = data.data;
   console.log("users: " + users.value);
 });
-//test data
-const testHousehold = {
-  id: 234,
-  name: "Hjemme",
-} as Household;
 
 function removeUser(user: UserFull) {
   return householdApi
-    .removeUserFromHousehold(testHousehold.id !== undefined ? testHousehold.id : -1, user.id!)
+    .removeUserFromHousehold(23, user.id!)
     .then((data) => {
       ElMessage.success("Fjernet " + user.firstName + " fra husholdning");
       users.value = users.value.filter((u) => u.user.id !== user.id);
@@ -70,7 +66,39 @@ function removeUser(user: UserFull) {
 }
 
 function updateUserPrivelige(user: UserFull) {
-  console.log("updated user privelige: " + user.firstName);
+  console.log(user.email);
+  let userToUpdate = users.value.filter((u) => u.user.id === user.id)[0];
+  console.log("userToUpdateType: " + userToUpdate.userType);
+  if (userToUpdate.userType === "SUPERUSER") {
+    userToUpdate.userType = "USER";
+  } else {
+    userToUpdate.userType = "SUPERUSER";
+  }
+  return householdApi
+    .updateHouseholdMemberRole(23, userToUpdate?.id, userToUpdate.userType)
+    .then((data) => {
+      ElMessage.success("Oppdaterte bruker " + user.firstName + " til " + userToUpdate.userType);
+      users.value = users.value.map((u) => {
+        if (u.user.id === user.id && u.userType === "USER") {
+          u.userType = "USER";
+        } else if (u.user.id === user.id && u.userType === "SUPERUSER") {
+          u.userType = "SUPERUSER";
+        }
+        return u;
+      });
+      console.log(
+        "updated user: " +
+          user.firstName +
+          ", status: " +
+          data.status +
+          " to " +
+          userToUpdate.userType
+      );
+    })
+    .catch((error) => {
+      ElMessage.error("Kunne ikke oppdatere bruker" + error);
+      console.log(error);
+    });
 }
 
 /* 
