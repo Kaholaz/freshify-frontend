@@ -1,7 +1,9 @@
 <template>
   <el-main id="component-name" class="component-name-wrapper">
     <h1>{{ householdStore.getHousehold()?.name }}</h1>
-    <div class="top-bar"><HouseholdTopBar /></div>
+    <div class="top-bar">
+      <HouseholdTopBar :newUserEmail="users" @delete-household="deleteHousehold()" />
+    </div>
     <div>
       <el-row gutter="20">
         <el-col
@@ -14,7 +16,12 @@
           :xl="16"
           class="mb-5"
         >
-          <UserCard :user="user.user" :user-type="user.userType" />
+          <UserCard
+            :user="user.user"
+            :user-type="user.userType"
+            @remove-user="removeUser(user.user)"
+            @update-user-privelige="updateUserPrivelige(user.user)"
+          />
         </el-col>
       </el-row>
     </div>
@@ -24,13 +31,17 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 import type { UserFull, Household } from "@/services";
-import UserCard from "@/components/UserCard.vue";
+import UserCard from "@/components/HouseholdCard.vue";
 import HouseholdTopBar from "@/components/HouseholdTopBar.vue";
 import { useHouseholdStore } from "@/stores/household";
+import { HouseholdApi } from "@/services/index";
+import { ElMessage } from "element-plus";
 
 const householdStore = useHouseholdStore();
+const householdApi = new HouseholdApi();
 
-const users = ref([
+//test data
+let users = ref([
   {
     user: {
       id: 1,
@@ -49,6 +60,39 @@ const users = ref([
   },
 ]);
 
+//test data
+const testHousehold = {
+  id: 234,
+  name: "Hjemme",
+} as Household;
+
+function removeUser(user: UserFull) {
+  return householdApi
+    .removeUserFromHousehold(testHousehold.id !== undefined ? testHousehold.id : -1, user.id!)
+    .then((data) => {
+      ElMessage.success("Fjernet bruker fra husholdning");
+      console.log("removed user: " + user.firstName + ", status: " + data.status);
+    })
+    .catch((error) => {
+      ElMessage.error("Kunne ikke fjerne bruker fra husholdning" + error);
+      console.log(error);
+    });
+}
+
+function updateUserPrivelige(user: UserFull) {
+  console.log("updated user privelige: " + user.firstName);
+}
+
+/* 
+function addUser(email: String) {
+  console.log("added user: " + email);
+}
+ */
+function deleteHousehold() {
+  console.log("deleted household");
+}
+
+//test store
 onMounted(() => {
   householdStore.setHousehold({
     id: 234,

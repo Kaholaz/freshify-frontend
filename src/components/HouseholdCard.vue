@@ -16,8 +16,19 @@
       </el-icon>
     </div>
     <footer class="mt-2 text-right">
-      <el-button v-if="userType == 'Bruker'" type="primary"> Utnevn til superbruker </el-button>
-      <el-button v-else type="primary"> Degrader til bruker </el-button>
+      <el-button
+        v-if="userType == 'Bruker'"
+        type="primary"
+        @click="emit('updateUserPrivelige', user)"
+      >
+        Utnevn til superbruker
+      </el-button>
+      <el-button v-else type="primary" @click="emit('updateUserPrivelige', user)">
+        Degrader til bruker
+      </el-button>
+      <el-button type="danger" @click="emit('removeUser', user)">
+        Fjern bruker fra husholdning
+      </el-button>
     </footer>
   </el-card>
 </template>
@@ -25,6 +36,11 @@
 <script setup lang="ts">
 import type { UserFull } from "@/services";
 import { UserFilled } from "@element-plus/icons-vue";
+
+const emit = defineEmits<{
+  (event: "removeUser", args: UserFull): void;
+  (event: "updateUserPrivelige", args: UserFull): void;
+}>();
 
 const props = defineProps<{
   user: UserFull;
