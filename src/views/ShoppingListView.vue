@@ -146,7 +146,7 @@ const validationRules = ref({
     {
       required: true,
       message: "Vare må velges",
-      trigger: "blur",
+      trigger: "submit",
     },
   ],
   count: [

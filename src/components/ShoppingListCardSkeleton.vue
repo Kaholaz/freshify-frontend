@@ -19,7 +19,6 @@
             <div class="spacer"></div>
             <el-skeleton-item variant="button"></el-skeleton-item>
             <el-skeleton-item style="margin-left: 1rem" variant="button"></el-skeleton-item>
-            <el-skeleton-item style="margin-left: 1rem" variant="button"></el-skeleton-item>
           </el-row>
         </el-col>
       </el-row>
