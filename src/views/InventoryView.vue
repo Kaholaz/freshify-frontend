@@ -3,22 +3,50 @@
     <h1>Mitt Kjøleskap</h1>
     <div class="inventory-items-list" v-loading="isLoading">
       <ItemCard
-        :class="{ 'warning-age': computed(() => getDaysSinceBought(item) > 5) }"
+        :class="{
+          'warning-age': computed(() => getDaysSinceBought(item) > 5),
+          'danger-age': computed(() => getDaysSinceBought(item) > 10),
+        }"
         v-for="item in items"
         :key="item.id"
         :item="item"
-        @use="useItem(item, item.remaining!)"
+        @use="useItemDialog(item)"
         @delete="deleteItem(item)"
       />
       <div v-if="!items">Ingenting å vise.</div>
     </div>
+
+    <!-- Use item dialog -->
+    <el-dialog
+      v-if="dialogItem"
+      v-model="useItemDialogVisible"
+      title="Registrer matbruk"
+      width="500px"
+    >
+      <span>Velg hvor mye av varen du har brukt opp! Resten vil bli registrert som kastet.</span>
+      <div class="amount-selection-row">
+        <el-button type="info" round @click="dialogAmount = 0"> Ingenting </el-button>
+        <el-button type="info" round @click="dialogAmount = 0.25"> 0.25 </el-button>
+        <el-button type="info" round @click="dialogAmount = 0.5"> 0.5 </el-button>
+        <el-button type="info" round @click="dialogAmount = 0.75"> 0.75 </el-button>
+        <el-button type="info" round @click="dialogAmount = 1"> Hele </el-button>
+      </div>
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button type="danger" @click="useItemDialogVisible = false">Avbryt</el-button>
+          <el-button type="warning" @click="useItem(dialogItem, dialogAmount)">
+            Bruk og kast
+          </el-button>
+        </span>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
 <script setup lang="ts">
 import axios from "axios";
 import { ref, computed } from "vue";
-import { ElNotification } from "element-plus";
+import { ElDialog, ElNotification } from "element-plus";
 
 import { ItemState, type Item, type UpdateItem } from "@/services/index";
 import { InventoryApi } from "@/services/index";
@@ -34,6 +62,13 @@ const inventoryApi = new InventoryApi();
 const householdStore = useHouseholdStore();
 
 // Define refs
+const useItemDialogVisible = ref(false);
+
+// Dialog refs
+// The item that is currently selected with the dialog open.
+const dialogItem = ref<Item | null>(null);
+const dialogAmount = ref<number | null>(null);
+
 const items = ref<Item[] | null>(null);
 const error = ref<Error | null>(null);
 
@@ -41,18 +76,6 @@ const error = ref<Error | null>(null);
 const isLoading = computed(() => items.value === null && error.value === null);
 
 // Define callbacks
-function useItem(item: Item, amount: number) {
-  let newAmount = item.remaining! - amount > 0 ? item.remaining! - amount : 0;
-
-  let updatedItem: UpdateItem = {
-    itemId: item.id!,
-    remaining: newAmount,
-    state: ItemState.USED,
-  };
-
-  inventoryApi.updateInventoryItem(item.id!, updatedItem).then(updateItems).catch(handleError);
-}
-
 function deleteItem(item: Item) {
   let householdId = householdStore.getHousehold()?.id;
   if (!householdId) {
@@ -71,23 +94,53 @@ function deleteItem(item: Item) {
   inventoryApi
     .deleteInventoryItem(householdId, item.id!)
     .then(() => {
-      // This will never happen, because this function is only called when an item is clicked,
-      // and items are only shown if they are in items.value.
-      if (!items.value) return;
-
-      let newItems = items.value.filter((i) => i.id !== item.id);
-      items.value = !newItems.length ? null : newItems;
-
+      removeItemClientSide(item);
       console.info(`Deleted item ${item.type?.name}.`);
     })
     .catch(handleError);
 }
 
+function useItemDialog(item: Item) {
+  dialogItem.value = item;
+  useItemDialogVisible.value = true;
+}
+
 // Other script logic
+function useItem(item: Item, amount: number | null) {
+  if (amount === null) {
+    return ElNotification({
+      title: "Mengde mangler.",
+      message: "Velg hvor mye du har brukt av matvaren.",
+      type: "error",
+      duration: 5000,
+    });
+  }
+
+  let newAmount = item.remaining! - amount > 0 ? item.remaining! - amount : 0;
+
+  let updatedItem: UpdateItem = {
+    itemId: item.id!,
+    remaining: newAmount,
+    state: ItemState.USED,
+  };
+
+  inventoryApi
+    .updateInventoryItem(item.id!, updatedItem)
+    .then(() => {
+      removeItemClientSide(item);
+      console.info(`Used item ${item.type?.name}.`);
+
+      dialogItem.value = null;
+      useItemDialogVisible.value = false;
+    })
+    .catch(handleError);
+}
+
 function updateItems() {
   items.value = null;
 
   let householdId = getHouseholdId();
+  householdId = 123;
   if (!householdId) return;
 
   // Load inventory items
@@ -96,6 +149,16 @@ function updateItems() {
     .then((response) => response.data)
     .then((data) => (items.value = data))
     .catch(handleError);
+}
+
+function removeItemClientSide(item: Item) {
+  if (!items.value) return;
+  if (!items.value.map((i) => i.id).includes(item.id)) return;
+
+  let newItems = items.value?.filter((i) => i.id !== item.id);
+  if (!newItems) return;
+
+  items.value = !newItems.length ? null : newItems;
 }
 
 function getHouseholdId(): number | null {
@@ -160,6 +223,10 @@ updateItems();
 }
 
 .warning-age {
-  border: 2px solid red !important;
+  border: 1px solid orange !important;
+}
+
+.danger-age {
+  border: 1px solid red !important;
 }
 </style>
