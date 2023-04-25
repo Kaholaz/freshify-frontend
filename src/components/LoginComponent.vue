@@ -22,23 +22,59 @@
       </p>
 
       <!-- Sign in-->
-      <el-button type="primary" size="large" class="w-full" @click="signIn">Sign in</el-button>
+      <el-button ref="submitButton" type="primary" size="large" class="w-full" @click="signIn"
+        >Sign in</el-button
+      >
     </el-form>
   </div>
 </template>
 
 <script setup lang="ts">
-import { reactive } from "vue";
-import router from "@/router";
+import { reactive, ref } from "vue";
 
-const data = reactive({
+import type { LoginUser } from "@/services/index";
+import { AccountApi, HouseholdApi } from "@/services/index";
+import { useSessionStore } from "@/stores/session";
+import { showError } from "@/utils/error-utils";
+import router from "@/router";
+import { useHouseholdStore } from "@/stores/household";
+
+// Define APIs
+const accountApi = new AccountApi();
+const householdApi = new HouseholdApi();
+
+// Define stores
+const sessionStore = useSessionStore();
+const householdStore = useHouseholdStore();
+
+// Define refs
+const submitButton = ref<HTMLElement | null>(null);
+
+const data: LoginUser = reactive({
   email: "",
   password: "",
 });
 
 // Define callbacks
 function signIn() {
-  console.log("Sign in");
+  accountApi
+    .loginUser(data)
+    .then((response) => response.data)
+    .then((data) => {
+      sessionStore.authenticate(data);
+
+      // Get household the first household
+      householdApi
+        .getHouseholds(data.id!)
+        .then((response) => response.data)
+        .then((households) => {
+          householdStore.setHousehold(households[0]);
+          router.push({ name: "home" });
+        });
+    })
+    .catch((error) => {
+      showError("Kunne ikke logge inn.", error.message, 0);
+    });
 }
 </script>
 
