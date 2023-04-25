@@ -8,13 +8,13 @@
     >
       <el-menu-item index="0">LOGO</el-menu-item>
       <div class="flex-grow" />
-      <el-menu-item index="1">
+      <el-menu-item index="1" v-if="sessionStore.isAuthenticated">
         <el-icon>
           <User />
         </el-icon>
         <span>Profil</span>
       </el-menu-item>
-      <el-button class="menu-item-button">
+      <el-button class="menu-item-button" v-if="sessionStore.isAuthenticated">
         <el-icon>
           <TurnOff />
         </el-icon>
@@ -26,11 +26,14 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import { TurnOff, User } from "@element-plus/icons-vue";
+import { useSessionStore } from "@/stores/session";
 
 const activeIndex = ref("1");
 const handleSelect = (key: string, keyPath: string[]) => {
   console.log(key, keyPath);
 };
+
+const sessionStore = useSessionStore();
 </script>
 
 <style scoped>
