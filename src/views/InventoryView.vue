@@ -13,7 +13,7 @@
         @use="useItemDialog(item)"
         @delete="deleteItem(item)"
       />
-      <div v-if="!items?.length">Ingenting å vise.</div>
+      <el-alert v-if="!items?.length" center><el-text>Ingenting å vise.</el-text></el-alert>
     </div>
 
     <!-- Use item dialog -->
