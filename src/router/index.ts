@@ -1,7 +1,10 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import NotFoundView from "../views/NotFoundView.vue";
+import { useSessionStore } from "@/stores/session";
+import { AccountApi } from "@/services/index";
 
+let startup = true;
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -9,21 +12,25 @@ const router = createRouter({
       path: "/",
       name: "home",
       component: HomeView,
-    },
-    {
-      path: "/:pathMatch(.*)*",
-      name: "not-found",
-      component: NotFoundView,
+      meta: {
+        requiresAuth: true,
+      },
     },
     {
       path: "/shopping-list",
       name: "shopping-list",
       component: () => import("@/views/ShoppingListView.vue"),
+      meta: {
+        requiresAuth: true,
+      },
     },
     {
       path: "/inventory",
       name: "inventory",
       component: () => import("@/views/InventoryView.vue"),
+      meta: {
+        requiresAuth: true,
+      },
     },
     {
       path: "/login",
@@ -35,7 +42,32 @@ const router = createRouter({
       name: "register",
       component: () => import("@/views/RegisterView.vue"),
     },
+    {
+      path: "/:pathMatch(.*)*",
+      name: "not-found",
+      component: NotFoundView,
+    },
   ],
+});
+
+router.beforeEach((to, from, next) => {
+  const sessionStore = useSessionStore();
+  /*
+  const accountApi = new AccountApi();
+  if (startup) {
+    accountApi.getUserById().then((data) => {
+      if (data.status == 200) {
+        sessionStore.authenticate(data.data);
+      }
+    });
+    startup = false;
+  }
+   */
+  if (to.meta.requiresAuth && !sessionStore.isAuthenticated) {
+    next({ name: "login" });
+  } else {
+    next();
+  }
 });
 
 export default router;
