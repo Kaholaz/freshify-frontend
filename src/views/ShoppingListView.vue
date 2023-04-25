@@ -1,5 +1,5 @@
 <template>
-  <div class="shopping-list-container">
+  <div>
     <h1>Handleliste</h1>
     <el-card style="margin-bottom: 1rem" v-loading="loadingSubmit">
       <h5>Legg til ny vare</h5>
@@ -440,14 +440,3 @@ function itemToKey(item: ShoppingListEntry) {
   return item.id;
 }
 </script>
-
-<style scoped>
-.shopping-list-container {
-  padding: 1rem 2rem;
-}
-
-.divider-row {
-  margin-top: 0;
-  margin-bottom: 1rem;
-}
-</style>

@@ -1,54 +1,52 @@
 <template>
-  <div id="inventory" class="inventory-wrapper">
-    <h1>Mitt kjøleskap</h1>
-    <div class="inventory-items-list" v-if="!isLoading">
-      <ItemCard
-        :class="{
-          'warning-age': computed(() => getDaysSinceBought(item) > 5),
-          'danger-age': computed(() => getDaysSinceBought(item) > 10),
-        }"
-        v-for="item in items"
-        :key="item.id"
-        :item="item"
-        @use="useItemDialog(item)"
-        @delete="deleteItem(item)"
-        style="margin-bottom: 1rem"
-      />
-      <el-alert v-if="!items?.length" center>
-        <el-text>Ingenting å vise.</el-text>
-      </el-alert>
-    </div>
-    <div v-else style="margin-top: 1rem">
-      <ShoppingListCardSkeleton></ShoppingListCardSkeleton>
-      <ShoppingListCardSkeleton></ShoppingListCardSkeleton>
-      <ShoppingListCardSkeleton></ShoppingListCardSkeleton>
-    </div>
-
-    <!-- Use item dialog -->
-    <el-dialog
-      v-if="dialogItem"
-      v-model="useItemDialogVisible"
-      title="Registrer matbruk"
-      width="500px"
-    >
-      <span>Velg hvor mye av varen du har brukt opp! Resten vil bli registrert som kastet.</span>
-      <div class="amount-selection-row">
-        <el-button type="info" round @click="dialogAmount = 0"> Ingenting</el-button>
-        <el-button type="info" round @click="dialogAmount = 0.25"> 0.25</el-button>
-        <el-button type="info" round @click="dialogAmount = 0.5"> 0.5</el-button>
-        <el-button type="info" round @click="dialogAmount = 0.75"> 0.75</el-button>
-        <el-button type="info" round @click="dialogAmount = 1"> Hele</el-button>
-      </div>
-      <template #footer>
-        <span class="dialog-footer">
-          <el-button type="danger" @click="useItemDialogVisible = false">Avbryt</el-button>
-          <el-button type="warning" @click="useItem(dialogItem, dialogAmount)">
-            Bruk og kast
-          </el-button>
-        </span>
-      </template>
-    </el-dialog>
+  <h1>Mitt kjøleskap</h1>
+  <div class="inventory-items-list" v-if="!isLoading">
+    <ItemCard
+      :class="{
+        'warning-age': computed(() => getDaysSinceBought(item) > 5),
+        'danger-age': computed(() => getDaysSinceBought(item) > 10),
+      }"
+      v-for="item in items"
+      :key="item.id"
+      :item="item"
+      @use="useItemDialog(item)"
+      @delete="deleteItem(item)"
+      style="margin-bottom: 1rem"
+    />
+    <el-alert v-if="!items?.length" center>
+      <el-text>Ingenting å vise.</el-text>
+    </el-alert>
   </div>
+  <div v-else style="margin-top: 1rem">
+    <ShoppingListCardSkeleton></ShoppingListCardSkeleton>
+    <ShoppingListCardSkeleton></ShoppingListCardSkeleton>
+    <ShoppingListCardSkeleton></ShoppingListCardSkeleton>
+  </div>
+
+  <!-- Use item dialog -->
+  <el-dialog
+    v-if="dialogItem"
+    v-model="useItemDialogVisible"
+    title="Registrer matbruk"
+    width="500px"
+  >
+    <span>Velg hvor mye av varen du har brukt opp! Resten vil bli registrert som kastet.</span>
+    <div class="amount-selection-row">
+      <el-button type="info" round @click="dialogAmount = 0"> Ingenting</el-button>
+      <el-button type="info" round @click="dialogAmount = 0.25"> 0.25</el-button>
+      <el-button type="info" round @click="dialogAmount = 0.5"> 0.5</el-button>
+      <el-button type="info" round @click="dialogAmount = 0.75"> 0.75</el-button>
+      <el-button type="info" round @click="dialogAmount = 1"> Hele</el-button>
+    </div>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button type="danger" @click="useItemDialogVisible = false">Avbryt</el-button>
+        <el-button type="warning" @click="useItem(dialogItem, dialogAmount)">
+          Bruk og kast
+        </el-button>
+      </span>
+    </template>
+  </el-dialog>
 </template>
 
 <script setup lang="ts">
@@ -213,19 +211,10 @@ updateItems();
 </script>
 
 <style scoped>
-.inventory-wrapper {
-  width: 100%;
-  height: 100%;
-  padding: 1rem 2rem;
-  margin: 0;
-  overflow: hidden;
-}
-
 .inventory-items-list {
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 100%;
   overflow-y: auto;
 }
 

@@ -22,7 +22,7 @@ const [drawer, drawerToggle] = useToggle();
 </script>
 
 <template>
-  <el-container>
+  <el-container style="height: 100vh; display: flex">
     <el-header>
       <TopNavBar @menu="drawerToggle()" />
     </el-header>
@@ -33,21 +33,23 @@ const [drawer, drawerToggle] = useToggle();
             <el-icon>
               <Expand />
             </el-icon>
-            Menu
+            Meny
           </el-button>
         </el-menu-item>
       </el-menu>
     </div>
-    <el-container>
+    <el-container style="height: 0">
       <el-aside width="300px" v-if="!collapsed">
         <SideNavBar class="sidenav" />
       </el-aside>
       <el-drawer v-model="drawer" direction="ltr" size="306px">
         <SideNavBar class="sidenav" @select="drawerToggle()" />
       </el-drawer>
-      <el-main>
-        <RouterView />
-      </el-main>
+      <el-scrollbar style="width: 100%">
+        <el-main>
+          <RouterView />
+        </el-main>
+      </el-scrollbar>
     </el-container>
   </el-container>
 </template>
