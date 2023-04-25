@@ -1,5 +1,11 @@
 <template>
-  <el-menu :default-active="defaultActive" @open="handleOpen" @close="handleClose" router>
+  <el-menu
+    :default-active="defaultActive"
+    @open="handleOpen"
+    @close="handleClose"
+    router
+    @select="$emit('select')"
+  >
     <el-select
       style="width: calc(100% - 2rem); margin: 1rem"
       :placeholder="household.name"
@@ -75,6 +81,9 @@ const sessionStore = useSessionStore();
 
 const households = ref([]);
 const household = ref(houseHoldStore.getHousehold());
+const emit = defineEmits<{
+  (event: "select", ...args: any[]): void;
+}>();
 
 houseHoldApi.getHouseholds(10).then((res) => {
   households.value = res.data;

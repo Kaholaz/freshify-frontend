@@ -43,7 +43,7 @@ const [drawer, drawerToggle] = useToggle();
         <SideNavBar class="sidenav" />
       </el-aside>
       <el-drawer v-model="drawer" direction="ltr" size="306px">
-        <SideNavBar />
+        <SideNavBar class="sidenav" @select="drawerToggle()" />
       </el-drawer>
       <el-main>
         <RouterView />
