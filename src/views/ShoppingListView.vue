@@ -437,7 +437,7 @@ function deleteLocalItem(item: ShoppingListEntry) {
 }
 
 function itemToKey(item: ShoppingListEntry) {
-  return item.id;
+  return item.id as number;
 }
 </script>
 <style>
