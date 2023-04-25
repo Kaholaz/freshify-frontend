@@ -4,10 +4,12 @@
     v-model:first-name="user.firstName"
     v-model:password="user.password"
     @submit="submit"
-  ></RegisterComponent>
+    :error-message="errorMessage"
+  >
+  </RegisterComponent>
 </template>
 <script setup lang="ts">
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
 import RegisterComponent from "@/components/RegisterComponent.vue";
 import type { CreateUser } from "@/services/index";
 import { AccountApi } from "@/services/index";
@@ -24,6 +26,7 @@ const user = reactive({
 
 const accountApi = new AccountApi();
 const sessionStore = useSessionStore();
+const errorMessage = ref<string>("");
 
 function submit() {
   console.log("submitting");
@@ -34,7 +37,14 @@ function submit() {
       router.push({ name: "home" });
     })
     .catch((error) => {
-      showError("Kunne ikke opprette bruker", error.message, 0);
+      if (error.response.status === 409) {
+        errorMessage.value = "En bruker med denne eposten eksisterer allerede";
+      } else {
+        errorMessage.value = "En uventet feil oppstod";
+      }
+      setTimeout(() => {
+        errorMessage.value = "";
+      }, 5000);
     });
 }
 </script>

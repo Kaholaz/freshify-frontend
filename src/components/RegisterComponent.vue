@@ -29,6 +29,13 @@
         >Registrer deg
       </el-button>
     </el-form>
+    <el-alert
+      type="error"
+      show-icon
+      :title="errorMessage"
+      v-if="errorMessage"
+      style="margin-top: 1rem"
+    />
   </el-card>
 </template>
 <script setup lang="ts">
@@ -41,6 +48,7 @@ const props = defineProps<{
   firstName: string;
   password: string;
   email: string;
+  errorMessage: string;
 }>();
 
 const emit = defineEmits<{
