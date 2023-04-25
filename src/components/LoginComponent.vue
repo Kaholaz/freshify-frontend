@@ -16,7 +16,7 @@
         <el-link type="primary" @click="router.push({ name: 'register' })">Registrer deg! </el-link>
       </p>
 
-      <el-button ref="submitButton" type="primary" size="large"  @click="signIn"
+      <el-button ref="submitButton" type="primary" size="large" @click="signIn"
         >Logg inn
       </el-button>
     </el-form>
