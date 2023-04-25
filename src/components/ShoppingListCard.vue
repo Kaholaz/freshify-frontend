@@ -15,7 +15,9 @@
           <h5>{{ props.item.type.name }}</h5>
         </el-row>
         <el-row>
-          <el-text>Lagt til av: {{ props.item.addedBy.firstName }}</el-text>
+          <el-text
+            >Lagt til av: <span class="name">{{ props.item.addedBy.firstName }}</span></el-text
+          >
         </el-row>
       </el-col>
       <el-col :sm="14" :xs="15">
@@ -47,5 +49,9 @@ const emit = defineEmits<{
 <style scoped>
 .checkbox {
   margin-right: 1.5rem;
+}
+
+.name {
+  display: block;
 }
 </style>
