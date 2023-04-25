@@ -12,6 +12,7 @@
         :item="item"
         @use="useItemDialog(item)"
         @delete="deleteItem(item)"
+        style="margin-bottom: 1rem"
       />
       <el-alert v-if="!items?.length" center>
         <el-text>Ingenting å vise.</el-text>
