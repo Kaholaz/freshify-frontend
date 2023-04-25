@@ -166,13 +166,13 @@ const validationRules = ref({
     },
     {
       validator: (rule: any, value: any, callback: any) => {
-        if (value <= 1) {
-          callback(new Error("Antall må være større enn 1"));
+        if (value < 1) {
+          callback(new Error());
         } else {
           callback();
         }
       },
-      message: "Antall må være større enn 1",
+      message: "Antall må være større enn 0",
       trigger: "change",
     },
   ],
