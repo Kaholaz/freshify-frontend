@@ -1,27 +1,22 @@
 <template>
   <el-card class="container">
-    <h2 class="my-3">Log in</h2>
+    <h2>Log in</h2>
 
-    <!-- Form -->
     <el-form ref="form" label-position="top" :model="data" class="login-form">
-      <!-- Email input -->
       <el-form-item label="Email" prop="email">
         <el-input placeholder="Email" type="text" v-model="data.email" size="large" />
       </el-form-item>
 
-      <!-- Password input -->
-      <el-form-item class="password-form-item" label="Password" prop="password">
+      <el-form-item label="Password" prop="password">
         <el-input type="password" v-model="data.password" placeholder="Password" size="large" />
       </el-form-item>
 
-      <!-- Ingen konto? -->
       <p class="no-account">
         Har du ikke konto?
-        <el-link type="primary" @click="router.push({ name: 'register' })">Regisrer deg! </el-link>
+        <el-link type="primary" @click="router.push({ name: 'register' })">Registrer deg! </el-link>
       </p>
 
-      <!-- Sign in-->
-      <el-button ref="submitButton" type="primary" size="large" class="w-full" @click="signIn"
+      <el-button ref="submitButton" type="primary" size="large"  @click="signIn"
         >Logg inn
       </el-button>
     </el-form>
@@ -89,15 +84,6 @@ function signIn() {
 }
 
 .no-account {
-  margin: 0;
   text-align: end;
-}
-
-.no-account > a {
-  margin-left: 5px;
-}
-
-.password-form-item {
-  margin-bottom: 0;
 }
 </style>
