@@ -146,7 +146,7 @@ const drawers = ref(["active", "requested", "bought"] as string[]);
 const ruleFormRef = ref<FormInstance>();
 const newItem = ref({
   itemTypeId: undefined,
-  count: undefined,
+  count: 1,
   suggested: false,
 } as CreateShoppingListEntry);
 
