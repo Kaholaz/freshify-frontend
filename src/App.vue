@@ -23,9 +23,7 @@ const collapsed = computed(() => {
 
 const [drawer, drawerToggle] = useToggle();
 
-function isLoginPage() {
-  return computed(() => router.currentRoute.value.name !== "login" );
-}
+const isLoginPage = computed(() => router.currentRoute.value.name !== "login");
 </script>
 
 <template>
@@ -54,7 +52,6 @@ function isLoginPage() {
       </el-drawer>
       <el-main>
         <RouterView />
-        <LoginComponent />
       </el-main>
     </el-container>
   </el-container>
