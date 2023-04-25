@@ -136,8 +136,8 @@ import type {
   ShoppingListEntry,
   UpdateShoppingListEntry,
 } from "@/services";
-import {Ref, ref} from "vue";
-import { ElMessage, FormInstance } from "element-plus";
+import { Ref, ref } from "vue";
+import { ElMessage, ElNotification, FormInstance } from "element-plus";
 import { ItemTypeApi, ShoppingListApi } from "@/services/index";
 import ShoppingListCardSkeleton from "@/components/ShoppingListCardSkeleton.vue";
 
@@ -314,9 +314,10 @@ function completeShopping() {
       listEntryIds: Array.from(boughtItems.value.values()).map((item) => item.id),
     } as ShoppinglistBuyBody)
     .then(() => {
-      ElMessage({
-        message: "Handel fullført",
+      ElNotification({
+        message: "Handleturen er avsluttet. Du finner de kjøpte varene i vareoversikten!",
         type: "success",
+        duration: 5000,
       });
       boughtItems.value.clear();
     })
