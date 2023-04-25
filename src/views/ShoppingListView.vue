@@ -136,7 +136,7 @@ import type {
   ShoppingListEntry,
   UpdateShoppingListEntry,
 } from "@/services";
-import { ref } from "vue";
+import {Ref, ref} from "vue";
 import { ElMessage, FormInstance } from "element-plus";
 import { ItemTypeApi, ShoppingListApi } from "@/services/index";
 import ShoppingListCardSkeleton from "@/components/ShoppingListCardSkeleton.vue";
@@ -187,7 +187,7 @@ const itemTypesApi = new ItemTypeApi();
 
 const testHouseholdId = -7165074982418084000;
 const itemTypeAutocomplete = ref(null as any);
-const loading = ref(undefined);
+const loading = ref(undefined) as Ref<undefined | boolean>;
 const loadingSubmit = ref(false);
 
 const timeout = setTimeout(() => (loading.value = true), 100);
