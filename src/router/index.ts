@@ -3,7 +3,6 @@ import HomeView from "../views/HomeView.vue";
 import NotFoundView from "../views/NotFoundView.vue";
 import { useSessionStore } from "@/stores/session";
 import { AccountApi } from "@/services/index";
-import HouseholdView from "@/views/HouseholdView.vue";
 
 let startup = true;
 const router = createRouter({
