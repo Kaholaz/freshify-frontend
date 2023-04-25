@@ -7,7 +7,6 @@ import router from "@/router";
 
 import SideNavBar from "@/components/SideNavBar.vue";
 import TopNavBar from "@/components/TopNavBar.vue";
-import LoginComponent from "@/components/LoginComponent.vue";
 
 const windowSize = ref(window.innerWidth);
 
@@ -23,7 +22,7 @@ const collapsed = computed(() => {
 
 const [drawer, drawerToggle] = useToggle();
 
-const isLoginPage = computed(() => router.currentRoute.value.name !== "login");
+const isLoginPage = computed(() => router.currentRoute.value.name === "login");
 </script>
 
 <template>
