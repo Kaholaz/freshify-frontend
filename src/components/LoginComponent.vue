@@ -16,9 +16,9 @@
     </div>
     <el-form label-position="top">
       <el-form-item label="Email">
-        <el-input placeholder = "Email" type="text" v-model="email" size="large" />
+        <el-input placeholder = "Email" type="text" v-model="state.email" size="large" />
       </el-form-item>
-      <el-form-item type="text" v-model="password" label="Password">
+      <el-form-item type="text" v-model="state.password" label="Password">
         <el-input placeholder = "Password" size="large" />
       </el-form-item>
       <div class="flex justify-between mb-2">
@@ -31,34 +31,29 @@
 </template>
 
 <script setup lang="ts">
-import { defineComponent, ref } from "vue";
 import { computed, reactive } from "vue";
-import { required, email, minLength } from "@vuelidate/validators";
+import { required, email } from "@vuelidate/validators";
 import useValidate from '@vuelidate/core';
 
-  const state = reactive({
-            email: '',
-            password: {
-                password: '',
-                confirm: '',
-            },
-        })
-        const rules = computed(() => {
-            email: { required },
-            password: {
-                password: { required },
-                confirm: { required },
-            }
-        })
-       
+const state = reactive({
+  email: '',
+  password: {
+    password: '',
+    confirm: '',
+  },
+});
 
-const email = ref("");
-const password = ref("");
+const rules = computed(() => {
+  return {
+    email: { required },
+    password: {
+        password: { required },
+        confirm: { required },
+    }
+  }
+});
 
-const v$ = useValidate(rules)
-
-
-
+const v$ = useValidate(rules, state);
 </script>
 
 <style scoped>
