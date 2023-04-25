@@ -11,6 +11,16 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-export * from "./api";
-export * from "./configuration";
-export * from "./models";
+/**
+ *
+ * @export
+ * @interface CreateHousehold
+ */
+export interface CreateHousehold {
+  /**
+   *
+   * @type {string}
+   * @memberof CreateHousehold
+   */
+  name?: string;
+}

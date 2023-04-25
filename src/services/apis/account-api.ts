@@ -18,6 +18,7 @@ import { Configuration } from "../configuration";
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from "../base";
 import { CreateUser } from "../models";
 import { Household } from "../models";
+import { InlineResponse200 } from "../models";
 import { LoginUser } from "../models";
 import { UpdateUser } from "../models";
 import { UserFull } from "../models";
@@ -163,6 +164,63 @@ export const AccountApiAxiosParamCreator = function (configuration?: Configurati
       };
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
+
+      const query = new URLSearchParams(localVarUrlObj.search);
+      for (const key in localVarQueryParameter) {
+        query.set(key, localVarQueryParameter[key]);
+      }
+      for (const key in options.params) {
+        query.set(key, options.params[key]);
+      }
+      localVarUrlObj.search = new URLSearchParams(query).toString();
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * Returns a single user by email
+     * @summary Get user by email
+     * @param {string} email Email of user to return
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getUserByEmail: async (
+      email: string,
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'email' is not null or undefined
+      if (email === null || email === undefined) {
+        throw new RequiredError(
+          "email",
+          "Required parameter email was null or undefined when calling getUserByEmail."
+        );
+      }
+      const localVarPath = `/user`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, "https://example.com");
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+      const localVarRequestOptions: AxiosRequestConfig = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      if (email !== undefined) {
+        localVarQueryParameter["email"] = email;
+      }
 
       const query = new URLSearchParams(localVarUrlObj.search);
       for (const key in localVarQueryParameter) {
@@ -462,6 +520,31 @@ export const AccountApiFp = function (configuration?: Configuration) {
       };
     },
     /**
+     * Returns a single user by email
+     * @summary Get user by email
+     * @param {string} email Email of user to return
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getUserByEmail(
+      email: string,
+      options?: AxiosRequestConfig
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<InlineResponse200>>
+    > {
+      const localVarAxiosArgs = await AccountApiAxiosParamCreator(configuration).getUserByEmail(
+        email,
+        options
+      );
+      return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+        const axiosRequestArgs: AxiosRequestConfig = {
+          ...localVarAxiosArgs.options,
+          url: basePath + localVarAxiosArgs.url,
+        };
+        return axios.request(axiosRequestArgs);
+      };
+    },
+    /**
      * Returns a single user
      * @summary Get user by id
      * @param {number} id ID of user to return
@@ -606,6 +689,21 @@ export const AccountApiFactory = function (
         .then((request) => request(axios, basePath));
     },
     /**
+     * Returns a single user by email
+     * @summary Get user by email
+     * @param {string} email Email of user to return
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getUserByEmail(
+      email: string,
+      options?: AxiosRequestConfig
+    ): Promise<AxiosResponse<InlineResponse200>> {
+      return AccountApiFp(configuration)
+        .getUserByEmail(email, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
      * Returns a single user
      * @summary Get user by id
      * @param {number} id ID of user to return
@@ -711,6 +809,22 @@ export class AccountApi extends BaseAPI {
   ): Promise<AxiosResponse<Array<Household>>> {
     return AccountApiFp(this.configuration)
       .getHouseholds(id, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+  /**
+   * Returns a single user by email
+   * @summary Get user by email
+   * @param {string} email Email of user to return
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof AccountApi
+   */
+  public async getUserByEmail(
+    email: string,
+    options?: AxiosRequestConfig
+  ): Promise<AxiosResponse<InlineResponse200>> {
+    return AccountApiFp(this.configuration)
+      .getUserByEmail(email, options)
       .then((request) => request(this.axios, this.basePath));
   }
   /**
