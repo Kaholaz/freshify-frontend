@@ -191,18 +191,28 @@ const loading = ref(undefined);
 const loadingSubmit = ref(false);
 
 const timeout = setTimeout(() => (loading.value = true), 100);
-shoppingListApi.getShoppingList(testHouseholdId).then((response) => {
-  activeItems.value.clear();
-  suggestedItems.value.clear();
-  boughtItems.value.clear();
-  response.data.forEach((item) => {
-    setItemLocal(item);
-    setItemLocal({ ...item, checked: false, suggested: false, id: 122 });
-    setItemLocal({ ...item, checked: true, suggested: false, id: 154 });
+shoppingListApi
+  .getShoppingList(testHouseholdId)
+  .then((response) => {
+    activeItems.value.clear();
+    suggestedItems.value.clear();
+    boughtItems.value.clear();
+    response.data.forEach((item) => {
+      setItemLocal(item);
+      setItemLocal({ ...item, checked: false, suggested: false, id: 122 });
+      setItemLocal({ ...item, checked: true, suggested: false, id: 154 });
+    });
+  })
+  .catch((error) => {
+    ElMessage.error({
+      message: "Noe gikk galt ved henting av handleliste",
+      type: "error",
+    });
+  })
+  .finally(() => {
+    clearTimeout(timeout);
+    loading.value = false;
   });
-  clearTimeout(timeout);
-  loading.value = false;
-});
 
 async function searchItemType(queryString: string, cb: any) {
   const results = await itemTypesApi.searchItemTypes(queryString).then((response) => {
