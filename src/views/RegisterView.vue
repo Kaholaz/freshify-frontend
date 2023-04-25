@@ -9,7 +9,11 @@
 <script setup lang="ts">
 import { reactive } from "vue";
 import RegisterComponent from "@/components/RegisterComponent.vue";
-import type { CreateUser } from "@/services";
+import type { CreateUser } from "@/services/index";
+import { AccountApi } from "@/services/index";
+import { useSessionStore } from "@/stores/session";
+import router from "@/router";
+import { showError } from "@/utils/error-utils";
 
 const user = reactive({
   email: "",
@@ -18,7 +22,19 @@ const user = reactive({
   firstName: "",
 } as CreateUser);
 
+const accountApi = new AccountApi();
+const sessionStore = useSessionStore();
+
 function submit() {
-  console.log(user);
+  console.log("submitting");
+  accountApi
+    .createUser(user)
+    .then((data) => {
+      sessionStore.authenticate(data.data);
+      router.push({ name: "home" });
+    })
+    .catch((error) => {
+      showError("Kunne ikke opprette bruker", error.message, 0);
+    });
 }
 </script>
