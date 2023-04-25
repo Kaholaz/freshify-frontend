@@ -7,9 +7,10 @@
         ref="ruleFormRef"
         :model="newItem"
         :rules="validationRules"
-        inline
-        status-icon
         style="margin-top: 0.5rem"
+        label-position="left"
+        label-width="70px"
+        inline
       >
         <el-row>
           <el-form-item label="Vare" prop="itemTypeId" required>
@@ -27,8 +28,10 @@
           <el-form-item label="Antall" prop="count" required>
             <el-input v-model="newItem.count" placeholder="Antall" type="number" />
           </el-form-item>
-          <div class="spacer" />
-          <el-button type="primary" @click="validateAndAddNewItem(newItem)">legg til</el-button>
+          <div class="spacer"></div>
+          <el-form-item style="margin-right: 0">
+            <el-button type="primary" @click="validateAndAddNewItem(newItem)">legg til</el-button>
+          </el-form-item>
         </el-row>
       </el-form>
     </el-card>
