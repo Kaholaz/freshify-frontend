@@ -43,13 +43,10 @@ const sessionStore = useSessionStore();
 const householdApi = new HouseholdApi();
 const accountApi = new AccountApi();
 
-//test data
 let users = ref([]);
 
-//use household store
-householdApi.getUsers(23).then((data) => {
+householdApi.getUsers(householdStore.getHousehold()?.id!).then((data) => {
   users.value = data.data;
-  console.log("users: " + users.value);
 });
 
 function removeUser(user: UserFull) {
