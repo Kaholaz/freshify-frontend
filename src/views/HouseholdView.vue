@@ -1,6 +1,7 @@
 <template>
   <div id="householdview" class="householdview-wrapper">
-    <h1>{{ householdStore.getHousehold()?.name }}</h1>
+    <h1 v-if="currentHousehold?.id">{{ currentHousehold?.name }}</h1>
+    <h1 v-else>Velg husholdning</h1>
     <div class="top-bar">
       <HouseholdTopBar @delete-household="deleteHousehold()" @add-user="addUser" />
     </div>
@@ -44,18 +45,19 @@ const householdApi = new HouseholdApi();
 const accountApi = new AccountApi();
 
 let users = ref([]);
+const currentHousehold = householdStore.getHousehold();
 
-householdApi.getUsers(householdStore.getHousehold()?.id!).then((data) => {
+householdApi.getUsers(currentHousehold?.id!).then((data) => {
   users.value = data.data;
 });
 
 function removeUser(user: UserFull) {
   return householdApi
     .removeUserFromHousehold(23, user.id!)
-    .then((data) => {
+    .then(() => {
       ElMessage.success("Fjernet " + user.firstName + " fra husholdning");
       users.value = users.value.filter((u) => u.user.id !== user.id);
-      console.log("removed user: " + user.firstName + ", status: " + data.status);
+      console.log("removed user: " + user.firstName);
     })
     .catch((error) => {
       ElMessage.error("Kunne ikke fjerne bruker fra husholdning" + error);
@@ -102,9 +104,10 @@ function updateUserPrivelige(user: UserFull) {
 //This currently works with id and not email :( backend should return user
 function addUser(value: string) {
   console.log("add user: " + value);
+  //todo: fix this
   let userId: number = 3;
   return householdApi
-    .addUser(23, { userId })
+    .addUser(currentHousehold?.id!, { userId })
     .then((data) => {
       ElMessage.success("La til " + value + " i husholdning");
       addUserLocally(userId);
@@ -130,10 +133,19 @@ function addUserLocally(id: number) {
 }
 
 function deleteHousehold() {
+  householdApi
+    .deleteHousehold(currentHousehold?.id!)
+    .then(() => {
+      ElMessage.success("Slettet husholdning");
+      console.log("deleted household: " + currentHousehold?.name);
+    })
+    .catch((error) => {
+      ElMessage.error("Kunne ikke slette husholdning" + error);
+      console.log(error);
+    });
   console.log("deleted household");
 }
 
-//test store
 onMounted(() => {});
 </script>
 
