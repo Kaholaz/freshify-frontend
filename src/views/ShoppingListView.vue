@@ -1,6 +1,6 @@
 <template>
   <div class="shopping-list-container">
-    <h1 style="font-size: 60px; margin-left: 1rem">Handleliste</h1>
+    <h1>Handleliste</h1>
     <el-card style="margin-bottom: 1rem" v-loading="loadingSubmit">
       <h5>Legg til ny vare</h5>
       <el-form

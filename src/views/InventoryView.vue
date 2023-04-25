@@ -1,6 +1,6 @@
 <template>
   <div id="inventory" class="inventory-wrapper">
-    <h1 style="font-size: 60px; margin-left: 1rem">Mitt kjøleskap</h1>
+    <h1>Mitt kjøleskap</h1>
     <div class="inventory-items-list" v-if="!isLoading">
       <ItemCard
         :class="{
