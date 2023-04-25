@@ -22,7 +22,7 @@
 
       <!-- Sign in-->
       <el-button ref="submitButton" type="primary" size="large" class="w-full" @click="signIn"
-        >Sign in
+        >Logg inn
       </el-button>
     </el-form>
   </el-card>
