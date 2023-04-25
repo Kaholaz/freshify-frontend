@@ -1,5 +1,5 @@
 <template>
-  <el-main id="component-name" class="component-name-wrapper">
+  <div id="householdview" class="householdview-wrapper">
     <h1>{{ householdStore.getHousehold()?.name }}</h1>
     <div class="top-bar">
       <HouseholdTopBar @delete-household="deleteHousehold()" @add-user="addUser" />
@@ -25,7 +25,7 @@
         </el-col>
       </el-row>
     </div>
-  </el-main>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -147,5 +147,13 @@ onMounted(() => {});
 
 .top-bar {
   margin-bottom: 20px;
+}
+
+.householdview-wrapper {
+  width: 100%;
+  height: 100%;
+  padding: 1rem 2rem;
+  margin: 0;
+  overflow: hidden;
 }
 </style>

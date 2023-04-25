@@ -45,7 +45,7 @@ import { useSessionStore } from "@/stores/session";
 
 const sessionStore = useSessionStore();
 
-//make use of sessionstore
+//make use of sessionstore (remove)
 const currentUser = ref({
   id: 1,
   email: "tore@gmail.com",
