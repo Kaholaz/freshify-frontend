@@ -1,5 +1,5 @@
 <template>
-  <el-card class="login-container">
+  <el-card class="container">
     <h2 class="my-3">Log in</h2>
 
     <!-- Form -->
@@ -78,7 +78,7 @@ function signIn() {
 </script>
 
 <style scoped>
-.login-container {
+.container {
   width: 90%;
   margin: 10vh auto;
   max-width: 500px;
