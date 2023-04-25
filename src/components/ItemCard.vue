@@ -14,7 +14,7 @@
       </div>
 
       <div class="buttons">
-        <el-button color="#6200EE" @click="emit('use', item)">Bruk</el-button>
+        <el-button type="primary" @click="emit('use', item)">Bruk</el-button>
         <el-button type="danger" @click="emit('delete', item)">Slett</el-button>
       </div>
     </div>
