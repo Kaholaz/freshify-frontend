@@ -440,3 +440,8 @@ function itemToKey(item: ShoppingListEntry) {
   return item.id;
 }
 </script>
+<style>
+.divider-row {
+  margin-bottom: 1rem;
+}
+</style>

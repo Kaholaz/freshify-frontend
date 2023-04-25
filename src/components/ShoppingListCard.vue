@@ -51,7 +51,9 @@ const emit = defineEmits<{
   margin-right: 1.5rem;
 }
 
-.name {
-  display: block;
+@media only screen and (max-width: 768px) {
+  .name {
+    display: block;
+  }
 }
 </style>
