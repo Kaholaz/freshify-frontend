@@ -85,10 +85,11 @@ const emit = defineEmits<{
   (event: "select", ...args: any[]): void;
 }>();
 
-houseHoldApi.getHouseholds(10).then((res) => {
+houseHoldApi.getHouseholds(sessionStore.getUser()?.id).then((res) => {
   households.value = res.data;
+  console.log(res.data)
   if (household.value == null) {
-    setHouseHold(res.data[0]);
+      houseHoldStore.setHousehold(res.data[0]);
     household.value = res.data[0];
   }
 });

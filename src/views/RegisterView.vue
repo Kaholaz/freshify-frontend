@@ -1,21 +1,42 @@
 <template>
+     <el-steps style="width: 90%; max-width: 600px; margin: auto" align-center finish-status="success" :active="active">
+        <el-step title="Lag bruker"></el-step>
+        <el-step title="Lag husholdning" ></el-step>
+    </el-steps>
   <RegisterComponent
     v-model:email="user.email"
     v-model:first-name="user.firstName"
     v-model:password="user.password"
     @submit="submit"
     :error-message="errorMessage"
+    v-if="active == 0"
   >
   </RegisterComponent>
+  <el-form v-if="active == 1" label-position="top">
+      <el-card style="max-width: 500px; width: 100%; margin: auto 10rem">
+          <h2>Lag husholdning</h2>
+          <el-form-item label="Navn på husholdning">
+              <el-input v-model="household.name" placeholder="husholdning"></el-input>
+          </el-form-item>
+          <el-row>
+              <div class="spacer"></div>
+              <el-link @click="skipCreateHousehold">Jeg ønsker ikke å lage husholdning</el-link>
+          </el-row>
+              <el-form-item>
+                  <el-button @click="createHousehold" type="primary">Lag husholdning</el-button>
+              </el-form-item>
+      </el-card>
+  </el-form>
 </template>
 <script setup lang="ts">
 import { reactive, ref } from "vue";
 import RegisterComponent from "@/components/RegisterComponent.vue";
-import type { CreateUser } from "@/services/index";
-import { AccountApi } from "@/services/index";
+import type {CreateHousehold, CreateUser} from "@/services/index";
+import {AccountApi, HouseholdApi} from "@/services/index";
 import { useSessionStore } from "@/stores/session";
 import router from "@/router";
 import { showError } from "@/utils/error-utils";
+import {useHouseholdStore} from "@/stores/household";
 
 const user = reactive({
   email: "",
@@ -27,17 +48,53 @@ const accountApi = new AccountApi();
 const sessionStore = useSessionStore();
 const errorMessage = ref<string>("");
 
+const active = ref(0)
+
+const next = () => {
+  if (active.value++ > 2) active.value = 0
+    console.log(active.value)
+}
+
 function submit() {
   console.log("submitting");
   accountApi
     .createUser(user)
     .then((data) => {
       sessionStore.authenticate(data.data);
-      router.push({ name: "home" });
+      next()
     })
     .catch((error) => {
       if (error.response.status === 409) {
         errorMessage.value = "En bruker med denne eposten eksisterer allerede";
+      } else {
+        errorMessage.value = "En uventet feil oppstod";
+      }
+      setTimeout(() => {
+        errorMessage.value = "";
+      }, 5000);
+    });
+}
+
+const household = reactive({
+  name: "",
+} as CreateHousehold)
+const householdApi = new HouseholdApi();
+
+function skipCreateHousehold() {
+    next()
+  router.push({ name: "inventory" })
+}
+function createHousehold() {
+  householdApi
+    .createHousehold(household)
+    .then((data) => {
+        useHouseholdStore().setHousehold(data.data)
+        next()
+        router.push({ name: "inventory" })
+    })
+    .catch((error) => {
+      if (error.response.status === 409) {
+        errorMessage.value = "Denne husholdningen eksisterer allerede";
       } else {
         errorMessage.value = "En uventet feil oppstod";
       }
