@@ -4,11 +4,23 @@
 
     <el-form ref="form" label-position="top" :model="data" class="login-form">
       <el-form-item label="Email" prop="email">
-        <el-input placeholder="Email" type="text" v-model="data.email" size="large" />
+        <el-input
+          placeholder="Email"
+          type="text"
+          v-model="data.email"
+          size="large"
+          @input="errorMessage = ''"
+        />
       </el-form-item>
 
       <el-form-item label="Password" prop="password">
-        <el-input type="password" v-model="data.password" placeholder="Password" size="large" />
+        <el-input
+          type="password"
+          v-model="data.password"
+          @input="errorMessage = ''"
+          placeholder="Password"
+          size="large"
+        />
       </el-form-item>
 
       <p class="no-account">
@@ -19,6 +31,15 @@
       <el-button ref="submitButton" type="primary" size="large" @click="signIn"
         >Logg inn
       </el-button>
+      <el-alert
+        type="error"
+        v-if="errorMessage"
+        show-icon
+        closable
+        style="margin-top: 1rem"
+        :title="errorMessage"
+      >
+      </el-alert>
     </el-form>
   </el-card>
 </template>
@@ -49,6 +70,8 @@ const data: LoginUser = reactive({
   password: "",
 });
 
+const errorMessage = ref<string>("");
+
 // Define callbacks
 function signIn() {
   accountApi
@@ -67,7 +90,11 @@ function signIn() {
         });
     })
     .catch((error) => {
-      showError("Kunne ikke logge inn.", error.message, 0);
+      if (error.response.status === 401) {
+        errorMessage.value = "Feil brukernavn eller passord";
+      } else {
+        errorMessage.value = "En uventet feil oppstod";
+      }
     });
 }
 </script>
