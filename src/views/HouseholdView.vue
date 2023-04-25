@@ -137,14 +137,7 @@ function deleteHousehold() {
 }
 
 //test store
-onMounted(() => {
-  householdStore.setHousehold({
-    id: 234,
-    name: "Hjemme",
-  } as Household);
-
-  console.log("mounted");
-});
+onMounted(() => {});
 </script>
 
 <style scoped>
