@@ -24,13 +24,13 @@
         Utnevn til superbruker
       </el-button>
       <el-button
-        v-else-if="currentUser.id != user.id"
+        v-else-if="currentUser?.id != user.id"
         type="primary"
         @click="emit('updateUserPrivelige', user)"
       >
         Degrader til bruker
       </el-button>
-      <el-button v-if="currentUser.id != user.id" type="danger" @click="emit('removeUser', user)">
+      <el-button v-if="currentUser?.id != user.id" type="danger" @click="emit('removeUser', user)">
         Fjern bruker fra husholdning
       </el-button>
     </footer>
@@ -38,19 +38,20 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
 import type { UserFull } from "@/services";
 import { UserFilled } from "@element-plus/icons-vue";
 import { useSessionStore } from "@/stores/session";
 
 const sessionStore = useSessionStore();
 
-//make use of sessionstore (remove)
-const currentUser = ref({
+//make use of sessionstore (remove) prop
+/* var currentUser = ref({
   id: 1,
   email: "tore@gmail.com",
   firstName: "Tore",
-} as UserFull);
+} as UserFull); */
+
+const currentUser = sessionStore.getUser();
 
 const emit = defineEmits<{
   (event: "removeUser", args: UserFull): void;

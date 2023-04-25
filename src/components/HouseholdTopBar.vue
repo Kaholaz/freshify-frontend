@@ -20,6 +20,7 @@
         <span class="dialog-footer">
           <el-button @click="dialogFormVisible = false">Cancel</el-button>
           <el-button
+            ref="confirmButton"
             type="primary"
             @click="
               dialogFormVisible = false;

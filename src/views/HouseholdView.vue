@@ -1,8 +1,8 @@
 <template>
   <div id="householdview" class="householdview-wrapper">
     <h1 v-if="currentHousehold?.id">{{ currentHousehold?.name }}</h1>
-    <h1 v-else>Velg husholdning</h1>
-    <div class="top-bar">
+    <h1 v-else>Velg husholdning i meny</h1>
+    <div class="top-bar" v-if="currentHousehold?.id">
       <HouseholdTopBar @delete-household="deleteHousehold()" @add-user="addUser" />
     </div>
     <div>
@@ -31,7 +31,7 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
-import type { UserFull, Household } from "@/services";
+import type { UserFull } from "@/services";
 import UserCard from "@/components/HouseholdCard.vue";
 import HouseholdTopBar from "@/components/HouseholdTopBar.vue";
 import { useHouseholdStore } from "@/stores/household";
@@ -40,7 +40,7 @@ import { HouseholdApi, AccountApi } from "@/services/index";
 import { ElMessage } from "element-plus";
 
 const householdStore = useHouseholdStore();
-const sessionStore = useSessionStore();
+/* const sessionStore = useSessionStore(); */
 const householdApi = new HouseholdApi();
 const accountApi = new AccountApi();
 
@@ -101,7 +101,7 @@ function updateUserPrivelige(user: UserFull) {
     });
 }
 
-//This currently works with id and not email :( backend should return user
+//This currently works with id and not email :( backend should return user?
 function addUser(value: string) {
   console.log("add user: " + value);
   //todo: fix this
