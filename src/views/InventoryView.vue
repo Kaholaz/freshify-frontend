@@ -1,7 +1,7 @@
 <template>
   <div id="inventory" class="inventory-wrapper">
     <h1 style="font-size: 60px; margin-left: 1rem">Mitt kjøleskap</h1>
-    <div class="inventory-items-list" v-loading="isLoading">
+    <div class="inventory-items-list" v-if="!isLoading">
       <ItemCard
         :class="{
           'warning-age': computed(() => getDaysSinceBought(item) > 5),
@@ -13,7 +13,14 @@
         @use="useItemDialog(item)"
         @delete="deleteItem(item)"
       />
-      <el-alert v-if="!items?.length" center><el-text>Ingenting å vise.</el-text></el-alert>
+      <el-alert v-if="!items?.length" center>
+        <el-text>Ingenting å vise.</el-text>
+      </el-alert>
+    </div>
+    <div v-else style="margin-top: 1rem">
+      <ShoppingListCardSkeleton></ShoppingListCardSkeleton>
+      <ShoppingListCardSkeleton></ShoppingListCardSkeleton>
+      <ShoppingListCardSkeleton></ShoppingListCardSkeleton>
     </div>
 
     <!-- Use item dialog -->
@@ -25,11 +32,11 @@
     >
       <span>Velg hvor mye av varen du har brukt opp! Resten vil bli registrert som kastet.</span>
       <div class="amount-selection-row">
-        <el-button type="info" round @click="dialogAmount = 0"> Ingenting </el-button>
-        <el-button type="info" round @click="dialogAmount = 0.25"> 0.25 </el-button>
-        <el-button type="info" round @click="dialogAmount = 0.5"> 0.5 </el-button>
-        <el-button type="info" round @click="dialogAmount = 0.75"> 0.75 </el-button>
-        <el-button type="info" round @click="dialogAmount = 1"> Hele </el-button>
+        <el-button type="info" round @click="dialogAmount = 0"> Ingenting</el-button>
+        <el-button type="info" round @click="dialogAmount = 0.25"> 0.25</el-button>
+        <el-button type="info" round @click="dialogAmount = 0.5"> 0.5</el-button>
+        <el-button type="info" round @click="dialogAmount = 0.75"> 0.75</el-button>
+        <el-button type="info" round @click="dialogAmount = 1"> Hele</el-button>
       </div>
       <template #footer>
         <span class="dialog-footer">
@@ -45,15 +52,15 @@
 
 <script setup lang="ts">
 import axios from "axios";
-import { ref, computed } from "vue";
+import { computed, ref } from "vue";
 import { ElDialog, ElNotification } from "element-plus";
 
-import { ItemState, type Item, type UpdateItem } from "@/services/index";
-import { InventoryApi } from "@/services/index";
+import { InventoryApi, type Item, ItemState, type UpdateItem } from "@/services/index";
 import { useHouseholdStore } from "@/stores/household";
 import { getDaysSinceBought } from "@/utils/item-utils";
 
 import ItemCard from "@/components/ItemCard.vue";
+import ShoppingListCardSkeleton from "@/components/ShoppingListCardSkeleton.vue";
 
 // Define APIs
 const inventoryApi = new InventoryApi();
