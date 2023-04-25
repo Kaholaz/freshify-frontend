@@ -51,12 +51,14 @@
 
 <script setup lang="ts">
 import axios from "axios";
-import { computed, ref } from "vue";
-import { ElDialog, ElNotification } from "element-plus";
+import { ref, computed } from "vue";
+import { ElDialog } from "element-plus";
 
-import { InventoryApi, type Item, ItemState, type UpdateItem } from "@/services/index";
+import type { Item, UpdateItem } from "@/services/index";
+import { ItemState, InventoryApi } from "@/services/index";
 import { useHouseholdStore } from "@/stores/household";
 import { getDaysSinceBought } from "@/utils/item-utils";
+import { showError } from "@/utils/error-utils";
 
 import ItemCard from "@/components/ItemCard.vue";
 import ShoppingListCardSkeleton from "@/components/ShoppingListCardSkeleton.vue";
@@ -86,14 +88,7 @@ function deleteItem(item: Item) {
   let householdId = householdStore.getHousehold()?.id;
   if (!householdId) {
     console.error(`Could not delete item ${item.type?.name}. No household id was selected.`);
-
-    ElNotification({
-      title: "Ingen hjem valgt.",
-      message: "Velg et hjem for å slette et element.",
-      type: "error",
-      duration: 0,
-    });
-
+    showError("Ingen hjem valgt.", "Velg et hjem for å slette et element.", 15000);
     return;
   }
 
@@ -114,12 +109,7 @@ function useItemDialog(item: Item) {
 // Other script logic
 function useItem(item: Item, amount: number | null) {
   if (amount === null) {
-    return ElNotification({
-      title: "Mengde mangler.",
-      message: "Velg hvor mye du har brukt av matvaren.",
-      type: "error",
-      duration: 5000,
-    });
+    return showError("Mengde mangler.", "Velg hvor mye du har brukt av matvaren.", 5000);
   }
 
   let newAmount = item.remaining! - amount > 0 ? item.remaining! - amount : 0;
@@ -172,14 +162,7 @@ function getHouseholdId(): number | null {
   if (!householdId) {
     console.error("No household id was selected. Can not fetch inventory items.");
     error.value = new Error("No household id was selected. Can not fetch inventory items.");
-
-    ElNotification({
-      title: "Ingen hjem valgt.",
-      message: "Velg et hjem for å se inventaret til hjemmet.",
-      type: "error",
-      duration: 15000,
-    });
-
+    showError("Ingen hjem valgt.", "Velg et hjem for å se inventaret til hjemmet.", 15000);
     return null;
   }
   return householdId;
@@ -198,12 +181,7 @@ function handleError(err: any) {
     errorMessage = `[${code || 0}]: ${message}`;
   }
 
-  ElNotification({
-    title: "En feil oppstod.",
-    message: errorMessage,
-    type: "error",
-    duration: 0,
-  });
+  showError("En feil oppstod.", errorMessage, 0);
 }
 
 updateItems();
