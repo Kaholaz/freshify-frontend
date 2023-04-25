@@ -20,7 +20,6 @@ import { showError } from "@/utils/error-utils";
 const user = reactive({
   email: "",
   password: "",
-  passwordConfirm: "",
   firstName: "",
 } as CreateUser);
 
