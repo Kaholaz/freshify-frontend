@@ -1,5 +1,5 @@
 <template>
-  <div class="login-container">
+  <el-card class="login-container">
     <h2 class="my-3">Log in</h2>
 
     <!-- Form -->
@@ -16,17 +16,16 @@
 
       <!-- Ingen konto? -->
       <p class="no-account">
-        Har du ikke konto?<el-link type="primary" @click="router.push({ name: 'register' })"
-          >Regisrer deg!</el-link
-        >
+        Har du ikke konto?
+        <el-link type="primary" @click="router.push({ name: 'register' })">Regisrer deg! </el-link>
       </p>
 
       <!-- Sign in-->
       <el-button ref="submitButton" type="primary" size="large" class="w-full" @click="signIn"
-        >Sign in</el-button
-      >
+        >Sign in
+      </el-button>
     </el-form>
-  </div>
+  </el-card>
 </template>
 
 <script setup lang="ts">
@@ -80,14 +79,13 @@ function signIn() {
 
 <style scoped>
 .login-container {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
+  width: 90%;
+  margin: 10vh auto;
+  max-width: 500px;
 }
 
 .login-form {
-  max-width: 350px;
-  width: 80%;
+  flex-direction: column;
 }
 
 .no-account {
