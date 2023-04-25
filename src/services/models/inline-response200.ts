@@ -11,8 +11,6 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { HouseholdUserType } from "./household-user-type";
-import { UserFull } from "./user-full";
 /**
  *
  * @export
@@ -21,14 +19,8 @@ import { UserFull } from "./user-full";
 export interface InlineResponse200 {
   /**
    *
-   * @type {UserFull}
+   * @type {number}
    * @memberof InlineResponse200
    */
-  user?: UserFull;
-  /**
-   *
-   * @type {HouseholdUserType}
-   * @memberof InlineResponse200
-   */
-  userType?: HouseholdUserType;
+  userId?: number;
 }

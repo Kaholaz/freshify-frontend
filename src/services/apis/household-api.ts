@@ -16,10 +16,11 @@ import { Configuration } from "../configuration";
 // Some imports not used depending on template conditions
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from "../base";
+import { CreateHousehold } from "../models";
 import { Household } from "../models";
 import { HouseholdMember } from "../models";
 import { IdUsersBody } from "../models";
-import { InlineResponse200 } from "../models";
+import { InlineResponse2001 } from "../models";
 import { UpdateHouseholdUserType } from "../models";
 /**
  * HouseholdApi - axios parameter creator
@@ -96,12 +97,12 @@ export const HouseholdApiAxiosParamCreator = function (configuration?: Configura
     /**
      * Creates a household
      * @summary Create a household
-     * @param {Household} [body] The household to be created
+     * @param {CreateHousehold} [body] The household to be created
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     createHousehold: async (
-      body?: Household,
+      body?: CreateHousehold,
       options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       const localVarPath = `/household`;
@@ -587,12 +588,12 @@ export const HouseholdApiFp = function (configuration?: Configuration) {
     /**
      * Creates a household
      * @summary Create a household
-     * @param {Household} [body] The household to be created
+     * @param {CreateHousehold} [body] The household to be created
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async createHousehold(
-      body?: Household,
+      body?: CreateHousehold,
       options?: AxiosRequestConfig
     ): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<Household>>> {
       const localVarAxiosArgs = await HouseholdApiAxiosParamCreator(configuration).createHousehold(
@@ -689,7 +690,10 @@ export const HouseholdApiFp = function (configuration?: Configuration) {
       id: number,
       options?: AxiosRequestConfig
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<Array<InlineResponse200>>>
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => Promise<AxiosResponse<Array<InlineResponse2001>>>
     > {
       const localVarAxiosArgs = await HouseholdApiAxiosParamCreator(configuration).getUsers(
         id,
@@ -812,12 +816,12 @@ export const HouseholdApiFactory = function (
     /**
      * Creates a household
      * @summary Create a household
-     * @param {Household} [body] The household to be created
+     * @param {CreateHousehold} [body] The household to be created
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async createHousehold(
-      body?: Household,
+      body?: CreateHousehold,
       options?: AxiosRequestConfig
     ): Promise<AxiosResponse<Household>> {
       return HouseholdApiFp(configuration)
@@ -876,7 +880,7 @@ export const HouseholdApiFactory = function (
     async getUsers(
       id: number,
       options?: AxiosRequestConfig
-    ): Promise<AxiosResponse<Array<InlineResponse200>>> {
+    ): Promise<AxiosResponse<Array<InlineResponse2001>>> {
       return HouseholdApiFp(configuration)
         .getUsers(id, options)
         .then((request) => request(axios, basePath));
@@ -963,13 +967,13 @@ export class HouseholdApi extends BaseAPI {
   /**
    * Creates a household
    * @summary Create a household
-   * @param {Household} [body] The household to be created
+   * @param {CreateHousehold} [body] The household to be created
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof HouseholdApi
    */
   public async createHousehold(
-    body?: Household,
+    body?: CreateHousehold,
     options?: AxiosRequestConfig
   ): Promise<AxiosResponse<Household>> {
     return HouseholdApiFp(this.configuration)
@@ -1035,7 +1039,7 @@ export class HouseholdApi extends BaseAPI {
   public async getUsers(
     id: number,
     options?: AxiosRequestConfig
-  ): Promise<AxiosResponse<Array<InlineResponse200>>> {
+  ): Promise<AxiosResponse<Array<InlineResponse2001>>> {
     return HouseholdApiFp(this.configuration)
       .getUsers(id, options)
       .then((request) => request(this.axios, this.basePath));

@@ -64,7 +64,7 @@ export const ShoppingListApiAxiosParamCreator = function (configuration?: Config
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
 
-      localVarHeaderParameter["Content-Type"] = "applicatin/json";
+      localVarHeaderParameter["Content-Type"] = "application/json";
 
       const query = new URLSearchParams(localVarUrlObj.search);
       for (const key in localVarQueryParameter) {

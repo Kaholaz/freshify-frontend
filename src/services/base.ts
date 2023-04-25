@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
- * let API - OpenAPI 3.0
+ * Freshify API Documentation
  * An API for creating and managing a household inventory and shopping list. The API is written in Java using the Spring Boot framework. The API uses a MySQL database. The API is documented using Swagger. The API is hosted using Apache. Some useful links: - [The GitLab repository](https://gitlab.stud.idi.ntnu.no/idatt2106-v23-10/smartmat-backend)
  *
  * OpenAPI spec version: 1.0.0
@@ -16,7 +16,7 @@ import { Configuration } from "./configuration";
 // @ts-ignore
 import globalAxios, { AxiosRequestConfig, AxiosInstance } from "axios";
 
-export const BASE_PATH = "http://localhost:8080/".replace(/\/+$/, "");
+export const BASE_PATH = "http://localhost:8080".replace(/\/+$/, "");
 
 /**
  *
@@ -56,6 +56,7 @@ export class BaseAPI {
       this.configuration = configuration;
       this.basePath = configuration.basePath || this.basePath;
     }
+    axios.defaults.withCredentials = true;
   }
 }
 
