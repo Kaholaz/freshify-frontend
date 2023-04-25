@@ -22,7 +22,7 @@ const collapsed = computed(() => {
 
 const [drawer, drawerToggle] = useToggle();
 
-const isLoginPage = computed(() => router.currentRoute.value.name === "login");
+const isFullScreen = computed(() => router.currentRoute.value.meta?.fullScreen);
 </script>
 
 <template>
@@ -43,7 +43,7 @@ const isLoginPage = computed(() => router.currentRoute.value.name === "login");
       </el-menu>
     </div>
     <el-container>
-      <el-aside width="300px" v-if="!collapsed && !isLoginPage">
+      <el-aside width="300px" v-if="!collapsed && !isFullScreen">
         <SideNavBar class="sidenav" />
       </el-aside>
       <el-drawer v-model="drawer" direction="ltr" size="306px">
