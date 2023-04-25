@@ -14,7 +14,7 @@
         </el-icon>
         <span>Profil</span>
       </el-menu-item>
-      <el-button class="menu-item-button" v-if="sessionStore.isAuthenticated">
+      <el-button class="menu-item-button" v-if="sessionStore.isAuthenticated" @click="logOut">
         <el-icon>
           <TurnOff />
         </el-icon>
@@ -34,6 +34,10 @@ const handleSelect = (key: string, keyPath: string[]) => {
 };
 
 const sessionStore = useSessionStore();
+
+function logOut() {
+  sessionStore.logOut();
+}
 </script>
 
 <style scoped>

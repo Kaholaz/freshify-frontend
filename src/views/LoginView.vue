@@ -86,7 +86,7 @@ function signIn() {
         .then((response) => response.data)
         .then((households) => {
           householdStore.setHousehold(households[0]);
-          router.push({ name: "home" });
+          router.push({ name: "inventory" });
         });
     })
     .catch((error) => {

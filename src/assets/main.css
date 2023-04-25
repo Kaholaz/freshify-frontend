@@ -23,6 +23,6 @@ main {
 }
 @media only screen and (max-width: 768px) {
   main {
-    padding: 1rem !important;
+    padding: 0.5rem !important;
   }
 }
