@@ -136,7 +136,7 @@ function updateUserPrivelige(user: UserFull) {
 async function addUser(value: string) {
   console.log("add user: " + value);
   //todo: fix this
-  let userId: number = -1;
+  let userId = undefined as number;
   await accountApi
     .getUserByEmail(value)
     .then((data) => {
