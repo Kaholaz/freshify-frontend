@@ -120,8 +120,11 @@ function useItem(item: Item, amount: number | null) {
     state: ItemState.USED,
   };
 
+  let houseHoldId = getHouseholdId();
+  if (houseHoldId == null) return;
+
   inventoryApi
-    .updateInventoryItem(item.id!, updatedItem)
+    .updateInventoryItem(houseHoldId, updatedItem)
     .then(() => {
       removeItemClientSide(item);
       console.info(`Used item ${item.type?.name}.`);
@@ -136,7 +139,7 @@ function updateItems() {
   items.value = null;
 
   let householdId = getHouseholdId();
-  if (!householdId) return;
+  if (householdId == null) return;
 
   // Load inventory items
   inventoryApi
