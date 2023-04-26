@@ -82,7 +82,6 @@
               .reverse()"
             :key="item.id"
             :item="item"
-            :loading="loading"
             @accept="acceptSuggestion(item)"
             @click="handleClickCheckbox(item)"
             @delete="deleteItem(item)"
@@ -110,7 +109,6 @@
               .reverse()"
             :key="item.id"
             :item="item"
-            :loading="loading"
             @click="handleClickCheckbox(item)"
             @delete="deleteItem(item)"
           ></ShoppingListCard>
@@ -209,6 +207,8 @@ getShoppingList();
 function getShoppingList() {
   if (houseHoldStore.household?.id == null) {
     showError("Husholdning ikke valgt", "Vennligst velg en husholdning i menyen", 0);
+    clearTimeout(timeout);
+    loading.value = false;
     return;
   }
   shoppingListApi
