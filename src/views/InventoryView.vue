@@ -85,7 +85,7 @@ const isLoading = computed(() => items.value === null && error.value === null);
 
 // Define callbacks
 function deleteItem(item: Item) {
-  let householdId = householdStore.getHousehold()?.id;
+  let householdId = householdStore.household.id;
   if (!householdId) {
     console.error(`Could not delete item ${item.type?.name}. No household id was selected.`);
     showError("Ingen hjem valgt.", "Velg et hjem for å slette et element.", 15000);
@@ -160,10 +160,9 @@ function removeItemClientSide(item: Item) {
 }
 
 function getHouseholdId(): number | null {
-  let householdId = householdStore.getHousehold()?.id;
+  let householdId = householdStore.household?.id;
 
   if (!householdId) {
-    console.error("No household id was selected. Can not fetch inventory items.");
     error.value = new Error("No household id was selected. Can not fetch inventory items.");
     showError("Ingen hjem valgt.", "Velg et hjem for å se inventaret til hjemmet.", 15000);
     return null;

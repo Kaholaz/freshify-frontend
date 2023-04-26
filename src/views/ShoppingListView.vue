@@ -191,7 +191,7 @@ const itemTypesApi = new ItemTypeApi();
 
 const houseHoldStore = useHouseholdStore();
 
-const householdId = houseHoldStore.getHousehold().id;
+const householdId = houseHoldStore.household.id;
 const itemTypeAutocomplete = ref(null as any);
 const loading = ref(undefined) as Ref<undefined | boolean>;
 const loadingSubmit = ref(false);

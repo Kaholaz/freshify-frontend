@@ -96,7 +96,7 @@ const sessionStore = useSessionStore();
 const isCreateHousehold = ref(false);
 
 const households = ref([]);
-const household = ref(houseHoldStore.getHousehold());
+const household = houseHoldStore.household;
 const newHousehold = ref({
   name: "",
 } as CreateHousehold);
@@ -107,16 +107,15 @@ const emit = defineEmits<{
 houseHoldApi.getHouseholds(sessionStore.getUser()?.id!).then((res) => {
   households.value = res.data;
   console.log(res.data);
-  if (household.value == null) {
-    houseHoldStore.setHousehold(res.data[0]);
+  if (household == null) {
     household.value = res.data[0];
   }
 });
 
 function setHouseHold(val: Household) {
-  houseHoldStore.setHousehold(val);
-  const root = getCurrentInstance();
-  root?.emit("household-changed", val);
+  console.log("setting household" + val);
+  household.value = val;
+  console.log(houseHoldStore.household);
 }
 
 function createHousehold() {

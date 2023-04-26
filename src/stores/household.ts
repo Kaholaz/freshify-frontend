@@ -1,18 +1,23 @@
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { defineStore } from "pinia";
 
 import type { Household } from "@/services/index";
 
 export const useHouseholdStore = defineStore("household", () => {
-  const household = ref<Household | null>(null);
+  const householdValue = ref({} as Household);
 
-  function getHousehold() {
-    return household.value;
-  }
+  const household = computed({
+    get: () => {
+      if (!householdValue.value?.id) {
+        householdValue.value = JSON.parse(sessionStorage.getItem("household") || "{}");
+      }
+      return householdValue.value;
+    },
+    set: (val) => {
+      householdValue.value = val;
+      sessionStorage.setItem("household", JSON.stringify(val));
+    },
+  });
 
-  function setHousehold(newHousehold: Household) {
-    household.value = newHousehold;
-  }
-
-  return { getHousehold, setHousehold };
+  return { household };
 });
