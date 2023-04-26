@@ -51,11 +51,9 @@ const active = ref(0);
 
 const next = () => {
   if (active.value++ > 2) active.value = 0;
-  console.log(active.value);
 };
 
 function submit() {
-  console.log("submitting");
   accountApi
     .createUser(user)
     .then((data) => {

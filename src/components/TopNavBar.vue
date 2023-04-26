@@ -1,11 +1,6 @@
 <template>
   <nav>
-    <el-menu
-      :default-active="activeIndex"
-      mode="horizontal"
-      :ellipsis="false"
-      @select="handleSelect"
-    >
+    <el-menu :default-active="activeIndex" mode="horizontal" :ellipsis="false">
       <el-menu-item index="0">LOGO</el-menu-item>
       <div class="flex-grow" />
       <el-menu-item index="1" v-if="sessionStore.isAuthenticated">
@@ -29,9 +24,6 @@ import { TurnOff, User } from "@element-plus/icons-vue";
 import { useSessionStore } from "@/stores/session";
 
 const activeIndex = ref("1");
-const handleSelect = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath);
-};
 
 const sessionStore = useSessionStore();
 

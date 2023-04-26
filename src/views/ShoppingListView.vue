@@ -345,7 +345,6 @@ async function saveItem(item: CreateShoppingListEntry) {
     const user = users.find((user) => user.user.id === useSessionStore().getUser().id);
     item.suggested = user.userType !== "SUPERUSER";
   });
-  console.log(item.suggested);
   return shoppingListApi
     .addItem(houseHoldStore.household.id, item)
     .then((response) => {

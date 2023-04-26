@@ -99,7 +99,6 @@ const newHousehold = ref({
 } as CreateHousehold);
 
 emitter.on("household-removed", () => {
-  console.log("removing");
   getHouseholds();
 });
 

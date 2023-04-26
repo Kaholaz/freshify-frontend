@@ -82,7 +82,6 @@ const isLoading = computed(() => items.value === null && error.value === null);
 function deleteItem(item: Item) {
   let householdId = householdStore.household.id;
   if (!householdId) {
-    console.error(`Could not delete item ${item.type?.name}. No household id was selected.`);
     showError("Ingen hjem valgt.", "Velg et hjem for å slette et element.", 15000);
     return;
   }
@@ -91,7 +90,6 @@ function deleteItem(item: Item) {
     .deleteInventoryItem(householdId, item.id!)
     .then(() => {
       removeItemClientSide(item);
-      console.info(`Deleted item ${item.type?.name}.`);
     })
     .catch(handleError);
 }
@@ -127,7 +125,6 @@ function useItem(item: Item, amount: number | null) {
     .updateInventoryItem(houseHoldId, updatedItem)
     .then(() => {
       removeItemClientSide(item);
-      console.info(`Used item ${item.type?.name}.`);
 
       dialogItem.value = null;
       useItemDialogVisible.value = false;
@@ -171,7 +168,6 @@ function getHouseholdId(): number | null {
 }
 
 function handleError(err: any) {
-  console.log(err);
   let errorMessage = "";
 
   if (err instanceof Error) {

@@ -1,8 +1,7 @@
 <template>
-  <el-container>
+  <el-row>
     <el-button
       v-if="currentUserPrivelige === 'SUPERUSER'"
-      class="menu-item-add-button"
       @click="dialogFormVisible = true"
       type="primary"
     >
@@ -28,13 +27,12 @@
       </template>
     </el-dialog>
 
-    <div class="flex-grow" />
+    <div class="spacer" />
     <el-popconfirm
-      confirm-button-text="Yes"
-      cancel-button-text="No"
-      :icon="WarnTriangleFilled"
+      confirm-button-text="Ja"
+      cancel-button-text="Nei"
       icon-color="#F89898"
-      title="Are you sure to delete this?"
+      title="Slett husholdning"
       @confirm="emit('deleteHousehold')"
     >
       <template #reference>
@@ -47,12 +45,12 @@
         </el-button>
       </template>
     </el-popconfirm>
-  </el-container>
+  </el-row>
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from "vue";
-import { Plus, WarnTriangleFilled } from "@element-plus/icons-vue";
+import { reactive, ref } from "vue";
+import { Plus } from "@element-plus/icons-vue";
 import type { FormInstance, FormRules } from "element-plus";
 
 const dialogFormVisible = ref(false);
@@ -74,12 +72,9 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   await formEl.validate((valid, fields) => {
     if (valid) {
-      console.log("submit!");
       emit("addUser", form.newUserEmail as string);
       dialogFormVisible.value = false;
       formEl.resetFields();
-    } else {
-      console.log("error submit!!", fields);
     }
   });
 };
@@ -93,22 +88,3 @@ const props = defineProps<{
   currentUserPrivelige: string;
 }>();
 </script>
-
-<style scoped>
-.menu {
-  padding: 10px;
-}
-
-.flex-grow {
-  flex-grow: 1;
-}
-
-.menu-item-add-button {
-  margin: auto 1rem;
-  align-content: right;
-}
-
-.menu-item-text {
-  padding-left: 0px;
-}
-</style>
