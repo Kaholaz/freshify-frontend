@@ -105,6 +105,9 @@ emitter.on("household-removed", () => {
 
 getHouseholds();
 function getHouseholds() {
+  if (!sessionStore.getUser()?.id) {
+    return;
+  }
   houseHoldApi.getHouseholds(sessionStore.getUser()?.id!).then((res) => {
     households.value = res.data;
     if (households.value?.length > 0 && !houseHoldStore.household?.id) {
