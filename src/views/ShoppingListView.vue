@@ -205,8 +205,6 @@ shoppingListApi
     boughtItems.value.clear();
     response.data.forEach((item) => {
       setItemLocal(item);
-      setItemLocal({ ...item, checked: false, suggested: false, id: 122 });
-      setItemLocal({ ...item, checked: true, suggested: false, id: 154 });
     });
   })
   .catch((error) => {
