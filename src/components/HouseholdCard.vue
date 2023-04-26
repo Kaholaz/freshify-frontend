@@ -17,7 +17,7 @@
     </div>
     <footer class="mt-2 text-right">
       <el-button
-        v-if="userType == 'USER' && currentUser.id != user.id"
+        v-if="userType == 'USER' && currentUser?.id != user.id"
         type="primary"
         @click="emit('updateUserPrivelige', user)"
       >
