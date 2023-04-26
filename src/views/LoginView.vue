@@ -17,6 +17,7 @@
         <el-input
           type="password"
           v-model="data.password"
+          @keyup.enter="signIn"
           @input="errorMessage = ''"
           placeholder="Password"
           size="large"
@@ -50,7 +51,6 @@ import { reactive, ref } from "vue";
 import type { LoginUser } from "@/services/index";
 import { AccountApi, HouseholdApi } from "@/services/index";
 import { useSessionStore } from "@/stores/session";
-import { showError } from "@/utils/error-utils";
 import router from "@/router";
 import { useHouseholdStore } from "@/stores/household";
 
