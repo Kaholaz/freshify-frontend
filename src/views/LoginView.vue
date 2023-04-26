@@ -5,7 +5,8 @@
     <el-form ref="form" label-position="top" :model="data" class="login-form">
       <el-form-item label="Email" prop="email">
         <el-input
-          placeholder="Email"
+          id="email-input"
+          placeholder="eksempel@gmail.com"
           type="text"
           v-model="data.email"
           size="large"
@@ -15,11 +16,12 @@
 
       <el-form-item label="Password" prop="password">
         <el-input
+          id="password-input"
           type="password"
           v-model="data.password"
           @keyup.enter="signIn"
           @input="errorMessage = ''"
-          placeholder="Password"
+          placeholder="passord"
           size="large"
         />
       </el-form-item>
@@ -33,6 +35,7 @@
         >Logg inn
       </el-button>
       <el-alert
+        id="error-box"
         type="error"
         v-if="errorMessage"
         show-icon
