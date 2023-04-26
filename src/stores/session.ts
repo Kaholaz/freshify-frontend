@@ -25,7 +25,7 @@ export const useSessionStore = defineStore("sessionStore", () => {
     }
   }
 
-  async function refreshNotification() {
+  function refreshNotification() {
     if (!isAuthenticated.value) {
       return;
     }
@@ -53,6 +53,7 @@ export const useSessionStore = defineStore("sessionStore", () => {
   function authenticate(authentication: UserFull) {
     user.value = authentication;
     sessionStorage.setItem("user", JSON.stringify(authentication));
+    refreshNotification();
   }
 
   function timeout() {
@@ -61,8 +62,8 @@ export const useSessionStore = defineStore("sessionStore", () => {
     user.value = null;
   }
 
-  async function logOut() {
-    await accountApi
+  function logOut() {
+    accountApi
       .logoutUser()
       .then(() => {
         timeout();
