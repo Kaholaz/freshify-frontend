@@ -9,16 +9,15 @@
     />
   </div>
   <div>
-    <el-row gutter="20">
+    <el-row :gutter="10" style="width: 100%; margin: 0">
       <el-col
         v-for="user in users.sort((a, b) => a.userType.localeCompare(b.userType))"
         :key="user.user.id"
         :xs="24"
-        :sm="12"
-        :md="12"
+        :sm="24"
+        :md="24"
         :lg="12"
-        :xl="16"
-        class="mb-5"
+        :xl="12"
       >
         <UserCard
           :user="user.user"

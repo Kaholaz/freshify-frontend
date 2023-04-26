@@ -1,14 +1,5 @@
 <template>
   <el-container>
-    <el-text
-      v-if="currentUserPrivelige === 'SUPERUSER'"
-      type="primary"
-      size="large"
-      class="menu-item-text"
-    >
-      Legg til nytt medlem i husholdningen
-    </el-text>
-
     <el-button
       v-if="currentUserPrivelige === 'SUPERUSER'"
       class="menu-item-add-button"
@@ -18,6 +9,7 @@
       <el-icon>
         <Plus />
       </el-icon>
+      <span> Legg til bruker</span>
     </el-button>
 
     <el-dialog v-model="dialogFormVisible" title="Legg til nytt medlem i husholdningen">
