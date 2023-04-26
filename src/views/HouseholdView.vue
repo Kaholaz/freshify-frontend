@@ -109,14 +109,16 @@ function updateUserPrivelige(user: UserFull) {
     });
 }
 
-function addUser(value: string) {
+async function addUser(value: string) {
   console.log("add user: " + value);
   //todo: fix this
   let userId: number = -1;
-  accountApi
+  await accountApi
     .getUserByEmail(value)
     .then((data) => {
       console.log("data from emailApi:" + data.data.userId);
+      console.log(data.status)
+      console.log(data.data.userId)
       if (data.data.userId) {
         userId = data.data.userId;
       }
@@ -125,7 +127,7 @@ function addUser(value: string) {
       ElMessage.error("Kunne ikke finne bruker med epost: " + value);
       console.log(error);
     });
-  return householdApi
+  return await householdApi
     .addUser(householdStore.household?.id!, { userId })
     .then((data) => {
       ElMessage.success("La til " + value + " i husholdning");
@@ -133,7 +135,7 @@ function addUser(value: string) {
       console.log("added user: " + value + ", status: " + data.status);
     })
     .catch((error) => {
-      ElMessage.error("Kunne ikke legge til bruker" + error);
+      ElMessage.error("Kunne ikke finne bruker med epost: " + value);
       console.log(error);
     });
 }

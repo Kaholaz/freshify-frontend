@@ -4,7 +4,7 @@ import NotFoundView from "../views/NotFoundView.vue";
 import { useSessionStore } from "@/stores/session";
 import { AccountApi } from "@/services/index";
 
-const startup = true;
+let startup = true;
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -66,17 +66,16 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const sessionStore = useSessionStore();
-  /*
   const accountApi = new AccountApi();
   if (startup) {
-    accountApi.getUserById().then((data) => {
+    accountApi.getLoggedInUser().then((data) => {
       if (data.status == 200) {
         sessionStore.authenticate(data.data);
+        console.log(sessionStore.isAuthenticated);
       }
     });
     startup = false;
   }
-   */
   if (to.meta.requiresAuth && !sessionStore.isAuthenticated) {
     next({ name: "login" });
   } else {

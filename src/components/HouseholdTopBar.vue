@@ -19,13 +19,7 @@
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="dialogFormVisible = false">Cancel</el-button>
-          <el-button
-            ref="confirmButton"
-            type="primary"
-            @click="
-              submitForm(ruleFormRef);
-            "
-          >
+          <el-button ref="confirmButton" type="primary" @click="submitForm(ruleFormRef)">
             Confirm
           </el-button>
         </span>
@@ -53,11 +47,11 @@
 <script setup lang="ts">
 import { ref, reactive } from "vue";
 import { Plus, WarnTriangleFilled } from "@element-plus/icons-vue";
-import type { FormInstance, FormRules } from 'element-plus';
+import type { FormInstance, FormRules } from "element-plus";
 
 const dialogFormVisible = ref(false);
 const formLabelWidth = "140px";
-const ruleFormRef = ref<FormInstance>()
+const ruleFormRef = ref<FormInstance>();
 
 const form = reactive({
   newUserEmail: "" as string,
@@ -71,19 +65,16 @@ const rules = reactive<FormRules>({
 });
 
 const submitForm = async (formEl: FormInstance | undefined) => {
-  if(!formEl) return;
+  if (!formEl) return;
   await formEl.validate((valid, fields) => {
     if (valid) {
       console.log("submit!");
-      emit('addUser',form.newUserEmail as string);
-      dialogFormVisible.value = false; 
+      emit("addUser", form.newUserEmail as string);
+      dialogFormVisible.value = false;
     } else {
       console.log("error submit!!", fields);
     }
-  }
-  
-  
-  );
+  });
 };
 
 const emit = defineEmits<{

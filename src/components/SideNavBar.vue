@@ -1,5 +1,5 @@
 <template>
-  <el-menu :default-active="defaultActive" router>
+  <el-menu @select="$emit('select')" :default-active="defaultActive" router>
     <el-button
       style="width: calc(100% - 2rem); margin: 1rem"
       type="primary"
