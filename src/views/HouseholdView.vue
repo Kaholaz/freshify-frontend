@@ -3,7 +3,7 @@
     <h1 v-if="householdStore.household?.id">{{ householdStore.household?.name }}</h1>
     <h1 v-else>Velg husholdning i meny</h1>
     <div class="top-bar" v-if="householdStore.household?.id">
-      <HouseholdTopBar @delete-household="deleteHousehold()" @add-user="addUser" />
+      <HouseholdTopBar ::current-user-privelige="currentUserPrivelige" @delete-household="deleteHousehold()" @add-user="addUser" />
     </div>
     <div>
       <el-row gutter="20">
@@ -20,6 +20,8 @@
           <UserCard
             :user="user.user"
             :user-type="user.userType"
+            :current-user="currentUser!"
+            :current-user-privelige="currentUserPrivelige"
             @remove-user="removeUser(user.user)"
             @update-user-privelige="updateUserPrivelige(user.user)"
           />
@@ -30,7 +32,7 @@
 </template>
 
 <script setup lang="ts">
-import { inject, onMounted, ref } from "vue";
+import { inject, onMounted, ref, computed } from "vue";
 import type { HouseholdUserType, UserFull } from "@/services";
 import UserCard from "@/components/HouseholdCard.vue";
 import HouseholdTopBar from "@/components/HouseholdTopBar.vue";
@@ -38,15 +40,26 @@ import { useHouseholdStore } from "@/stores/household";
 import { useSessionStore } from "@/stores/session";
 import { HouseholdApi, AccountApi } from "@/services/index";
 import { ElMessage } from "element-plus";
-import { UpdateHouseholdUserType } from "@/services";
+import type { UpdateHouseholdUserType } from "@/services";
 
 const householdStore = useHouseholdStore();
-/* const sessionStore = useSessionStore(); */
+const sessionStore = useSessionStore();
 const householdApi = new HouseholdApi();
 const accountApi = new AccountApi();
 
 let users = ref([]);
 const emitter = inject("emitter");
+const currentUser = sessionStore.getUser();
+
+
+const currentUserPrivelige = computed(() => {
+  if (householdStore.household?.id) {
+    return users.value.filter((u) => u.user.id === currentUser.id)[0].userType as string;
+  } else {
+    return "";
+  }
+});
+
 
 emitter.on("household-updated", () => {
   getUsers();
