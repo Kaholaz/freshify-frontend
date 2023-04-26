@@ -85,7 +85,7 @@ const emit = defineEmits<{
   (event: "select", ...args: any[]): void;
 }>();
 
-houseHoldApi.getHouseholds(sessionStore.getUser()?.id).then((res) => {
+houseHoldApi.getHouseholds(sessionStore.getUser()?.id!).then((res) => {
   households.value = res.data;
   console.log(res.data);
   if (household.value == null) {

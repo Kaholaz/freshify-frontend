@@ -143,6 +143,7 @@ import { Ref, ref } from "vue";
 import { ElMessage, ElNotification, FormInstance } from "element-plus";
 import { ItemTypeApi, ShoppingListApi } from "@/services/index";
 import ShoppingListCardSkeleton from "@/components/ShoppingListCardSkeleton.vue";
+import { useHouseholdStore } from "@/stores/household";
 
 const drawers = ref(["active", "requested", "bought"] as string[]);
 
@@ -188,14 +189,16 @@ const boughtItems = ref(new Map() as Map<number, ShoppingListEntry>);
 const shoppingListApi = new ShoppingListApi();
 const itemTypesApi = new ItemTypeApi();
 
-const testHouseholdId = -7165074982418084000;
+const houseHoldStore = useHouseholdStore();
+
+const householdId = houseHoldStore.getHousehold().id;
 const itemTypeAutocomplete = ref(null as any);
 const loading = ref(undefined) as Ref<undefined | boolean>;
 const loadingSubmit = ref(false);
 
 const timeout = setTimeout(() => (loading.value = true), 100);
 shoppingListApi
-  .getShoppingList(testHouseholdId)
+  .getShoppingList(householdId)
   .then((response) => {
     activeItems.value.clear();
     suggestedItems.value.clear();
@@ -260,7 +263,7 @@ function acceptSuggestion(item: ShoppingListEntry, showSuccessMessage = true) {
   cloneItem.suggested = false;
 
   return shoppingListApi
-    .updateShoppingListEntry(testHouseholdId, {
+    .updateShoppingListEntry(householdId, {
       id: cloneItem.id,
       count: cloneItem.count,
       suggested: cloneItem.suggested,
@@ -313,7 +316,7 @@ async function declineAllSuggestions() {
 
 function completeShopping() {
   shoppingListApi
-    .markItemsAsBought(testHouseholdId, {
+    .markItemsAsBought(householdId, {
       listEntryIds: Array.from(boughtItems.value.values()).map((item) => item.id),
     } as ShoppinglistBuyBody)
     .then(() => {
@@ -334,7 +337,7 @@ function completeShopping() {
 
 function saveItem(item: CreateShoppingListEntry) {
   return shoppingListApi
-    .addItem(testHouseholdId, item)
+    .addItem(householdId, item)
     .then((response) => {
       ElMessage({
         message: "Vare har blitt oppdatert",
@@ -360,7 +363,7 @@ async function updateItem(item: ShoppingListEntry, showSuccessMessage = true) {
   } as UpdateShoppingListEntry;
 
   return shoppingListApi
-    .updateShoppingListEntry(testHouseholdId, updateItem)
+    .updateShoppingListEntry(householdId, updateItem)
     .then(() => {
       if (showSuccessMessage) {
         ElMessage({
@@ -382,7 +385,7 @@ async function updateItem(item: ShoppingListEntry, showSuccessMessage = true) {
 
 function deleteItem(item: ShoppingListEntry, showSuccessMessage = true) {
   return shoppingListApi
-    .deleteShoppingListEntry(testHouseholdId, item.id)
+    .deleteShoppingListEntry(householdId, item.id)
     .then(() => {
       if (showSuccessMessage) {
         ElMessage({
