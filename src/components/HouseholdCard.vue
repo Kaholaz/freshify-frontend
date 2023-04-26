@@ -1,7 +1,7 @@
 <template>
   <el-card
-    shadow="never"
     class="relative m-2 w-full max-w-xl overflow-visible"
+    shadow="never"
     style="height: 11rem"
   >
     <h2 class="mb-5">{{ user.firstName }}</h2>
@@ -35,10 +35,8 @@
   </el-card>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import type { UserFull } from "@/services";
-import { UserFilled } from "@element-plus/icons-vue";
-import { useSessionStore } from "@/stores/session";
 
 const emit = defineEmits<{
   (event: "removeUser", args: UserFull): void;

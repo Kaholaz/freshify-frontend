@@ -2,8 +2,8 @@
   <el-row>
     <el-button
       v-if="currentUserPrivelige === 'SUPERUSER'"
-      @click="dialogFormVisible = true"
       type="primary"
+      @click="dialogFormVisible = true"
     >
       <el-icon>
         <Plus />
@@ -12,8 +12,8 @@
     </el-button>
 
     <el-dialog v-model="dialogFormVisible" title="Legg til nytt medlem i husholdningen">
-      <el-form ref="ruleFormRef" :rules="rules" :model="form">
-        <el-form-item label="Brukerens epost" :label-width="formLabelWidth" prop="newUserEmail">
+      <el-form ref="ruleFormRef" :model="form" :rules="rules">
+        <el-form-item :label-width="formLabelWidth" label="Brukerens epost" prop="newUserEmail">
           <el-input v-model="form.newUserEmail" autocomplete="off" />
         </el-form-item>
       </el-form>
@@ -29,8 +29,8 @@
 
     <div class="spacer" />
     <el-popconfirm
-      confirm-button-text="Ja"
       cancel-button-text="Nei"
+      confirm-button-text="Ja"
       icon-color="#F89898"
       title="Slett husholdning"
       @confirm="emit('deleteHousehold')"
@@ -38,8 +38,8 @@
       <template #reference>
         <el-button
           v-if="currentUserPrivelige === 'SUPERUSER'"
-          type="danger"
           class="menu-item-button"
+          type="danger"
         >
           <span>Slett Husholdning</span>
         </el-button>
@@ -48,7 +48,7 @@
   </el-row>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { reactive, ref } from "vue";
 import { Plus } from "@element-plus/icons-vue";
 import type { FormInstance, FormRules } from "element-plus";

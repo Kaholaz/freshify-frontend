@@ -1,13 +1,13 @@
 <template>
   <h1>Mitt kjøleskap</h1>
-  <div class="inventory-items-list" v-if="!isLoading">
+  <div v-if="!isLoading" class="inventory-items-list">
     <ItemCard
       v-for="item in items"
       :key="item.id"
       :item="item"
-      @use="useItemDialog(item)"
-      @delete="deleteItem(item)"
       style="margin-bottom: 1rem"
+      @delete="deleteItem(item)"
+      @use="useItemDialog(item)"
     />
     <el-alert v-if="!items?.length" center>
       <el-text>Ingenting å vise.</el-text>
@@ -28,11 +28,11 @@
   >
     <span>Velg hvor mye av varen du har brukt opp! Resten vil bli registrert som kastet.</span>
     <div class="amount-selection-row">
-      <el-button type="info" round @click="dialogAmount = 0"> Ingenting</el-button>
-      <el-button type="info" round @click="dialogAmount = 0.25"> 0.25</el-button>
-      <el-button type="info" round @click="dialogAmount = 0.5"> 0.5</el-button>
-      <el-button type="info" round @click="dialogAmount = 0.75"> 0.75</el-button>
-      <el-button type="info" round @click="dialogAmount = 1"> Hele</el-button>
+      <el-button round type="info" @click="dialogAmount = 0"> Ingenting</el-button>
+      <el-button round type="info" @click="dialogAmount = 0.25"> 0.25</el-button>
+      <el-button round type="info" @click="dialogAmount = 0.5"> 0.5</el-button>
+      <el-button round type="info" @click="dialogAmount = 0.75"> 0.75</el-button>
+      <el-button round type="info" @click="dialogAmount = 1"> Hele</el-button>
     </div>
     <template #footer>
       <span class="dialog-footer">
@@ -45,13 +45,13 @@
   </el-dialog>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import axios from "axios";
-import { ref, computed, inject } from "vue";
+import { computed, inject, ref } from "vue";
 import { ElDialog } from "element-plus";
 
 import type { Item, UpdateItem } from "@/services/index";
-import { ItemState, InventoryApi } from "@/services/index";
+import { InventoryApi, ItemState } from "@/services/index";
 import { useHouseholdStore } from "@/stores/household";
 import { showError } from "@/utils/error-utils";
 
@@ -104,6 +104,7 @@ const emitter = inject("emitter");
 emitter.on("household-updated", () => {
   updateItems();
 });
+
 // Other script logic
 function useItem(item: Item, amount: number | null) {
   if (amount === null) {

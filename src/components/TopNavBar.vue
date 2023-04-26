@@ -1,15 +1,15 @@
 <template>
   <nav>
-    <el-menu :default-active="activeIndex" mode="horizontal" :ellipsis="false">
+    <el-menu :default-active="activeIndex" :ellipsis="false" mode="horizontal">
       <el-menu-item index="0">LOGO</el-menu-item>
       <div class="flex-grow" />
-      <el-menu-item index="1" v-if="sessionStore.isAuthenticated">
+      <el-menu-item v-if="sessionStore.isAuthenticated" index="1">
         <el-icon>
           <User />
         </el-icon>
         <span>Profil</span>
       </el-menu-item>
-      <el-button class="menu-item-button" v-if="sessionStore.isAuthenticated" @click="logOut">
+      <el-button v-if="sessionStore.isAuthenticated" class="menu-item-button" @click="logOut">
         <el-icon>
           <TurnOff />
         </el-icon>

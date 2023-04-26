@@ -1,39 +1,38 @@
 <template>
   <el-steps
-    style="width: 90%; max-width: 600px; margin: auto"
+    :active="active"
     align-center
     finish-status="success"
-    :active="active"
+    style="width: 90%; max-width: 600px; margin: auto"
   >
     <el-step title="Lag bruker"></el-step>
     <el-step title="Lag husholdning"></el-step>
   </el-steps>
   <el-card class="container">
     <RegisterComponent
+      v-if="active == 0"
       v-model:email="user.email"
       v-model:first-name="user.firstName"
       v-model:password="user.password"
-      @submit="submit"
       :error-message="errorMessage"
-      v-if="active == 0"
+      @submit="submit"
     >
     </RegisterComponent>
     <CreateHouseholdComponent
-      v-model:household-name="household.name"
-      @submit="createHousehold"
-      @skip="skipCreateHousehold"
       v-if="active == 1"
+      v-model:household-name="household.name"
+      @skip="skipCreateHousehold"
+      @submit="createHousehold"
     ></CreateHouseholdComponent>
   </el-card>
 </template>
-<script setup lang="ts">
+<script lang="ts" setup>
 import { reactive, ref } from "vue";
 import RegisterComponent from "@/components/RegisterComponent.vue";
 import type { CreateHousehold, CreateUser } from "@/services/index";
 import { AccountApi, HouseholdApi } from "@/services/index";
 import { useSessionStore } from "@/stores/session";
 import router from "@/router";
-import { showError } from "@/utils/error-utils";
 import { useHouseholdStore } from "@/stores/household";
 import CreateHouseholdComponent from "@/components/CreateHouseholdComponent.vue";
 
@@ -81,6 +80,7 @@ function skipCreateHousehold() {
   next();
   router.push({ name: "inventory" });
 }
+
 function createHousehold() {
   householdApi
     .createHousehold(household)

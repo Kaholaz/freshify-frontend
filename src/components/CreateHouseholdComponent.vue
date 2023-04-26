@@ -1,6 +1,6 @@
 <template>
   <h2>Lag husholdning</h2>
-  <el-form :model="householdName" ref="ruleFormRef" label-position="top" status-icon>
+  <el-form ref="ruleFormRef" :model="householdName" label-position="top" status-icon>
     <el-form-item label="Navn på husholdning" prop="houseHoldName">
       <el-input v-model="householdName" placeholder="husholdning"></el-input>
     </el-form-item>
@@ -9,11 +9,11 @@
       <el-link @click="skipCreateHousehold">Jeg ønsker ikke å lage husholdning</el-link>
     </el-row>
     <el-form-item>
-      <el-button @click="createHousehold" type="primary">Lag husholdning</el-button>
+      <el-button type="primary" @click="createHousehold">Lag husholdning</el-button>
     </el-form-item>
   </el-form>
 </template>
-<script setup lang="ts">
+<script lang="ts" setup>
 import { computed, ref } from "vue";
 import type { FormInstance } from "element-plus";
 

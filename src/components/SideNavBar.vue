@@ -1,10 +1,10 @@
 <template>
-  <el-menu @select="$emit('select')" :default-active="defaultActive" router>
+  <el-menu :default-active="defaultActive" router @select="$emit('select')">
     <el-button
+      v-if="households?.length == 0"
       style="width: calc(100% - 2rem); margin: 1rem"
       type="primary"
       @click="isCreateHousehold = true"
-      v-if="households?.length == 0"
     >
       <el-icon>
         <HomeFilled />
@@ -12,16 +12,16 @@
       <span>Legg til husholdning</span>
     </el-button>
     <el-select
-      style="width: calc(100% - 2rem); margin: 1rem"
-      :model-value="houseHoldStore.household.name"
       v-else-if="households?.length > 0"
+      :model-value="houseHoldStore.household.name"
+      style="width: calc(100% - 2rem); margin: 1rem"
     >
       <el-option
         v-for="item in households"
         :key="item.id"
         :label="item.name"
-        @click="houseHoldStore.household = item"
         :value="item"
+        @click="houseHoldStore.household = item"
       ></el-option>
       <el-button style="width: 100%" type="primary" @click="isCreateHousehold = true">
         <el-icon>
@@ -43,13 +43,13 @@
       </el-icon>
       <span>Oversikt</span>
     </el-menu-item>
-    <el-menu-item index="/statistics" disabled>
+    <el-menu-item disabled index="/statistics">
       <el-icon>
         <DataAnalysis />
       </el-icon>
       <span>Statistikk</span>
     </el-menu-item>
-    <el-menu-item index="/recipies" disabled>
+    <el-menu-item disabled index="/recipies">
       <el-icon>
         <Dish />
       </el-icon>
@@ -65,8 +65,8 @@
   <el-dialog v-model="isCreateHousehold" show-close>
     <CreateHouseholdComponent
       v-model:household-name="newHousehold.name"
-      @submit="createHousehold"
       @skip="skipCreateHousehold"
+      @submit="createHousehold"
     ></CreateHouseholdComponent>
   </el-dialog>
 </template>
@@ -103,6 +103,7 @@ emitter.on("household-removed", () => {
 });
 
 getHouseholds();
+
 function getHouseholds() {
   let userId = sessionStore.getUser()?.id;
 

@@ -1,7 +1,7 @@
 <template>
   <h1 v-if="householdStore.household?.id">{{ householdStore.household.name }}</h1>
   <el-alert v-else center>Velg eller lag en ny husholdning for å redigere den</el-alert>
-  <div class="top-bar" v-if="householdStore.household?.id">
+  <div v-if="householdStore.household?.id" class="top-bar">
     <HouseholdTopBar
       :current-user-privelige="currentUserPrivelige"
       @delete-household="deleteHousehold()"
@@ -13,17 +13,17 @@
       <el-col
         v-for="user in users.sort((a, b) => a.userType.localeCompare(b.userType))"
         :key="user.user.id"
-        :xs="24"
-        :sm="24"
-        :md="24"
         :lg="12"
+        :md="24"
+        :sm="24"
         :xl="12"
+        :xs="24"
       >
         <UserCard
-          :user="user.user"
-          :user-type="user.userType"
           :current-user="currentUser!"
           :current-user-privelige="currentUserPrivelige"
+          :user="user.user"
+          :user-type="user.userType"
           @remove-user="removeUser(user.user)"
           @update-user-privelige="updateUserPrivelige(user.user)"
         />
@@ -32,7 +32,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { computed, inject, onMounted, ref } from "vue";
 import type { HouseholdUserType, UpdateHouseholdUserType, UserFull } from "@/services";
 import UserCard from "@/components/HouseholdCard.vue";

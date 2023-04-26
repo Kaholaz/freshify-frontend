@@ -1,10 +1,9 @@
-import { h } from "vue";
 import { beforeEach, describe, expect, it } from "vitest";
 import { mount } from "@vue/test-utils";
 
 import ItemCard from "../ItemCard.vue";
-import { ItemState } from "@/services/index";
 import type { Item } from "@/services/index";
+import { ItemState } from "@/services/index";
 
 let item: Item = {};
 

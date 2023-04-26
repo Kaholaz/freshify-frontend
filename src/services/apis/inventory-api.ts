@@ -11,15 +11,13 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import globalAxios, { AxiosResponse, AxiosInstance, AxiosRequestConfig } from "axios";
+import globalAxios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 import { Configuration } from "../configuration";
 // Some imports not used depending on template conditions
 // @ts-ignore
-import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from "../base";
-import { IdInventoryBody } from "../models";
-import { InventoryItems } from "../models";
-import { Item } from "../models";
-import { UpdateItem } from "../models";
+import { BASE_PATH, BaseAPI, COLLECTION_FORMATS, RequestArgs, RequiredError } from "../base";
+import { IdInventoryBody, InventoryItems, Item, UpdateItem } from "../models";
+
 /**
  * InventoryApi - axios parameter creator
  * @export
@@ -601,6 +599,7 @@ export class InventoryApi extends BaseAPI {
       .addInventoryItem(id, body, options)
       .then((request) => request(this.axios, this.basePath));
   }
+
   /**
    * Takes a list of entries, each entry contains an item type id and count. These item types are added as suggestions to the inventory.
    * @summary Add suggestion to inventory
@@ -619,6 +618,7 @@ export class InventoryApi extends BaseAPI {
       .addInventorySuggestion(id, body, options)
       .then((request) => request(this.axios, this.basePath));
   }
+
   /**
    * Delete an item from inventory of a household.
    * @summary Delete item from inventory
@@ -637,6 +637,7 @@ export class InventoryApi extends BaseAPI {
       .deleteInventoryItem(id, itemId, options)
       .then((request) => request(this.axios, this.basePath));
   }
+
   /**
    * Gets all items of a specific inventory
    * @summary Gets all items from inventory
@@ -653,6 +654,7 @@ export class InventoryApi extends BaseAPI {
       .getInventoryItems(id, options)
       .then((request) => request(this.axios, this.basePath));
   }
+
   /**
    * Alters an item in inventory. Either the state or the remaining amount can be changed.
    * @summary Alters an item in inventory

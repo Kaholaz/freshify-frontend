@@ -12,6 +12,7 @@
  * Do not edit the class manually.
  */
 import { InventoryItemsInner } from "./inventory-items-inner";
+
 /**
  *
  * @export

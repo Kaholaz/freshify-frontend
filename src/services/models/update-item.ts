@@ -12,6 +12,7 @@
  * Do not edit the class manually.
  */
 import { ItemState } from "./item-state";
+
 /**
  *
  * @export
