@@ -1,8 +1,8 @@
 <template>
   <div id="householdview" class="householdview-wrapper">
-    <h1 v-if="currentHousehold?.id">{{ currentHousehold?.name }}</h1>
+    <h1 v-if="householdStore.household?.id">{{ householdStore.household?.name }}</h1>
     <h1 v-else>Velg husholdning i meny</h1>
-    <div class="top-bar" v-if="currentHousehold?.id">
+    <div class="top-bar" v-if="householdStore.household?.id">
       <HouseholdTopBar @delete-household="deleteHousehold()" @add-user="addUser" />
     </div>
     <div>
@@ -30,7 +30,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { inject, onMounted, ref } from "vue";
 import type { UserFull } from "@/services";
 import UserCard from "@/components/HouseholdCard.vue";
 import HouseholdTopBar from "@/components/HouseholdTopBar.vue";
@@ -45,11 +45,19 @@ const householdApi = new HouseholdApi();
 const accountApi = new AccountApi();
 
 let users = ref([]);
-const currentHousehold = householdStore.household;
+const emitter = inject("emitter");
 
-householdApi.getUsers(currentHousehold?.id!).then((data) => {
-  users.value = data.data;
+emitter.on("household-updated", () => {
+  getUsers();
 });
+
+getUsers();
+
+function getUsers() {
+  householdApi.getUsers(householdStore.household?.id!).then((data) => {
+    users.value = data.data;
+  });
+}
 
 function removeUser(user: UserFull) {
   return householdApi
@@ -115,7 +123,7 @@ function addUser(value: string) {
     console.log(error);
   })
   return householdApi
-    .addUser(currentHousehold?.id!, { userId })
+    .addUser(householdStore.household?.id!, { userId })
     .then((data) => {
       ElMessage.success("La til " + value + " i husholdning");
       addUserLocally(userId);
@@ -142,10 +150,10 @@ function addUserLocally(id: number) {
 
 function deleteHousehold() {
   householdApi
-    .deleteHousehold(currentHousehold?.id!)
+    .deleteHousehold(householdStore.household?.id!)
     .then(() => {
       ElMessage.success("Slettet husholdning");
-      console.log("deleted household: " + currentHousehold?.name);
+      console.log("deleted household: " + householdStore.household?.name);
       householdStore.removeHousehold();
     })
     .catch((error) => {

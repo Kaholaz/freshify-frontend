@@ -51,7 +51,7 @@
 
 <script setup lang="ts">
 import axios from "axios";
-import { ref, computed } from "vue";
+import { ref, computed, inject } from "vue";
 import { ElDialog } from "element-plus";
 
 import type { Item, UpdateItem } from "@/services/index";
@@ -106,6 +106,11 @@ function useItemDialog(item: Item) {
   useItemDialogVisible.value = true;
 }
 
+const emitter = inject("emitter");
+
+emitter.on("household-updated", () => {
+  updateItems();
+});
 // Other script logic
 function useItem(item: Item, amount: number | null) {
   if (amount === null) {

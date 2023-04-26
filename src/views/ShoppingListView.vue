@@ -139,7 +139,7 @@ import type {
   ShoppingListEntry,
   UpdateShoppingListEntry,
 } from "@/services";
-import { Ref, ref } from "vue";
+import { inject, Ref, ref } from "vue";
 import { ElMessage, ElNotification, FormInstance } from "element-plus";
 import { ItemTypeApi, ShoppingListApi } from "@/services/index";
 import ShoppingListCardSkeleton from "@/components/ShoppingListCardSkeleton.vue";
@@ -197,26 +197,35 @@ const loading = ref(undefined) as Ref<undefined | boolean>;
 const loadingSubmit = ref(false);
 
 const timeout = setTimeout(() => (loading.value = true), 100);
-shoppingListApi
-  .getShoppingList(householdId)
-  .then((response) => {
-    activeItems.value.clear();
-    suggestedItems.value.clear();
-    boughtItems.value.clear();
-    response.data.forEach((item) => {
-      setItemLocal(item);
+const emitter = inject("emitter");
+
+emitter.on("household-updated", () => {
+  getShoppingList();
+});
+
+getShoppingList();
+function getShoppingList() {
+  shoppingListApi
+    .getShoppingList(houseHoldStore.household?.id)
+    .then((response) => {
+      activeItems.value.clear();
+      suggestedItems.value.clear();
+      boughtItems.value.clear();
+      response.data.forEach((item) => {
+        setItemLocal(item);
+      });
+    })
+    .catch((error) => {
+      ElMessage.error({
+        message: "Noe gikk galt ved henting av handleliste",
+        type: "error",
+      });
+    })
+    .finally(() => {
+      clearTimeout(timeout);
+      loading.value = false;
     });
-  })
-  .catch((error) => {
-    ElMessage.error({
-      message: "Noe gikk galt ved henting av handleliste",
-      type: "error",
-    });
-  })
-  .finally(() => {
-    clearTimeout(timeout);
-    loading.value = false;
-  });
+}
 
 async function searchItemType(queryString: string, cb: any) {
   const results = await itemTypesApi.searchItemTypes(queryString).then((response) => {

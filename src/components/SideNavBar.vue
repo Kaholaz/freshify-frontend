@@ -1,9 +1,20 @@
 <template>
-  <el-menu :default-active="defaultActive" @open="handleOpen" @close="handleClose" router>
+  <el-menu :default-active="defaultActive" router>
+    <el-button
+      style="width: calc(100% - 2rem); margin: 1rem"
+      type="primary"
+      @click="isCreateHousehold = true"
+      v-if="households?.length == 0"
+    >
+      <el-icon>
+        <HomeFilled />
+      </el-icon>
+      <span>Legg til husholdning</span>
+    </el-button>
     <el-select
       style="width: calc(100% - 2rem); margin: 1rem"
       :model-value="houseHoldStore.household.name"
-      v-if="households?.length > 0 && houseHoldStore.household?.id"
+      v-else-if="households?.length > 0"
     >
       <el-option
         v-for="item in households"
@@ -19,17 +30,6 @@
         <span>Legg til husholdning</span>
       </el-button>
     </el-select>
-    <el-button
-      style="width: calc(100% - 2rem); margin: 1rem"
-      type="primary"
-      @click="isCreateHousehold = true"
-      v-else-if="households?.length === 0 || !houseHoldStore.household?.id"
-    >
-      <el-icon>
-        <HomeFilled />
-      </el-icon>
-      <span>Legg til husholdning</span>
-    </el-button>
 
     <el-menu-item index="/shopping-list">
       <el-icon>
@@ -74,7 +74,7 @@
 <script lang="ts" setup>
 import router from "@/router";
 import { DataAnalysis, Dish, HomeFilled, List, Management, Setting } from "@element-plus/icons-vue";
-import { onMounted, ref } from "vue";
+import { inject, onMounted, ref } from "vue";
 import { useHouseholdStore } from "@/stores/household";
 import { CreateHousehold, Household, HouseholdApi } from "@/services/index";
 import { useSessionStore } from "@/stores/session";
@@ -85,30 +85,33 @@ const defaultActive = ref("/");
 onMounted(async () => {
   await router.isReady();
   defaultActive.value = router.currentRoute.value.path;
-  console.log(defaultActive.value);
 });
-
-const handleOpen = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath);
-};
-const handleClose = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath);
-};
 
 const houseHoldStore = useHouseholdStore();
 const houseHoldApi = new HouseholdApi();
 const sessionStore = useSessionStore();
 const isCreateHousehold = ref(false);
+const emitter = inject("emitter");
 
 const households = ref(null as Household[] | null);
 const newHousehold = ref({
   name: "",
 } as CreateHousehold);
 
-houseHoldApi.getHouseholds(sessionStore.getUser()?.id!).then((res) => {
-  console.log(res.data);
-  households.value = res.data;
+emitter.on("household-removed", () => {
+  console.log("removing");
+  getHouseholds();
 });
+
+getHouseholds();
+function getHouseholds() {
+  houseHoldApi.getHouseholds(sessionStore.getUser()?.id!).then((res) => {
+    households.value = res.data;
+    if (households.value?.length > 0 && !houseHoldStore.household?.id) {
+      houseHoldStore.household = households.value[0];
+    }
+  });
+}
 
 function createHousehold() {
   houseHoldApi
