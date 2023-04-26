@@ -6,6 +6,7 @@
       <el-form-item label="Email" prop="email">
         <el-input
           id="email-input"
+          v-if="data"
           placeholder="eksempel@gmail.com"
           type="text"
           v-model="data.email"
@@ -17,6 +18,7 @@
       <el-form-item label="Password" prop="password">
         <el-input
           id="password-input"
+          v-if="data"
           type="password"
           v-model="data.password"
           @keyup.enter="signIn"
@@ -31,7 +33,7 @@
         <el-link type="primary" @click="router.push({ name: 'register' })">Registrer deg! </el-link>
       </p>
 
-      <el-button ref="submitButton" type="primary" size="large" @click="signIn"
+      <el-button ref="submitButton" type="primary" size="large" @click="(vitest) => signIn(vitest)"
         >Logg inn
       </el-button>
       <el-alert
