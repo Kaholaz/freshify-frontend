@@ -87,7 +87,7 @@ function createHousehold() {
   householdApi
     .createHousehold(household)
     .then((data) => {
-      useHouseholdStore().setHousehold(data.data);
+      useHouseholdStore().household = data.data;
       next();
       router.push({ name: "inventory" });
     })

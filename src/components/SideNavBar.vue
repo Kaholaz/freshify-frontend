@@ -3,7 +3,7 @@
     <el-select
       style="width: calc(100% - 2rem); margin: 1rem"
       :model-value="houseHoldStore.household.name"
-      v-if="household"
+      v-if="households?.length > 0"
     >
       <el-option
         v-for="item in households"
@@ -19,6 +19,18 @@
         <span>Legg til husholdning</span>
       </el-button>
     </el-select>
+    <el-button
+      style="width: calc(100% - 2rem); margin: 1rem"
+      type="primary"
+      @click="isCreateHousehold = true"
+      v-else-if="households?.length === 0"
+    >
+      <el-icon>
+        <HomeFilled />
+      </el-icon>
+      <span>Legg til husholdning</span>
+    </el-button>
+
     <el-menu-item index="/shopping-list">
       <el-icon>
         <List />
@@ -62,7 +74,7 @@
 <script lang="ts" setup>
 import router from "@/router";
 import { DataAnalysis, Dish, HomeFilled, List, Management, Setting } from "@element-plus/icons-vue";
-import { getCurrentInstance, onMounted, ref } from "vue";
+import { onMounted, ref } from "vue";
 import { useHouseholdStore } from "@/stores/household";
 import { CreateHousehold, Household, HouseholdApi } from "@/services/index";
 import { useSessionStore } from "@/stores/session";
@@ -88,26 +100,26 @@ const houseHoldApi = new HouseholdApi();
 const sessionStore = useSessionStore();
 const isCreateHousehold = ref(false);
 
-const households = ref([]);
-const household = houseHoldStore.household;
+const households = ref(null as Household[] | null);
 const newHousehold = ref({
   name: "",
 } as CreateHousehold);
 
 houseHoldApi.getHouseholds(sessionStore.getUser()?.id!).then((res) => {
-  households.value = res.data;
   console.log(res.data);
-  if (household == null) {
-    household.value = res.data[0];
-  }
+  households.value = res.data;
 });
 
 function createHousehold() {
   houseHoldApi
     .createHousehold(newHousehold.value)
     .then((res) => {
+      if (households.value === null) {
+        households.value = [];
+      }
       households.value.push(res.data);
       isCreateHousehold.value = false;
+      houseHoldStore.household = res.data;
     })
     .catch(() => {
       showError("En uventet feil oppstod", "vennligst prøv igjen senere", 0);

@@ -9,7 +9,9 @@ export const useHouseholdStore = defineStore("household", () => {
   const household = computed({
     get: () => {
       if (!householdValue.value?.id) {
-        householdValue.value = JSON.parse(sessionStorage.getItem("household") || "{}");
+        if (sessionStorage.getItem("household")) {
+          householdValue.value = JSON.parse(sessionStorage.getItem("household") || "{}");
+        }
       }
       return householdValue.value;
     },
@@ -19,5 +21,10 @@ export const useHouseholdStore = defineStore("household", () => {
     },
   });
 
-  return { household };
+  function removeHousehold() {
+    household.value = {} as Household;
+    sessionStorage.removeItem("household");
+  }
+
+  return { household, removeHousehold };
 });
