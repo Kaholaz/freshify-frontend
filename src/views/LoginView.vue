@@ -1,11 +1,11 @@
 <template>
   <el-card class="container">
-    <h2>Log in</h2>
+    <h2>Logg inn</h2>
 
     <el-form ref="form" label-position="top" :model="data" class="login-form">
-      <el-form-item label="Email" prop="email">
+      <el-form-item label="Epost" prop="email">
         <el-input
-          placeholder="Email"
+          placeholder="Epost"
           type="text"
           v-model="data.email"
           size="large"
@@ -13,12 +13,12 @@
         />
       </el-form-item>
 
-      <el-form-item label="Password" prop="password">
+      <el-form-item label="Passord" prop="password">
         <el-input
           type="password"
           v-model="data.password"
           @input="errorMessage = ''"
-          placeholder="Password"
+          placeholder="Passord"
           size="large"
         />
       </el-form-item>
