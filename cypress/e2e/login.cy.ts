@@ -2,6 +2,7 @@
 
 describe("Login", () => {
   beforeEach(() => {
+    cy.intercept("GET", "/user/loggedin", { statusCode: 404 }).as("loggedin");
     cy.visit("/login");
   });
 
