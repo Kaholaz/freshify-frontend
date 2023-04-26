@@ -59,7 +59,6 @@ describe("ItemCard", () => {
         item,
       },
     });
-    console.log(wrapper.html());
     expect(wrapper.find("el-button[type=primary]").text()).toContain("Bruk");
   });
 

@@ -105,7 +105,7 @@ function register() {
             router.push({ "/login"});
         }
     .catch(error => showError("Kunne ikke logge inn.", error.message, 0));
-    
+
 }
 </script>
 <style scoped>
