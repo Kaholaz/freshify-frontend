@@ -68,13 +68,15 @@ router.beforeEach((to, from, next) => {
   const sessionStore = useSessionStore();
   const accountApi = new AccountApi();
   if (startup) {
-    accountApi.getLoggedInUser().then((data) => {
-      if (data.status == 200) {
-        sessionStore.authenticate(data.data);
-        console.log(sessionStore.isAuthenticated);
-      }
-    })
-    .catch(() => next({ name: "login" }));
+    accountApi
+      .getLoggedInUser()
+      .then((data) => {
+        if (data.status == 200) {
+          sessionStore.authenticate(data.data);
+          console.log(sessionStore.isAuthenticated);
+        }
+      })
+      .catch(() => next({ name: "login" }));
     startup = false;
   }
   if (to.meta.requiresAuth && !sessionStore.isAuthenticated) {
