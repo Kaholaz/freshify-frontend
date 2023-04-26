@@ -71,6 +71,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       console.log("submit!");
       emit("addUser", form.newUserEmail as string);
       dialogFormVisible.value = false;
+      formEl.resetFields();
     } else {
       console.log("error submit!!", fields);
     }
