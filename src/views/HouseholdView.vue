@@ -1,50 +1,47 @@
 <template>
-  <div id="householdview" class="householdview-wrapper">
-    <h1 v-if="householdStore.household?.id">{{ householdStore.household?.name }}</h1>
-    <h1 v-else>Velg husholdning i meny</h1>
-    <div class="top-bar" v-if="householdStore.household?.id">
-      <HouseholdTopBar
-        :current-user-privelige="currentUserPrivelige"
-        @delete-household="deleteHousehold()"
-        @add-user="addUser"
-      />
-    </div>
-    <div>
-      <el-row gutter="20">
-        <el-col
-          v-for="user in users.sort((a, b) => a.userType.localeCompare(b.userType))"
-          :key="user.user.id"
-          :xs="24"
-          :sm="12"
-          :md="12"
-          :lg="12"
-          :xl="16"
-          class="mb-5"
-        >
-          <UserCard
-            :user="user.user"
-            :user-type="user.userType"
-            :current-user="currentUser!"
-            :current-user-privelige="currentUserPrivelige"
-            @remove-user="removeUser(user.user)"
-            @update-user-privelige="updateUserPrivelige(user.user)"
-          />
-        </el-col>
-      </el-row>
-    </div>
+  <h1 v-if="householdStore.household?.id">{{ householdStore.household.name }}</h1>
+  <el-alert v-else center>Velg eller lag en ny husholdning for å redigere den</el-alert>
+  <div class="top-bar" v-if="householdStore.household?.id">
+    <HouseholdTopBar
+      :current-user-privelige="currentUserPrivelige"
+      @delete-household="deleteHousehold()"
+      @add-user="addUser"
+    />
+  </div>
+  <div>
+    <el-row gutter="20">
+      <el-col
+        v-for="user in users.sort((a, b) => a.userType.localeCompare(b.userType))"
+        :key="user.user.id"
+        :xs="24"
+        :sm="12"
+        :md="12"
+        :lg="12"
+        :xl="16"
+        class="mb-5"
+      >
+        <UserCard
+          :user="user.user"
+          :user-type="user.userType"
+          :current-user="currentUser!"
+          :current-user-privelige="currentUserPrivelige"
+          @remove-user="removeUser(user.user)"
+          @update-user-privelige="updateUserPrivelige(user.user)"
+        />
+      </el-col>
+    </el-row>
   </div>
 </template>
 
 <script setup lang="ts">
-import { inject, onMounted, ref, computed } from "vue";
-import type { HouseholdUserType, UserFull } from "@/services";
+import { computed, inject, onMounted, ref } from "vue";
+import type { HouseholdUserType, UpdateHouseholdUserType, UserFull } from "@/services";
 import UserCard from "@/components/HouseholdCard.vue";
 import HouseholdTopBar from "@/components/HouseholdTopBar.vue";
 import { useHouseholdStore } from "@/stores/household";
 import { useSessionStore } from "@/stores/session";
-import { HouseholdApi, AccountApi } from "@/services/index";
+import { AccountApi, HouseholdApi } from "@/services/index";
 import { ElMessage } from "element-plus";
-import type { UpdateHouseholdUserType } from "@/services";
 
 const householdStore = useHouseholdStore();
 const sessionStore = useSessionStore();
@@ -70,9 +67,11 @@ emitter.on("household-updated", () => {
 getUsers();
 
 function getUsers() {
-  householdApi.getUsers(householdStore.household?.id!).then((data) => {
-    users.value = data.data;
-  });
+  if (householdStore.household?.id) {
+    householdApi.getUsers(householdStore.household?.id!).then((data) => {
+      users.value = data.data;
+    });
+  }
 }
 
 function removeUser(user: UserFull) {
@@ -203,13 +202,5 @@ onMounted(() => {});
 
 .top-bar {
   margin-bottom: 20px;
-}
-
-.householdview-wrapper {
-  width: 100%;
-  height: 100%;
-  padding: 1rem 2rem;
-  margin: 0;
-  overflow: hidden;
 }
 </style>
