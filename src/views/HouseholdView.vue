@@ -146,6 +146,7 @@ function deleteHousehold() {
     .then(() => {
       ElMessage.success("Slettet husholdning");
       console.log("deleted household: " + currentHousehold?.name);
+      householdStore.removeHousehold();
     })
     .catch((error) => {
       ElMessage.error("Kunne ikke slette husholdning" + error);

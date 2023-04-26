@@ -3,7 +3,7 @@
     <el-select
       style="width: calc(100% - 2rem); margin: 1rem"
       :model-value="houseHoldStore.household.name"
-      v-if="households?.length > 0"
+      v-if="households?.length > 0 && houseHoldStore.household?.id"
     >
       <el-option
         v-for="item in households"
@@ -23,7 +23,7 @@
       style="width: calc(100% - 2rem); margin: 1rem"
       type="primary"
       @click="isCreateHousehold = true"
-      v-else-if="households?.length === 0"
+      v-else-if="households?.length === 0 || !houseHoldStore.household?.id"
     >
       <el-icon>
         <HomeFilled />
