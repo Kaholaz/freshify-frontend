@@ -1,10 +1,20 @@
 <template>
   <el-container>
-    <el-text v-if="currentUserPrivelige === 'SUPERUSER'" type="primary" size="large" class="menu-item-text">
+    <el-text
+      v-if="currentUserPrivelige === 'SUPERUSER'"
+      type="primary"
+      size="large"
+      class="menu-item-text"
+    >
       Legg til nytt medlem i husholdningen
     </el-text>
 
-    <el-button v-if="currentUserPrivelige === 'SUPERUSER'" class="menu-item-add-button" @click="dialogFormVisible = true" type="primary">
+    <el-button
+      v-if="currentUserPrivelige === 'SUPERUSER'"
+      class="menu-item-add-button"
+      @click="dialogFormVisible = true"
+      type="primary"
+    >
       <el-icon>
         <Plus />
       </el-icon>
@@ -36,7 +46,11 @@
       @confirm="emit('deleteHousehold')"
     >
       <template #reference>
-        <el-button v-if="currentUserPrivelige === 'SUPERUSER'" type="danger" class="menu-item-button">
+        <el-button
+          v-if="currentUserPrivelige === 'SUPERUSER'"
+          type="danger"
+          class="menu-item-button"
+        >
           <span>Slett Husholdning</span>
         </el-button>
       </template>
@@ -86,7 +100,6 @@ const emit = defineEmits<{
 const props = defineProps<{
   currentUserPrivelige: string;
 }>();
-
 </script>
 
 <style scoped>

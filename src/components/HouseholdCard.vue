@@ -17,7 +17,9 @@
     </div>
     <footer class="mt-2 text-right">
       <el-button
-        v-if="userType == 'USER' && currentUser.id != user.id && currentUserPrivelige == 'SUPERUSER'"
+        v-if="
+          userType == 'USER' && currentUser.id != user.id && currentUserPrivelige == 'SUPERUSER'
+        "
         type="primary"
         @click="emit('updateUserPrivelige', user)"
       >
@@ -30,7 +32,11 @@
       >
         Degrader til bruker
       </el-button>
-      <el-button v-if="currentUser.id != user.id && currentUserPrivelige == 'SUPERUSER'" type="danger" @click="emit('removeUser', user)">
+      <el-button
+        v-if="currentUser.id != user.id && currentUserPrivelige == 'SUPERUSER'"
+        type="danger"
+        @click="emit('removeUser', user)"
+      >
         Fjern bruker fra husholdning
       </el-button>
     </footer>
@@ -50,7 +56,6 @@ const sessionStore = useSessionStore();
   email: "tore@gmail.com",
   firstName: "Tore",
 } as UserFull); */
-
 
 const emit = defineEmits<{
   (event: "removeUser", args: UserFull): void;

@@ -3,7 +3,11 @@
     <h1 v-if="householdStore.household?.id">{{ householdStore.household?.name }}</h1>
     <h1 v-else>Velg husholdning i meny</h1>
     <div class="top-bar" v-if="householdStore.household?.id">
-      <HouseholdTopBar :current-user-privelige="currentUserPrivelige" @delete-household="deleteHousehold()" @add-user="addUser" />
+      <HouseholdTopBar
+        :current-user-privelige="currentUserPrivelige"
+        @delete-household="deleteHousehold()"
+        @add-user="addUser"
+      />
     </div>
     <div>
       <el-row gutter="20">
@@ -51,7 +55,6 @@ let users = ref([]);
 const emitter = inject("emitter");
 const currentUser = sessionStore.getUser();
 
-
 const currentUserPrivelige = computed(() => {
   if (householdStore.household?.id) {
     return users.value.filter((u) => u.user.id === currentUser.id)[0].userType as string;
@@ -59,7 +62,6 @@ const currentUserPrivelige = computed(() => {
     return "";
   }
 });
-
 
 emitter.on("household-updated", () => {
   getUsers();
