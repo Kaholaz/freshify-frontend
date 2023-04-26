@@ -11,8 +11,8 @@
     </el-button>
 
     <el-dialog v-model="dialogFormVisible" title="Legg til nytt medlem i husholdningen">
-      <el-form :model="form">
-        <el-form-item label="Brukerens epost" :label-width="formLabelWidth">
+      <el-form ref="ruleFormRef" :rules="rules" :model="form">
+        <el-form-item label="Brukerens epost" :label-width="formLabelWidth" prop="newUserEmail">
           <el-input v-model="form.newUserEmail" autocomplete="off" />
         </el-form-item>
       </el-form>
@@ -23,9 +23,7 @@
             ref="confirmButton"
             type="primary"
             @click="
-              dialogFormVisible = false;
-              emit('addUser', form.newUserEmail as string);
-              printTest();
+              submitForm(ruleFormRef);
             "
           >
             Confirm
@@ -55,19 +53,38 @@
 <script setup lang="ts">
 import { ref, reactive } from "vue";
 import { Plus, WarnTriangleFilled } from "@element-plus/icons-vue";
+import type { FormInstance, FormRules } from 'element-plus';
 
 const dialogFormVisible = ref(false);
 const formLabelWidth = "140px";
+const ruleFormRef = ref<FormInstance>()
 
 const form = reactive({
   newUserEmail: "" as string,
 });
 
-//delete this
-function printTest() {
-  console.log(form.newUserEmail);
-  form.newUserEmail = "";
-}
+const rules = reactive<FormRules>({
+  newUserEmail: [
+    { required: true, message: "Please input email", trigger: "blur" },
+    { type: "email", message: "Please input correct email", trigger: "blur" },
+  ],
+});
+
+const submitForm = async (formEl: FormInstance | undefined) => {
+  if(!formEl) return;
+  await formEl.validate((valid, fields) => {
+    if (valid) {
+      console.log("submit!");
+      emit('addUser',form.newUserEmail as string);
+      dialogFormVisible.value = false; 
+    } else {
+      console.log("error submit!!", fields);
+    }
+  }
+  
+  
+  );
+};
 
 const emit = defineEmits<{
   (event: "addUser", args: string): void;
