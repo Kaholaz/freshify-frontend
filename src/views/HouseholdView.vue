@@ -151,10 +151,10 @@ async function addUser(value: string) {
 
 function addUserLocally(id: number) {
   console.log("add user locally: " + id);
-  return accountApi
-    .getUserById(id)
+  return householdApi
+    .getUsers(householdStore.household?.id!)
     .then((data) => {
-      users.value.push({ user: data.data, userType: "USER" });
+      users.value = data.data;
       console.log("added user: " + data.data.firstName);
     })
     .catch((error) => {
