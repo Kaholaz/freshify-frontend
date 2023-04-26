@@ -43,7 +43,7 @@ const emit = defineEmits<{
   (event: "updateUserPrivelige", args: UserFull): void;
 }>();
 
-const props = defineProps<{
+defineProps<{
   user: UserFull;
   userType: String;
   currentUser: UserFull;

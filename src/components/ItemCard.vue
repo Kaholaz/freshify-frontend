@@ -19,8 +19,8 @@
       </div>
 
       <div class="buttons">
-        <el-button type="primary" @click="emit('use', item)">Bruk</el-button>
-        <el-button type="danger" @click="emit('delete', item)">Slett</el-button>
+        <el-button id="use-button" type="primary" @click="emit('use', item)">Bruk</el-button>
+        <el-button id="delete-button" type="danger" @click="emit('delete', item)">Slett</el-button>
       </div>
     </div>
   </el-card>
