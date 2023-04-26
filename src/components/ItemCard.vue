@@ -3,14 +3,19 @@
     id="item-card"
     :class="{
       'item-card-wrapper': true,
-      'item-card-only-title': computed(() => !item.addedBy),
+      'item-card-only-title': !item.addedBy,
+      'warning-age': getDaysSinceBought(item) > 7 && getDaysSinceBought(item) <= 14,
+      'danger-age': getDaysSinceBought(item) > 14,
     }"
     shadow="always"
   >
     <div class="card-body">
       <div class="info">
         <h3>{{ item.type?.name }}</h3>
-        <p v-if="item.bought">Kjøpt for {{ getDaysSinceBought(item) }} dager siden.</p>
+        <el-text v-if="item.bought && getDaysSinceBought(item) > 0"
+          >Kjøpt for {{ getDaysSinceBought(item) }} dager siden.</el-text
+        >
+        <el-text v-else-if="item.bought && getDaysSinceBought(item) == 0"> Kjøpt i dag</el-text>
       </div>
 
       <div class="buttons">
@@ -60,5 +65,13 @@ export interface ItemCardEmits {
   margin: 0;
   font-size: 0.8rem;
   color: #9e9e9e;
+}
+
+.warning-age {
+  border: 1px solid orange !important;
+}
+
+.danger-age {
+  border: 1px solid red !important;
 }
 </style>

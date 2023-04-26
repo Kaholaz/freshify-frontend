@@ -2,10 +2,6 @@
   <h1>Mitt kjøleskap</h1>
   <div class="inventory-items-list" v-if="!isLoading">
     <ItemCard
-      :class="{
-        'warning-age': computed(() => getDaysSinceBought(item) > 5),
-        'danger-age': computed(() => getDaysSinceBought(item) > 10),
-      }"
       v-for="item in items"
       :key="item.id"
       :item="item"
@@ -57,7 +53,6 @@ import { ElDialog } from "element-plus";
 import type { Item, UpdateItem } from "@/services/index";
 import { ItemState, InventoryApi } from "@/services/index";
 import { useHouseholdStore } from "@/stores/household";
-import { getDaysSinceBought } from "@/utils/item-utils";
 import { showError } from "@/utils/error-utils";
 
 import ItemCard from "@/components/ItemCard.vue";
@@ -192,7 +187,6 @@ function handleError(err: any) {
 }
 
 updateItems();
-// TODO: When the household is changed, update the items.
 </script>
 
 <style scoped>
@@ -201,14 +195,6 @@ updateItems();
   flex-direction: column;
   width: 100%;
   overflow-y: auto;
-}
-
-.warning-age {
-  border: 1px solid orange !important;
-}
-
-.danger-age {
-  border: 1px solid red !important;
 }
 
 .amount-selection-row {
