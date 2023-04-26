@@ -49,10 +49,10 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-  "update:firstName": (firstName: string) => void;
-  "update:password": (password: string) => void;
-  "update:email": (email: string) => void;
-  submit: () => void;
+  (event: "update:firstName", firstName: string): void;
+  (event: "update:password", password: string): void;
+  (event: "update:email", email: string): void;
+  (event: "submit"): void;
 }>();
 
 const passwordConfirm = ref<string>("");
