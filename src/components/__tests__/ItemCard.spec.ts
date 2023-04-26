@@ -59,7 +59,8 @@ describe("ItemCard", () => {
         item,
       },
     });
-    expect(wrapper.find("el-button[color]").text()).toContain("Bruk");
+    console.log(wrapper.html());
+    expect(wrapper.find("el-button[type=primary]").text()).toContain("Bruk");
   });
 
   it("has button to delete item", () => {
