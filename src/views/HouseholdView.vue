@@ -38,7 +38,7 @@ import { useHouseholdStore } from "@/stores/household";
 import { useSessionStore } from "@/stores/session";
 import { HouseholdApi, AccountApi } from "@/services/index";
 import { ElMessage } from "element-plus";
-import {UpdateHouseholdUserType} from "@/services";
+import { UpdateHouseholdUserType } from "@/services";
 
 const householdStore = useHouseholdStore();
 /* const sessionStore = useSessionStore(); */
@@ -126,8 +126,8 @@ async function addUser(value: string) {
     .getUserByEmail(value)
     .then((data) => {
       console.log("data from emailApi:" + data.data.userId);
-      console.log(data.status)
-      console.log(data.data.userId)
+      console.log(data.status);
+      console.log(data.data.userId);
       if (data.data.userId) {
         userId = data.data.userId;
       }
