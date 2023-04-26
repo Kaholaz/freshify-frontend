@@ -113,15 +113,18 @@ function addUser(value: string) {
   console.log("add user: " + value);
   //todo: fix this
   let userId: number = -1;
-  accountApi.getUserByEmail(value).then((data) => {
-    console.log("data from emailApi:" + data.data.userId);
-    if(data.data.userId){
-      userId = data.data.userId;
-    }
-  }).catch((error) => {
-    ElMessage.error("Kunne ikke finne bruker med epost: " + value);
-    console.log(error);
-  })
+  accountApi
+    .getUserByEmail(value)
+    .then((data) => {
+      console.log("data from emailApi:" + data.data.userId);
+      if (data.data.userId) {
+        userId = data.data.userId;
+      }
+    })
+    .catch((error) => {
+      ElMessage.error("Kunne ikke finne bruker med epost: " + value);
+      console.log(error);
+    });
   return householdApi
     .addUser(householdStore.household?.id!, { userId })
     .then((data) => {
