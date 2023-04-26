@@ -29,8 +29,6 @@ export interface CreateUser {
    * @memberof CreateUser
    */
   password?: string;
-
-  passwordConfirm?: string;
   /**
    *
    * @type {string}

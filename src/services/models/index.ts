@@ -16,7 +16,6 @@ export * from "./item-state";
 export * from "./item-type";
 export * from "./login-user";
 export * from "./shopping-list-entry";
-export * from "./shoppinglist-buy-body";
 export * from "./update-household-user-type";
 export * from "./update-item";
 export * from "./update-shopping-list-entry";
