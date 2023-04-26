@@ -166,6 +166,7 @@ function deleteHousehold() {
   householdApi
     .deleteHousehold(householdStore.household?.id!)
     .then(() => {
+      users.value = [];
       ElMessage.success("Slettet husholdning");
       console.log("deleted household: " + householdStore.household?.name);
       householdStore.removeHousehold();
