@@ -140,10 +140,11 @@ import type {
 } from "@/services";
 import { inject, Ref, ref } from "vue";
 import { ElMessage, ElNotification, FormInstance } from "element-plus";
-import { ItemTypeApi, ShoppingListApi, HouseholdApi } from "@/services/index";
+import { HouseholdApi, ItemTypeApi, ShoppingListApi } from "@/services/index";
 import ShoppingListCardSkeleton from "@/components/ShoppingListCardSkeleton.vue";
 import { useHouseholdStore } from "@/stores/household";
 import { useSessionStore } from "@/stores/session";
+import { showError } from "@/utils/error-utils";
 
 const drawers = ref(["active", "requested", "bought"] as string[]);
 
@@ -204,7 +205,12 @@ emitter.on("household-updated", () => {
 });
 
 getShoppingList();
+
 function getShoppingList() {
+  if (houseHoldStore.household?.id == null) {
+    showError("Husholdning ikke valgt", "Vennligst velg en husholdning i menyen", 0);
+    return;
+  }
   shoppingListApi
     .getShoppingList(houseHoldStore.household?.id)
     .then((response) => {
@@ -215,11 +221,8 @@ function getShoppingList() {
         setItemLocal(item);
       });
     })
-    .catch((error) => {
-      ElMessage.error({
-        message: "Noe gikk galt ved henting av handleliste",
-        type: "error",
-      });
+    .catch(() => {
+      showError("Noe gikk galt ved henting av handleliste", "Vennligt prøv igjen senere", 0);
     })
     .finally(() => {
       clearTimeout(timeout);
@@ -288,10 +291,7 @@ function acceptSuggestion(item: ShoppingListEntry, showSuccessMessage = true) {
       return true;
     })
     .catch(() => {
-      ElMessage({
-        message: "En feil oppstod ved godkjenning av vare",
-        type: "error",
-      });
+      showError("En feil oppstod ved godkjenning av vare", "Vennligt prøv igjen senere", 0);
       return false;
     });
 }
@@ -333,10 +333,7 @@ function completeShopping() {
       boughtItems.value.clear();
     })
     .catch(() => {
-      ElMessage({
-        message: "En feil oppstod ved avslutning av handleliste",
-        type: "error",
-      });
+      showError("En feil oppstod ved avslutning av handleliste", "Vennligt prøv igjen senere", 0);
     });
 }
 
@@ -353,16 +350,13 @@ async function saveItem(item: CreateShoppingListEntry) {
     .addItem(houseHoldStore.household.id, item)
     .then((response) => {
       ElMessage({
-        message: "Vare har blitt oppdatert",
-        type: "info",
+        message: "Var har blitt lagt til",
+        type: "success",
       });
       setItemLocal(response.data);
     })
     .catch(() => {
-      ElMessage({
-        message: "En feil oppstod ved lagring av vare",
-        type: "error",
-      });
+      showError("En feil oppstod ved lagrin av vare", "Vennligt prøv igjen senere", 0);
     });
 }
 
@@ -388,10 +382,7 @@ async function updateItem(item: ShoppingListEntry, showSuccessMessage = true) {
       return true;
     })
     .catch(() => {
-      ElMessage({
-        message: "Vare kunne ikke bli oppdatert",
-        type: "error",
-      });
+      showError("Vare kunne ikke bli oppdatert", "Vennligt prøv igjen senere", 0);
       return false;
     });
 }
