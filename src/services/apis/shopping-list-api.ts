@@ -18,7 +18,6 @@ import { Configuration } from "../configuration";
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from "../base";
 import { CreateShoppingListEntry } from "../models";
 import { ShoppingListEntry } from "../models";
-import { ShoppinglistBuyBody } from "../models";
 import { UpdateShoppingListEntry } from "../models";
 /**
  * ShoppingListApi - axios parameter creator
@@ -213,13 +212,11 @@ export const ShoppingListApiAxiosParamCreator = function (configuration?: Config
      * Mark items as bought. Items are removed from shopping list.
      * @summary Mark items as bought
      * @param {number} id ID of household&#x27;s shopping list to mark items as bought
-     * @param {ShoppinglistBuyBody} [body] Items to be marked as bought
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     markItemsAsBought: async (
       id: number,
-      body?: ShoppinglistBuyBody,
       options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       // verify required parameter 'id' is not null or undefined
@@ -247,8 +244,6 @@ export const ShoppingListApiAxiosParamCreator = function (configuration?: Config
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
 
-      localVarHeaderParameter["Content-Type"] = "application/json";
-
       const query = new URLSearchParams(localVarUrlObj.search);
       for (const key in localVarQueryParameter) {
         query.set(key, localVarQueryParameter[key]);
@@ -263,12 +258,6 @@ export const ShoppingListApiAxiosParamCreator = function (configuration?: Config
         ...headersFromBaseOptions,
         ...options.headers,
       };
-      const needsSerialization =
-        typeof body !== "string" ||
-        localVarRequestOptions.headers["Content-Type"] === "application/json";
-      localVarRequestOptions.data = needsSerialization
-        ? JSON.stringify(body !== undefined ? body : {})
-        : body || "";
 
       return {
         url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
@@ -430,18 +419,16 @@ export const ShoppingListApiFp = function (configuration?: Configuration) {
      * Mark items as bought. Items are removed from shopping list.
      * @summary Mark items as bought
      * @param {number} id ID of household&#x27;s shopping list to mark items as bought
-     * @param {ShoppinglistBuyBody} [body] Items to be marked as bought
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async markItemsAsBought(
       id: number,
-      body?: ShoppinglistBuyBody,
       options?: AxiosRequestConfig
     ): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
       const localVarAxiosArgs = await ShoppingListApiAxiosParamCreator(
         configuration
-      ).markItemsAsBought(id, body, options);
+      ).markItemsAsBought(id, options);
       return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
         const axiosRequestArgs: AxiosRequestConfig = {
           ...localVarAxiosArgs.options,
@@ -540,17 +527,15 @@ export const ShoppingListApiFactory = function (
      * Mark items as bought. Items are removed from shopping list.
      * @summary Mark items as bought
      * @param {number} id ID of household&#x27;s shopping list to mark items as bought
-     * @param {ShoppinglistBuyBody} [body] Items to be marked as bought
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async markItemsAsBought(
       id: number,
-      body?: ShoppinglistBuyBody,
       options?: AxiosRequestConfig
     ): Promise<AxiosResponse<void>> {
       return ShoppingListApiFp(configuration)
-        .markItemsAsBought(id, body, options)
+        .markItemsAsBought(id, options)
         .then((request) => request(axios, basePath));
     },
     /**
@@ -636,18 +621,16 @@ export class ShoppingListApi extends BaseAPI {
    * Mark items as bought. Items are removed from shopping list.
    * @summary Mark items as bought
    * @param {number} id ID of household&#x27;s shopping list to mark items as bought
-   * @param {ShoppinglistBuyBody} [body] Items to be marked as bought
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof ShoppingListApi
    */
   public async markItemsAsBought(
     id: number,
-    body?: ShoppinglistBuyBody,
     options?: AxiosRequestConfig
   ): Promise<AxiosResponse<void>> {
     return ShoppingListApiFp(this.configuration)
-      .markItemsAsBought(id, body, options)
+      .markItemsAsBought(id, options)
       .then((request) => request(this.axios, this.basePath));
   }
   /**
