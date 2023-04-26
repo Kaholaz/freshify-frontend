@@ -355,7 +355,7 @@ async function saveItem(item: CreateShoppingListEntry) {
       setItemLocal(response.data);
     })
     .catch(() => {
-      showError("En feil oppstod ved lagrin av vare", "Vennligt prøv igjen senere", 0);
+      showError("En feil oppstod ved lagring av vare", "Vennligt prøv igjen senere", 0);
     });
 }
 
