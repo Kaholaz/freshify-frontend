@@ -31,7 +31,7 @@
 
 <script setup lang="ts">
 import { inject, onMounted, ref } from "vue";
-import type { UserFull } from "@/services";
+import type { HouseholdUserType, UserFull } from "@/services";
 import UserCard from "@/components/HouseholdCard.vue";
 import HouseholdTopBar from "@/components/HouseholdTopBar.vue";
 import { useHouseholdStore } from "@/stores/household";
@@ -77,26 +77,28 @@ function removeUser(user: UserFull) {
 function updateUserPrivelige(user: UserFull) {
   console.log(user.email);
   let userToUpdate = users.value.filter((u) => u.user.id === user.id)[0];
+  let updatePriveliges = "" as string;
   console.log("userToUpdateType: " + userToUpdate.userType);
   if (userToUpdate.userType === "SUPERUSER") {
-    userToUpdate.userType = "USER";
+    updatePriveliges = "USER";
   } else {
-    userToUpdate.userType = "SUPERUSER";
+    updatePriveliges = "SUPERUSER";
   }
 
   let updateHouseholdUserType: UpdateHouseholdUserType = {
     userId: userToUpdate.user.id,
-    type: userToUpdate.userType,
+    type: updatePriveliges as HouseholdUserType,
   };
 
   return householdApi
     .updateHouseholdMemberRole(householdStore.household?.id!, updateHouseholdUserType)
     .then((data) => {
       ElMessage.success("Oppdaterte bruker " + user.firstName + " til: " + userToUpdate.userType);
+      let updatedPriveliges = "" as string;
       users.value = users.value.map((u) => {
-        if (u.user.id === user.id && u.userType === "USER") {
+        if (u.user.id === user.id && updatePriveliges === "USER") {
           u.userType = "USER";
-        } else if (u.user.id === user.id && u.userType === "SUPERUSER") {
+        } else if (u.user.id === user.id && updatePriveliges === "SUPERUSER") {
           u.userType = "SUPERUSER";
         }
         return u;
