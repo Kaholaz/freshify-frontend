@@ -135,19 +135,20 @@
 import ShoppingListCard from "@/components/ShoppingListCard.vue";
 import type {
   CreateShoppingListEntry,
-  ShoppinglistBuyBody,
   ShoppingListEntry,
   UpdateShoppingListEntry,
 } from "@/services";
 import { inject, Ref, ref } from "vue";
 import { ElMessage, ElNotification, FormInstance } from "element-plus";
-import { ItemTypeApi, ShoppingListApi } from "@/services/index";
+import { ItemTypeApi, ShoppingListApi, HouseholdApi } from "@/services/index";
 import ShoppingListCardSkeleton from "@/components/ShoppingListCardSkeleton.vue";
 import { useHouseholdStore } from "@/stores/household";
+import { useSessionStore } from "@/stores/session";
 
 const drawers = ref(["active", "requested", "bought"] as string[]);
 
 const ruleFormRef = ref<FormInstance>();
+
 const newItem = ref({
   itemTypeId: undefined,
   count: 1,
@@ -191,7 +192,6 @@ const itemTypesApi = new ItemTypeApi();
 
 const houseHoldStore = useHouseholdStore();
 
-const householdId = houseHoldStore.household.id;
 const itemTypeAutocomplete = ref(null as any);
 const loading = ref(undefined) as Ref<undefined | boolean>;
 const loadingSubmit = ref(false);
@@ -270,7 +270,7 @@ function acceptSuggestion(item: ShoppingListEntry, showSuccessMessage = true) {
   cloneItem.suggested = false;
 
   return shoppingListApi
-    .updateShoppingListEntry(householdId, {
+    .updateShoppingListEntry(houseHoldStore.household.id, {
       id: cloneItem.id,
       count: cloneItem.count,
       suggested: cloneItem.suggested,
@@ -340,9 +340,17 @@ function completeShopping() {
     });
 }
 
-function saveItem(item: CreateShoppingListEntry) {
+const householdApi = new HouseholdApi();
+
+async function saveItem(item: CreateShoppingListEntry) {
+  await householdApi.getUsers(houseHoldStore.household.id).then((response) => {
+    const users = response.data;
+    const user = users.find((user) => user.user.id === useSessionStore().getUser().id);
+    item.suggested = user.userType !== "SUPERUSER";
+  });
+  console.log(item.suggested);
   return shoppingListApi
-    .addItem(householdId, item)
+    .addItem(houseHoldStore.household.id, item)
     .then((response) => {
       ElMessage({
         message: "Vare har blitt oppdatert",
@@ -368,7 +376,7 @@ async function updateItem(item: ShoppingListEntry, showSuccessMessage = true) {
   } as UpdateShoppingListEntry;
 
   return shoppingListApi
-    .updateShoppingListEntry(householdId, updateItem)
+    .updateShoppingListEntry(houseHoldStore.household.id, updateItem)
     .then(() => {
       if (showSuccessMessage) {
         ElMessage({
@@ -390,7 +398,7 @@ async function updateItem(item: ShoppingListEntry, showSuccessMessage = true) {
 
 function deleteItem(item: ShoppingListEntry, showSuccessMessage = true) {
   return shoppingListApi
-    .deleteShoppingListEntry(householdId, item.id)
+    .deleteShoppingListEntry(houseHoldStore.household.id, item.id)
     .then(() => {
       if (showSuccessMessage) {
         ElMessage({
