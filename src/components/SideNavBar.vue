@@ -19,7 +19,7 @@
         :label="item.name"
         :value="item.id"
       ></el-option>
-      <el-button style="width: 100%" type="primary">
+      <el-button style="width: 100%" type="primary" @click="isCreateHousehold = true">
         <el-icon>
           <HomeFilled />
         </el-icon>
@@ -57,6 +57,13 @@
       <span>Rediger husholdning</span>
     </el-menu-item>
   </el-menu>
+  <el-dialog v-model="isCreateHousehold" show-close>
+    <CreateHouseholdComponent
+      v-model:household-name="newHousehold.name"
+      @submit="createHousehold"
+      @skip="skipCreateHousehold"
+    ></CreateHouseholdComponent>
+  </el-dialog>
 </template>
 
 <script lang="ts" setup>
@@ -64,8 +71,10 @@ import router from "@/router";
 import { DataAnalysis, Dish, HomeFilled, List, Management, Setting } from "@element-plus/icons-vue";
 import { getCurrentInstance, onMounted, ref } from "vue";
 import { useHouseholdStore } from "@/stores/household";
-import { Household, HouseholdApi } from "@/services/index";
+import { CreateHousehold, Household, HouseholdApi } from "@/services/index";
 import { useSessionStore } from "@/stores/session";
+import CreateHouseholdComponent from "@/components/CreateHouseholdComponent.vue";
+import { showError } from "@/utils/error-utils";
 
 const defaultActive = ref("/");
 onMounted(async () => {
@@ -84,9 +93,13 @@ const handleClose = (key: string, keyPath: string[]) => {
 const houseHoldStore = useHouseholdStore();
 const houseHoldApi = new HouseholdApi();
 const sessionStore = useSessionStore();
+const isCreateHousehold = ref(false);
 
 const households = ref([]);
 const household = ref(houseHoldStore.getHousehold());
+const newHousehold = ref({
+  name: "",
+} as CreateHousehold);
 const emit = defineEmits<{
   (event: "select", ...args: any[]): void;
 }>();
@@ -104,5 +117,22 @@ function setHouseHold(val: Household) {
   houseHoldStore.setHousehold(val);
   const root = getCurrentInstance();
   root?.emit("household-changed", val);
+}
+
+function createHousehold() {
+  houseHoldApi
+    .createHousehold(newHousehold.value)
+    .then((res) => {
+      households.value.push(res.data);
+      setHouseHold(res.data);
+      isCreateHousehold.value = false;
+    })
+    .catch(() => {
+      showError("En uventet feil oppstod", "vennligst prøv igjen senere", 0);
+    });
+}
+
+function skipCreateHousehold() {
+  isCreateHousehold.value = false;
 }
 </script>
