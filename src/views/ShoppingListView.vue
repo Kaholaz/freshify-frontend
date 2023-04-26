@@ -1,16 +1,16 @@
 <template>
   <div>
     <h1>Handleliste</h1>
-    <el-card style="margin-bottom: 1rem" v-loading="loadingSubmit">
+    <el-card v-loading="loadingSubmit" style="margin-bottom: 1rem">
       <h5>Legg til ny vare</h5>
       <el-form
         ref="ruleFormRef"
         :model="newItem"
         :rules="validationRules"
-        style="margin-top: 0.5rem"
+        inline
         label-position="left"
         label-width="70px"
-        inline
+        style="margin-top: 0.5rem"
       >
         <el-row>
           <el-form-item label="Vare" prop="itemTypeId" required>
@@ -345,7 +345,6 @@ async function saveItem(item: CreateShoppingListEntry) {
     const user = users.find((user) => user.user.id === useSessionStore().getUser().id);
     item.suggested = user.userType !== "SUPERUSER";
   });
-  console.log(item.suggested);
   return shoppingListApi
     .addItem(houseHoldStore.household.id, item)
     .then((response) => {
@@ -356,7 +355,7 @@ async function saveItem(item: CreateShoppingListEntry) {
       setItemLocal(response.data);
     })
     .catch(() => {
-      showError("En feil oppstod ved lagrin av vare", "Vennligt prøv igjen senere", 0);
+      showError("En feil oppstod ved lagring av vare", "Vennligt prøv igjen senere", 0);
     });
 }
 

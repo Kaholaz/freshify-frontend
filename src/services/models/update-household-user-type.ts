@@ -12,6 +12,7 @@
  * Do not edit the class manually.
  */
 import { HouseholdUserType } from "./household-user-type";
+
 /**
  *
  * @export

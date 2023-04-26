@@ -2,15 +2,15 @@
   <el-card class="container">
     <h2>Log in</h2>
 
-    <el-form ref="form" label-position="top" :model="data" class="login-form">
+    <el-form ref="form" :model="data" class="login-form" label-position="top">
       <el-form-item label="Email" prop="email">
         <el-input
           id="email-input"
           v-if="data"
-          placeholder="eksempel@gmail.com"
-          type="text"
           v-model="data.email"
+          placeholder="eksempel@gmail.com"
           size="large"
+          type="text"
           @input="errorMessage = ''"
         />
       </el-form-item>
@@ -19,38 +19,38 @@
         <el-input
           id="password-input"
           v-if="data"
-          type="password"
           v-model="data.password"
-          @keyup.enter="signIn"
-          @input="errorMessage = ''"
           placeholder="passord"
           size="large"
+          type="password"
+          @input="errorMessage = ''"
+          @keyup.enter="signIn"
         />
       </el-form-item>
 
       <p class="no-account">
         Har du ikke konto?
-        <el-link type="primary" @click="router.push({ name: 'register' })">Registrer deg! </el-link>
+        <el-link type="primary" @click="router.push({ name: 'register' })">Registrer deg!</el-link>
       </p>
 
       <el-button ref="submitButton" type="primary" size="large" @click="(vitest) => signIn(vitest)"
         >Logg inn
       </el-button>
       <el-alert
-        id="error-box"
-        type="error"
         v-if="errorMessage"
-        show-icon
-        closable
-        style="margin-top: 1rem"
+        id="error-box"
         :title="errorMessage"
+        closable
+        show-icon
+        style="margin-top: 1rem"
+        type="error"
       >
       </el-alert>
     </el-form>
   </el-card>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { reactive, ref } from "vue";
 
 import type { LoginUser } from "@/services/index";
@@ -90,7 +90,6 @@ function signIn() {
         .getHouseholds(data.id!)
         .then((response) => response.data)
         .then((households) => {
-          console.log(households);
           if (households?.length > 0) {
             householdStore.household = households[0];
           }

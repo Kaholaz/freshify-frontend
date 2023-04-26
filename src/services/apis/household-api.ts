@@ -11,17 +11,20 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import globalAxios, { AxiosResponse, AxiosInstance, AxiosRequestConfig } from "axios";
+import globalAxios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 import { Configuration } from "../configuration";
 // Some imports not used depending on template conditions
 // @ts-ignore
-import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from "../base";
-import { CreateHousehold } from "../models";
-import { Household } from "../models";
-import { HouseholdMember } from "../models";
-import { IdUsersBody } from "../models";
-import { InlineResponse2001 } from "../models";
-import { UpdateHouseholdUserType } from "../models";
+import { BASE_PATH, BaseAPI, COLLECTION_FORMATS, RequestArgs, RequiredError } from "../base";
+import {
+  CreateHousehold,
+  Household,
+  HouseholdMember,
+  IdUsersBody,
+  InlineResponse2001,
+  UpdateHouseholdUserType,
+} from "../models";
+
 /**
  * HouseholdApi - axios parameter creator
  * @export
@@ -964,6 +967,7 @@ export class HouseholdApi extends BaseAPI {
       .addUser(id, body, options)
       .then((request) => request(this.axios, this.basePath));
   }
+
   /**
    * Creates a household
    * @summary Create a household
@@ -980,6 +984,7 @@ export class HouseholdApi extends BaseAPI {
       .createHousehold(body, options)
       .then((request) => request(this.axios, this.basePath));
   }
+
   /**
    * Deletes a household. Can only be done by superusers.
    * @summary Delete a household
@@ -996,6 +1001,7 @@ export class HouseholdApi extends BaseAPI {
       .deleteHousehold(id, options)
       .then((request) => request(this.axios, this.basePath));
   }
+
   /**
    * Returns a single household
    * @summary Get household by id
@@ -1012,6 +1018,7 @@ export class HouseholdApi extends BaseAPI {
       .getHouseholdById(id, options)
       .then((request) => request(this.axios, this.basePath));
   }
+
   /**
    * Gets a list of households of a given user
    * @summary Get a user's households
@@ -1028,6 +1035,7 @@ export class HouseholdApi extends BaseAPI {
       .getHouseholds(id, options)
       .then((request) => request(this.axios, this.basePath));
   }
+
   /**
    * Gets all the users that are member of a household
    * @summary Get household users
@@ -1044,6 +1052,7 @@ export class HouseholdApi extends BaseAPI {
       .getUsers(id, options)
       .then((request) => request(this.axios, this.basePath));
   }
+
   /**
    * Removes a user from a household. Can only be done by a superuser or the user themselves
    * @summary Remove a user from a household
@@ -1062,6 +1071,7 @@ export class HouseholdApi extends BaseAPI {
       .removeUserFromHousehold(id, userId, options)
       .then((request) => request(this.axios, this.basePath));
   }
+
   /**
    * Updates the household's attributes. Can only be done by a superuser
    * @summary Update household
@@ -1080,6 +1090,7 @@ export class HouseholdApi extends BaseAPI {
       .updateHousehold(id, body, options)
       .then((request) => request(this.axios, this.basePath));
   }
+
   /**
    * Updates the role of a user withing a given household. Can only be done by a superuser
    * @summary Update household member role of user

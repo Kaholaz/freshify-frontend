@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { computed, onMounted, ref } from "vue";
 import { Expand } from "@element-plus/icons-vue";
 import { useToggle } from "@vueuse/core";
@@ -31,7 +31,7 @@ const isFullScreen = computed(() => router.currentRoute.value.meta?.fullScreen);
       <TopNavBar @menu="drawerToggle()" />
     </el-header>
     <div v-if="collapsed">
-      <el-menu style="--el-menu-hover-bg-color: var(--el-menu-bg-color)" v-if="!isFullScreen">
+      <el-menu v-if="!isFullScreen" style="--el-menu-hover-bg-color: var(--el-menu-bg-color)">
         <el-menu-item>
           <el-button @click="drawerToggle()">
             <el-icon>
@@ -43,7 +43,7 @@ const isFullScreen = computed(() => router.currentRoute.value.meta?.fullScreen);
       </el-menu>
     </div>
     <el-container>
-      <el-aside width="300px" v-if="!collapsed && !isFullScreen">
+      <el-aside v-if="!collapsed && !isFullScreen" width="300px">
         <SideNavBar class="sidenav" />
       </el-aside>
       <el-drawer v-model="drawer" direction="ltr" size="306px">

@@ -76,7 +76,9 @@ router.beforeEach((to, from, next) => {
           console.log(sessionStore.isAuthenticated);
         }
       })
-      .catch(() => next({ name: "login" }));
+      .catch(() => {
+        sessionStore.timeout();
+      });
     startup = false;
   }
   if (to.meta.requiresAuth && !sessionStore.isAuthenticated) {

@@ -13,35 +13,36 @@
       <div class="info">
         <h3>{{ item.type?.name }}</h3>
         <el-text v-if="item.bought && getDaysSinceBought(item) > 0"
-          >Kjøpt for {{ getDaysSinceBought(item) }} dager siden.</el-text
-        >
+          >Kjøpt for {{ getDaysSinceBought(item) }} dager siden.
+        </el-text>
         <el-text v-else-if="item.bought && getDaysSinceBought(item) == 0"> Kjøpt i dag</el-text>
       </div>
 
       <div class="buttons">
-        <el-button type="primary" @click="emit('use', item)">Bruk</el-button>
-        <el-button type="danger" @click="emit('delete', item)">Slett</el-button>
+        <el-button id="use-button" type="primary" @click="emit('use', item)">Bruk</el-button>
+        <el-button id="delete-button" type="danger" @click="emit('delete', item)">Slett</el-button>
       </div>
     </div>
   </el-card>
 </template>
 
-<script setup lang="ts">
-import { computed } from "vue";
-
+<script lang="ts" setup>
 import type { Item } from "@/services/index";
 import { getDaysSinceBought } from "@/utils/item-utils";
 
 // Define props
 defineProps<ItemCardProps>();
+
 export interface ItemCardProps {
   item: Item;
 }
 
 // Define emits
 const emit = defineEmits<ItemCardEmits>();
+
 export interface ItemCardEmits {
   (event: "use", item: Item): void;
+
   (event: "delete", item: Item): void;
 }
 </script>
