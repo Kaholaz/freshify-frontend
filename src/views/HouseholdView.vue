@@ -3,7 +3,7 @@
     <h1 v-if="householdStore.household?.id">{{ householdStore.household?.name }}</h1>
     <h1 v-else>Velg husholdning i meny</h1>
     <div class="top-bar" v-if="householdStore.household?.id">
-      <HouseholdTopBar ::current-user-privelige="currentUserPrivelige" @delete-household="deleteHousehold()" @add-user="addUser" />
+      <HouseholdTopBar :current-user-privelige="currentUserPrivelige" @delete-household="deleteHousehold()" @add-user="addUser" />
     </div>
     <div>
       <el-row gutter="20">
