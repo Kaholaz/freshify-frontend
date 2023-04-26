@@ -2,7 +2,6 @@
   <div class="login-container">
     <el-card shadow="never" class="w-full max-w-md login-card" :body-style="{ padding: 20 }">
       <h2 class="my-3">Log in</h2>
-<<<<<<< Updated upstream
 
     <!-- Form -->
     <el-form ref="form" label-position="top" :model="data" class="login-form">
@@ -19,7 +18,7 @@
       <!-- Ingen konto? -->
       <p class="no-account">
         Har du ikke konto?<el-link type="primary" @click="router.push({ name: 'register' })"
-          >Regisrer deg!</el-link
+          >Registrer deg!</el-link
         >
       </p>
 
@@ -28,6 +27,7 @@
         >Sign in</el-button
       >
     </el-form>
+    </el-card>
   </div>
 </template>
 
@@ -78,53 +78,6 @@ function signIn() {
       showError("Kunne ikke logge inn.", error.message, 0);
     });
 }
-=======
-      <p class="text-[#868e96]">
-        Don't have an account?
-        <el-link type="primary">Sign up</el-link>
-      </p>
-    </div>
-    <el-form label-position="top">
-      <el-form-item label="Email">
-        <el-input placeholder="Email" type="text" v-model="state.email" size="large" />
-      </el-form-item>
-      <el-form-item type="text" v-model="state.password" label="Password">
-        <el-input placeholder="Password" size="large" />
-      </el-form-item>
-      <div class="flex justify-between mb-2">
-        <el-checkbox v-model="checked" label="Remember me" size="large" />
-        <el-link class="forgot-password" type="primary">Forgot password?</el-link>
-      </div>
-      <el-button type="primary" size="large" class="w-full">Sign in</el-button>
-    </el-form>
-  </el-card>
-</template>
-
-<script setup lang="ts">
-import { computed, reactive } from "vue";
-import { required, email } from "@vuelidate/validators";
-import useValidate from "@vuelidate/core";
-
-const state = reactive({
-  email: "",
-  password: {
-    password: "",
-    confirm: "",
-  },
-});
-
-const rules = computed(() => {
-  return {
-    email: { required },
-    password: {
-      password: { required },
-      confirm: { required },
-    },
-  };
-});
-
-const v$ = useValidate(rules, state);
->>>>>>> Stashed changes
 </script>
 
 <style scoped>
