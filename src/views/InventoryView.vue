@@ -26,7 +26,7 @@
     title="Registrer matbruk"
     width="500px"
   >
-    <span>Velg hvor mye av varen du har brukt opp! Resten vil bli registrert som kastet.</span>
+    <span>Velg hvor mye av varen du har brukt. Resten blir markert som svinn</span>
     <div class="amount-selection-row">
       <el-button round type="info" @click="dialogAmount = 0"> Ingenting</el-button>
       <el-button round type="info" @click="dialogAmount = 0.25"> 0.25</el-button>
@@ -37,9 +37,7 @@
     <template #footer>
       <span class="dialog-footer">
         <el-button type="danger" @click="useItemDialogVisible = false">Avbryt</el-button>
-        <el-button type="warning" @click="useItem(dialogItem, dialogAmount)">
-          Bruk og kast
-        </el-button>
+        <el-button type="warning" @click="useItem(dialogItem, dialogAmount)"> Bruk </el-button>
       </span>
     </template>
   </el-dialog>
