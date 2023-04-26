@@ -38,6 +38,7 @@ import { useHouseholdStore } from "@/stores/household";
 import { useSessionStore } from "@/stores/session";
 import { HouseholdApi, AccountApi } from "@/services/index";
 import { ElMessage } from "element-plus";
+import {UpdateHouseholdUserType} from "@/services";
 
 const householdStore = useHouseholdStore();
 /* const sessionStore = useSessionStore(); */
@@ -61,7 +62,7 @@ function getUsers() {
 
 function removeUser(user: UserFull) {
   return householdApi
-    .removeUserFromHousehold(23, user.id!)
+    .removeUserFromHousehold(householdStore.household?.id!, user.id!)
     .then(() => {
       ElMessage.success("Fjernet " + user.firstName + " fra husholdning");
       users.value = users.value.filter((u) => u.user.id !== user.id);
@@ -82,8 +83,14 @@ function updateUserPrivelige(user: UserFull) {
   } else {
     userToUpdate.userType = "SUPERUSER";
   }
+
+  let updateHouseholdUserType: UpdateHouseholdUserType = {
+    userId: userToUpdate.user.id,
+    type: userToUpdate.userType,
+  };
+
   return householdApi
-    .updateHouseholdMemberRole(23, userToUpdate.id, userToUpdate.userType)
+    .updateHouseholdMemberRole(householdStore.household?.id!, updateHouseholdUserType)
     .then((data) => {
       ElMessage.success("Oppdaterte bruker " + user.firstName + " til: " + userToUpdate.userType);
       users.value = users.value.map((u) => {
