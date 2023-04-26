@@ -45,7 +45,7 @@ const householdApi = new HouseholdApi();
 const accountApi = new AccountApi();
 
 let users = ref([]);
-const currentHousehold = householdStore.getHousehold();
+const currentHousehold = householdStore.household;
 
 householdApi.getUsers(currentHousehold?.id!).then((data) => {
   users.value = data.data;

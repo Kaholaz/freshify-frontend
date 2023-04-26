@@ -1,23 +1,16 @@
 <template>
-  <el-menu
-    :default-active="defaultActive"
-    @open="handleOpen"
-    @close="handleClose"
-    router
-    @select="$emit('select')"
-  >
+  <el-menu :default-active="defaultActive" @open="handleOpen" @close="handleClose" router>
     <el-select
       style="width: calc(100% - 2rem); margin: 1rem"
-      :placeholder="household.name"
-      @change="setHouseHold(household)"
-      v-model="household"
+      :model-value="houseHoldStore.household.name"
       v-if="household"
     >
       <el-option
         v-for="item in households"
         :key="item.id"
         :label="item.name"
-        :value="item.id"
+        @click="houseHoldStore.household = item"
+        :value="item"
       ></el-option>
       <el-button style="width: 100%" type="primary" @click="isCreateHousehold = true">
         <el-icon>
@@ -100,9 +93,6 @@ const household = houseHoldStore.household;
 const newHousehold = ref({
   name: "",
 } as CreateHousehold);
-const emit = defineEmits<{
-  (event: "select", ...args: any[]): void;
-}>();
 
 houseHoldApi.getHouseholds(sessionStore.getUser()?.id!).then((res) => {
   households.value = res.data;
@@ -112,18 +102,11 @@ houseHoldApi.getHouseholds(sessionStore.getUser()?.id!).then((res) => {
   }
 });
 
-function setHouseHold(val: Household) {
-  console.log("setting household" + val);
-  household.value = val;
-  console.log(houseHoldStore.household);
-}
-
 function createHousehold() {
   houseHoldApi
     .createHousehold(newHousehold.value)
     .then((res) => {
       households.value.push(res.data);
-      setHouseHold(res.data);
       isCreateHousehold.value = false;
     })
     .catch(() => {

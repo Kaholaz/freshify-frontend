@@ -314,9 +314,7 @@ async function declineAllSuggestions() {
 
 function completeShopping() {
   shoppingListApi
-    .markItemsAsBought(householdId, {
-      listEntryIds: Array.from(boughtItems.value.values()).map((item) => item.id),
-    } as ShoppinglistBuyBody)
+    .markItemsAsBought()
     .then(() => {
       ElNotification({
         message: "Handleturen er avsluttet. Du finner de kjøpte varene i vareoversikten!",
