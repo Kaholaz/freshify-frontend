@@ -1,42 +1,39 @@
 <template>
-  <el-card class="container">
-    <h2 class="my-3">Registrer deg</h2>
+  <h2 class="my-3">Registrer deg</h2>
+  <el-form
+    ref="ruleFormRef"
+    label-position="top"
+    :model="newUser"
+    :rules="validationRules"
+    status-icon
+  >
+    <el-form-item label="Email" prop="email">
+      <el-input placeholder="Email" type="text" v-model="email" size="large" />
+    </el-form-item>
 
-    <el-form
-      ref="ruleFormRef"
-      label-position="top"
-      :model="newUser"
-      :rules="validationRules"
-      status-icon
-    >
-      <el-form-item label="Email" prop="email">
-        <el-input placeholder="Email" type="text" v-model="email" size="large" />
-      </el-form-item>
+    <el-form-item label="Fornavn" prop="firstName">
+      <el-input placeholder="fornavn" type="text" v-model="firstName" size="large" />
+    </el-form-item>
 
-      <el-form-item label="Fornavn" prop="firstName">
-        <el-input placeholder="fornavn" type="text" v-model="firstName" size="large" />
-      </el-form-item>
+    <el-form-item label="Passord" prop="password">
+      <el-input type="password" v-model="password" placeholder="Password" size="large" />
+    </el-form-item>
 
-      <el-form-item label="Passord" prop="password">
-        <el-input type="password" v-model="password" placeholder="Password" size="large" />
-      </el-form-item>
+    <el-form-item label="Gjenta passord" prop="passwordConfirm">
+      <el-input type="password" v-model="passwordConfirm" placeholder="Password" size="large" />
+    </el-form-item>
 
-      <el-form-item label="Gjenta passord" prop="passwordConfirm">
-        <el-input type="password" v-model="passwordConfirm" placeholder="Password" size="large" />
-      </el-form-item>
-
-      <el-button ref="submitButton" type="primary" size="large" @click="submit"
-        >Registrer deg
-      </el-button>
-    </el-form>
-    <el-alert
-      type="error"
-      show-icon
-      :title="errorMessage"
-      v-if="errorMessage"
-      style="margin-top: 1rem"
-    />
-  </el-card>
+    <el-button ref="submitButton" type="primary" size="large" @click="submit"
+      >Registrer deg
+    </el-button>
+  </el-form>
+  <el-alert
+    type="error"
+    show-icon
+    :title="errorMessage"
+    v-if="errorMessage"
+    style="margin-top: 1rem"
+  />
 </template>
 <script setup lang="ts">
 import type { CreateUser } from "@/services";
@@ -122,10 +119,4 @@ function submit() {
   });
 }
 </script>
-<style scoped>
-.container {
-  width: 90%;
-  margin: 10vh auto;
-  max-width: 500px;
-}
-</style>
+<style scoped></style>

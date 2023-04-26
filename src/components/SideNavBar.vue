@@ -19,6 +19,12 @@
         :label="item.name"
         :value="item.id"
       ></el-option>
+      <el-button style="width: 100%" type="primary">
+        <el-icon>
+          <HomeFilled />
+        </el-icon>
+        <span>Legg til husholdning</span>
+      </el-button>
     </el-select>
     <el-menu-item index="/shopping-list">
       <el-icon>
