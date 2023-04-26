@@ -51,7 +51,7 @@
 
 <script setup lang="ts">
 import axios from "axios";
-import { ref, computed } from "vue";
+import { ref, computed, inject } from "vue";
 import { ElDialog } from "element-plus";
 
 import type { Item, UpdateItem } from "@/services/index";
@@ -85,7 +85,7 @@ const isLoading = computed(() => items.value === null && error.value === null);
 
 // Define callbacks
 function deleteItem(item: Item) {
-  let householdId = householdStore.getHousehold()?.id;
+  let householdId = householdStore.household.id;
   if (!householdId) {
     console.error(`Could not delete item ${item.type?.name}. No household id was selected.`);
     showError("Ingen hjem valgt.", "Velg et hjem for å slette et element.", 15000);
@@ -106,6 +106,11 @@ function useItemDialog(item: Item) {
   useItemDialogVisible.value = true;
 }
 
+const emitter = inject("emitter");
+
+emitter.on("household-updated", () => {
+  updateItems();
+});
 // Other script logic
 function useItem(item: Item, amount: number | null) {
   if (amount === null) {
@@ -160,10 +165,9 @@ function removeItemClientSide(item: Item) {
 }
 
 function getHouseholdId(): number | null {
-  let householdId = householdStore.getHousehold()?.id;
+  let householdId = householdStore.household?.id;
 
   if (!householdId) {
-    console.error("No household id was selected. Can not fetch inventory items.");
     error.value = new Error("No household id was selected. Can not fetch inventory items.");
     showError("Ingen hjem valgt.", "Velg et hjem for å se inventaret til hjemmet.", 15000);
     return null;

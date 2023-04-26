@@ -8,30 +8,23 @@
     <el-step title="Lag bruker"></el-step>
     <el-step title="Lag husholdning"></el-step>
   </el-steps>
-  <RegisterComponent
-    v-model:email="user.email"
-    v-model:first-name="user.firstName"
-    v-model:password="user.password"
-    @submit="submit"
-    :error-message="errorMessage"
-    v-if="active == 0"
-  >
-  </RegisterComponent>
-  <el-form v-if="active == 1" label-position="top">
-    <el-card style="max-width: 500px; width: 100%; margin: auto 10rem">
-      <h2>Lag husholdning</h2>
-      <el-form-item label="Navn på husholdning">
-        <el-input v-model="household.name" placeholder="husholdning"></el-input>
-      </el-form-item>
-      <el-row>
-        <div class="spacer"></div>
-        <el-link @click="skipCreateHousehold">Jeg ønsker ikke å lage husholdning</el-link>
-      </el-row>
-      <el-form-item>
-        <el-button @click="createHousehold" type="primary">Lag husholdning</el-button>
-      </el-form-item>
-    </el-card>
-  </el-form>
+  <el-card class="container">
+    <RegisterComponent
+      v-model:email="user.email"
+      v-model:first-name="user.firstName"
+      v-model:password="user.password"
+      @submit="submit"
+      :error-message="errorMessage"
+      v-if="active == 0"
+    >
+    </RegisterComponent>
+    <CreateHouseholdComponent
+      v-model:household-name="household.name"
+      @submit="createHousehold"
+      @skip="skipCreateHousehold"
+      v-if="active == 1"
+    ></CreateHouseholdComponent>
+  </el-card>
 </template>
 <script setup lang="ts">
 import { reactive, ref } from "vue";
@@ -42,6 +35,7 @@ import { useSessionStore } from "@/stores/session";
 import router from "@/router";
 import { showError } from "@/utils/error-utils";
 import { useHouseholdStore } from "@/stores/household";
+import CreateHouseholdComponent from "@/components/CreateHouseholdComponent.vue";
 
 const user = reactive({
   email: "",
@@ -93,7 +87,7 @@ function createHousehold() {
   householdApi
     .createHousehold(household)
     .then((data) => {
-      useHouseholdStore().setHousehold(data.data);
+      useHouseholdStore().household = data.data;
       next();
       router.push({ name: "inventory" });
     })
@@ -109,3 +103,10 @@ function createHousehold() {
     });
 }
 </script>
+<style>
+.container {
+  width: 90%;
+  margin: 10vh auto;
+  max-width: 500px;
+}
+</style>
