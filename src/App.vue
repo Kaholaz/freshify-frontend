@@ -31,7 +31,7 @@ const isFullScreen = computed(() => router.currentRoute.value.meta?.fullScreen);
       <TopNavBar @menu="drawerToggle()" />
     </el-header>
     <div v-if="collapsed">
-      <el-menu style="--el-menu-hover-bg-color: var(--el-menu-bg-color)">
+      <el-menu style="--el-menu-hover-bg-color: var(--el-menu-bg-color)" v-if="!isFullScreen">
         <el-menu-item>
           <el-button @click="drawerToggle()">
             <el-icon>
