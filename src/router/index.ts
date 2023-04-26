@@ -73,7 +73,8 @@ router.beforeEach((to, from, next) => {
         sessionStore.authenticate(data.data);
         console.log(sessionStore.isAuthenticated);
       }
-    });
+    })
+    .catch(() => next({ name: "login" }));
     startup = false;
   }
   if (to.meta.requiresAuth && !sessionStore.isAuthenticated) {
