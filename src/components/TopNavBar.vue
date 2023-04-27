@@ -2,7 +2,7 @@
   <nav>
     <el-menu :default-active="activeIndex" :ellipsis="false" mode="horizontal" router>
       <el-menu-item :index="'/inventory'">LOGO</el-menu-item>
-      <div class="flex-grow" />
+      <div class="flex-grow"></div>
       <el-menu-item v-if="sessionStore.isAuthenticated" index="/profile">
         <el-icon>
           <User />
@@ -18,6 +18,7 @@
     </el-menu>
   </nav>
 </template>
+
 <script lang="ts" setup>
 import { ref } from "vue";
 import { TurnOff, User } from "@element-plus/icons-vue";

@@ -6,9 +6,11 @@
     <el-link type="primary" @click="router.push({ name: 'register' })">eller registrer deg</el-link>
   </div>
 </template>
+
 <script lang="ts" setup>
 import router from "@/router";
 </script>
+
 <style>
 .home-view {
   display: flex;

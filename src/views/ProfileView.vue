@@ -1,4 +1,5 @@
 <template>
+  <TopNavBar />
   <EditProfile @change:user="updateUser" @change:password="updatePassword" />
 </template>
 
@@ -12,6 +13,7 @@ import { useSessionStore } from "@/stores/session";
 import { showError } from "@/utils/error-utils";
 
 import EditProfile from "@/components/EditProfile.vue";
+import TopNavBar from "@/components/TopNavBar.vue";
 
 // Define APIs and stores
 const accountApi = new AccountApi();

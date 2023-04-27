@@ -1,140 +1,147 @@
 <template>
-  <div>
-    <h1>Handleliste</h1>
-    <el-card v-loading="loadingSubmit" style="margin-bottom: 1rem">
-      <h5>Legg til ny vare</h5>
-      <el-form
-        ref="ruleFormRef"
-        :model="newItem"
-        :rules="validationRules"
-        inline
-        label-position="left"
-        label-width="70px"
-        style="margin-top: 0.5rem"
-      >
-        <el-row>
-          <el-form-item label="Vare" prop="itemTypeId" required>
-            <el-autocomplete
-              v-model="itemTypeAutocomplete"
-              :debounce="300"
-              :fetch-suggestions="searchItemType"
-              fit-input-width
-              placeholder="Vare"
-              value-key="name"
-              @change="newItem.itemTypeId = undefined"
-              @select="newItem.itemTypeId = $event.id"
+  <NavigationWindow>
+    <div>
+      <h1>Handleliste</h1>
+      <el-card v-loading="loadingSubmit" style="margin-bottom: 1rem">
+        <h5>Legg til ny vare</h5>
+        <el-form
+          ref="ruleFormRef"
+          :model="newItem"
+          :rules="validationRules"
+          inline
+          label-position="left"
+          label-width="70px"
+          style="margin-top: 0.5rem"
+        >
+          <el-row>
+            <el-form-item label="Vare" prop="itemTypeId" required>
+              <el-autocomplete
+                v-model="itemTypeAutocomplete"
+                :debounce="300"
+                :fetch-suggestions="searchItemType"
+                fit-input-width
+                placeholder="Vare"
+                value-key="name"
+                @change="newItem.itemTypeId = undefined"
+                @select="newItem.itemTypeId = $event.id"
+              />
+            </el-form-item>
+            <el-form-item label="Antall" prop="count" required>
+              <el-input v-model="newItem.count" placeholder="Antall" type="number" />
+            </el-form-item>
+            <div class="spacer"></div>
+            <el-form-item style="margin-right: 0">
+              <el-button type="primary" @click="validateAndAddNewItem(newItem)">legg til</el-button>
+            </el-form-item>
+          </el-row>
+        </el-form>
+      </el-card>
+      <el-collapse v-model="drawers">
+        <el-collapse-item name="active">
+          <template #title>
+            <el-text>Varer</el-text>
+          </template>
+          <div v-if="activeItems.size">
+            <ShoppingListCard
+              v-for="item in Array.from(activeItems.values())
+                .sort((a, b) => a.type.name.localeCompare(b.type.name))
+                .reverse()"
+              :key="item.id"
+              :item="item"
+              @click="handleClickCheckbox(item)"
+              @delete="deleteItem(item)"
+            ></ShoppingListCard>
+          </div>
+          <div v-else-if="loading == true">
+            <ShoppingListCardSkeleton></ShoppingListCardSkeleton>
+          </div>
+          <div v-else-if="loading == false && !activeItems.size">
+            <el-alert
+              :closable="false"
+              center
+              title="Det er ingen varer i handlelista"
+              type="info"
             />
-          </el-form-item>
-          <el-form-item label="Antall" prop="count" required>
-            <el-input v-model="newItem.count" placeholder="Antall" type="number" />
-          </el-form-item>
-          <div class="spacer"></div>
-          <el-form-item style="margin-right: 0">
-            <el-button type="primary" @click="validateAndAddNewItem(newItem)">legg til</el-button>
-          </el-form-item>
-        </el-row>
-      </el-form>
-    </el-card>
-    <el-collapse v-model="drawers">
-      <el-collapse-item name="active">
-        <template #title>
-          <el-text>Varer</el-text>
-        </template>
-        <div v-if="activeItems.size">
-          <ShoppingListCard
-            v-for="item in Array.from(activeItems.values())
-              .sort((a, b) => a.type.name.localeCompare(b.type.name))
-              .reverse()"
-            :key="item.id"
-            :item="item"
-            @click="handleClickCheckbox(item)"
-            @delete="deleteItem(item)"
-          ></ShoppingListCard>
-        </div>
-        <div v-else-if="loading == true">
-          <ShoppingListCardSkeleton></ShoppingListCardSkeleton>
-        </div>
-        <div v-else-if="loading == false && !activeItems.size">
-          <el-alert :closable="false" center title="Det er ingen varer i handlelista" type="info" />
-        </div>
-      </el-collapse-item>
-      <el-collapse-item name="requested">
-        <template #title>
-          <el-text>Foreslåtte varer</el-text>
-        </template>
-        <div v-if="suggestedItems.size">
-          <el-row class="divider-row">
-            <div style="flex-grow: 1"></div>
-            <el-popconfirm
-              v-if="houseHoldStore.getHouseholdMemberType() === HouseholdUserType.SUPERUSER"
-              title="Godkjenn alle varer"
-              @confirm="acceptAllSuggestions"
-            >
-              <template #reference>
-                <el-button plain type="success">Godta alle</el-button>
-              </template>
-            </el-popconfirm>
-            <el-popconfirm
-              v-if="houseHoldStore.getHouseholdMemberType() === HouseholdUserType.SUPERUSER"
-              title="Slett alle varer"
-              @confirm="declineAllSuggestions"
-            >
-              <template #reference>
-                <el-button plain type="danger">Avslå alle</el-button>
-              </template>
-            </el-popconfirm>
-          </el-row>
-          <ShoppingListCard
-            v-for="item in Array.from(suggestedItems.values())
-              .sort((a, b) => a.type.name.localeCompare(b.type.name))
-              .reverse()"
-            :key="item.id"
-            :item="item"
-            @accept="acceptSuggestion(item)"
-            @click="handleClickCheckbox(item)"
-            @delete="deleteItem(item)"
-          ></ShoppingListCard>
-        </div>
-        <div v-else-if="loading == true">
-          <ShoppingListCardSkeleton></ShoppingListCardSkeleton>
-        </div>
-        <div v-else-if="loading == false && !suggestedItems.size">
-          <el-alert :closable="false" center title="Det er ingen forespurte varer" type="info" />
-        </div>
-      </el-collapse-item>
-      <el-collapse-item name="bought">
-        <template #title>
-          <el-text>Kjøpte varer</el-text>
-        </template>
-        <div v-if="boughtItems.size">
-          <el-row class="divider-row">
-            <div style="flex-grow: 1"></div>
-            <el-button plain type="primary" @click="completeShopping">Avslutt handel</el-button>
-          </el-row>
-          <ShoppingListCard
-            v-for="item in Array.from(boughtItems.values())
-              .sort((a, b) => a.type.name.localeCompare(b.type.name))
-              .reverse()"
-            :key="item.id"
-            :item="item"
-            @click="handleClickCheckbox(item)"
-            @delete="deleteItem(item)"
-          ></ShoppingListCard>
-        </div>
-        <div v-else-if="loading == true">
-          <ShoppingListCardSkeleton></ShoppingListCardSkeleton>
-        </div>
-        <div v-else-if="loading == false && !boughtItems.size">
-          <el-alert
-            :closable="false"
-            center
-            title="Husholdningen har ingen kjøpte varer"
-            type="info"
-          />
-        </div>
-      </el-collapse-item>
-    </el-collapse>
-  </div>
+          </div>
+        </el-collapse-item>
+        <el-collapse-item name="requested">
+          <template #title>
+            <el-text>Foreslåtte varer</el-text>
+          </template>
+          <div v-if="suggestedItems.size">
+            <el-row class="divider-row">
+              <div style="flex-grow: 1"></div>
+              <el-popconfirm
+                v-if="houseHoldStore.getHouseholdMemberType() === HouseholdUserType.SUPERUSER"
+                title="Godkjenn alle varer"
+                @confirm="acceptAllSuggestions"
+              >
+                <template #reference>
+                  <el-button plain type="success">Godta alle</el-button>
+                </template>
+              </el-popconfirm>
+              <el-popconfirm
+                v-if="houseHoldStore.getHouseholdMemberType() === HouseholdUserType.SUPERUSER"
+                title="Slett alle varer"
+                @confirm="declineAllSuggestions"
+              >
+                <template #reference>
+                  <el-button plain type="danger">Avslå alle</el-button>
+                </template>
+              </el-popconfirm>
+            </el-row>
+            <ShoppingListCard
+              v-for="item in Array.from(suggestedItems.values())
+                .sort((a, b) => a.type.name.localeCompare(b.type.name))
+                .reverse()"
+              :key="item.id"
+              :item="item"
+              @accept="acceptSuggestion(item)"
+              @click="handleClickCheckbox(item)"
+              @delete="deleteItem(item)"
+            ></ShoppingListCard>
+          </div>
+          <div v-else-if="loading == true">
+            <ShoppingListCardSkeleton></ShoppingListCardSkeleton>
+          </div>
+          <div v-else-if="loading == false && !suggestedItems.size">
+            <el-alert :closable="false" center title="Det er ingen forespurte varer" type="info" />
+          </div>
+        </el-collapse-item>
+        <el-collapse-item name="bought">
+          <template #title>
+            <el-text>Kjøpte varer</el-text>
+          </template>
+          <div v-if="boughtItems.size">
+            <el-row class="divider-row">
+              <div style="flex-grow: 1"></div>
+              <el-button plain type="primary" @click="completeShopping">Avslutt handel</el-button>
+            </el-row>
+            <ShoppingListCard
+              v-for="item in Array.from(boughtItems.values())
+                .sort((a, b) => a.type.name.localeCompare(b.type.name))
+                .reverse()"
+              :key="item.id"
+              :item="item"
+              @click="handleClickCheckbox(item)"
+              @delete="deleteItem(item)"
+            ></ShoppingListCard>
+          </div>
+          <div v-else-if="loading == true">
+            <ShoppingListCardSkeleton></ShoppingListCardSkeleton>
+          </div>
+          <div v-else-if="loading == false && !boughtItems.size">
+            <el-alert
+              :closable="false"
+              center
+              title="Husholdningen har ingen kjøpte varer"
+              type="info"
+            />
+          </div>
+        </el-collapse-item>
+      </el-collapse>
+    </div>
+  </NavigationWindow>
 </template>
 
 <script lang="ts" setup>
@@ -152,6 +159,8 @@ import ShoppingListCardSkeleton from "@/components/ShoppingListCardSkeleton.vue"
 import { useHouseholdStore } from "@/stores/household";
 import { useSessionStore } from "@/stores/session";
 import { showError } from "@/utils/error-utils";
+
+import NavigationWindow from "@/components/NavigationWindow.vue";
 
 const drawers = ref(["active", "requested", "bought"] as string[]);
 

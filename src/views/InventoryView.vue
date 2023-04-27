@@ -1,46 +1,48 @@
 <template>
-  <h1>Mitt kjøleskap</h1>
-  <div v-if="!isLoading" class="inventory-items-list">
-    <ItemCard
-      v-for="item in items"
-      :key="item.id"
-      :item="item"
-      style="margin-bottom: 1rem"
-      @delete="deleteItem(item)"
-      @use="useItemDialog(item)"
-    />
-    <el-alert v-if="!items?.length" center>
-      <el-text>Ingenting å vise.</el-text>
-    </el-alert>
-  </div>
-  <div v-else style="margin-top: 1rem">
-    <ShoppingListCardSkeleton></ShoppingListCardSkeleton>
-    <ShoppingListCardSkeleton></ShoppingListCardSkeleton>
-    <ShoppingListCardSkeleton></ShoppingListCardSkeleton>
-  </div>
-
-  <!-- Use item dialog -->
-  <el-dialog
-    v-if="dialogItem"
-    v-model="useItemDialogVisible"
-    title="Registrer matbruk"
-    width="500px"
-  >
-    <span>Velg hvor mye av varen du har brukt. Resten blir markert som svinn</span>
-    <div class="amount-selection-row">
-      <el-button round type="info" @click="dialogAmount = 0"> Ingenting</el-button>
-      <el-button round type="info" @click="dialogAmount = 0.25"> 0.25</el-button>
-      <el-button round type="info" @click="dialogAmount = 0.5"> 0.5</el-button>
-      <el-button round type="info" @click="dialogAmount = 0.75"> 0.75</el-button>
-      <el-button round type="info" @click="dialogAmount = 1"> Hele</el-button>
+  <NavigationWindow>
+    <h1>Mitt kjøleskap</h1>
+    <div v-if="!isLoading" class="inventory-items-list">
+      <ItemCard
+        v-for="item in items"
+        :key="item.id"
+        :item="item"
+        style="margin-bottom: 1rem"
+        @delete="deleteItem(item)"
+        @use="useItemDialog(item)"
+      />
+      <el-alert v-if="!items?.length" center>
+        <el-text>Ingenting å vise.</el-text>
+      </el-alert>
     </div>
-    <template #footer>
-      <span class="dialog-footer">
-        <el-button type="danger" @click="useItemDialogVisible = false">Avbryt</el-button>
-        <el-button type="warning" @click="useItem(dialogItem, dialogAmount)"> Bruk </el-button>
-      </span>
-    </template>
-  </el-dialog>
+    <div v-else style="margin-top: 1rem">
+      <ShoppingListCardSkeleton></ShoppingListCardSkeleton>
+      <ShoppingListCardSkeleton></ShoppingListCardSkeleton>
+      <ShoppingListCardSkeleton></ShoppingListCardSkeleton>
+    </div>
+
+    <!-- Use item dialog -->
+    <el-dialog
+      v-if="dialogItem"
+      v-model="useItemDialogVisible"
+      title="Registrer matbruk"
+      width="500px"
+    >
+      <span>Velg hvor mye av varen du har brukt. Resten blir markert som svinn</span>
+      <div class="amount-selection-row">
+        <el-button round type="info" @click="dialogAmount = 0"> Ingenting</el-button>
+        <el-button round type="info" @click="dialogAmount = 0.25"> 0.25</el-button>
+        <el-button round type="info" @click="dialogAmount = 0.5"> 0.5</el-button>
+        <el-button round type="info" @click="dialogAmount = 0.75"> 0.75</el-button>
+        <el-button round type="info" @click="dialogAmount = 1"> Hele</el-button>
+      </div>
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button type="danger" @click="useItemDialogVisible = false">Avbryt</el-button>
+          <el-button type="warning" @click="useItem(dialogItem, dialogAmount)"> Bruk </el-button>
+        </span>
+      </template>
+    </el-dialog>
+  </NavigationWindow>
 </template>
 
 <script lang="ts" setup>
@@ -55,6 +57,7 @@ import { showError } from "@/utils/error-utils";
 
 import ItemCard from "@/components/ItemCard.vue";
 import ShoppingListCardSkeleton from "@/components/ShoppingListCardSkeleton.vue";
+import NavigationWindow from "@/components/NavigationWindow.vue";
 
 // Define APIs
 const inventoryApi = new InventoryApi();

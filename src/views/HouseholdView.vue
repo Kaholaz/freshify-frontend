@@ -1,35 +1,37 @@
 <template>
-  <h1 v-if="householdStore.household?.id">{{ householdStore.household.name }}</h1>
-  <el-alert v-else center>Velg eller lag en ny husholdning for å redigere den</el-alert>
-  <div v-if="householdStore.household?.id" class="top-bar">
-    <HouseholdTopBar
-      :current-user-privelige="currentUserPrivelige"
-      @delete-household="deleteHousehold()"
-      @add-user="addUser"
-    />
-  </div>
-  <div>
-    <el-row :gutter="10" style="width: 100%; margin: 0">
-      <el-col
-        v-for="user in users.sort((a, b) => a.userType.localeCompare(b.userType))"
-        :key="user.user.id"
-        :lg="12"
-        :md="24"
-        :sm="24"
-        :xl="12"
-        :xs="24"
-      >
-        <UserCard
-          :current-user="currentUser!"
-          :current-user-privelige="currentUserPrivelige"
-          :user="user.user"
-          :user-type="user.userType"
-          @remove-user="removeUser(user.user)"
-          @update-user-privelige="updateUserPrivelige(user.user)"
-        />
-      </el-col>
-    </el-row>
-  </div>
+  <NavigationWindow>
+    <h1 v-if="householdStore.household?.id">{{ householdStore.household.name }}</h1>
+    <el-alert v-else center>Velg eller lag en ny husholdning for å redigere den</el-alert>
+    <div v-if="householdStore.household?.id" class="top-bar">
+      <HouseholdTopBar
+        :current-user-privelige="currentUserPrivelige"
+        @delete-household="deleteHousehold()"
+        @add-user="addUser"
+      />
+    </div>
+    <div>
+      <el-row :gutter="10" style="width: 100%; margin: 0">
+        <el-col
+          v-for="user in users.sort((a, b) => a.userType.localeCompare(b.userType))"
+          :key="user.user.id"
+          :lg="12"
+          :md="24"
+          :sm="24"
+          :xl="12"
+          :xs="24"
+        >
+          <UserCard
+            :current-user="currentUser!"
+            :current-user-privelige="currentUserPrivelige"
+            :user="user.user"
+            :user-type="user.userType"
+            @remove-user="removeUser(user.user)"
+            @update-user-privelige="updateUserPrivelige(user.user)"
+          />
+        </el-col>
+      </el-row>
+    </div>
+  </NavigationWindow>
 </template>
 
 <script lang="ts" setup>
@@ -41,6 +43,7 @@ import { useHouseholdStore } from "@/stores/household";
 import { useSessionStore } from "@/stores/session";
 import { AccountApi, HouseholdApi } from "@/services/index";
 import { ElMessage } from "element-plus";
+import NavigationWindow from "@/components/NavigationWindow.vue";
 
 const householdStore = useHouseholdStore();
 const sessionStore = useSessionStore();
