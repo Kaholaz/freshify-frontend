@@ -53,12 +53,12 @@ export const useSessionStore = defineStore("sessionStore", () => {
 
   function authenticate(authentication: UserFull) {
     user.value = authentication;
-    sessionStorage.setItem("user", JSON.stringify(authentication));
+    localStorage.setItem("user", JSON.stringify(authentication));
     refreshNotification();
   }
 
   function timeout() {
-    sessionStorage.removeItem("user");
+    localStorage.removeItem("user");
     clearTimeout(id);
     user.value = null;
   }
