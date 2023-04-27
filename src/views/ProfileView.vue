@@ -1,5 +1,5 @@
 <template>
-	<EditProfile @change:user="updateUser" @change:password="updatePassword" />
+  <EditProfile @change:user="updateUser" @change:password="updatePassword" />
 </template>
 
 <script setup lang="ts">
@@ -19,48 +19,46 @@ const sessionStore = useSessionStore();
 
 // Define refs
 const updatedUser: UpdateUser = reactive({
-	id: sessionStore.getUser()?.id,
-	firstName: "",
-	email: "",
-	password: "",
+  id: sessionStore.getUser()?.id,
+  firstName: "",
+  email: "",
+  password: "",
 });
 
 // Define callback functions
 function updateUser(firstName: string, email: string) {
-	updatedUser.firstName = firstName;
-	updatedUser.email = email;
-	sendUpdate();
+  updatedUser.firstName = firstName;
+  updatedUser.email = email;
+  sendUpdate();
 }
 
 function updatePassword(password: string) {
-	updatedUser.password = password;
-	sendUpdate();
+  updatedUser.password = password;
+  sendUpdate();
 }
 
 // Other script logic
 function sendUpdate() {
-	if (!updatedUser.id) {
-		console.error("User ID is missing.");
-		showError("Noe gikk galt under lagring.", "Bruker-ID mangler. Er du innlogget?");
-		return;
-	}
+  if (!updatedUser.id) {
+    console.error("User ID is missing.");
+    showError("Noe gikk galt under lagring.", "Bruker-ID mangler. Er du innlogget?");
+    return;
+  }
 
-	accountApi
-		.updateUser(updatedUser)
-		.then(() => {
-			console.info("User updated.");
-			ElMessage({
-				message: "Brukeren din ble oppdatert.",
-				type: "success",
-			});
-		})
-		.catch(err => {
-			console.error(err);
-			showError("Noe gikk galt under lagring.", err.message);
-		});
+  accountApi
+    .updateUser(updatedUser)
+    .then(() => {
+      console.info("User updated.");
+      ElMessage({
+        message: "Brukeren din ble oppdatert.",
+        type: "success",
+      });
+    })
+    .catch((err) => {
+      console.error(err);
+      showError("Noe gikk galt under lagring.", err.message);
+    });
 }
-
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

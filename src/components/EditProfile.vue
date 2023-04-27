@@ -5,13 +5,7 @@
       <h3>Sett nytt navn og/eller email</h3>
     </div>
     <!-- Username and email form -->
-    <el-form
-      ref="userFormData"
-      label-position="top"
-      :model="userData"
-      :rules="rules"
-      status-icon
-    >
+    <el-form ref="userFormData" label-position="top" :model="userData" :rules="rules" status-icon>
       <!-- First name input -->
       <el-form-item prop="firstName" label="Fornavn">
         <el-input v-model="userData.firstName" />
@@ -19,28 +13,26 @@
 
       <!-- Email input -->
       <el-form-item prop="email" label="E-post">
-        <el-input v-model="userData.email"/>
+        <el-input v-model="userData.email" />
       </el-form-item>
 
       <!-- Submit button -->
-      <el-button 
-        type="primary" 
-        @click="submitUser"
-      >Lagre</el-button>
+      <el-button type="primary" @click="submitUser">Lagre</el-button>
     </el-form>
 
     <el-divider />
-  
+
     <div class="change-password-label">
       <h3>Sett passord</h3>
-      <el-button 
+      <el-button
         id="toggle-edit-password-button"
         :type="passwordEditable ? 'danger' : 'success'"
-        @click="passwordEditable = !passwordEditable;">
-        {{ passwordEditable ? "Skjul": "Vis" }}
+        @click="passwordEditable = !passwordEditable"
+      >
+        {{ passwordEditable ? "Skjul" : "Vis" }}
       </el-button>
     </div>
-  
+
     <!-- Password repeat form -->
     <el-form
       ref="passwordFormData"
@@ -54,13 +46,13 @@
       }"
     >
       <el-form-item prop="password" label="Passord">
-        <el-input v-model="passwordData.password" type="password"/>
+        <el-input v-model="passwordData.password" type="password" />
       </el-form-item>
-  
+
       <el-form-item prop="passwordConfirm" label="Gjenta passord">
-        <el-input v-model="passwordData.passwordConfirm" type="password"/>
+        <el-input v-model="passwordData.passwordConfirm" type="password" />
       </el-form-item>
-  
+
       <el-button type="primary" @click="submitPassword">Sett nytt passord</el-button>
     </el-form>
   </el-card>
@@ -78,8 +70,8 @@ const sessionStore = useSessionStore();
 
 // Define emits
 const emit = defineEmits<{
-  (event: "change:user", firstName: string, email: string) : void;
-  (event: "change:password", password: string) : void;
+  (event: "change:user", firstName: string, email: string): void;
+  (event: "change:password", password: string): void;
 }>();
 
 // Define refs
@@ -90,7 +82,6 @@ const userData = ref<{ firstName: string; email: string }>({
   firstName: "",
   email: "",
 });
-
 
 const passwordFormData = ref<FormInstance>();
 const passwordData = ref<{ password: string; passwordConfirm: string }>({
@@ -106,7 +97,7 @@ const rules = ref({
   email: [
     { required: true, message: "Email er påkrevd", trigger: "blur" },
     { type: "email", message: "Email må være en gyldig email", trigger: "blur" },
-  ]
+  ],
 });
 
 const passwordRules = ref({
@@ -118,7 +109,7 @@ const passwordRules = ref({
     { required: true, message: "Gjenta passordet", trigger: "blur" },
     { min: 8, message: "Passord må være minst 8 tegn", trigger: "blur" },
     { validator: validatePasswordConfirm, trigger: "change" },
-  ]
+  ],
 });
 
 // Define callback functions
@@ -148,7 +139,6 @@ async function submitPassword() {
 // pre-fill the form with the current user data
 userData.value.firstName = sessionStore.getUser()?.firstName || "";
 userData.value.email = sessionStore.getUser()?.email || "";
-
 </script>
 
 <style scoped>
@@ -174,10 +164,10 @@ userData.value.email = sessionStore.getUser()?.email || "";
 
 #toggle-edit-password-button {
   box-sizing: content-box;
-  padding: .3rem .4rem;
+  padding: 0.3rem 0.4rem;
   height: 14px;
   font-size: 14px;
   align-self: center;
-  margin-left: .5rem;
+  margin-left: 0.5rem;
 }
 </style>
