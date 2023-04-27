@@ -63,7 +63,7 @@ const emit = defineEmits<{
 }>();
 
 function canDelete() {
-  return (
+  return !(
     householdStore.getHouseholdMemberType() === HouseholdUserType.SUPERUSER ||
     (props.item.suggested && props.item?.addedBy?.id === sessionStore?.getUser()?.id)
   );

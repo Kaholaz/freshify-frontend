@@ -70,11 +70,11 @@ const router = createRouter({
   ],
 });
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   const sessionStore = useSessionStore();
   const accountApi = new AccountApi();
   if (startup) {
-    accountApi
+    await accountApi
       .getLoggedInUser()
       .then((data) => {
         if (data.status == 200) {

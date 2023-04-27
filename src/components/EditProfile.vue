@@ -1,6 +1,6 @@
 <template>
   <el-card id="edit-profile" class="edit-profile-wrapper">
-    <h1>Rediger profil</h1>
+    <h2>Rediger profil</h2>
     <div class="change-label">
       <h3>Sett nytt navn og/eller email</h3>
     </div>
