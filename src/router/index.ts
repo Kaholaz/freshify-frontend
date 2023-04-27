@@ -85,12 +85,10 @@ router.beforeEach((to, from, next) => {
 
   if (to.meta.requiresAuth && !sessionStore.isAuthenticated) {
     next({ name: "login" });
+  } else if (to.meta.requiresAuth == false && sessionStore.isAuthenticated) {
+    next({ name: "inventory" });
   } else {
     next();
-  }
-
-  if (to.meta.requiresAuth == false && sessionStore.isAuthenticated) {
-    next({ name: "inventory" });
   }
 });
 
