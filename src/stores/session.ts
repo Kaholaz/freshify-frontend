@@ -11,6 +11,7 @@ export const useSessionStore = defineStore("sessionStore", () => {
   let id = 0 as number;
 
   const isAuthenticated = computed(() => {
+    getUser();
     return user.value != null;
   });
 

@@ -13,7 +13,8 @@ const router = createRouter({
       name: "home",
       component: HomeView,
       meta: {
-        requiresAuth: true,
+        requiresAuth: false,
+        fullScreen: true,
       },
     },
     {
@@ -81,10 +82,15 @@ router.beforeEach((to, from, next) => {
       });
     startup = false;
   }
+
   if (to.meta.requiresAuth && !sessionStore.isAuthenticated) {
     next({ name: "login" });
   } else {
     next();
+  }
+
+  if (to.meta.requiresAuth == false && sessionStore.isAuthenticated) {
+    next({ name: "inventory" });
   }
 });
 
