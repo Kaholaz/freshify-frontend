@@ -1,9 +1,9 @@
 <template>
   <nav>
-    <el-menu :default-active="activeIndex" :ellipsis="false" mode="horizontal">
-      <el-menu-item index="0">LOGO</el-menu-item>
+    <el-menu :default-active="activeIndex" :ellipsis="false" mode="horizontal" router>
+      <el-menu-item :index="'/inventory'">LOGO</el-menu-item>
       <div class="flex-grow" />
-      <el-menu-item v-if="sessionStore.isAuthenticated" index="1">
+      <el-menu-item v-if="sessionStore.isAuthenticated" index="/profile">
         <el-icon>
           <User />
         </el-icon>
