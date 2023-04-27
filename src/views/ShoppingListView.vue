@@ -65,12 +65,20 @@
         <div v-if="suggestedItems.size">
           <el-row class="divider-row">
             <div style="flex-grow: 1"></div>
-            <el-popconfirm title="Godkjenn alle varer" @confirm="acceptAllSuggestions">
+            <el-popconfirm
+              v-if="houseHoldStore.getHouseholdMemberType() === HouseholdUserType.SUPERUSER"
+              title="Godkjenn alle varer"
+              @confirm="acceptAllSuggestions"
+            >
               <template #reference>
                 <el-button plain type="success">Godta alle</el-button>
               </template>
             </el-popconfirm>
-            <el-popconfirm title="Slett alle varer" @confirm="declineAllSuggestions">
+            <el-popconfirm
+              v-if="houseHoldStore.getHouseholdMemberType() === HouseholdUserType.SUPERUSER"
+              title="Slett alle varer"
+              @confirm="declineAllSuggestions"
+            >
               <template #reference>
                 <el-button plain type="danger">Avslå alle</el-button>
               </template>
@@ -136,6 +144,7 @@ import type {
   ShoppingListEntry,
   UpdateShoppingListEntry,
 } from "@/services";
+import { HouseholdUserType } from "@/services/index";
 import { inject, Ref, ref } from "vue";
 import { ElMessage, ElNotification, FormInstance } from "element-plus";
 import { HouseholdApi, ItemTypeApi, ShoppingListApi } from "@/services/index";
