@@ -51,7 +51,7 @@ const isFullScreen = computed(() => router.currentRoute.value.meta?.fullScreen);
       </el-drawer>
       <el-scrollbar style="width: 100%">
         <el-main>
-          <RouterView />
+          <RouterView id="main-view" />
         </el-main>
       </el-scrollbar>
     </el-container>
@@ -61,5 +61,14 @@ const isFullScreen = computed(() => router.currentRoute.value.meta?.fullScreen);
 <style scoped>
 .sidenav {
   height: 100%;
+}
+
+/* Prevent scrolling on anything but router view */
+* {
+  overflow: hidden;
+}
+
+#main-view * {
+  overflow: auto;
 }
 </style>
