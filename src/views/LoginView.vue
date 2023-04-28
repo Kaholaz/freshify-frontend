@@ -2,7 +2,7 @@
   <el-card class="container">
     <h2>Log in</h2>
 
-    <el-form ref="form" :model="data" label-position="top">
+    <el-form ref="form" :model="data" class="login-form" label-position="top">
       <el-form-item label="Email" prop="email">
         <el-input
           id="email-input"
