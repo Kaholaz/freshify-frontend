@@ -1,29 +1,36 @@
 @import "./base.css";
 
 body {
-  margin: 0;
-  padding: 0;
+    background-color: #78c4a4; /* fallback for older browsers */
+    background-image: linear-gradient(to bottom, #78c4a4, #4e9575);
+    --el-menu-bg-color: #039e32;
+    --el-menu-border-color: black;
+    --el-bg-color:linear-gradient(to bottom, #78c4a4, #4e9575);
+    --el-color-primary: green;
+    --el-border-color: black;
+    margin: 0;
+    padding: 0;
 }
 
 main {
-  padding: 2rem 3rem !important;
+    padding: 2rem 3rem !important;
 }
 
 #app {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 .spacer {
-  flex-grow: 1;
-  margin: 0;
-  width: 0;
-  padding: 0;
+    flex-grow: 1;
+    margin: 0;
+    width: 0;
+    padding: 0;
 }
 
 @media only screen and (max-width: 768px) {
-  main {
-    padding: 1rem !important;
-  }
+    main {
+        padding: 1rem !important;
+    }
 }

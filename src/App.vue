@@ -27,7 +27,7 @@ const isFullScreen = computed(() => router.currentRoute.value.meta?.fullScreen);
 
 <template>
   <el-container style="height: 100vh; display: flex">
-    <el-header>
+    <el-header style="margin: 0; padding: 0; height: max-content">
       <TopNavBar />
     </el-header>
     <div v-if="collapsed">
