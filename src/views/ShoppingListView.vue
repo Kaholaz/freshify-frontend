@@ -2,7 +2,10 @@
   <div>
     <h1>Handleliste</h1>
     <el-card v-loading="loadingSubmit" style="margin-bottom: 1rem">
-      <h5>Legg til ny vare</h5>
+      <h5>
+        <span v-if="houseHoldStore.isSuperuser()">Legg til ny vare</span>
+        <span v-else>Foreslå ny vare</span>
+      </h5>
       <el-form
         ref="ruleFormRef"
         :model="newItem"
@@ -30,7 +33,10 @@
           </el-form-item>
           <div class="spacer"></div>
           <el-form-item style="margin-right: 0">
-            <el-button type="primary" @click="validateAndAddNewItem(newItem)">legg til</el-button>
+            <el-button type="primary" @click="validateAndAddNewItem(newItem)">
+              <span v-if="houseHoldStore.isSuperuser()">legg til</span>
+              <span v-else>foreslå</span>
+            </el-button>
           </el-form-item>
         </el-row>
       </el-form>
