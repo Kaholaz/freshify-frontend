@@ -66,7 +66,7 @@
           <el-row class="divider-row">
             <div style="flex-grow: 1"></div>
             <el-popconfirm
-              v-if="houseHoldStore.getHouseholdMemberType() === HouseholdUserType.SUPERUSER"
+              v-if="houseHoldStore.isSuperuser()"
               title="Godkjenn alle varer"
               @confirm="acceptAllSuggestions"
             >

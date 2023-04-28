@@ -2,8 +2,7 @@ import { computed, inject, ref } from "vue";
 import { defineStore } from "pinia";
 
 import type { Household, HouseholdMemberKey, UserFull } from "@/services/index";
-import type { HouseholdUserType } from "@/services/index";
-import { AccountApi, HouseholdApi } from "@/services/index";
+import { HouseholdApi, HouseholdUserType } from "@/services/index";
 import { useSessionStore } from "@/stores/session";
 
 export const useHouseholdStore = defineStore("household", () => {
@@ -11,21 +10,24 @@ export const useHouseholdStore = defineStore("household", () => {
   const householdMemberTypeValue = ref(undefined as HouseholdUserType | undefined);
   const emitter = inject("emitter");
   const sessionStore = useSessionStore();
-  const accountApi = new AccountApi();
   const householdApi = new HouseholdApi();
 
   const getHouseholdMemberType = () => householdMemberTypeValue.value;
+  const isSuperuser = () => householdMemberTypeValue.value === HouseholdUserType.SUPERUSER;
 
   const household = computed({
     get: () => {
       if (!householdValue.value?.id) {
         if (sessionStorage.getItem("household")) {
-          householdValue.value = JSON.parse(sessionStorage.getItem("household") || "{}");
+          // SEE THE WARNING!!!!
+          household.value = JSON.parse(sessionStorage.getItem("household") || "{}");
         }
       }
       return householdValue.value;
     },
+    // DO NOT CALL THE GETTER WHILE RETRIEVING THE VALUE FROM SESSION STORAGE !!!!!!!
     set: (val) => {
+      console.log("set household");
       householdValue.value = val;
       sessionStorage.setItem("household", JSON.stringify(val));
       householdApi
@@ -38,9 +40,7 @@ export const useHouseholdStore = defineStore("household", () => {
             items
               .filter((item) => item.user.id === sessionStore.getUser()?.id)
               .forEach((item) => {
-                if (item.user.id === sessionStorage.getUser()) {
-                  householdMemberTypeValue.value = item.userType;
-                }
+                householdMemberTypeValue.value = item.userType;
               });
           }
         );
@@ -55,5 +55,5 @@ export const useHouseholdStore = defineStore("household", () => {
     emitter.emit("household-updated");
   }
 
-  return { household, removeHousehold, getHouseholdMemberType };
+  return { household, removeHousehold, getHouseholdMemberType, isSuperuser };
 });

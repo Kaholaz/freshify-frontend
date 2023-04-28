@@ -25,10 +25,7 @@
           <div class="spacer"></div>
           <el-button text type="primary">x {{ props.item.count }}</el-button>
           <el-button
-            v-if="
-              props.item.suggested &&
-              householdStore.getHouseholdMemberType() === HouseholdUserType.SUPERUSER
-            "
+            v-if="props.item.suggested && householdStore.isSuperuser()"
             text
             type="success"
             @click="emit('accept', item)"
@@ -63,8 +60,8 @@ const emit = defineEmits<{
 }>();
 
 function canDelete() {
-  return !(
-    householdStore.getHouseholdMemberType() === HouseholdUserType.SUPERUSER ||
+  return (
+    householdStore.isSuperuser() ||
     (props.item.suggested && props.item?.addedBy?.id === sessionStore?.getUser()?.id)
   );
 }
