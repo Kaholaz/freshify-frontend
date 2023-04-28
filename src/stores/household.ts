@@ -10,7 +10,7 @@ import { useSessionStore } from "@/stores/session";
 export const useHouseholdStore = defineStore("household", () => {
   const householdValue = ref({} as Household);
   const householdMemberTypeValue = ref(undefined as HouseholdUserType | undefined);
-  const emitter = inject<Emitter<Record<EventType, any>>>("emitter")!;  // emitter is not undefined, it is defined in main.ts
+  const emitter = inject<Emitter<Record<EventType, any>>>("emitter")!; // emitter is not undefined, it is defined in main.ts
   const sessionStore = useSessionStore();
   const householdApi = new HouseholdApi();
   const households = ref([] as Household[]);
