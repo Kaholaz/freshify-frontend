@@ -5,11 +5,11 @@ import { useSessionStore } from "@/stores/session";
 
 import HouseholdCard from "../HouseholdCard.vue";
 import type { UserFull } from "@/services/index";
+import { HouseholdUserType } from "@/services/index";
+import { useHouseholdStore } from "../../stores/household";
 
-let user: UserFull = {};
-let userType: string = "";
-let currentUser: UserFull = {};
-let currentUserPrivelige: string = "";
+let user: UserFull;
+let userType: HouseholdUserType;
 
 beforeEach(() => {
   userType = "SUPERUSER";
@@ -19,23 +19,24 @@ beforeEach(() => {
     email: "shmoe@gmail.com",
   } as UserFull;
 
-  currentUserPrivelige = "SUPERUSER";
-  currentUser = {
-    id: 1,
-    firstName: "NotJoe",
-    email: "phoe@gmail.com",
+  const loggedInUser = {
+    id: 14,
+    firstName: "Roger",
+    email: "roger@gmail.no",
   } as UserFull;
   setActivePinia(createPinia());
+  useSessionStore().authenticate(loggedInUser);
+  useHouseholdStore().isSuperuser = () => true;
 });
 
 describe("HouseholdCard", () => {
   it("has users first name in title", () => {
     const wrapper = mount(HouseholdCard as any, {
       props: {
-        user,
-        userType,
-        currentUserPrivelige,
-        currentUser,
+        householdMember: {
+          user,
+          userType,
+        },
       },
     });
     expect(wrapper.text()).toContain(user.firstName);
@@ -44,10 +45,10 @@ describe("HouseholdCard", () => {
   it("has users email in text", () => {
     const wrapper = mount(HouseholdCard as any, {
       props: {
-        user,
-        userType,
-        currentUserPrivelige,
-        currentUser,
+        householdMember: {
+          user,
+          userType,
+        },
       },
     });
     expect(wrapper.text()).toContain(user.email);
@@ -56,10 +57,10 @@ describe("HouseholdCard", () => {
   it("has users type in text", () => {
     const wrapper = mount(HouseholdCard as any, {
       props: {
-        user,
-        userType,
-        currentUserPrivelige,
-        currentUser,
+        householdMember: {
+          user,
+          userType,
+        },
       },
     });
     expect(wrapper.text()).toContain(userType === "SUPERUSER" ? "SUPERBRUKER" : "BRUKER");
@@ -68,10 +69,10 @@ describe("HouseholdCard", () => {
   it("has demote to user button if user is superuser", () => {
     const wrapper = mount(HouseholdCard as any, {
       props: {
-        user,
-        userType,
-        currentUserPrivelige,
-        currentUser,
+        householdMember: {
+          user,
+          userType: HouseholdUserType.SUPERUSER,
+        },
       },
     });
     expect(wrapper.find("el-button[type=primary]").text()).toContain("Degrader bruker");
@@ -80,23 +81,23 @@ describe("HouseholdCard", () => {
   it("emits demote event when demote button is clicked", async () => {
     const wrapper = mount(HouseholdCard as any, {
       props: {
-        user,
-        userType,
-        currentUserPrivelige,
-        currentUser,
+        householdMember: {
+          user,
+          userType,
+        },
       },
     });
     await wrapper.find("el-button[type=primary]").trigger("click");
-    expect(wrapper.emitted("updateUserPrivelige")).toBeTruthy();
+    expect(wrapper.emitted("updateUserPrivilege")).toBeTruthy();
   });
 
   it("has remove from household button", () => {
     const wrapper = mount(HouseholdCard as any, {
       props: {
-        user,
-        userType,
-        currentUserPrivelige,
-        currentUser,
+        householdMember: {
+          user,
+          userType,
+        },
       },
     });
     expect(wrapper.find("el-button[type=danger]").text()).toContain("Fjern bruker");
@@ -106,10 +107,10 @@ describe("HouseholdCard", () => {
     useSessionStore().authenticate(user);
     const wrapper = mount(HouseholdCard as any, {
       props: {
-        user,
-        userType,
-        currentUser: user, // Reuse the user object. They have the same id.
-        currentUserPrivelige: userType,
+        householdMember: {
+          user: useSessionStore().getUser(),
+          userType,
+        },
       },
     });
 
