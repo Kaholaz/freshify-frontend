@@ -1,5 +1,5 @@
 <template>
-  <el-menu :default-active="defaultActive" router @select="$emit('select')">
+  <el-menu class="menu" :default-active="defaultActive" router @select="$emit('select')">
     <el-button
       v-if="households?.length == 0"
       style="width: calc(100% - 2rem); margin: 1rem"
@@ -143,3 +143,10 @@ function skipCreateHousehold() {
   isCreateHousehold.value = false;
 }
 </script>
+
+<style scoped>
+.menu {
+  height: 100%;
+  border-right: 1px solid #ebeef5;
+}
+</style>
