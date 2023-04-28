@@ -11,6 +11,7 @@ export const useHouseholdStore = defineStore("household", () => {
   const emitter = inject("emitter");
   const sessionStore = useSessionStore();
   const householdApi = new HouseholdApi();
+  const households = ref([] as Household[]);
 
   const getHouseholdMemberType = () => householdMemberTypeValue.value;
   const isSuperuser = () => householdMemberTypeValue.value === HouseholdUserType.SUPERUSER;
@@ -47,12 +48,41 @@ export const useHouseholdStore = defineStore("household", () => {
     },
   });
 
-  function removeHousehold() {
-    household.value = {} as Household;
-    sessionStorage.removeItem("household");
-    emitter.emit("household-removed");
-    emitter.emit("household-updated");
+  function fetchHouseholds() {
+    const userId = sessionStore.getUser()?.id;
+
+    if (!userId) {
+      console.error("User not logged in when fetching households");
+      return;
+    }
+
+    householdApi.getHouseholds(userId).then((res) => {
+      households.value = res.data;
+      if (households.value?.length > 0 && !household.value?.id) {
+        household.value = households.value[0];
+      }
+    });
   }
 
-  return { household, removeHousehold, getHouseholdMemberType, isSuperuser };
+  function addHousehold(newHousehold: Household) {
+    households.value.push(newHousehold);
+    household.value = newHousehold;
+  }
+
+  function deleteCurrentHousehold() {
+    household.value = {} as Household;
+    sessionStorage.removeItem("household");
+    fetchHouseholds();
+    emitter.emit("household-removed");
+  }
+
+  return {
+    household,
+    removeHousehold: deleteCurrentHousehold,
+    getHouseholdMemberType,
+    isSuperuser,
+    fetchHouseholds,
+    addHousehold,
+    households,
+  };
 });
