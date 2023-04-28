@@ -15,6 +15,7 @@
       v-else-if="households?.length > 0"
       :model-value="houseHoldStore.household.name"
       style="width: calc(100% - 2rem); margin: 1rem"
+      @change="$emit('select')"
     >
       <el-option
         v-for="item in households"
