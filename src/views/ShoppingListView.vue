@@ -14,6 +14,7 @@
         label-position="left"
         label-width="70px"
         style="margin-top: 0.5rem"
+        @submit.prevent
       >
         <el-row>
           <el-form-item label="Vare" prop="itemTypeId" required>
@@ -29,7 +30,12 @@
             />
           </el-form-item>
           <el-form-item label="Antall" prop="count" required>
-            <el-input v-model="newItem.count" placeholder="Antall" type="number" />
+            <el-input
+              v-model="newItem.count"
+              placeholder="Antall"
+              type="number"
+              @keyup.enter="validateAndAddNewItem"
+            />
           </el-form-item>
           <div class="spacer"></div>
           <el-form-item style="margin-right: 0">
