@@ -35,9 +35,9 @@ export const useSessionStore = defineStore("sessionStore", () => {
       clearTimeout(id);
     }
     id = setTimeout(() => {
-      if (confirm("Er du der? Trykk ok for å ikke bli logget ut om et minutt")) {
+      if (confirm("Er du der? Trykk ok for å ikke bli logget ut om et minutt") && user.value?.id) {
         accountApi
-          .getUserById(user.value!.id)
+          .getUserById(user.value.id)
           .then(() => {
             refreshNotification();
           })
@@ -77,7 +77,7 @@ export const useSessionStore = defineStore("sessionStore", () => {
   }
 
   function getHighestRole() {
-    return user.value!.admin ? "ADMIN" : "USER";
+    return "USER";
   }
 
   return {
