@@ -1,6 +1,7 @@
 <template>
   <el-card
     class="relative m-2 w-full max-w-xl overflow-visible"
+    :class="{ me: householdMember.user?.id === sessionStore.getUser()?.id }"
     shadow="never"
     style="height: 11rem"
   >
@@ -53,4 +54,8 @@ const props = defineProps<{
 }>();
 </script>
 
-<style scoped></style>
+<style scoped>
+.me {
+  border: 2px solid var(--el-color-primary);
+}
+</style>
