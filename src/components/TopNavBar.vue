@@ -1,6 +1,6 @@
 <template>
   <nav>
-    <el-menu :default-active="activeIndex" :ellipsis="false" mode="horizontal" router>
+    <el-menu :default-active="activeIndex" :ellipsis="false" mode="horizontal" router class="menu">
       <el-menu-item :index="'/inventory'">LOGO</el-menu-item>
       <div class="flex-grow" />
       <el-menu-item v-if="sessionStore.isAuthenticated" index="/profile">
@@ -40,5 +40,9 @@ function logOut() {
 .menu-item-button {
   margin: auto 1rem;
   align-content: center;
+}
+
+.menu {
+  --el-menu-bg-color: #0d4d39;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <el-menu class="menu" :default-active="defaultActive" router @select="$emit('select')">
+  <el-menu :default-active="defaultActive" router @select="$emit('select')" class="menu">
     <el-button
       v-if="houseHoldStore.households?.length == 0"
       style="width: calc(100% - 2rem); margin: 1rem"

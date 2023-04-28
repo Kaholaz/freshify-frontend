@@ -2,13 +2,13 @@
 
 body {
   background-color: #78c4a4; /* fallback for older browsers */
-  background-image: linear-gradient(to bottom, #78c4a4, #4e9575);
-  --el-menu-bg-color: #33333;
+  background-image: linear-gradient(to bottom, #1a8263 , #178262);
   --el-menu-border-color: #33333;
-  --el-bg-color: linear-gradient(to bottom, #78c4a4, #4e9575);
-  --el-color-primary: green;
+  --el-color-primary: #116149;
   --el-border-color: black;
-  margin: 0;
+  --el-text-color: white;
+  --el-card-bg-color: var(--el-color-primary) !important;
+  --el-card-border-color: var(--el-color-primary) !important;
   padding: 0;
 }
 
