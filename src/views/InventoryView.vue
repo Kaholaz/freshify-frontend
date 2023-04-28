@@ -14,9 +14,7 @@
     </el-alert>
   </div>
   <div v-else style="margin-top: 1rem">
-    <ShoppingListCardSkeleton></ShoppingListCardSkeleton>
-    <ShoppingListCardSkeleton></ShoppingListCardSkeleton>
-    <ShoppingListCardSkeleton></ShoppingListCardSkeleton>
+    <ShoppingListCardSkeleton :count="7"></ShoppingListCardSkeleton>
   </div>
 
   <!-- Use item dialog -->

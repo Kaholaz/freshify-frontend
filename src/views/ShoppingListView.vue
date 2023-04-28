@@ -64,7 +64,7 @@
           ></ShoppingListCard>
         </div>
         <div v-else-if="loading == true">
-          <ShoppingListCardSkeleton></ShoppingListCardSkeleton>
+          <ShoppingListCardSkeleton :count="3"></ShoppingListCardSkeleton>
         </div>
         <div v-else-if="loading == false && !activeItems.size">
           <el-alert :closable="false" center title="Det er ingen varer i handlelista" type="info" />
@@ -108,7 +108,7 @@
           ></ShoppingListCard>
         </div>
         <div v-else-if="loading == true">
-          <ShoppingListCardSkeleton></ShoppingListCardSkeleton>
+          <ShoppingListCardSkeleton :count="3"></ShoppingListCardSkeleton>
         </div>
         <div v-else-if="loading == false && !suggestedItems.size">
           <el-alert :closable="false" center title="Det er ingen forespurte varer" type="info" />
@@ -134,7 +134,7 @@
           ></ShoppingListCard>
         </div>
         <div v-else-if="loading == true">
-          <ShoppingListCardSkeleton></ShoppingListCardSkeleton>
+          <ShoppingListCardSkeleton :count="3"></ShoppingListCardSkeleton>
         </div>
         <div v-else-if="loading == false && !boughtItems.size">
           <el-alert
