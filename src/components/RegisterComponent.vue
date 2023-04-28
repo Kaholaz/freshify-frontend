@@ -6,6 +6,7 @@
     :rules="validationRules"
     label-position="top"
     status-icon
+    @submit.prevent
   >
     <el-form-item label="Email" prop="email">
       <el-input v-model="email" placeholder="Email" size="large" type="text" />
@@ -20,7 +21,13 @@
     </el-form-item>
 
     <el-form-item label="Gjenta passord" prop="passwordConfirm">
-      <el-input v-model="passwordConfirm" placeholder="Password" size="large" type="password" />
+      <el-input
+        v-model="passwordConfirm"
+        placeholder="Password"
+        size="large"
+        type="password"
+        @keyup.enter="submit"
+      />
     </el-form-item>
 
     <el-button ref="submitButton" size="large" type="primary" @click="submit"
