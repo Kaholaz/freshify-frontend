@@ -7,7 +7,7 @@ import { useHouseholdStore } from "@/stores/household";
 
 export const useSessionStore = defineStore("sessionStore", () => {
   const user = ref(null as UserFull | null);
-  const EXPIRY_TIME = 1 * 10 * 1000 * 60;
+  const EXPIRY_TIME = 10 * 60 * 1000;
   const accountApi = new AccountApi();
   let id = 0 as number;
 
