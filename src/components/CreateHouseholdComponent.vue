@@ -35,9 +35,9 @@ const validationRules = ref({
 });
 
 const emit = defineEmits<{
-  "update:householdName": (householdName: string) => void;
-  skip: () => void;
-  submit: () => void;
+  (event: "update:householdName", householdName: string): void;
+  (event: "skip"): void;
+  (event: "submit"): void;
 }>();
 
 const householdName = computed({
