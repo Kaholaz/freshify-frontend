@@ -59,8 +59,7 @@ export const useSessionStore = defineStore("sessionStore", () => {
   }
 
   function timeout() {
-    sessionStorage.removeItem("user");
-    useHouseholdStore().removeHousehold();
+    sessionStorage.clear();
     clearTimeout(id);
     user.value = null;
   }
