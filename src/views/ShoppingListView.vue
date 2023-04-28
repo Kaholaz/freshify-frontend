@@ -157,7 +157,7 @@ import type {
   UpdateShoppingListEntry,
 } from "@/services";
 import { HouseholdUserType } from "@/services/index";
-import { inject, Ref, ref } from "vue";
+import { inject, onMounted, onUnmounted, Ref, ref } from "vue";
 import { ElMessage, ElNotification, FormInstance } from "element-plus";
 import { HouseholdApi, ItemTypeApi, ShoppingListApi } from "@/services/index";
 import ShoppingListCardSkeleton from "@/components/ShoppingListCardSkeleton.vue";
@@ -219,11 +219,15 @@ const loadingSubmit = ref(false);
 const timeout = setTimeout(() => (loading.value = true), 100);
 const emitter = inject("emitter");
 
-emitter.on("household-updated", () => {
+// Update shopping list when household is changed
+onMounted(() => {
   getShoppingList();
+  emitter.on("household-updated", getShoppingList);
 });
 
-getShoppingList();
+onUnmounted(() => {
+  emitter.off("household-updated", getShoppingList);
+});
 
 function getShoppingList() {
   if (houseHoldStore.household?.id == null) {

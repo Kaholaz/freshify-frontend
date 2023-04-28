@@ -43,7 +43,7 @@
 
 <script lang="ts" setup>
 import axios from "axios";
-import { computed, inject, ref } from "vue";
+import { computed, inject, onMounted, onUnmounted, ref } from "vue";
 import { ElDialog } from "element-plus";
 
 import type { Item, UpdateItem } from "@/services/index";
@@ -53,6 +53,17 @@ import { showError } from "@/utils/error-utils";
 
 import ItemCard from "@/components/ItemCard.vue";
 import ShoppingListCardSkeleton from "@/components/ShoppingListCardSkeleton.vue";
+
+// Update items when household is updated
+const emitter = inject("emitter");
+onMounted(() => {
+  updateItems();
+  emitter.on("household-updated", updateItems);
+});
+
+onUnmounted(() => {
+  emitter.off("household-updated", updateItems);
+});
 
 // Define APIs
 const inventoryApi = new InventoryApi();
@@ -94,12 +105,6 @@ function useItemDialog(item: Item) {
   dialogItem.value = item;
   useItemDialogVisible.value = true;
 }
-
-const emitter = inject("emitter");
-
-emitter.on("household-updated", () => {
-  updateItems();
-});
 
 // Other script logic
 function useItem(item: Item, amount: number | null) {
@@ -178,8 +183,6 @@ function handleError(err: any) {
 
   showError("En feil oppstod.", errorMessage, 0);
 }
-
-updateItems();
 </script>
 
 <style scoped>
