@@ -1,6 +1,8 @@
 import { computed, inject, ref } from "vue";
 import { defineStore } from "pinia";
 
+import type { Emitter, EventType } from "mitt";
+
 import type { Household, HouseholdMemberKey, UserFull } from "@/services/index";
 import { HouseholdApi, HouseholdUserType } from "@/services/index";
 import { useSessionStore } from "@/stores/session";
@@ -8,7 +10,7 @@ import { useSessionStore } from "@/stores/session";
 export const useHouseholdStore = defineStore("household", () => {
   const householdValue = ref({} as Household);
   const householdMemberTypeValue = ref(undefined as HouseholdUserType | undefined);
-  const emitter = inject("emitter");
+  const emitter = inject<Emitter<Record<EventType, any>>>("emitter")!;  // emitter is not undefined, it is defined in main.ts
   const sessionStore = useSessionStore();
   const householdApi = new HouseholdApi();
   const households = ref([] as Household[]);
