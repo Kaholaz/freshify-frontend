@@ -1,10 +1,6 @@
 <template>
   <el-row>
-    <el-button
-      v-if="currentUserPrivelige === 'SUPERUSER'"
-      type="primary"
-      @click="dialogFormVisible = true"
-    >
+    <el-button v-if="householdStore.isSuperuser()" type="primary" @click="dialogFormVisible = true">
       <el-icon>
         <Plus />
       </el-icon>
@@ -36,11 +32,7 @@
       @confirm="emit('deleteHousehold')"
     >
       <template #reference>
-        <el-button
-          v-if="currentUserPrivelige === 'SUPERUSER'"
-          class="menu-item-button"
-          type="danger"
-        >
+        <el-button v-if="householdStore.isSuperuser()" class="menu-item-button" type="danger">
           <span>Slett Husholdning</span>
         </el-button>
       </template>
@@ -50,12 +42,14 @@
 
 <script lang="ts" setup>
 import { reactive, ref } from "vue";
+import { useHouseholdStore } from "@/stores/household";
 import { Plus } from "@element-plus/icons-vue";
 import type { FormInstance, FormRules } from "element-plus";
 
 const dialogFormVisible = ref(false);
 const formLabelWidth = "140px";
 const ruleFormRef = ref<FormInstance>();
+const householdStore = useHouseholdStore();
 
 const form = reactive({
   newUserEmail: "" as string,
@@ -82,9 +76,5 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 const emit = defineEmits<{
   (event: "addUser", args: string): void;
   (event: "deleteHousehold"): void;
-}>();
-
-const props = defineProps<{
-  currentUserPrivelige: string;
 }>();
 </script>
