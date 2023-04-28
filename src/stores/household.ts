@@ -27,7 +27,6 @@ export const useHouseholdStore = defineStore("household", () => {
     },
     // DO NOT CALL THE GETTER WHILE RETRIEVING THE VALUE FROM SESSION STORAGE !!!!!!!
     set: (val) => {
-      console.log("set household");
       householdValue.value = val;
       sessionStorage.setItem("household", JSON.stringify(val));
       householdApi
