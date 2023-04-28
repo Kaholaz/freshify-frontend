@@ -78,11 +78,11 @@ export const useHouseholdStore = defineStore("household", () => {
 
   return {
     household,
+    households,
     removeHousehold: deleteCurrentHousehold,
     getHouseholdMemberType,
     isSuperuser,
     fetchHouseholds,
     addHousehold,
-    households,
   };
 });
