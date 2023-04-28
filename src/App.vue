@@ -22,10 +22,7 @@ const collapsed = computed(() => {
 
 const [drawer, drawerToggle] = useToggle();
 
-const isFullScreen = computed(() => {
-  const value = router.currentRoute.value.meta?.fullScreen;
-  return value == undefined ? true : value;
-});
+const isFullScreen = computed(() => router.currentRoute.value.meta?.fullScreen);
 </script>
 
 <template>
@@ -49,12 +46,7 @@ const isFullScreen = computed(() => {
       <el-aside v-if="!collapsed && !isFullScreen" width="300px">
         <SideNavBar />
       </el-aside>
-      <el-drawer
-        v-else-if="collapsed && !isFullScreen"
-        v-model="drawer"
-        direction="ltr"
-        size="306px"
-      >
+      <el-drawer v-model="drawer" direction="ltr" size="306px">
         <SideNavBar @select="drawerToggle()" />
       </el-drawer>
       <el-scrollbar style="width: 100%">
