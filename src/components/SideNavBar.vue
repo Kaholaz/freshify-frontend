@@ -82,25 +82,27 @@ import { useSessionStore } from "@/stores/session";
 import CreateHouseholdComponent from "@/components/CreateHouseholdComponent.vue";
 import { showError } from "@/utils/error-utils";
 
-const defaultActive = ref("/");
-onMounted(async () => {
-  await router.isReady();
-  defaultActive.value = router.currentRoute.value.path;
-});
-
 const houseHoldStore = useHouseholdStore();
-const houseHoldApi = new HouseholdApi();
 const sessionStore = useSessionStore();
-const isCreateHousehold = ref(false);
+
 const emitter = inject("emitter");
 
+const houseHoldApi = new HouseholdApi();
+
+const defaultActive = ref("/");
 const households = ref(null as Household[] | null);
 const newHousehold = ref({
   name: "",
 } as CreateHousehold);
+const isCreateHousehold = ref(false);
 
 emitter.on("household-removed", () => {
   getHouseholds();
+});
+
+onMounted(async () => {
+  await router.isReady();
+  defaultActive.value = router.currentRoute.value.path;
 });
 
 getHouseholds();
