@@ -64,12 +64,11 @@ const recipes = {
     recipeAmountIngredientsOwned: 1,
     recipeAllergies: [],
   },
-}
-
+};
 </script>
 
 <style scoped>
-.recipe-card:hover{
+.recipe-card:hover {
   background-color: #f5f5f5;
   border-radius: 5px;
   cursor: pointer;

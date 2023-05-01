@@ -7,11 +7,10 @@
     <h2 class="mb-5">{{ recipeTitle }}</h2>
     <p class="text-[#868e96]">Tid: ca {{ recipeTime }} min</p>
     <p class="text-[#868e96]">{{ recipeAmountIngredientsOwned }} ingredienser i kjøleskap</p>
-    <footer v-if="recipeAllergies.length > 0" class="mt-2 text-right">
-      <header  class="mb-5">Allergier:</header>
+    <footer v-if="recipeAllergies?.length > 0" class="mt-2 text-right">
+      <header class="mb-5">Allergier:</header>
       <!-- todo: formatering FIX -->
-      <el-container><p v-for="allergy in recipeAllergies">{{ allergy }}</p></el-container>
-      
+      <p class="text-[#868e96]">{{ allergies }}</p>
     </footer>
   </el-card>
 </template>
@@ -30,21 +29,21 @@ const props = defineProps<{
   recipeAllergies: string[];
 }>();
 
-
-
 // Define emits
-const emit = defineEmits<{
+/* const emit = defineEmits<{
   (event: "some-event", ...args: any[]): void;
-}>();
+}>(); */
 
 // Define refs
-const value = ref(null) as Ref<HTMLElement | null>;
+/* const value = ref(null) as Ref<HTMLElement | null>; */
 
 // Define computed values
-const computedValue = computed(() => {});
+const allergies = computed(() => {
+  return props.recipeAllergies.join(", ");
+});
 
 // Define callback functions
-function onClick() {}
+/* function onClick() {} */
 
 // Vue hooks
 onMounted(() => {});
