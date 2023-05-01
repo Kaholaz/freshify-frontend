@@ -4,10 +4,10 @@
     shadow="never"
     style="height: 11rem"
   >
-    <h2 class="mb-5">{{ recipeTitle }}</h2>
-    <p class="text-[#868e96]">Tid: ca {{ recipeTime }} min</p>
-    <p class="text-[#868e96]">{{ recipeAmountIngredientsOwned }} ingredienser i kjøleskap</p>
-    <footer v-if="recipeAllergies?.length > 0" class="mt-2 text-right">
+    <h2 class="mb-5">{{ recipe?.recipeTitle }}</h2>
+    <p class="text-[#868e96]">Tid: ca {{ recipe?.recipeTime }} min</p>
+    <p class="text-[#868e96]">{{ recipe?.recipeAmountIngredientsOwned }} ingredienser i kjøleskap</p>
+    <footer v-if="recipe?.recipeAllergies?.length > 0" class="mt-2 text-right">
       <header class="mb-5">Allergier:</header>
       <p class="text-[#868e96]">{{ allergies }}</p>
     </footer>
@@ -22,11 +22,25 @@ import { ref, computed, onMounted } from "vue";
 
 // Define props (will be recipe type)
 const props = defineProps<{
+  recipe: Recipe;
+}>();
+
+type Ingredient = {
+  id: number;
+  ingredientName: string;
+  ingredientAmount: number;
+  ingredientUnit: string;
+};
+
+type Recipe = {
+  id: number;
   recipeTitle: string;
   recipeTime: number;
   recipeAmountIngredientsOwned: number;
   recipeAllergies: string[];
-}>();
+  recipeIngredients?: Ingredient[];
+  recipeSteps?: string[];
+};
 
 // Define emits
 /* const emit = defineEmits<{
@@ -38,7 +52,7 @@ const props = defineProps<{
 
 // Define computed values
 const allergies = computed(() => {
-  return props.recipeAllergies.join(", ");
+  return props.recipe.recipeAllergies.join(", ");
 });
 
 // Define callback functions

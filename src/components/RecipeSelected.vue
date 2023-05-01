@@ -1,14 +1,16 @@
 <template>
   <el-col :lg="24" :md="24" :sm="24" :xl="24" :xs="24">
-    <h2>{{ currentRecipe }}</h2>
+    <h2>{{ currentRecipe?.recipeTitle }}</h2>
     <h3>
-      Hvem kan vel motstå hjemmetrillede kjøttboller servert med spagetti og en herlig pastasaus?
+      {{ currentRecipe?.recipeDescription}}
     </h3>
-    <el-row :gutter="10" style="margin: 1rem 0rem;">
+    <el-row class="ingredients-steps" :gutter="10">
       <el-col :span="12"
         ><div class="grid-content ep-bg-purple" />
         <h4>Ingredienser</h4>
-        <p style="word-wrap: normal">
+        <p v-for="ingredient in currentRecipe?.recipeIngredients" :key="ingredient.id">
+          {{ ingredient.ingredientAmount }} {{ ingredient.ingredientUnit }} {{ ingredient.ingredientName }} </p>
+        <!-- <p style="word-wrap: normal">
           Pastasaus: 1 stk løk <br />
           1 ss olivenolje <br />
           1 stk hvitløksfedd <br />
@@ -30,12 +32,13 @@
           2 ss olivenolje (gjerne blandet med smør) til steking <br />
           spagetti: <br />
           400 g ukokt spaghetti<br />
-        </p>
+        </p> -->
       </el-col>
       <el-col :span="12"
         ><div class="grid-content ep-bg-purple-light" />
         <h4>Slik gjør du det</h4>
-        <p>
+        <p v-for="(step,index) in currentRecipe?.recipeSteps" :key="step">  {{ index + 1 }} {{ step }}</p>
+        <!-- <p>
           Pastasaus: <br />
           1. Finhakk løk og hvitløk. <br />
           2. Varm oljen i en kjele og fres løk og hvitløk til løken er blank. <br />
@@ -50,7 +53,7 @@
           Spagetti: <br />
           1. Kok spagettien etter anvisning på pakken. <br />
           2. Server kjøttboller og pastasaus med spagetti og gjerne revet parmesan. <br />
-        </p>
+        </p> -->
       </el-col>
     </el-row>
   </el-col>
@@ -69,21 +72,42 @@
 <script setup lang="ts">
 import { Back } from "@element-plus/icons-vue";
 
-const props = defineProps({
-  currentRecipe: String,
-});
+type Ingredient = {
+  id: number;
+  ingredientName: string;
+  ingredientAmount: number;
+  ingredientUnit: string;
+};
+
+type Recipe = {
+  id: number;
+  recipeTitle: string;
+  recipeDescription: string;
+  recipeTime: number;
+  recipeAmountIngredientsOwned: number;
+  recipeAllergies: string[];
+  recipeIngredients?: Ingredient[];
+  recipeSteps?: string[];
+};
+
+const props = defineProps<{
+  currentRecipe: Recipe;
+}>();
+
+
 
 const emit = defineEmits<{
   (event: "removeRecipe"): void;
   //todo: add recipe to weekmenu
-  (event: "addRecipeToWeekMenu", args: string): void;
+  (event: "addRecipeToWeekMenu", args: Recipe): void;
 }>();
 </script>
 
 <style scoped>
-el-text {
-  font-size: 1.2rem;
-  line-height: 1.5rem;
-  margin-bottom: 1rem;
+
+.ingredients-steps{
+    margin: 1rem 0rem; 
+    width: fit-content;
 }
+
 </style>
