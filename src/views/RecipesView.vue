@@ -25,7 +25,7 @@
         />
       </el-col>
       <!--Recipe selected-->
-      <Recipe v-else :current-recipe="currentRecipe" @remove-recipe="removeRecipe"/>
+      <Recipe v-else :current-recipe="currentRecipe" @remove-recipe="removeRecipe" @add-recipe-to-week-menu="addRecipeToWeekMenu(currentRecipe)"/>
     </el-row>
     
     
@@ -36,8 +36,9 @@
 import RecipeCard from "@/components/RecipeCard.vue";
 import Recipe from "@/components/Recipe.vue";
 import { ref } from "vue";
+import { ElMessage } from "element-plus";
 
-//test recipes
+//test recipes, todo: needs ingredients and steps
 const recipes = {
   taco: {
     id: 1,
@@ -87,6 +88,12 @@ function onClick(recipeTitle: string) {
 
 function removeRecipe() {
   currentRecipe.value = "";
+}
+
+//todo: what day of the week?
+function addRecipeToWeekMenu(recipe: string) {
+  ElMessage.success("Oppskrift lagt til i ukesmeny");
+  console.log("add recipe to week menu: " + recipe);
 }
 
 </script>

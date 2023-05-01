@@ -8,7 +8,7 @@
       <el-col :span="12"
         ><div class="grid-content ep-bg-purple" />
         <header>Ingredienser</header>
-        <el-text>
+        <p style="word-wrap: normal">
           Pastasaus: 1 stk løk <br />
           1 ss olivenolje <br />
           1 stk hvitløksfedd <br />
@@ -30,12 +30,12 @@
           2 ss olivenolje (gjerne blandet med smør) til steking <br />
           spagetti: <br />
           400 g ukokt spaghetti<br />
-        </el-text>
+        </p>
       </el-col>
       <el-col :span="12"
         ><div class="grid-content ep-bg-purple-light" />
         <header>Slik gjør du det</header>
-        <el-text>
+        <p>
           Pastasaus: <br />
           1. Finhakk løk og hvitløk. <br />
           2. Varm oljen i en kjele og fres løk og hvitløk til løken er blank. <br />
@@ -50,19 +50,40 @@
           Spagetti: <br />
           1. Kok spagettien etter anvisning på pakken. <br />
           2. Server kjøttboller og pastasaus med spagetti og gjerne revet parmesan. <br />
-        </el-text>
+        </p>
       </el-col>
     </el-row>
   </el-col>
-    <el-button type="danger" @click="emit('removeRecipe')">Tilbake til oppskrifter</el-button>
+  <el-button type="primary" @click="emit('removeRecipe')">
+    <el-icon>
+      <Back />
+    </el-icon >
+    Tilbake til oppskrifter</el-button
+  >
+  <!--weekmenu or add ingredients to shopping list?-->
+  <el-button type="success" @click="emit('addRecipeToWeekMenu', currentRecipe!)">
+    Legg til i ukesmeny</el-button
+  >
 </template>
 
 <script setup lang="ts">
+import { Back } from "@element-plus/icons-vue";
+
 const props = defineProps({
   currentRecipe: String,
 });
 
 const emit = defineEmits<{
   (event: "removeRecipe"): void;
+  //todo: add recipe to weekmenu
+  (event: "addRecipeToWeekMenu", args: string): void;
 }>();
 </script>
+
+<style scoped>
+el-text {
+  font-size: 1.2rem;
+  line-height: 1.5rem;
+  margin-bottom: 1rem;
+}
+</style>
