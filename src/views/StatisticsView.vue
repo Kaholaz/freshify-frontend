@@ -311,3 +311,7 @@ function getNumOfMonths() {
   margin-bottom: 10px;
 }
 </style>
+
+<script setup lang="ts">
+import WastedItemList from "@/components/WastedItemList.vue";
+</script>
