@@ -19,10 +19,12 @@
   "dependencies": {
     "@vuelidate/core": "^2.0.2",
     "@vuelidate/validators": "^2.0.2",
+    "chart.js": "^4.3.0",
     "element-plus": "^2.3.3",
     "mitt": "^3.0.0",
     "pinia": "^2.0.32",
     "vue": "^3.2.47",
+    "vue-chartjs": "^5.2.0",
     "vue-router": "^4.1.6"
   },
   "devDependencies": {
