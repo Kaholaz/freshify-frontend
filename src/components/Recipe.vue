@@ -4,10 +4,10 @@
     <h3>
       Hvem kan vel motstå hjemmetrillede kjøttboller servert med spagetti og en herlig pastasaus?
     </h3>
-    <el-row :gutter="10">
+    <el-row :gutter="10" style="margin: 1rem 0rem;">
       <el-col :span="12"
         ><div class="grid-content ep-bg-purple" />
-        <header>Ingredienser</header>
+        <h4>Ingredienser</h4>
         <p style="word-wrap: normal">
           Pastasaus: 1 stk løk <br />
           1 ss olivenolje <br />
@@ -34,7 +34,7 @@
       </el-col>
       <el-col :span="12"
         ><div class="grid-content ep-bg-purple-light" />
-        <header>Slik gjør du det</header>
+        <h4>Slik gjør du det</h4>
         <p>
           Pastasaus: <br />
           1. Finhakk løk og hvitløk. <br />
