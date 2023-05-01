@@ -1,6 +1,6 @@
 <template>
   <h1>Mitt kjøleskap</h1>
-  <div v-if="!isLoading" class="inventory-items-list">
+  <div v-if="!isLoading && items" class="inventory-items-list">
     <ItemCard
       v-for="item in items"
       :key="item.id"
@@ -23,6 +23,7 @@
     v-model="useItemDialogVisible"
     title="Registrer matbruk"
     width="500px"
+    id="use-item-dialog"
   >
     <span>Velg hvor mye av varen du har brukt. Resten blir markert som svinn</span>
     <div class="amount-selection-row">
@@ -32,12 +33,15 @@
       <el-button round type="info" @click="dialogAmount = 0.75"> 0.75</el-button>
       <el-button round type="info" @click="dialogAmount = 1"> Hele</el-button>
     </div>
-    <template #footer>
-      <span class="dialog-footer">
-        <el-button type="danger" @click="useItemDialogVisible = false">Avbryt</el-button>
-        <el-button type="warning" @click="useItem(dialogItem, dialogAmount)"> Bruk </el-button>
-      </span>
-    </template>
+    <div class="re-add">
+      <el-checkbox v-model="dialogReAdd"
+        >Legge til en ny {{ dialogItem.type?.name }} i handlekurven?</el-checkbox
+      >
+    </div>
+    <span class="dialog-footer">
+      <el-button type="danger" @click="useItemDialogVisible = false">Avbryt</el-button>
+      <el-button type="warning" @click="useItem(dialogItem, dialogAmount)"> Bruk </el-button>
+    </span>
   </el-dialog>
 </template>
 
@@ -46,8 +50,8 @@ import axios from "axios";
 import { computed, inject, onMounted, onUnmounted, ref } from "vue";
 import { ElDialog } from "element-plus";
 
-import type { Item, UpdateItem } from "@/services/index";
-import { InventoryApi, ItemState } from "@/services/index";
+import type { Item, UpdateItem, CreateShoppingListEntry } from "@/services/index";
+import { InventoryApi, ShoppingListApi, ItemState } from "@/services/index";
 import { useHouseholdStore } from "@/stores/household";
 import { showError } from "@/utils/error-utils";
 
@@ -67,6 +71,7 @@ onUnmounted(() => {
 
 // Define APIs
 const inventoryApi = new InventoryApi();
+const shoppingListApi = new ShoppingListApi();
 
 // Defines stores
 const householdStore = useHouseholdStore();
@@ -78,6 +83,7 @@ const useItemDialogVisible = ref(false);
 // The item that is currently selected with the dialog open.
 const dialogItem = ref<Item | null>(null);
 const dialogAmount = ref<number | null>(null);
+const dialogReAdd = ref(false);
 
 const items = ref<Item[] | null>(null);
 const error = ref<Error | null>(null);
@@ -132,6 +138,17 @@ function useItem(item: Item, amount: number | null) {
       useItemDialogVisible.value = false;
     })
     .catch(handleError);
+
+  if (dialogReAdd.value) {
+    let newShoppingListEntry: CreateShoppingListEntry = {
+      itemTypeId: item.type!.id,
+      count: 1,
+      suggested: sessionStorage.getHighestRole === "USER",
+    };
+    shoppingListApi
+      .addItem(houseHoldId, newShoppingListEntry)
+      .catch(() => handleError(new Error("Kunne ikke legge til element i handlelisten på nytt.")));
+  }
 }
 
 function updateItems() {
@@ -196,6 +213,17 @@ function handleError(err: any) {
 .amount-selection-row {
   display: flex;
   justify-content: center;
+  margin-top: 5px;
+}
+
+.re-add {
+  margin-top: 25px;
+  margin-left: 10px;
+}
+
+.dialog-footer {
+  display: flex;
+  justify-content: flex-end;
   margin-top: 5px;
 }
 </style>
