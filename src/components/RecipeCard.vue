@@ -9,7 +9,6 @@
     <p class="text-[#868e96]">{{ recipeAmountIngredientsOwned }} ingredienser i kjøleskap</p>
     <footer v-if="recipeAllergies?.length > 0" class="mt-2 text-right">
       <header class="mb-5">Allergier:</header>
-      <!-- todo: formatering FIX -->
       <p class="text-[#868e96]">{{ allergies }}</p>
     </footer>
   </el-card>
