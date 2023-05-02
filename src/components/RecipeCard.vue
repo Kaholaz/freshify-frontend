@@ -1,21 +1,25 @@
 <template>
   <el-card
     class="relative m-2 w-full max-w-xl overflow-visible"
-    shadow="never"
-    style="height: 11rem"
+    shadow="hover"
+    style="height: fit-content"
   >
-    <h2 class="mb-5">{{ recipe?.recipeTitle }}</h2>
-    <el-icon v-if="isBookmarked">
-      <Management color="orange" />
-    </el-icon>
-    <p class="text-[#868e96]">Tid: ca {{ recipe?.recipeTime }} min</p>
-    <p class="text-[#868e96]">
-      {{ recipe?.recipeAmountIngredientsOwned }} ingredienser i kjøleskap
-    </p>
-    <footer v-if="recipe?.recipeAllergies?.length > 0" class="mt-2 text-right">
-      <header class="mb-5">Allergier:</header>
-      <p class="text-[#868e96]">{{ allergies }}</p>
-    </footer>
+    <div class="top">
+      <h2 class="mb-5">{{ recipe?.recipeTitle }}</h2>
+      <el-icon v-if="isBookmarked">
+        <Management color="orange" />
+      </el-icon>
+    </div>
+    <div class="content">
+      <p class="text-[#868e96]">Tid: ca {{ recipe?.recipeTime }} min</p>
+      <p class="text-[#868e96]">
+        {{ recipe?.recipeAmountIngredientsOwned }} ingredienser i kjøleskap
+      </p>
+      <footer v-if="recipe?.recipeAllergies?.length > 0" class="mt-2 text-right">
+        <header class="mb-5">Allergier:</header>
+        <p class="text-[#868e96]">{{ allergies }}</p>
+      </footer>
+    </div>
   </el-card>
 </template>
 
@@ -73,5 +77,19 @@ onMounted(() => {});
 
 <style scoped>
 .recipe-card-wrapper {
+}
+
+.top {
+  margin-top: 13px;
+  line-height: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.content {
+  margin-top: 13px;
+  align-items: center;
 }
 </style>
