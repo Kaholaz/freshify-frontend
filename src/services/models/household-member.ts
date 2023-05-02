@@ -14,7 +14,6 @@
 import { HouseholdMemberKey } from "./household-member-key";
 import { HouseholdUserType } from "./household-user-type";
 import { UserFull } from "./user-full";
-
 /**
  *
  * @export

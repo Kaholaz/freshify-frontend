@@ -14,31 +14,19 @@
 /**
  *
  * @export
- * @interface UpdateShoppingListEntry
+ * @interface RecipeCategory
  */
-export interface UpdateShoppingListEntry {
+export interface RecipeCategory {
   /**
    *
    * @type {number}
-   * @memberof UpdateShoppingListEntry
+   * @memberof RecipeCategory
    */
   id?: number;
   /**
    *
-   * @type {number}
-   * @memberof UpdateShoppingListEntry
+   * @type {string}
+   * @memberof RecipeCategory
    */
-  count?: number;
-  /**
-   *
-   * @type {boolean}
-   * @memberof UpdateShoppingListEntry
-   */
-  suggested?: boolean;
-  /**
-   *
-   * @type {boolean}
-   * @memberof UpdateShoppingListEntry
-   */
-  checked?: boolean;
+  name?: string;
 }

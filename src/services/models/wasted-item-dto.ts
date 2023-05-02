@@ -14,31 +14,25 @@
 /**
  *
  * @export
- * @interface UpdateShoppingListEntry
+ * @interface WastedItemDTO
  */
-export interface UpdateShoppingListEntry {
+export interface WastedItemDTO {
+  /**
+   *
+   * @type {string}
+   * @memberof WastedItemDTO
+   */
+  name?: string;
   /**
    *
    * @type {number}
-   * @memberof UpdateShoppingListEntry
+   * @memberof WastedItemDTO
    */
-  id?: number;
+  countWasted?: number;
   /**
    *
    * @type {number}
-   * @memberof UpdateShoppingListEntry
+   * @memberof WastedItemDTO
    */
-  count?: number;
-  /**
-   *
-   * @type {boolean}
-   * @memberof UpdateShoppingListEntry
-   */
-  suggested?: boolean;
-  /**
-   *
-   * @type {boolean}
-   * @memberof UpdateShoppingListEntry
-   */
-  checked?: boolean;
+  amountWasted?: number;
 }

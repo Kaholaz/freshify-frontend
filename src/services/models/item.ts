@@ -14,7 +14,6 @@
 import { ItemState } from "./item-state";
 import { ItemType } from "./item-type";
 import { UserFull } from "./user-full";
-
 /**
  *
  * @export
@@ -45,6 +44,12 @@ export interface Item {
    * @memberof Item
    */
   bought?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof Item
+   */
+  lastChanged?: string;
   /**
    *
    * @type {boolean}
