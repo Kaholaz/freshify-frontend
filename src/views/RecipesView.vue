@@ -32,20 +32,37 @@
           placeholder="Søk etter oppskrift"
           :prefix-icon="Search"
         />
-        <el-dropdown>
-          <span class="el-dropdown-link">
-            Velg allergi
-            <el-icon class="el-icon--right">
-              <arrow-down />
-            </el-icon>
-          </span>
+        <el-dropdown :hide-on-click="false">
+          <el-button type="primary">
+            Velg allergier<el-icon class="el-icon--right"><arrow-down /></el-icon>
+          </el-button>
           <template #dropdown>
-            <el-dropdown-menu>
-              <el-dropdown-item>Action 1</el-dropdown-item>
-              <el-dropdown-item>Action 2</el-dropdown-item>
-              <el-dropdown-item>Action 3</el-dropdown-item>
-              <el-dropdown-item disabled>Action 4</el-dropdown-item>
-              <el-dropdown-item divided>Action 5</el-dropdown-item>
+            <el-dropdown-menu class="dropdown-menu">
+              <el-checkbox
+                v-model="glutenChecked"
+                class="allergy-checkbox"
+                size="large"
+                label="Gluten"
+              />
+              <el-checkbox
+                v-model="shellfishChecked"
+                class="allergy-checkbox"
+                size="large"
+                label="Skalldyr"
+              />
+              <el-checkbox v-model="eggChecked" class="allergy-checkbox" size="large" label="Egg" />
+              <el-checkbox
+                v-model="fishChecked"
+                class="allergy-checkbox"
+                size="large"
+                label="Fisk"
+              />
+              <el-checkbox
+                v-model="peanutsChecked"
+                class="allergy-checkbox"
+                size="large"
+                label="Peanøtter"
+              />
             </el-dropdown-menu>
           </template>
         </el-dropdown>
@@ -88,7 +105,13 @@ import RecipeSelected from "@/components/RecipeSelected.vue";
 import type { Ref } from "vue";
 import { ref } from "vue";
 import { ElMessage } from "element-plus";
-import { Search } from "@element-plus/icons-vue";
+import { Search, ArrowDown } from "@element-plus/icons-vue";
+
+const glutenChecked = ref(true);
+const shellfishChecked = ref(false);
+const eggChecked = ref(false);
+const fishChecked = ref(false);
+const peanutsChecked = ref(false);
 
 type Ingredient = {
   id: number;
@@ -117,7 +140,7 @@ const recipes = [
       "Taco er for mange selve fredagskosen. Fyll tacoskjell eller tortillalefser med kjøttdeig, grønnsaker, ost, salsa-tacosaus og rømme.",
     recipeTime: 30,
     recipeAmountIngredientsOwned: 5,
-    recipeAllergies: ["ingen"],
+    recipeAllergies: [],
     recipeIngredients: [
       {
         id: 1,
@@ -274,5 +297,16 @@ function addIngredientsToShoppingList(recipe: Recipe) {
   width: 100%;
   margin-bottom: 20px;
   display: flex;
+}
+
+.dropdown-menu {
+  display: flex;
+  align-items: left;
+  flex-direction: column;
+  justify-content: left;
+}
+
+.allergy-checkbox {
+  margin-left: 1rem;
 }
 </style>

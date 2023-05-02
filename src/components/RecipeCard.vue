@@ -15,9 +15,10 @@
       <p class="text-[#868e96]">
         {{ recipe?.recipeAmountIngredientsOwned }} ingredienser i kjøleskap
       </p>
-      <footer v-if="recipe?.recipeAllergies?.length > 0" class="mt-2 text-right">
+      <footer class="mt-2 text-right">
         <header class="mb-5">Allergier:</header>
-        <p class="text-[#868e96]">{{ allergies }}</p>
+        <p class="text-[#868e96]" v-if="recipe?.recipeAllergies?.length > 0">{{ allergies }}</p>
+        <p class="text-[#868e96]" v-else>ingen</p>
       </footer>
     </div>
   </el-card>
