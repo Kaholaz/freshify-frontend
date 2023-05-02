@@ -11,13 +11,14 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import globalAxios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
+import globalAxios, { AxiosResponse, AxiosInstance, AxiosRequestConfig } from "axios";
 import { Configuration } from "../configuration";
 // Some imports not used depending on template conditions
 // @ts-ignore
-import { BASE_PATH, BaseAPI, COLLECTION_FORMATS, RequestArgs, RequiredError } from "../base";
-import { CreateShoppingListEntry, ShoppingListEntry, UpdateShoppingListEntry } from "../models";
-
+import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from "../base";
+import { CreateShoppingListEntry } from "../models";
+import { ShoppingListEntry } from "../models";
+import { UpdateShoppingListEntry } from "../models";
 /**
  * ShoppingListApi - axios parameter creator
  * @export
@@ -582,7 +583,6 @@ export class ShoppingListApi extends BaseAPI {
       .addItem(id, body, options)
       .then((request) => request(this.axios, this.basePath));
   }
-
   /**
    * Delete an item from shopping list of a household, both ItemType and count of the item should be passed
    * @summary Delete item from shopping list
@@ -601,7 +601,6 @@ export class ShoppingListApi extends BaseAPI {
       .deleteShoppingListEntry(id, listEntryId, options)
       .then((request) => request(this.axios, this.basePath));
   }
-
   /**
    * Gets a shopping list with item id from shopping list
    * @summary Get the shopping list of a household
@@ -618,7 +617,6 @@ export class ShoppingListApi extends BaseAPI {
       .getShoppingList(id, options)
       .then((request) => request(this.axios, this.basePath));
   }
-
   /**
    * Mark items as bought. Items are removed from shopping list.
    * @summary Mark items as bought
@@ -635,7 +633,6 @@ export class ShoppingListApi extends BaseAPI {
       .markItemsAsBought(id, options)
       .then((request) => request(this.axios, this.basePath));
   }
-
   /**
    * Updates an entry in the shopping list of a household
    * @summary Update shopping list entry

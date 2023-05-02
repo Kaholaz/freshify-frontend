@@ -14,31 +14,19 @@
 /**
  *
  * @export
- * @interface UpdateShoppingListEntry
+ * @interface ItemTypeDTO
  */
-export interface UpdateShoppingListEntry {
+export interface ItemTypeDTO {
   /**
    *
    * @type {number}
-   * @memberof UpdateShoppingListEntry
+   * @memberof ItemTypeDTO
    */
   id?: number;
   /**
    *
-   * @type {number}
-   * @memberof UpdateShoppingListEntry
+   * @type {string}
+   * @memberof ItemTypeDTO
    */
-  count?: number;
-  /**
-   *
-   * @type {boolean}
-   * @memberof UpdateShoppingListEntry
-   */
-  suggested?: boolean;
-  /**
-   *
-   * @type {boolean}
-   * @memberof UpdateShoppingListEntry
-   */
-  checked?: boolean;
+  name?: string;
 }

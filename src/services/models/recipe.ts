@@ -11,61 +11,67 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { ItemState } from "./item-state";
-import { ItemType } from "./item-type";
-import { UserFull } from "./user-full";
+import { AllergenRequest } from "./allergen-request";
+import { RecipeCategory } from "./recipe-category";
+import { RecipeIngredient } from "./recipe-ingredient";
 /**
  *
  * @export
- * @interface InventoryItemsInner
+ * @interface Recipe
  */
-export interface InventoryItemsInner {
+export interface Recipe {
   /**
    *
    * @type {number}
-   * @memberof InventoryItemsInner
+   * @memberof Recipe
    */
   id?: number;
   /**
    *
-   * @type {ItemState}
-   * @memberof InventoryItemsInner
+   * @type {string}
+   * @memberof Recipe
    */
-  state?: ItemState;
+  name?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof Recipe
+   */
+  description?: string;
   /**
    *
    * @type {number}
-   * @memberof InventoryItemsInner
+   * @memberof Recipe
    */
-  remaining?: number;
+  estimatedTime?: number;
   /**
    *
    * @type {string}
-   * @memberof InventoryItemsInner
+   * @memberof Recipe
    */
-  lastChanged?: string;
+  steps?: string;
+  /**
+   *
+   * @type {Array<RecipeIngredient>}
+   * @memberof Recipe
+   */
+  recipeIngredients?: Array<RecipeIngredient>;
+  /**
+   *
+   * @type {Array<RecipeCategory>}
+   * @memberof Recipe
+   */
+  categories?: Array<RecipeCategory>;
+  /**
+   *
+   * @type {Array<AllergenRequest>}
+   * @memberof Recipe
+   */
+  allergens?: Array<AllergenRequest>;
   /**
    *
    * @type {string}
-   * @memberof InventoryItemsInner
+   * @memberof Recipe
    */
-  bought?: string;
-  /**
-   *
-   * @type {boolean}
-   * @memberof InventoryItemsInner
-   */
-  suggested?: boolean;
-  /**
-   *
-   * @type {ItemType}
-   * @memberof InventoryItemsInner
-   */
-  type?: ItemType;
-  /**
-   *
-   * @type {UserFull}
-   * @memberof InventoryItemsInner
-   */
-  addedBy?: UserFull;
+  image?: string;
 }

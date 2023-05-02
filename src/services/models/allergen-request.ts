@@ -14,31 +14,19 @@
 /**
  *
  * @export
- * @interface UpdateShoppingListEntry
+ * @interface AllergenRequest
  */
-export interface UpdateShoppingListEntry {
+export interface AllergenRequest {
   /**
    *
    * @type {number}
-   * @memberof UpdateShoppingListEntry
+   * @memberof AllergenRequest
    */
   id?: number;
   /**
    *
-   * @type {number}
-   * @memberof UpdateShoppingListEntry
+   * @type {string}
+   * @memberof AllergenRequest
    */
-  count?: number;
-  /**
-   *
-   * @type {boolean}
-   * @memberof UpdateShoppingListEntry
-   */
-  suggested?: boolean;
-  /**
-   *
-   * @type {boolean}
-   * @memberof UpdateShoppingListEntry
-   */
-  checked?: boolean;
+  name?: string;
 }

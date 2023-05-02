@@ -11,15 +11,21 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { HouseholdMemberKey } from "./household-member-key";
 import { HouseholdUserType } from "./household-user-type";
 import { UserFull } from "./user-full";
-
 /**
  *
  * @export
  * @interface InlineResponse2001
  */
 export interface InlineResponse2001 {
+  /**
+   *
+   * @type {HouseholdMemberKey}
+   * @memberof InlineResponse2001
+   */
+  id?: HouseholdMemberKey;
   /**
    *
    * @type {UserFull}

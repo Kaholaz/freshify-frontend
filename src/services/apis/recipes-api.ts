@@ -16,32 +16,33 @@ import { Configuration } from "../configuration";
 // Some imports not used depending on template conditions
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from "../base";
-import { ItemType } from "../models";
+import { Recipe } from "../models";
+import { RecipeRequest } from "../models";
 /**
- * ItemTypeApi - axios parameter creator
+ * RecipesApi - axios parameter creator
  * @export
  */
-export const ItemTypeApiAxiosParamCreator = function (configuration?: Configuration) {
+export const RecipesApiAxiosParamCreator = function (configuration?: Configuration) {
   return {
     /**
-     *
-     * @summary Search through item types
-     * @param {string} name Search string to find item types by name
+     * Creates a new recipe and saves to backend.
+     * @summary Create a new recipe
+     * @param {RecipeRequest} body Recipe object to be created and saved.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    searchItemTypes: async (
-      name: string,
+    createRecipe: async (
+      body: RecipeRequest,
       options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
-      // verify required parameter 'name' is not null or undefined
-      if (name === null || name === undefined) {
+      // verify required parameter 'body' is not null or undefined
+      if (body === null || body === undefined) {
         throw new RequiredError(
-          "name",
-          "Required parameter name was null or undefined when calling searchItemTypes."
+          "body",
+          "Required parameter body was null or undefined when calling createRecipe."
         );
       }
-      const localVarPath = `/itemtype`;
+      const localVarPath = `/recipes`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, "https://example.com");
       let baseOptions;
@@ -49,16 +50,14 @@ export const ItemTypeApiAxiosParamCreator = function (configuration?: Configurat
         baseOptions = configuration.baseOptions;
       }
       const localVarRequestOptions: AxiosRequestConfig = {
-        method: "GET",
+        method: "POST",
         ...baseOptions,
         ...options,
       };
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
 
-      if (name !== undefined) {
-        localVarQueryParameter["name"] = name;
-      }
+      localVarHeaderParameter["Content-Type"] = "application/json";
 
       const query = new URLSearchParams(localVarUrlObj.search);
       for (const key in localVarQueryParameter) {
@@ -74,6 +73,12 @@ export const ItemTypeApiAxiosParamCreator = function (configuration?: Configurat
         ...headersFromBaseOptions,
         ...options.headers,
       };
+      const needsSerialization =
+        typeof body !== "string" ||
+        localVarRequestOptions.headers["Content-Type"] === "application/json";
+      localVarRequestOptions.data = needsSerialization
+        ? JSON.stringify(body !== undefined ? body : {})
+        : body || "";
 
       return {
         url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
@@ -84,26 +89,24 @@ export const ItemTypeApiAxiosParamCreator = function (configuration?: Configurat
 };
 
 /**
- * ItemTypeApi - functional programming interface
+ * RecipesApi - functional programming interface
  * @export
  */
-export const ItemTypeApiFp = function (configuration?: Configuration) {
+export const RecipesApiFp = function (configuration?: Configuration) {
   return {
     /**
-     *
-     * @summary Search through item types
-     * @param {string} name Search string to find item types by name
+     * Creates a new recipe and saves to backend.
+     * @summary Create a new recipe
+     * @param {RecipeRequest} body Recipe object to be created and saved.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async searchItemTypes(
-      name: string,
+    async createRecipe(
+      body: RecipeRequest,
       options?: AxiosRequestConfig
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<Array<ItemType>>>
-    > {
-      const localVarAxiosArgs = await ItemTypeApiAxiosParamCreator(configuration).searchItemTypes(
-        name,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<Recipe>>> {
+      const localVarAxiosArgs = await RecipesApiAxiosParamCreator(configuration).createRecipe(
+        body,
         options
       );
       return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
@@ -118,54 +121,54 @@ export const ItemTypeApiFp = function (configuration?: Configuration) {
 };
 
 /**
- * ItemTypeApi - factory interface
+ * RecipesApi - factory interface
  * @export
  */
-export const ItemTypeApiFactory = function (
+export const RecipesApiFactory = function (
   configuration?: Configuration,
   basePath?: string,
   axios?: AxiosInstance
 ) {
   return {
     /**
-     *
-     * @summary Search through item types
-     * @param {string} name Search string to find item types by name
+     * Creates a new recipe and saves to backend.
+     * @summary Create a new recipe
+     * @param {RecipeRequest} body Recipe object to be created and saved.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async searchItemTypes(
-      name: string,
+    async createRecipe(
+      body: RecipeRequest,
       options?: AxiosRequestConfig
-    ): Promise<AxiosResponse<Array<ItemType>>> {
-      return ItemTypeApiFp(configuration)
-        .searchItemTypes(name, options)
+    ): Promise<AxiosResponse<Recipe>> {
+      return RecipesApiFp(configuration)
+        .createRecipe(body, options)
         .then((request) => request(axios, basePath));
     },
   };
 };
 
 /**
- * ItemTypeApi - object-oriented interface
+ * RecipesApi - object-oriented interface
  * @export
- * @class ItemTypeApi
+ * @class RecipesApi
  * @extends {BaseAPI}
  */
-export class ItemTypeApi extends BaseAPI {
+export class RecipesApi extends BaseAPI {
   /**
-   *
-   * @summary Search through item types
-   * @param {string} name Search string to find item types by name
+   * Creates a new recipe and saves to backend.
+   * @summary Create a new recipe
+   * @param {RecipeRequest} body Recipe object to be created and saved.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof ItemTypeApi
+   * @memberof RecipesApi
    */
-  public async searchItemTypes(
-    name: string,
+  public async createRecipe(
+    body: RecipeRequest,
     options?: AxiosRequestConfig
-  ): Promise<AxiosResponse<Array<ItemType>>> {
-    return ItemTypeApiFp(this.configuration)
-      .searchItemTypes(name, options)
+  ): Promise<AxiosResponse<Recipe>> {
+    return RecipesApiFp(this.configuration)
+      .createRecipe(body, options)
       .then((request) => request(this.axios, this.basePath));
   }
 }
