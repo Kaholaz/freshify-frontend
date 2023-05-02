@@ -36,6 +36,7 @@
           400 g ukokt spaghetti<br />
         </p> -->
       </el-col>
+
       <el-col :span="12"
         ><div class="grid-content ep-bg-purple-light" />
         <h4>Slik gjør du det</h4>
@@ -61,6 +62,8 @@
       </el-col>
     </el-row>
   </el-col>
+  <el-divider />
+
   <el-button type="primary" @click="emit('removeRecipe')">
     <el-icon>
       <Back />

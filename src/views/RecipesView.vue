@@ -25,6 +25,12 @@
       </el-row>
     </div>
     <el-row :gutter="10" style="width: 100%; margin: 0">
+      <el-input
+        v-model="recipeSearch"
+        class="recipe-search"
+        placeholder="Søk etter oppskrift"
+        :prefix-icon="Search"
+      />
       <!--No recipe selected-->
       <el-col
         v-if="currentRecipe === undefined"
@@ -36,7 +42,6 @@
         :xl="12"
         :xs="24"
       >
-        <!--todo: This will be one recipe prop-->
         <RecipeCard
           class="recipe-card"
           :recipe="recipe"
@@ -62,6 +67,7 @@ import RecipeSelected from "@/components/RecipeSelected.vue";
 import type { Ref } from "vue";
 import { ref } from "vue";
 import { ElMessage } from "element-plus";
+import { Search } from "@element-plus/icons-vue";
 
 type Ingredient = {
   id: number;
@@ -194,6 +200,7 @@ const recipes = [
 ];
 
 const currentRecipe = ref<Recipe>();
+const recipeSearch = ref<string>("");
 //api call: householdrecipes
 const bookmarkedRecipes = ref<Recipe[]>([]);
 
@@ -227,5 +234,9 @@ function bookmarkRecipe(recipe: Recipe) {
   border-radius: 5px;
   cursor: pointer;
   transition: 0.3s;
+}
+
+.recipe-search{
+  margin-bottom: 20px;
 }
 </style>
