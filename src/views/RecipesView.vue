@@ -1,27 +1,29 @@
 <template>
   <div>
     <h1 v-if="currentRecipe === undefined">Oppskrifter</h1>
+    <div v-if="bookmarkedRecipes.length > 0 && currentRecipe === undefined">
+      <el-divider content-position="left">Bokmerkede oppskrifter</el-divider>
 
-    <el-row :gutter="10" style="width: 100%; margin: 0">
-      <el-col
-        v-if="bookmarkedRecipes.length > 0 && currentRecipe === undefined"
-        v-for="recipe in bookmarkedRecipes"
-        :key="recipe.id"
-        :lg="12"
-        :md="24"
-        :sm="24"
-        :xl="12"
-        :xs="24"
-      >
-        <RecipeCard
-          class="recipe-card"
-          :recipe="recipe"
-          :isBookmarked="true"
-          @click="onClick(recipe)"
-        />
-      </el-col>
-    </el-row>
-
+      <el-row :gutter="10" style="width: 100%; margin: 0">
+        <el-col
+          v-for="recipe in bookmarkedRecipes"
+          :key="recipe.id"
+          :lg="12"
+          :md="24"
+          :sm="24"
+          :xl="12"
+          :xs="24"
+        >
+          <RecipeCard
+            class="recipe-card"
+            :recipe="recipe"
+            :isBookmarked="true"
+            @click="onClick(recipe)"
+          />
+        </el-col>
+        <el-divider content-position="left">Oppskrifter</el-divider>
+      </el-row>
+    </div>
     <el-row :gutter="10" style="width: 100%; margin: 0">
       <!--No recipe selected-->
       <el-col
@@ -210,7 +212,7 @@ function bookmarkRecipe(recipe: Recipe) {
   if (bookmarkedRecipes.value.includes(recipe)) {
     bookmarkedRecipes.value = bookmarkedRecipes.value.filter((r) => r.id !== recipe.id);
     ElMessage.warning("Fjenrnet bokmerket for oppskrift: " + recipe.recipeTitle);
-    console.log("remove bookmark: " + recipe.recipeTitle)
+    console.log("remove bookmark: " + recipe.recipeTitle);
     return;
   }
   bookmarkedRecipes.value.push(recipe);
