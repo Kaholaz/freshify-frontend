@@ -35,7 +35,7 @@
         <el-text class="centered-text">
           Din husholdning kaster
           <h2 v-if="normalHouseholdFoodThrown != foodThrown">
-            {{ Math.round(Math.abs(foodThrown * 100 - normalHouseholdFoodThrown * 100)) }}%
+            {{ Math.round(Math.abs(100 * (normalHouseholdFoodThrown - foodThrown) / normalHouseholdFoodThrown)) }}%
           </h2>
           <span v-if="foodThrown < normalHouseholdFoodThrown">mindre mat enn</span
           ><span v-if="foodThrown == normalHouseholdFoodThrown">like mye mat som</span
