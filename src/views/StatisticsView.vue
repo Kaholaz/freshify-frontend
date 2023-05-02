@@ -13,19 +13,19 @@
   ></OverviewStatisticsBar>
   <el-col>
     <el-row>
-      <el-select
-        v-model="intervalType"
-        placeholder="Intervall"
-        style="width: 100%"
-        @change="updateStatistics"
-      >
-        <el-option
-          v-for="interval in intervals"
-          :key="interval"
-          :label="interval"
-          :value="interval"
-        ></el-option>
-      </el-select>
+      <div class="spacer"></div>
+      <el-form ref="ruleFormRef" :rules="validationRules" :model="formModel">
+        <el-form-item prop="selectedDate" label="Velg start måned" label-position="left">
+          <el-input
+            v-model="selectedDate"
+            placeholder="Intervall"
+            style="width: 100%"
+            type="month"
+            @change="updateStatistics"
+          >
+          </el-input>
+        </el-form-item>
+      </el-form>
     </el-row>
     <el-row>
       <h3 style="margin-top: 2rem">Svinn og bruk</h3>
@@ -81,12 +81,29 @@ import LineChart from "@/components/LineChart.vue";
 import EvaluationBar from "@/components/EvaluationBar.vue";
 import OverviewStatisticsBar from "@/components/OverviewStatisticsBar.vue";
 import MostUsedItem from "@/components/MostUsedItem.vue";
+import { computed, ref } from "vue";
+import { DateTime } from "luxon";
 
 const chartData = {
   labels: ["Januar", "Februar", "Mars"],
   datasets: [{ data: [40, 20, 12], label: "Bruk" }],
   borderColor: "#ffffff",
   fill: true,
+};
+
+const validationRules = {
+  selectedDate: [
+    {
+      validator: (rule, value, callback) => {
+        if (DateTime.fromFormat(value, "yyyy-MM") > DateTime.fromJSDate(new Date())) {
+          callback(new Error("Du kan ikke velge en dato i fremtiden"));
+        } else {
+          callback();
+        }
+      },
+      trigger: "change",
+    },
+  ],
 };
 
 const tableData = [
@@ -110,10 +127,31 @@ const tableData = [
 const foodThrown = 0.8;
 const normalHouseholdFoodThrown = 0.45;
 
-const intervals = ["Dag", "Uke", "Måned", "År"];
-const intervalType = "Uke";
+const ruleFormRef = ref(null as HTMLElement | null);
+let date = new Date();
+date.setMonth(date.getMonth() - 1);
+const selectedDate = ref(DateTime.fromJSDate(date).toFormat("yyyy-MM"));
+
+const formModel = computed(() => ({
+  selectedDate: selectedDate.value,
+}));
 function updateStatistics() {
-  console.log("update statistics");
+  if (ruleFormRef.value) {
+    ruleFormRef.value.validate((valid: any) => {
+      if (valid) {
+        console.log("valid");
+      } else {
+        console.log("invalid");
+      }
+    });
+  }
+}
+
+function getNumOfMonths() {
+  return DateTime.fromJSDate(new Date()).diff(
+    DateTime.fromJSDate(new Date(selectedDate.value)),
+    "months"
+  ).months;
 }
 </script>
 <style scoped>
