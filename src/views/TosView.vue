@@ -1,0 +1,53 @@
+<template>
+<h2><strong>Vilkår og betingelser</strong></h2>
+<p>Velkommen til Smartmat!</p>
+<p>Disse vilkårene og betingelsene skisserer reglene og forskriftene for bruk av Smartmats nettsted, som ligger på smartmat.app.</p>
+<p>Ved å få tilgang til dette nettstedet antar vi at du godtar disse vilkårene og betingelsene. Fortsett ikke å bruke Smartmat hvis du ikke godtar å ta alle vilkårene og betingelsene som er angitt på denne siden.</p>
+<p>Følgende terminologi gjelder for disse vilkårene og betingelsene, personvernerklæringen og ansvarsfraskrivelsen og alle avtaler: “Klient”, “Du” og “Din” refererer til deg, personen som logger på dette nettstedet og overholder selskapets vilkår og betingelser. “Selskapet”, “Oss selv”, “Vi”, “Vår” og “Oss” refererer til vårt selskap. “Part”, “Parter” eller “Oss” refererer til både klienten og oss selv. Alle vilkår refererer til tilbudet, aksepten og vurderingen av betaling som er nødvendig for å gjennomføre prosessen med vår assistanse til klienten på den mest hensiktsmessige måten for det uttrykte formålet med å møte klientens behov med hensyn til levering av selskapets angitte tjenester, i samsvar med og underlagt gjeldende lov av af. Enhver bruk av ovennevnte terminologi eller andre ord i entall, flertall, store bokstaver og / eller han / hun eller de, tas som ombyttbare og derfor som refererende til samme.</p>
+<h3><strong>Informasjonskapsler</strong></h3>
+<p>Vi bruker informasjonskapsler. Ved å få tilgang til Smartmat godtar du å bruke informasjonskapsler i samsvar med Smartmats personvernpolicy.</p>
+<p>De fleste interaktive nettsteder bruker informasjonskapsler for å la oss hente brukerens detaljer for hvert besøk. Informasjonskapsler brukes av nettstedet vårt for å aktivere funksjonaliteten til visse områder for å gjøre det enklere for folk som besøker nettstedet vårt. Noen av våre tilknyttede / annonseringspartnere kan også bruke informasjonskapsler.</p>
+<h3><strong>Lisens</strong></h3>
+<p>Med mindre annet er angitt, eier Smartmat og / eller dets lisensgivere immaterielle rettigheter for alt materiale på Smartmat. Alle immaterielle rettigheter er reservert. Du kan få tilgang til dette fra Smartmat for din egen personlige bruk underlagt restriksjoner som er angitt i disse vilkårene og betingelsene.</p>
+<p>Du må ikke:</p> <ul> <li>Publisere materiale fra Smartmat på nytt</li> <li>Selge, leie ut eller gi underlisens for materiale fra Smartmat</li> <li>Gjengi, duplisere eller kopiere materiale fra Smartmat</li> <li>Distribuere innhold fra Smartmat på nytt</li> </ul>
+<p>Denne avtalen skal begynne på datoen herfor. Våre vilkår og betingelser ble opprettet med hjelp av <a href=“https://www.termsfeed.com/terms-conditions-generator/”>Vilkår og betingelser Generator</a>.</p>
+<p>Deler av dette nettstedet gir brukerne mulighet til å legge ut og utveksle meninger og informasjon i visse områder av nettstedet. Smartmat filtrerer ikke, redigerer, publiserer eller gjennomgår kommentarer før de er til stede på nettstedet. Kommentarer gjenspeiler ikke synspunktene og meningene til Smartmat, dets agenter og / eller tilknyttede selskaper. Kommentarer gjenspeiler synspunktene og meningene til personen som legger ut sine synspunkter og meninger. I den grad det er tillatt etter gjeldende lover, skal Smartmat ikke være ansvarlig for kommentarene eller for noe ansvar, skader eller utgifter som er forårsaket og / eller lidt som følge av bruk av og / eller innlegging av og / eller utseendet til kommentarene på dette nettstedet.</p>
+<p>Smartmat forbeholder seg retten til å overvåke alle kommentarer og fjerne eventuelle kommentarer som kan anses som upassende, støtende eller forårsaker brudd på disse vilkårene og betingelsene.</p>
+<p>Du garanterer og representerer at:</p>
+<ul> <li>Du har rett til å legge ut kommentarene på nettstedet vårt og har alle nødvendige lisenser og samtykker for å gjøre det;</li> <li>Kommentarene ikke invaderer noen immateriell eiendomsrett, inkludert uten begrensning opphavsrett, patent eller varemerke for noen tredjepart;</li> <li>Kommentarene inneholder ikke noe ærekrenkende, injurierende, støtende, uanstendig eller på annen måte ulovlig materiale som er en invasjon av personvernet</li> <li>Kommentarene vil ikke bli brukt til å be om eller fremme virksomhet eller skikk eller presentere kommersielle aktiviteter eller ulovlig aktivitet.</li> </ul>
+<p>Du gir herved Smartmat en ikke-eksklusiv lisens til å bruke, gjengi, redigere og autorisere andre til å bruke, gjengi og redigere noen av dine kommentarer i alle former, formater eller medier.</p>
+<h3><strong>Hyperkobling til vårt innhold</strong></h3>
+<p>Følgende organisasjoner kan lenke til nettstedet vårt uten forhåndsskrevet godkjenning:</p>
+<ul> <li>Statlige etater;</li> <li>Søkemotorer;</li> <li>Nyhetsorganisasjoner;</li> <li>Online katalogdistributører kan lenke til nettstedet vårt på samme måte som de hyperkobler til nettstedene til andre oppførte virksomheter; og</li> <li>Systemomfattende akkrediterte virksomheter unntatt oppsøkende ideelle organisasjoner, veldedighetsshopping sentre og veldedighetsinnsamling grupper som ikke kan hyperkoble til nettstedet vårt.</li> </ul>
+<p>Disse organisasjonene kan lenke til vår hjemmeside, publikasjoner eller annen nettstedsinformasjon så lenge lenken: (a) ikke er på noen måte villedende; (b) ikke falskt innebærer sponsing, godkjenning eller godkjenning av den lenkende parten og dets produkter og / eller tjenester; og © passer innenfor konteksten til den lenkende partens nettsted.</p>
+<p>Vi kan vurdere og godkjenne andre lenkeforespørsler fra følgende typer organisasjoner:</p>
+<ul> <li>vanlig kjente forbruker- og / eller forretningsinformasjonskilder;</li> <li>dot.com fellesskapssider;</li> <li>sammenslutninger eller andre grupper som representerer veldedige organisasjoner;</li> <li>online katalogdistributører;</li> <li>internettportaler;</li> <li>regnskaps-, lov- og konsulentfirmaer; og</li> <li>utdanningsinstitusjoner og handelsforeninger.</li> </ul>
+<p>Vi vil godkjenne lenkeforespørsler fra disse organisasjonene hvis vi bestemmer at: (a) lenken ikke ville få oss til å se ugunstig ut for oss selv eller våre akkrediterte virksomheter; (b) organisasjonen ikke har noen negative poster hos oss; © fordelen for oss fra synligheten til hyperkoblingen kompenserer fraværet av Smartmat; og (d) lenken er i konteksten av generell ressursinformasjon.</p>
+<p>Disse organisasjonene kan lenke til vår hjemmeside så lenge lenken: (a) ikke er på noen måte villedende; (b) ikke falskt innebærer sponsing, godkjenning eller godkjenning av den lenkende parten og dets produkter eller tjenester; og © passer innenfor konteksten til den lenkende partens nettsted.</p>
+
+<p>Hvis du er en av organisasjonene som er oppført i avsnitt 2 ovenfor og er interessert i å lenke til nettstedet vårt, må du informere oss ved å sende en e-post til Smartmat. Vennligst inkluder navnet ditt, organisasjonsnavnet ditt, kontaktinformasjon samt nettadressen til nettstedet ditt, en liste over eventuelle nettadresser du har til hensikt å lenke til nettstedet vårt fra, og en liste over nettadressene på nettstedet vårt som du vil lenke til. Vent 2-3 uker på svar.</p>
+<p>Godkjente organisasjoner kan hyperkoble til nettstedet vårt som følger:</p>
+<ul> <li>Ved bruk av vårt firmanavn; eller</li> <li>Ved bruk av den uniforme ressurslokalisatoren som er koblet til; eller</li> <li>Ved bruk av enhver annen beskrivelse av nettstedet vårt som er koblet til som gir mening innenfor konteksten og formatet på innholdet på den lenkende partens nettsted.</li> </ul>
+<p>Ingen bruk av Smartmats logo eller annen kunst vil være tillatt for lenking uten en varemerkelisensavtale.</p>
+<h3><strong>iFrames</strong></h3>
+<p>Uten forhåndsgodkjenning og skriftlig tillatelse kan du ikke opprette rammer rundt våre nettsider som endrer på noen måte den visuelle presentasjonen eller utseendet til nettstedet vårt.</p>
+<h3><strong>Innholdsansvar</strong></h3>
+<p>Vi skal ikke holdes ansvarlig for noe innhold som vises på nettstedet ditt. Du godtar å beskytte og forsvare oss mot alle krav som stiger på nettstedet ditt. Ingen lenke ® skal vises på noe nettsted som kan tolkes som injurierende, obskønt eller kriminelt, eller som krenker, på annen måte bryter med eller fremmer krenkelse eller annen krenkelse av tredjepartsrettigheter.</p>
+<h3><strong>Forbehold om rettigheter</strong></h3>
+<p>Vi forbeholder oss retten til å be om at du fjerner alle lenker eller en bestemt lenke til nettstedet vårt. Du godtar å umiddelbart fjerne alle lenker til nettstedet vårt på forespørsel. Vi forbeholder oss også retten til å endre disse vilkårene og betingelsene og koblingspolicyen når som helst. Ved å kontinuerlig lenke til nettstedet vårt, godtar du å være bundet av og følge disse koblingsvilkårene og betingelsene.</p>
+<h3><strong>Fjerning av lenker fra nettstedet vårt</strong></h3>
+<p>Hvis du finner en lenke på nettstedet vårt som er støtende av en eller annen grunn, er du fri til å kontakte og informere oss når som helst. Vi vil vurdere forespørsler om å fjerne lenker, men vi er ikke forpliktet til å gjøre det eller svare deg direkte.</p>
+<p>Vi garanterer ikke at informasjonen på dette nettstedet er riktig, vi garanterer ikke fullstendigheten eller nøyaktigheten; heller ikke lover vi å sikre at nettstedet forblir tilgjengelig eller at materialet på nettstedet holdes oppdatert.</p>
+<h3><strong>Ansvarsfraskrivelse</strong></h3>
+<p>I den grad det er tillatt etter gjeldende lov, utelukker vi alle representasjoner, garantier og betingelser knyttet til nettstedet vårt og bruken av dette nettstedet. Ingenting i denne ansvarsfraskrivelsen vil:</p>
+<ul> <li>begrense eller utelukke vår eller din ansvar for død eller personskade;</li> <li>begrense eller utelukke vår eller din ansvar for svindel eller svikefull feilrepresentasjon;</li> <li>begrense noen av våre eller dine forpliktelser på noen måte som ikke er tillatt etter gjeldende lov; eller</li> <li>utelukke noen av våre eller dine forpliktelser som ikke kan utelukkes etter gjeldende lov.</li> </ul>
+<p>Begrensningene og forbudene mot ansvar som er fastsatt i denne seksjonen og andre steder i denne ansvarsfraskrivelsen: (a) er underlagt foregående avsnitt; og (b) styrer alle forpliktelser som oppstår under ansvarsfraskrivelsen, inkludert forpliktelser som oppstår i kontrakt, i skadeerstatning og for brudd på lovbestemt plikt.</p>
+<p>Så lenge nettstedet og informasjonen og tjenestene på nettstedet leveres gratis, vil vi ikke være ansvarlige for tap eller skade av noe slag.</p>
+
+
+
+
+
+
+
+</template>

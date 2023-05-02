@@ -68,6 +68,24 @@ const router = createRouter({
       component: () => import("@/views/ProfileView.vue"),
     },
     {
+      path: "/privacy",
+      name: "privacy",
+      component: () => import("@/views/PrivacyView.vue"),
+       meta: {
+        requiresAuth: false,
+        fullScreen: true,
+      },
+    },
+    {
+      path: "/tos",
+      name: "tos",
+      component: () => import("@/views/TosView.vue"),
+       meta: {
+        requiresAuth: false,
+        fullScreen: true,
+      },
+    },
+    {
       path: "/statistics",
       name: "statistics",
       component: () => import("@/views/StatisticsView.vue"),
