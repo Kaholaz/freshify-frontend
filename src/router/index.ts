@@ -111,6 +111,11 @@ const router = createRouter({
         fullScreen: false,
       },
     },
+    {
+      path: "/publication",
+      name: "publication",
+      component: () => import("@/views/PublicationView.vue"),
+    },
   ],
 });
 
