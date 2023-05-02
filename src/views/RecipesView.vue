@@ -24,16 +24,35 @@
         <el-divider content-position="left">Oppskrifter</el-divider>
       </el-row>
     </div>
-    <el-row :gutter="10" style="width: 100%; margin: 0">
-      <el-input
-        v-model="recipeSearch"
-        class="recipe-search"
-        placeholder="Søk etter oppskrift"
-        :prefix-icon="Search"
-      />
+    <el-row v-if="currentRecipe === undefined" :gutter="10" style="width: 100%; margin: 0">
+      <div class="search-bar">
+        <el-input
+          v-model="recipeSearch"
+          class="recipe-search"
+          placeholder="Søk etter oppskrift"
+          :prefix-icon="Search"
+        />
+        <el-dropdown>
+          <span class="el-dropdown-link">
+            Velg allergi
+            <el-icon class="el-icon--right">
+              <arrow-down />
+            </el-icon>
+          </span>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item>Action 1</el-dropdown-item>
+              <el-dropdown-item>Action 2</el-dropdown-item>
+              <el-dropdown-item>Action 3</el-dropdown-item>
+              <el-dropdown-item disabled>Action 4</el-dropdown-item>
+              <el-dropdown-item divided>Action 5</el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+      </div>
       <!--No recipe selected-->
+
       <el-col
-        v-if="currentRecipe === undefined"
         v-for="recipe in recipes"
         :key="recipe.id"
         :lg="12"
@@ -49,15 +68,16 @@
           @click="onClick(recipe)"
         />
       </el-col>
+
       <!--Recipe selected-->
-      <RecipeSelected
-        v-else
-        :is-bookmarked="bookmarkedRecipes.includes(currentRecipe!)"
-        :current-recipe="currentRecipe!"
-        @remove-recipe="removeCurrentRecipe"
-        @bookmark-recipe="bookmarkRecipe(currentRecipe!)"
-      />
     </el-row>
+    <RecipeSelected
+      v-else
+      :is-bookmarked="bookmarkedRecipes.includes(currentRecipe!)"
+      :current-recipe="currentRecipe!"
+      @remove-recipe="removeCurrentRecipe"
+      @bookmark-recipe="bookmarkRecipe(currentRecipe!)"
+    />
   </div>
 </template>
 
@@ -96,7 +116,7 @@ const recipes = [
       "Taco er for mange selve fredagskosen. Fyll tacoskjell eller tortillalefser med kjøttdeig, grønnsaker, ost, salsa-tacosaus og rømme.",
     recipeTime: 30,
     recipeAmountIngredientsOwned: 5,
-    recipeAllergies: ["kjøtt"],
+    recipeAllergies: ["ingen"],
     recipeIngredients: [
       {
         id: 1,
@@ -236,7 +256,14 @@ function bookmarkRecipe(recipe: Recipe) {
   transition: 0.3s;
 }
 
-.recipe-search{
+.recipe-search {
   margin-bottom: 20px;
+  margin-right: 1rem;
+}
+
+.search-bar {
+  width: 100%;
+  margin-bottom: 20px;
+  display: flex;
 }
 </style>
