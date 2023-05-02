@@ -47,7 +47,7 @@
         v-else
         :is-bookmarked="bookmarkedRecipes.includes(currentRecipe!)"
         :current-recipe="currentRecipe!"
-        @remove-recipe="removeRecipe"
+        @remove-recipe="removeCurrentRecipe"
         @bookmark-recipe="bookmarkRecipe(currentRecipe!)"
       />
     </el-row>
@@ -191,8 +191,8 @@ const recipes = [
   } as Recipe,
 ];
 
-//todo: This will be a recipe type
 const currentRecipe = ref<Recipe>();
+//api call: householdrecipes
 const bookmarkedRecipes = ref<Recipe[]>([]);
 
 function onClick(recipeClicked: Recipe) {
@@ -200,7 +200,7 @@ function onClick(recipeClicked: Recipe) {
   currentRecipe.value = recipeClicked;
 }
 
-function removeRecipe() {
+function removeCurrentRecipe() {
   //todo: better way of doing this?
   currentRecipe.value = undefined;
 }
@@ -210,11 +210,12 @@ function bookmarkRecipe(recipe: Recipe) {
   if (bookmarkedRecipes.value.includes(recipe)) {
     bookmarkedRecipes.value = bookmarkedRecipes.value.filter((r) => r.id !== recipe.id);
     ElMessage.warning("Fjenrnet bokmerket for oppskrift: " + recipe.recipeTitle);
+    console.log("remove bookmark: " + recipe.recipeTitle)
     return;
   }
   bookmarkedRecipes.value.push(recipe);
   ElMessage.success("Oppskrift bokmerket: " + recipe.recipeTitle);
-  console.log("add recipe to week menu: " + recipe.recipeTitle);
+  console.log("add bookmark: " + recipe.recipeTitle);
 }
 </script>
 
