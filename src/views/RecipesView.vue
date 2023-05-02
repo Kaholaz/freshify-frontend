@@ -1,7 +1,27 @@
 <template>
   <div>
     <h1 v-if="currentRecipe === undefined">Oppskrifter</h1>
-    
+
+    <el-row :gutter="10" style="width: 100%; margin: 0">
+      <el-col
+        v-if="bookmarkedRecipes.length > 0 && currentRecipe === undefined"
+        v-for="recipe in bookmarkedRecipes"
+        :key="recipe.id"
+        :lg="12"
+        :md="24"
+        :sm="24"
+        :xl="12"
+        :xs="24"
+      >
+        <RecipeCard
+          class="recipe-card"
+          :recipe="recipe"
+          :isBookmarked="true"
+          @click="onClick(recipe)"
+        />
+      </el-col>
+    </el-row>
+
     <el-row :gutter="10" style="width: 100%; margin: 0">
       <!--No recipe selected-->
       <el-col
@@ -17,15 +37,19 @@
         <!--todo: This will be one recipe prop-->
         <RecipeCard
           class="recipe-card"
-          :recipe = "recipe"
+          :recipe="recipe"
+          :is-bookmarked="false"
           @click="onClick(recipe)"
         />
       </el-col>
       <!--Recipe selected-->
-      <RecipeSelected v-else :current-recipe="currentRecipe!" @remove-recipe="removeRecipe" @add-recipe-to-week-menu="addRecipeToWeekMenu(currentRecipe)"/>
+      <RecipeSelected
+        v-else
+        :current-recipe="currentRecipe!"
+        @remove-recipe="removeRecipe"
+        @bookmark-recipe="bookmarkRecipe(currentRecipe!)"
+      />
     </el-row>
-    
-    
   </div>
 </template>
 
@@ -59,7 +83,8 @@ const recipes = [
   {
     id: 1,
     recipeTitle: "Taco",
-    recipeDescription: "Taco er for mange selve fredagskosen. Fyll tacoskjell eller tortillalefser med kjøttdeig, grønnsaker, ost, salsa-tacosaus og rømme.",
+    recipeDescription:
+      "Taco er for mange selve fredagskosen. Fyll tacoskjell eller tortillalefser med kjøttdeig, grønnsaker, ost, salsa-tacosaus og rømme.",
     recipeTime: 30,
     recipeAmountIngredientsOwned: 5,
     recipeAllergies: ["kjøtt"],
@@ -118,7 +143,8 @@ const recipes = [
   {
     id: 2,
     recipeTitle: "Pasta Carbonara",
-    recipeDescription: "Pasta carbonara er en klassisk italiensk pastarett med egg, bacon og parmesan. Enkelt og veldig godt!",
+    recipeDescription:
+      "Pasta carbonara er en klassisk italiensk pastarett med egg, bacon og parmesan. Enkelt og veldig godt!",
     recipeTime: 30,
     recipeAmountIngredientsOwned: 5,
     recipeAllergies: ["melk", "egg", "gluten"],
@@ -160,14 +186,13 @@ const recipes = [
       "Bland egg og parmesan",
       "Bland pasta, bacon og egg/parmesan",
       "Server",
-    ]
+    ],
   } as Recipe,
- 
 ];
 
 //todo: This will be a recipe type
 const currentRecipe = ref<Recipe>();
-
+const bookmarkedRecipes = ref<Recipe[]>([]);
 
 function onClick(recipeClicked: Recipe) {
   console.log("clicked: " + recipeClicked.recipeTitle);
@@ -180,11 +205,11 @@ function removeRecipe() {
 }
 
 //todo: what day of the week?
-function addRecipeToWeekMenu(recipe: Recipe) {
-  ElMessage.success("Oppskrift lagt til i ukesmeny");
+function bookmarkRecipe(recipe: Recipe) {
+  bookmarkedRecipes.value.push(recipe);
+  ElMessage.success("Oppskrift bokmerket: " + recipe.recipeTitle);
   console.log("add recipe to week menu: " + recipe.recipeTitle);
 }
-
 </script>
 
 <style scoped>

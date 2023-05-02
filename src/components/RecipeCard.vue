@@ -5,8 +5,13 @@
     style="height: 11rem"
   >
     <h2 class="mb-5">{{ recipe?.recipeTitle }}</h2>
+    <el-icon v-if="isBookmarked">
+      <Management color="orange" />
+    </el-icon>
     <p class="text-[#868e96]">Tid: ca {{ recipe?.recipeTime }} min</p>
-    <p class="text-[#868e96]">{{ recipe?.recipeAmountIngredientsOwned }} ingredienser i kjøleskap</p>
+    <p class="text-[#868e96]">
+      {{ recipe?.recipeAmountIngredientsOwned }} ingredienser i kjøleskap
+    </p>
     <footer v-if="recipe?.recipeAllergies?.length > 0" class="mt-2 text-right">
       <header class="mb-5">Allergier:</header>
       <p class="text-[#868e96]">{{ allergies }}</p>
@@ -17,12 +22,14 @@
 <script setup lang="ts">
 import type { Ref } from "vue";
 import { ref, computed, onMounted } from "vue";
+import { Management } from "@element-plus/icons-vue";
 
 // Define APIs and stores
 
 // Define props (will be recipe type)
 const props = defineProps<{
   recipe: Recipe;
+  isBookmarked: boolean;
 }>();
 
 type Ingredient = {
