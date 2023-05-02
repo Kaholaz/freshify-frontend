@@ -76,7 +76,9 @@
   <el-button v-else type="success" @click="emit('bookmarkRecipe', currentRecipe)">
     Fjern bokmerke
   </el-button>
-  <el-button type="success"> Legg til ingredienser i handleliste</el-button>
+  <el-button type="success" @click="emit('addIngredientsToShoppingList', currentRecipe)">
+    Legg til ingredienser i handleliste</el-button
+  >
 </template>
 
 <script setup lang="ts">
@@ -109,6 +111,7 @@ const emit = defineEmits<{
   (event: "removeRecipe"): void;
   //todo: add recipe to weekmenu
   (event: "bookmarkRecipe", args: Recipe): void;
+  (event: "addIngredientsToShoppingList", args: Recipe): void;
 }>();
 </script>
 

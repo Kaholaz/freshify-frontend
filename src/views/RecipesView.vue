@@ -77,6 +77,7 @@
       :current-recipe="currentRecipe!"
       @remove-recipe="removeCurrentRecipe"
       @bookmark-recipe="bookmarkRecipe(currentRecipe!)"
+      @add-ingredients-to-shopping-list="addIngredientsToShoppingList(currentRecipe!)"
     />
   </div>
 </template>
@@ -245,6 +246,14 @@ function bookmarkRecipe(recipe: Recipe) {
   bookmarkedRecipes.value.push(recipe);
   ElMessage.success("Oppskrift bokmerket: " + recipe.recipeTitle);
   console.log("add bookmark: " + recipe.recipeTitle);
+}
+
+function addIngredientsToShoppingList(recipe: Recipe) {
+  recipe.recipeIngredients?.forEach((ingredient) => {
+    ElMessage.success("Ingrediens lagt til handleliste: " + ingredient.ingredientName);
+    console.log("add ingredient: " + ingredient.ingredientName);
+    //api call to add ingredients to shopping list
+  });
 }
 </script>
 
