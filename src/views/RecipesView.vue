@@ -45,6 +45,7 @@
       <!--Recipe selected-->
       <RecipeSelected
         v-else
+        :is-bookmarked="bookmarkedRecipes.includes(currentRecipe!)"
         :current-recipe="currentRecipe!"
         @remove-recipe="removeRecipe"
         @bookmark-recipe="bookmarkRecipe(currentRecipe!)"
@@ -206,6 +207,11 @@ function removeRecipe() {
 
 //todo: what day of the week?
 function bookmarkRecipe(recipe: Recipe) {
+  if (bookmarkedRecipes.value.includes(recipe)) {
+    bookmarkedRecipes.value = bookmarkedRecipes.value.filter((r) => r.id !== recipe.id);
+    ElMessage.warning("Fjenrnet bokmerket for oppskrift: " + recipe.recipeTitle);
+    return;
+  }
   bookmarkedRecipes.value.push(recipe);
   ElMessage.success("Oppskrift bokmerket: " + recipe.recipeTitle);
   console.log("add recipe to week menu: " + recipe.recipeTitle);

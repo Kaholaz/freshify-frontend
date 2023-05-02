@@ -67,10 +67,12 @@
     </el-icon>
     Tilbake til oppskrifter</el-button
   >
-  <!--weekmenu or add ingredients to shopping list?-->
-  <el-button type="success" @click="emit('bookmarkRecipe', currentRecipe!)">
+  <el-button v-if="!isBookmarked" type="success" @click="emit('bookmarkRecipe', currentRecipe!)">
     Bokmerk oppskriften</el-button
   >
+  <el-button v-else type="success" @click="emit('bookmarkRecipe', currentRecipe)">
+    Fjern bokmerke
+  </el-button>
   <el-button type="success"> Legg til ingredienser i handleliste</el-button>
 </template>
 
@@ -97,6 +99,7 @@ type Recipe = {
 
 const props = defineProps<{
   currentRecipe: Recipe;
+  isBookmarked: boolean;
 }>();
 
 const emit = defineEmits<{
