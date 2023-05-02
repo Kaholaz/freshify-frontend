@@ -32,7 +32,8 @@
         </el-row>
         <el-row class="row">
             <el-col :span="17" :xs="24" class="text-container">
-                <el-text class="centered-text">
+                <el-skeleton :row="5" v-if="loading"></el-skeleton>
+                <el-text class="centered-text" v-else>
                     Din husholdning kaster
                     <h2 v-if="normalHouseholdFoodThrown != foodThrown">
                         {{
@@ -55,7 +56,8 @@
                 <line-chart :chart-data="chartData"/>
             </el-col>
             <el-col :span="8" :xs="24" class="text-container">
-                <el-text class="centered-text">
+                <el-skeleton :row="5" v-if="loading"></el-skeleton>
+                <el-text class="centered-text" v-else>
                     <h3>Hurra!</h3>
                     Du harkastet mindre mat enn det du gjore forrige uke!
                 </el-text>
@@ -66,7 +68,8 @@
         </el-row>
         <el-row class="row">
             <el-col :span="10" :xs="24">
-                <el-text class="centered-text">
+                <el-skeleton :rows="5" v-if="loading"/>
+                <el-text class="centered-text" v-else>
                     <div v-if="mostWastedItem.amountWasted > 0.2">
                         <h2> Du kaster {{ Math.round(mostWastedItem?.amountWasted * 100) }}% av hver
                             {{ mostWastedItem?.name.toLowerCase() }} </h2>
@@ -79,6 +82,7 @@
                         Du kaster generelt lite av maten du kjøper. Fortsett med det gode arbeidet!
                     </div>
                 </el-text>
+
             </el-col>
             <el-col :span="14" :xs="24" class="text-container">
                 <ItemWasteTable :tableData="tableData"></ItemWasteTable>
@@ -123,13 +127,15 @@ const validationRules = {
 
 const tableData = ref([] as WastedItemDTO[]);
 
-const foodThrown = ref(0.8);
+const foodThrown = ref(0);
 const normalHouseholdFoodThrown = 0.45;
 
 const ruleFormRef = ref(null as HTMLElement | null);
 let date = new Date();
 date.setMonth(date.getMonth() - 1);
 const selectedDate = ref(DateTime.fromJSDate(date).toFormat("yyyy-MM"));
+
+const loading = ref(true);
 
 onMounted(() => {
     updateStatistics();
@@ -138,8 +144,8 @@ const formModel = computed(() => ({
     selectedDate: selectedDate.value,
 }));
 
-function getChartData() {
-    inventoryApi
+async function getChartData() {
+    await inventoryApi
         .householdIdInventoryWastePerMonthGet(houseHoldStore.household.id, getNumOfMonths())
         .then((res) => {
             const labels = [] as string[];
@@ -155,8 +161,8 @@ function getChartData() {
         });
 }
 
-function getMostUsedItems() {
-    inventoryApi
+async function getMostUsedItems() {
+    await inventoryApi
         .householdIdInventoryWasteGet(houseHoldStore.household.id, getNumOfMonths())
         .then((res) => {
             console.log(res.data.wastedItems);
@@ -175,10 +181,16 @@ const mostWastedItem = computed(() => {
 function updateStatistics() {
     getChartData();
     if (ruleFormRef.value) {
-        ruleFormRef.value.validate((valid: any) => {
+        ruleFormRef.value.validate(async (valid: any) => {
             if (valid) {
-                getMostUsedItems();
-                getChartData();
+                let id = setTimeout(() => {
+                    loading.value = true;
+                    clearTimeout(id);
+                }, 100);
+                await getMostUsedItems();
+                await getChartData();
+                clearTimeout(id)
+                loading.value = false;
             } else {
                 console.log("invalid");
             }
