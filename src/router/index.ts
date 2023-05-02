@@ -71,7 +71,7 @@ const router = createRouter({
       path: "/privacy",
       name: "privacy",
       component: () => import("@/views/PrivacyView.vue"),
-       meta: {
+      meta: {
         requiresAuth: false,
         fullScreen: true,
       },
@@ -80,7 +80,7 @@ const router = createRouter({
       path: "/tos",
       name: "tos",
       component: () => import("@/views/TosView.vue"),
-       meta: {
+      meta: {
         requiresAuth: false,
         fullScreen: true,
       },
