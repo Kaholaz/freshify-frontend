@@ -48,7 +48,7 @@
         <EvaluationBar :percentage="foodThrown" :normal-household="normalHouseholdFoodThrown" />
       </el-col>
     </el-row>
-    <el-row class="row">
+    <el-row class="row odd">
       <el-col :span="16" :xs="24">
         <line-chart :chart-data="chartData" />
       </el-col>
@@ -81,15 +81,20 @@ import LineChart from "@/components/LineChart.vue";
 import EvaluationBar from "@/components/EvaluationBar.vue";
 import OverviewStatisticsBar from "@/components/OverviewStatisticsBar.vue";
 import MostUsedItem from "@/components/MostUsedItem.vue";
-import { computed, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { DateTime } from "luxon";
+import type { WastedItemDTO } from "@/services/index";
+import { useHouseholdStore } from "@/stores/household";
+import { InventoryApi } from "@/services/apis/inventory-api";
 
-const chartData = {
+const inventoryApi = new InventoryApi();
+const houseHoldStore = useHouseholdStore();
+const chartData = ref({
   labels: ["Januar", "Februar", "Mars"],
   datasets: [{ data: [40, 20, 12], label: "Bruk" }],
   borderColor: "#ffffff",
   fill: true,
-};
+});
 
 const validationRules = {
   selectedDate: [
@@ -106,25 +111,9 @@ const validationRules = {
   ],
 };
 
-const tableData = [
-  {
-    type: "Melk",
-    perItem: "1",
-    total: "1",
-  },
-  {
-    type: "Melk",
-    perItem: "1",
-    total: "1",
-  },
-  {
-    type: "Melk",
-    perItem: "1",
-    total: "1",
-  },
-];
+const tableData = ref([] as WastedItemDTO[]);
 
-const foodThrown = 0.8;
+const foodThrown = ref(0.8);
 const normalHouseholdFoodThrown = 0.45;
 
 const ruleFormRef = ref(null as HTMLElement | null);
@@ -132,14 +121,47 @@ let date = new Date();
 date.setMonth(date.getMonth() - 1);
 const selectedDate = ref(DateTime.fromJSDate(date).toFormat("yyyy-MM"));
 
+onMounted(() => {
+  updateStatistics();
+});
 const formModel = computed(() => ({
   selectedDate: selectedDate.value,
 }));
+
+function getChartData() {
+  inventoryApi
+    .householdIdInventoryWastePerMonthGet(houseHoldStore.household.id, getNumOfMonths())
+    .then((res) => {
+      const labels = [] as string[];
+      const data = [] as number[];
+      const currentDate = new Date();
+      res.data.forEach((wasted: number) => {
+        data.push(wasted * 100);
+        labels.push(DateTime.fromJSDate(currentDate).toFormat("MMMM yyyy"));
+        currentDate.setMonth(currentDate.getMonth() - 1);
+      });
+      chartData.value.labels = labels;
+      chartData.value.datasets[0].data = data;
+    });
+}
+
+function getMostUsedItems() {
+  inventoryApi
+    .householdIdInventoryWasteGet(houseHoldStore.household.id, getNumOfMonths())
+    .then((res) => {
+      console.log(res.data.wastedItems);
+      tableData.value = res.data.wastedItems;
+      foodThrown.value = res.data.average;
+    });
+}
+
 function updateStatistics() {
+  getChartData();
   if (ruleFormRef.value) {
     ruleFormRef.value.validate((valid: any) => {
       if (valid) {
-        console.log("valid");
+        getMostUsedItems();
+        getChartData();
       } else {
         console.log("invalid");
       }
@@ -148,16 +170,22 @@ function updateStatistics() {
 }
 
 function getNumOfMonths() {
-  return DateTime.fromJSDate(new Date()).diff(
-    DateTime.fromJSDate(new Date(selectedDate.value)),
-    "months"
-  ).months;
+  return Math.floor(
+    DateTime.fromJSDate(new Date()).diff(
+      DateTime.fromJSDate(new Date(selectedDate.value)),
+      "months"
+    ).months
+  );
 }
 </script>
 <style scoped>
 .row {
   height: 20rem;
   margin-bottom: 2rem;
+}
+
+.odd {
+  background-color: #f5f5f5;
 }
 
 .centered-text {

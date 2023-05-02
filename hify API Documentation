@@ -1,0 +1,1496 @@
+[33mcommit a15be7e3ec85556d2a73f6b49633e0338c67dfb8[m[33m ([m[1;36mHEAD -> [m[1;32mfeat/statistics[m[33m, [m[1;31morigin/feat/statistics[m[33m)[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Tue May 2 14:16:41 2023 +0200
+
+    chore: update services
+
+[33mcommit 53de479155dd03cb6242d178e74ad6d8dfe1d8a6[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Tue May 2 14:16:24 2023 +0200
+
+    feat: add month picker
+
+[33mcommit cefff1dc56a514f70bf46b089d777efc6d5d2ab4[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Mon May 1 14:06:56 2023 +0200
+
+    temporary commit
+
+[33mcommit 5086488263eeaa9d8c9fe7826b8bdecf564e5b06[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Fri Apr 28 14:02:13 2023 +0200
+
+    chore: enable statistics in sidenavbar
+
+[33mcommit ea8f495d0fcfe77f0ffbe8a6934f2cdd8007305c[m[33m ([m[1;31morigin/feat/re-add-items[m[33m, [m[1;31morigin/dev[m[33m)[m
+Author: Eric Bieszczad-Stie <ericbi@stud.ntnu.no>
+Date:   Mon May 1 23:11:10 2023 +0200
+
+    feat: add readd button to item use dialog
+
+[33mcommit 08a1c8f7187ca635ff3861a4925091f81d9ebffe[m[33m ([m[1;32mdev[m[33m)[m
+Author: Sebastian Bugge <vkbugge@hotmail.com>
+Date:   Fri Apr 28 17:25:55 2023 +0200
+
+    fix: fix household vitests
+
+[33mcommit f8affa829613dd7affaea5c96ee8586935bc983c[m
+Author: Sebastian Bugge <vkbugge@hotmail.com>
+Date:   Fri Apr 28 15:33:58 2023 +0200
+
+    feat: add styling to your own card in household view
+
+[33mcommit b6412c20f7fdf6278a67068a479d25a122847d08[m
+Author: Sebastian Bugge <vkbugge@hotmail.com>
+Date:   Fri Apr 28 15:33:20 2023 +0200
+
+    rafac: major refactor of HouseholdView
+
+[33mcommit 27cabd721b3a81a4a334dca4ec191f197a4ea54d[m
+Author: Eric Bieszczad-Stie <ericbi@ntnu.no>
+Date:   Fri Apr 28 12:53:40 2023 +0200
+
+    chore: run formatter
+
+[33mcommit 6b7d10e38a10e44f71a8f9a9e2c6488556f8e51a[m
+Author: Eric Bieszczad-Stie <ericbi@ntnu.no>
+Date:   Fri Apr 28 12:53:05 2023 +0200
+
+    chore: add typing
+
+[33mcommit aa16f6a137d02e0fa147991c8081ae0bac807119[m
+Author: Sebastian Bugge <vkbugge@hotmail.com>
+Date:   Fri Apr 28 12:25:41 2023 +0200
+
+    refac: remove typeerrors from session store
+
+[33mcommit b717a3015e369952254e775cdcb013fd9e4bfe18[m
+Author: Sebastian Bugge <vkbugge@hotmail.com>
+Date:   Fri Apr 28 11:59:06 2023 +0200
+
+    refac: redo how 10 minuts i written to be more logical
+
+[33mcommit 32063c96e609cad126fba3977a4723b8c1ff9b30[m
+Author: Sebastian Bugge <vkbugge@hotmail.com>
+Date:   Fri Apr 28 11:50:43 2023 +0200
+
+    fix: emit callbacks are now removed onUnmouted
+
+[33mcommit d003fdbe1430198e353d2902c1d446d30f65f41b[m
+Author: Sebastian Bugge <vkbugge@hotmail.com>
+Date:   Fri Apr 28 11:35:58 2023 +0200
+
+    reafac: move household logic to household store
+
+[33mcommit 2a3308e073a74c9076d3c5a4120bbeb5f3ae848f[m
+Author: Sebastian Bugge <vkbugge@hotmail.com>
+Date:   Fri Apr 28 11:00:56 2023 +0200
+
+    fix: remove phantom console.log
+
+[33mcommit a7de2289291231da64bf9f97b613525398d7819e[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Fri Apr 28 15:37:50 2023 +0200
+
+    fix: clear session storage when loggin out
+
+[33mcommit 3d9de62f631355a8dcf71f82abf06ede6a18b1a3[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Fri Apr 28 15:18:36 2023 +0200
+
+    fix: clear household when logging out
+
+[33mcommit a1485d155925642160d2fa001c865ee7ebd7acb4[m
+Author: JonasKos <jonas.kosmo@gmail.com>
+Date:   Fri Apr 28 14:30:37 2023 +0200
+
+    chore: adds recipe view
+
+[33mcommit 11de0eca6d2d671d87c39d011992d308344a68f2[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Fri Apr 28 14:02:49 2023 +0200
+
+    chore: add auth on statistics page
+
+[33mcommit 7666d1cc68f7cf49af31ce1119d2e646c40c9e75[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Fri Apr 28 13:58:43 2023 +0200
+
+    chore: add statistics view
+
+[33mcommit 72c27c42f904f8243c049f6f3dce3990af3f9956[m
+Author: Eric Bieszczad-Stie <ericbi@ntnu.no>
+Date:   Fri Apr 28 14:02:44 2023 +0200
+
+    refac: rewrite event emits correctly to avoid type errors
+
+[33mcommit 6b938275ce5c45f7a57f649f8d5f2e5b3e3917a5[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Fri Apr 28 13:17:05 2023 +0200
+
+    Revert "fix: side nav showing when refreshing on fullscreen view"
+    
+    This reverts commit 682c99f8f0d3e2cfbc968050d64b75e298f678c5.
+
+[33mcommit 682c99f8f0d3e2cfbc968050d64b75e298f678c5[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Fri Apr 28 13:07:54 2023 +0200
+
+    fix: side nav showing when refreshing on fullscreen view
+
+[33mcommit 5084b2b9979e6c2028f3b383dd9da2868d61b859[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Fri Apr 28 12:56:39 2023 +0200
+
+    refac: add count on skeletong cards
+
+[33mcommit 57a012a375d1aae5215c055940f2999af73e5ad3[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Fri Apr 28 10:38:40 2023 +0200
+
+    style: change mobile view padding to 1 rem on main
+
+[33mcommit 2990d7f3a1ffd4c4179586d61166111f2f6ffa59[m
+Author: Sebastian Bugge <vkbugge@hotmail.com>
+Date:   Fri Apr 28 12:39:31 2023 +0200
+
+    chore: run formatter
+
+[33mcommit 0ba065c5c61d408e11123a1f7b6a13d90bbc792c[m
+Author: Eric Bieszczad-Stie <ericbi@ntnu.no>
+Date:   Fri Apr 28 12:20:02 2023 +0200
+
+    fix: make side menu take up full height
+
+[33mcommit 63ac245e93ac574d3391fbece326df7de47034d1[m
+Author: Eric Bieszczad-Stie <ericbi@ntnu.no>
+Date:   Fri Apr 28 12:03:00 2023 +0200
+
+    fix: scrolling does not scroll navbar and side menu
+
+[33mcommit bcc277595ac0d671b4d9ebddbf99377758616faf[m
+Author: Sebastian Bugge <vkbugge@hotmail.com>
+Date:   Fri Apr 28 10:11:22 2023 +0200
+
+    feat: pressing enter while changeing antall now submits the form
+
+[33mcommit 13470dd5985075f9bb2126e6a5680143ba6d1536[m
+Author: Sebastian Bugge <vkbugge@hotmail.com>
+Date:   Fri Apr 28 10:05:39 2023 +0200
+
+    feat: users are now prompted to 'foreslå' instead of 'legg til'
+
+[33mcommit 795fe69b04c1493e911385fc0bfb2b244b9036d9[m
+Author: Sebastian Bugge <vkbugge@hotmail.com>
+Date:   Fri Apr 28 09:54:18 2023 +0200
+
+    fix: users can only delete their own suggestions. superusers can delete everything
+
+[33mcommit 3a9a7b23968b55badfaff6c20eb90ac8d485ddff[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Fri Apr 28 10:33:28 2023 +0200
+
+    feat: add login-form class on login-view because of failing tests
+
+[33mcommit 7ee80faa70faa8578e06212fa36e4d63942d5189[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Fri Apr 28 10:19:49 2023 +0200
+
+    feat: add submit.prevent on forms
+
+[33mcommit ab93cf887a33b8a2dacfcd26ef39cda4949c9612[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Fri Apr 28 10:19:21 2023 +0200
+
+    fix: validation on create household form
+
+[33mcommit 06bfd1d25ac677ad9c0d32d89adb9d4f6925827f[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Fri Apr 28 09:18:49 2023 +0200
+
+    fix: re-order code
+
+[33mcommit 1fce629b08440c9ff2c10a894ca9917555f1f082[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Fri Apr 28 09:16:51 2023 +0200
+
+    fix: emit select when selecting household on sidenavbar
+
+[33mcommit 7ae45c85db92437fac1b025cc2ad1a65ce8751d1[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Thu Apr 27 10:08:39 2023 +0200
+
+    fix: change back to sessionStorage
+
+[33mcommit d71cdfc005fbd441feea5844bd89ff3cf6a51ed6[m[33m ([m[1;33mtag: sprint-1[m[33m, [m[1;31morigin/main[m[33m, [m[1;32mmain[m[33m)[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Thu Apr 27 10:07:14 2023 +0200
+
+    fix: reverted authorization on card
+
+[33mcommit 3e75979732c727a817679c63b9edeaae358266e2[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Thu Apr 27 09:37:54 2023 +0200
+
+    fix: improve routing
+
+[33mcommit cc80dc952934bb362138e9f0422f8700881ae86c[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Thu Apr 27 09:32:34 2023 +0200
+
+    fix: remove css on sidebar that threw errors
+
+[33mcommit 5ded84353560e2a9c8d86a38855420d7e5eb9a41[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Thu Apr 27 09:15:27 2023 +0200
+
+    fix: add routing on topnavbar
+
+[33mcommit ea9219ef6e6f6dfffad857cd2f32a4c74c532e75[m
+Author: Eric Bieszczad-Stie <ericbi@ntnu.no>
+Date:   Thu Apr 27 09:40:51 2023 +0200
+
+    chore: run formatter
+
+[33mcommit be4239e0873f25f66bf3277d352b8e59133aac7c[m
+Author: Eric Bieszczad-Stie <ericbi@ntnu.no>
+Date:   Wed Apr 26 17:40:36 2023 +0200
+
+    fix: add id to update user request
+
+[33mcommit ed847def5f23c43215c51569e881cd7c6114e27d[m
+Author: Eric Bieszczad-Stie <ericbi@ntnu.no>
+Date:   Wed Apr 26 17:37:33 2023 +0200
+
+    feat: connect edit user to backend
+
+[33mcommit e89ea38f45f9a4935d2a1b521855d71da316fec7[m
+Author: Eric Bieszczad-Stie <ericbi@ntnu.no>
+Date:   Wed Apr 26 17:22:15 2023 +0200
+
+    feat: add registration form with validation
+
+[33mcommit ab11900051eb7e5e1b542d65122fe69cbd011f21[m
+Author: Eric Bieszczad-Stie <ericbi@ntnu.no>
+Date:   Wed Apr 26 15:02:30 2023 +0200
+
+    feat: add profile route and view
+
+[33mcommit 7efa97b24f8fc4c2e49ef3fd7923259370e80c4a[m
+Author: Sebastian Bugge <vkbugge@hotmail.com>
+Date:   Thu Apr 27 09:43:04 2023 +0200
+
+    feat: add conditional accept and delete buttons
+
+[33mcommit 45f8c1ae579b5d17423189cb85541cfecb6695ac[m
+Author: Eric Bieszczad-Stie <ericbi@ntnu.no>
+Date:   Thu Apr 27 09:19:21 2023 +0200
+
+    chore: remove profile page view
+
+[33mcommit 8e0caebaa2359d783125b1320e98bb6677a1e677[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Thu Apr 27 09:01:01 2023 +0200
+
+    fix: redirected to home when logged in
+
+[33mcommit 96d7cb41a3a0558b504ff0706c747c72d25aab34[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Thu Apr 27 08:54:49 2023 +0200
+
+    feat: add landing page
+
+[33mcommit 7d3d49dbdf38a6ceee0d442063a0fd7089e2313d[m
+Author: Navid <Navidm@stud.ntnu.no>
+Date:   Thu Apr 27 00:37:39 2023 +0200
+
+    fix: loginview test fixed formatting
+
+[33mcommit 8eb3c3c2163e1fd1f5740b2c8db500a20a3befba[m
+Merge: 0763c6d dc458e0
+Author: Navid <Navidm@stud.ntnu.no>
+Date:   Thu Apr 27 00:29:29 2023 +0200
+
+    fix: solved merge conflicts
+
+[33mcommit 0763c6d666ca900ba66fb21ef1e2e38dae69603b[m
+Author: Navid <Navidm@stud.ntnu.no>
+Date:   Thu Apr 27 00:18:30 2023 +0200
+
+    feat: created vitest for loginview
+
+[33mcommit e1fc4eabd32847ece8d741bffe0ac60f26ebf889[m
+Author: Navid <Navidm@stud.ntnu.no>
+Date:   Thu Apr 27 00:18:10 2023 +0200
+
+    fix: changed function binding format for click event on submitButton for vitest purposes
+
+[33mcommit dc458e041e363139f55133f969924f6a5fb91fa2[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Wed Apr 26 23:07:05 2023 +0200
+
+    fix: bad message on use item in inventory
+
+[33mcommit d896bf4e9bb7783ab61d586efb42115d23910b9f[m
+Author: Eric Bieszczad-Stie <ericbi@stud.ntnu.no>
+Date:   Wed Apr 26 22:47:24 2023 +0200
+
+    fix: fixed all tests
+
+[33mcommit 093ac4f8ec3387b6231bdc733e3718b487aa52ac[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Wed Apr 26 21:19:01 2023 +0200
+
+    fix: typo
+
+[33mcommit e00ed89cf5077878c3af67c95111bca26a1bdef0[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Wed Apr 26 21:17:07 2023 +0200
+
+    chore: run code reformatter
+
+[33mcommit 09781b39463aed6c06ed788a3acc8ccbef05fe64[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Wed Apr 26 21:16:03 2023 +0200
+
+    chore: remove all console logs
+
+[33mcommit 717d9a1039e33c59bd1dfc1692adecb32271c57b[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Wed Apr 26 21:04:31 2023 +0200
+
+    fix: format page for mobile view
+
+[33mcommit 3d58ac8deee04ec538acce320424ce88db5764c8[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Wed Apr 26 20:38:39 2023 +0200
+
+    fix: bug where users where fetched when no household was selected
+
+[33mcommit c2060498b504f987131a77bb8a464e1345e7042e[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Wed Apr 26 20:31:21 2023 +0200
+
+    fix: logout when timed out
+
+[33mcommit 071190a1fcf3158fb65aa7f048b04e17e7692df8[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Wed Apr 26 20:10:34 2023 +0200
+
+    fix: remove loading when no household in shopping list
+
+[33mcommit 9456b96ea6e2229807220edd87475ca25caaa0c5[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Wed Apr 26 20:05:37 2023 +0200
+
+    fix: change errors to showError instead of message
+
+[33mcommit 8634aa04cd75c49f7a8af62c6bf67dc4df0ca0d2[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Wed Apr 26 19:57:24 2023 +0200
+
+    fix: check for permission when adding items
+
+[33mcommit 851ce03298436ff33bd25327c531d71a553948e6[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Wed Apr 26 19:40:59 2023 +0200
+
+    fix: bug where users could not be added to household
+
+[33mcommit 4377351520eed6a0ed4fc79492e2fe9bec32fed2[m
+Author: Eric Bieszczad-Stie <ericbi@ntnu.no>
+Date:   Wed Apr 26 19:09:53 2023 +0200
+
+    chore: run formatter
+
+[33mcommit 87055b42d89c10c8a64582829a3e053845463d07[m
+Author: Eric Bieszczad-Stie <ericbi@ntnu.no>
+Date:   Wed Apr 26 19:04:20 2023 +0200
+
+    fix: intercept loggedin API call and return 404 to simulate no one logged in
+
+[33mcommit a94f1a5ac9a47c96033974ddc63cd28b9b489b01[m
+Author: Eric Bieszczad-Stie <ericbi@ntnu.no>
+Date:   Wed Apr 26 19:03:43 2023 +0200
+
+    chore: add reroute to /login on startup if loggedin response throws error
+
+[33mcommit b948d54ebabd08f8f3c1c464abf95f2add2c403a[m
+Author: Eric Bieszczad-Stie <ericbi@ntnu.no>
+Date:   Wed Apr 26 19:01:00 2023 +0200
+
+    refac: change port number for cypress to 4173. use npm run test:e2e:dev instead!!
+
+[33mcommit dd7c451ea56d08657837b1edd86fe155c8c6c29a[m
+Author: Eric Bieszczad-Stie <ericbi@ntnu.no>
+Date:   Wed Apr 26 18:59:36 2023 +0200
+
+    fix: return early if ID is not defined (TODO: error handling)
+
+[33mcommit e3316468652e5033355359d8567fb9edf7dc5fb9[m
+Author: Eric Bieszczad-Stie <ericbi@ntnu.no>
+Date:   Wed Apr 26 14:54:23 2023 +0200
+
+    feat: add login cypress test
+
+[33mcommit 7596343a38ce0f2e232e63c949de807f415a7cd7[m
+Author: Eric Bieszczad-Stie <ericbi@ntnu.no>
+Date:   Wed Apr 26 12:32:42 2023 +0200
+
+    chore: add IDs to elements in LoginView
+
+[33mcommit be41c6b46e890791a4f4051d1955e32d49e98c03[m
+Author: Eric Bieszczad-Stie <ericbi@ntnu.no>
+Date:   Wed Apr 26 12:30:17 2023 +0200
+
+    chore: change cypress port from 4173 to 5173
+
+[33mcommit ecddf98080bf19d03f5e3f2843f1be50627cd181[m
+Author: Eric Bieszczad-Stie <ericbi@ntnu.no>
+Date:   Wed Apr 26 12:29:46 2023 +0200
+
+    chore: make clicking enter on password field sign user in
+
+[33mcommit d93fe926baa475012c59d4c6648837360a9a42ee[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Wed Apr 26 19:25:18 2023 +0200
+
+    chore: run formatter
+
+[33mcommit 93439580fa13ced79048e1ddf18bc809aa4482b9[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Wed Apr 26 19:24:59 2023 +0200
+
+    fix: bug when no user logged in
+
+[33mcommit 241ddd6d3a7899d95127c8bc9873185aede6224b[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Wed Apr 26 18:21:19 2023 +0200
+
+    fix: inventory status not working
+
+[33mcommit 639fe48a7e3dd34a4a87bfbf02df735e65fe0f5a[m
+Author: JonasKos <jonas.kosmo@gmail.com>
+Date:   Wed Apr 26 18:12:37 2023 +0200
+
+    fix: small fix
+
+[33mcommit 488d12fb3d1332f14e91d1f0de65724093367752[m
+Author: JonasKos <jonas.kosmo@gmail.com>
+Date:   Wed Apr 26 18:11:09 2023 +0200
+
+    fix: Superuser rendered if user is superuser
+
+[33mcommit d724ae3773907d61a5abda02f073e6a720f16765[m
+Author: JonasKos <jonas.kosmo@gmail.com>
+Date:   Wed Apr 26 17:49:23 2023 +0200
+
+    fix: add user form fields now resets after adding
+
+[33mcommit c895d0c202739660899649fe44f9df65674ec4e8[m
+Author: Eric Bieszczad-Stie <ericbi@ntnu.no>
+Date:   Wed Apr 26 18:08:34 2023 +0200
+
+    chore: run formatter
+
+[33mcommit 8b9dc7aba8cbb9345851cf12832f8560a50d3d5e[m
+Author: Navid <Navidm@stud.ntnu.no>
+Date:   Wed Apr 26 17:45:56 2023 +0200
+
+    fix: users field in HouseholdView is reset on delete
+
+[33mcommit 48f0336e23ad920759088f19c5254f250f756928[m
+Author: JonasKos <jonas.kosmo@gmail.com>
+Date:   Wed Apr 26 17:32:19 2023 +0200
+
+    fix: add users now adds users locally
+
+[33mcommit 432f228e3ecb3d2663f9a78c2013c1ddace46e68[m
+Author: JonasKos <jonas.kosmo@gmail.com>
+Date:   Wed Apr 26 17:28:29 2023 +0200
+
+    fix: user priveliges update locally
+
+[33mcommit 9d1bf5b9fa9fe7bc9dd3587ef033d01107e58155[m
+Author: Navid <Navidm@stud.ntnu.no>
+Date:   Wed Apr 26 17:09:05 2023 +0200
+
+    fix: fixed bug in HouseholdView component, incorrect paramaters passed to update user role api
+
+[33mcommit 92c50410cab6ce0fc1b902be6bfdd2c42324ac12[m
+Author: JonasKos <jonas.kosmo@gmail.com>
+Date:   Wed Apr 26 16:38:46 2023 +0200
+
+    fix: adduser is async
+
+[33mcommit 06d4ea7e4c4bb024058b2f301b3679cab3d0db75[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Wed Apr 26 16:29:31 2023 +0200
+
+    chore: run formatter
+
+[33mcommit 5b7456f1fb89533bb41ab62cdccfbef81f189429[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Wed Apr 26 16:28:48 2023 +0200
+
+    fix: dialog not closing when selecting an option on navbar
+
+[33mcommit d0d5c3c130351c904170c0be7663bbb2f4fcd624[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Wed Apr 26 16:24:51 2023 +0200
+
+    refac: check authentication on refresh
+
+[33mcommit cbc6d7569761ecb2769fc8a26f23fb9916d1cec8[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Wed Apr 26 16:24:21 2023 +0200
+
+    chore: update services
+
+[33mcommit 726dc53a42804307ae810052be74a99e4683b67d[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Wed Apr 26 15:56:56 2023 +0200
+
+    fix: menu showing on fullscreen views on mobile view
+
+[33mcommit d1a12d9387095e00052a0e8c28888435e40eb57e[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Wed Apr 26 15:55:21 2023 +0200
+
+    fix: refrest notification not working
+
+[33mcommit 3329a71be1e9b765d149bf77061f50a2c311fe26[m
+Author: JonasKos <jonas.kosmo@gmail.com>
+Date:   Wed Apr 26 15:48:15 2023 +0200
+
+    chore: added validation for add user button
+
+[33mcommit ee3aa004cb4580d4e61a1363217c90dfc4672766[m
+Author: Sebastian Bugge <vkbugge@hotmail.com>
+Date:   Wed Apr 26 15:28:04 2023 +0200
+
+    chore: run formatter
+
+[33mcommit 694d0b332954cfa3347487f85895b1cd9f6880cd[m
+Author: Sebastian Bugge <vkbugge@hotmail.com>
+Date:   Wed Apr 26 15:25:06 2023 +0200
+
+    fix: update services
+
+[33mcommit 6a65ec255f8a746dde7b4cd879f1f514d4ada04b[m[33m ([m[1;31morigin/feat/create-hoshold[m[33m, [m[1;32mfeat/create-hoshold[m[33m)[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Wed Apr 26 15:06:36 2023 +0200
+
+    fix: global events when updating household
+
+[33mcommit cd6eba61a5d49bc980e889f1bd4ad04867a59779[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Wed Apr 26 14:23:09 2023 +0200
+
+    fix: show create household button when there are no households
+
+[33mcommit 81a5a81f034f9bab7a5ed7626d16275da2f1d63a[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Wed Apr 26 14:08:59 2023 +0200
+
+    fix: bug on navbar, and show create household button when no households
+
+[33mcommit 8979c453244a4e97a96040a442163ce2e762b508[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Wed Apr 26 13:08:29 2023 +0200
+
+    fix: side nav picker not working
+
+[33mcommit a6d2d47a8b1e8a1186a6acbc63903c8676ee0e3b[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Wed Apr 26 12:32:16 2023 +0200
+
+    refac: use computed on household instead of getters and setters
+
+[33mcommit e8dc7e5e8a5d71e81e2e588785e4c8f1c7a02224[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Wed Apr 26 11:17:18 2023 +0200
+
+    chore: run formatter
+
+[33mcommit ad060f206cceb9fe0453eab2cc0bb7f55b0949cb[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Wed Apr 26 10:59:16 2023 +0200
+
+    refac: component-ize creating household
+
+[33mcommit bcc174dd7e6f714fbabd02aa234ddcb78015e567[m
+Author: Sebastian Bugge <vkbugge@hotmail.com>
+Date:   Wed Apr 26 13:57:32 2023 +0200
+
+    fix: users can now mark items as used
+
+[33mcommit fb3b5c99eb86fd189fce2ebf2018d7294a3780cd[m
+Author: JonasKos <jonas.kosmo@gmail.com>
+Date:   Wed Apr 26 10:59:23 2023 +0200
+
+    chore: add user now adds by email
+
+[33mcommit 4d3df7a8c541819f71d460b2ce06ecb60f8f391e[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Wed Apr 26 10:30:24 2023 +0200
+
+    fix: remove dummy data from shopping list
+
+[33mcommit e12410e3e530389c302415ec8f372fec8142ef83[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Wed Apr 26 10:22:13 2023 +0200
+
+    fix: backend integration on shoppnig list
+
+[33mcommit 2fc4e43dbacb5edefd80667acddb6b17371dabd4[m[33m ([m[1;31morigin/feature/homeview[m[33m, [m[1;32mfeature/homeview[m[33m)[m
+Author: JonasKos <jonas.kosmo@gmail.com>
+Date:   Wed Apr 26 09:47:54 2023 +0200
+
+    fix: fixes userCurrent is undefined bug
+
+[33mcommit abfd50430628f2fbc97a7309054dee3a7263380c[m
+Author: JonasKos <jonas.kosmo@gmail.com>
+Date:   Tue Apr 25 22:20:26 2023 +0200
+
+    chore: adds vitest for household
+
+[33mcommit 52ca0429294eee301bff1afa7bb77dc13b7429cb[m
+Author: JonasKos <jonas.kosmo@gmail.com>
+Date:   Tue Apr 25 14:18:41 2023 +0200
+
+    chore: displays select household if no household exists
+
+[33mcommit 54c07341a428aa6cda76695eec269a1d0530f52a[m
+Author: JonasKos <jonas.kosmo@gmail.com>
+Date:   Tue Apr 25 13:24:02 2023 +0200
+
+    chore: gets users from household in householdstore
+
+[33mcommit 416ffd9e1d298d06aeb9342785fbe54a13f44d02[m
+Author: JonasKos <jonas.kosmo@gmail.com>
+Date:   Tue Apr 25 11:28:23 2023 +0200
+
+    chore: fixes issue of horizontal scrollbar
+
+[33mcommit d69dc56ea3a8fe800f28e0ce59816d695222b333[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Tue Apr 25 11:06:42 2023 +0200
+
+    chore: remove unused import
+
+[33mcommit 018dd8f31f231c55c70deab7f32ecde223d2836d[m
+Author: JonasKos <jonas.kosmo@gmail.com>
+Date:   Tue Apr 25 09:43:40 2023 +0200
+
+    chore: small fixes
+
+[33mcommit 2516d3c9e55517607afbf5c7aae79086a31f1b08[m
+Author: JonasKos <jonas.kosmo@gmail.com>
+Date:   Mon Apr 24 21:42:50 2023 +0200
+
+    chore: users are now sorted by role
+
+[33mcommit bc5f45fca8c28187049b460688a2f82aa9eca90b[m
+Author: JonasKos <jonas.kosmo@gmail.com>
+Date:   Mon Apr 24 21:09:49 2023 +0200
+
+    chore: adds api call adding user to household
+
+[33mcommit 368450a9e72c0f6d46079f7b906e32eac366f27e[m
+Author: JonasKos <jonas.kosmo@gmail.com>
+Date:   Mon Apr 24 19:35:37 2023 +0200
+
+    chore: adds api call for changing users priveliges
+
+[33mcommit 15d243659a84e6f4a20d94e804a0af17005b97f9[m
+Author: JonasKos <jonas.kosmo@gmail.com>
+Date:   Mon Apr 24 15:18:40 2023 +0200
+
+    chore: removes user when user is removed
+
+[33mcommit 0b9a00978a452a8defc204e2f348b8655584dade[m
+Author: JonasKos <jonas.kosmo@gmail.com>
+Date:   Mon Apr 24 14:41:30 2023 +0200
+
+    chore: adds conditional rendering for usercard
+
+[33mcommit f223f18761171ce967a502ba8c66f0064add0993[m
+Author: JonasKos <jonas.kosmo@gmail.com>
+Date:   Mon Apr 24 14:00:35 2023 +0200
+
+    chore: adds remove user api call
+
+[33mcommit 86d67d768fbe7f6e81a7651b48a194a85466f9cb[m
+Author: JonasKos <jonas.kosmo@gmail.com>
+Date:   Sat Apr 22 16:24:45 2023 +0200
+
+    chore: small fixes
+
+[33mcommit ad03ba4bc3e462f296ecff7932d99dee989d30b7[m
+Author: JonasKos <jonas.kosmo@gmail.com>
+Date:   Sat Apr 22 16:02:26 2023 +0200
+
+    chore: adds routing and store
+
+[33mcommit 82d78bb00e783c9cc0e42eacfdaf169e0ad5917a[m
+Author: JonasKos <jonas.kosmo@gmail.com>
+Date:   Fri Apr 21 15:14:38 2023 +0200
+
+    chore: tweaks confirmation dialog
+
+[33mcommit 7ac8eaf27fb2938218d76fef9adc3cc2d1b6ed6e[m
+Author: JonasKos <jonas.kosmo@gmail.com>
+Date:   Fri Apr 21 14:59:49 2023 +0200
+
+    chore: adds confirmaion on delete household button
+
+[33mcommit 920269ad8c53744db574d53f55b3128104e9153f[m
+Author: JonasKos <jonas.kosmo@gmail.com>
+Date:   Fri Apr 21 14:21:53 2023 +0200
+
+    chore: adds non functional form for adding new user to household
+
+[33mcommit ea1e4fb501b5cc515856f2e9ea1c27491e35fefb[m
+Author: JonasKos <jonas.kosmo@gmail.com>
+Date:   Fri Apr 21 13:40:32 2023 +0200
+
+    chore: makes promote and demote buttons reflect user priveliges
+
+[33mcommit be33549ab8ed1c38ef0dfd060662c04a21fc2603[m
+Author: JonasKos <jonas.kosmo@gmail.com>
+Date:   Fri Apr 21 11:13:22 2023 +0200
+
+    chore: adds types
+
+[33mcommit f17e755bf55d864e59d226f7857ed87c9f46b049[m
+Author: JonasKos <jonas.kosmo@gmail.com>
+Date:   Fri Apr 21 10:29:15 2023 +0200
+
+    chore: fixes formatting issues
+
+[33mcommit 8ad930c0da0682ffd0ca25c4e44087bab4d9cec9[m
+Author: JonasKos <jonas.kosmo@gmail.com>
+Date:   Fri Apr 21 09:50:49 2023 +0200
+
+    chore: add householdview to  router
+
+[33mcommit 766a2fdea53a455e4ad466ab04b8a14bc0d36a3a[m
+Author: JonasKos <jonas.kosmo@gmail.com>
+Date:   Fri Apr 21 09:39:14 2023 +0200
+
+    chore: add householdtopbar
+
+[33mcommit 8c0da87dbe1ed10657d249919fe3afaa13b72897[m
+Author: JonasKos <jonas.kosmo@gmail.com>
+Date:   Fri Apr 21 09:37:56 2023 +0200
+
+    chore: add householdtopbar
+
+[33mcommit d9db90eb5856d91dc301b79daffaa56c77c47814[m
+Author: JonasKos <jonas.kosmo@gmail.com>
+Date:   Thu Apr 20 11:06:25 2023 +0200
+
+    chore: init
+
+[33mcommit 3d9035731c1c317b5a5d42f917abb0f5c65d3eba[m
+Author: aaarunan <arunan2212@gmail.com>
+Date:   Wed Apr 26 00:09:49 2023 +0200
+
+    chore: run formatter
+
+[33mcommit 5009905545b95ae48e5bdb2e1fa9d3d48aabdfc2[m
+Author: aaarunan <arunan2212@gmail.com>
+Date:   Wed Apr 26 00:09:32 2023 +0200
+
+    feat: create household on user register
+
+[33mcommit 2829c71e6aa5f1e25f4c3dbe4539776c0b4ea852[m
+Author: aaarunan <arunan2212@gmail.com>
+Date:   Tue Apr 25 23:30:42 2023 +0200
+
+    feat: add fullscreen meta attribute on not found
+
+[33mcommit 6982fb5d2fd6eafefc242a3c7d215317a2025d4d[m
+Author: aaarunan <arunan2212@gmail.com>
+Date:   Tue Apr 25 23:23:43 2023 +0200
+
+    feat: add log out functionality
+
+[33mcommit 617c93c303f054dd2390f58fdebc12bab25efd17[m
+Author: aaarunan <arunan2212@gmail.com>
+Date:   Tue Apr 25 23:10:46 2023 +0200
+
+    feat: add navigation guards on top navigation bar
+
+[33mcommit 0a4b564495fe8fd1cdd152ad636bfa3214cdf9f7[m
+Author: aaarunan <arunan2212@gmail.com>
+Date:   Tue Apr 25 23:08:11 2023 +0200
+
+    refac: remove password repeat
+
+[33mcommit 030c21cd1dd31cb204c11d93d8fa0e74f7a6d9a7[m
+Author: aaarunan <arunan2212@gmail.com>
+Date:   Tue Apr 25 23:02:12 2023 +0200
+
+    refac: use alert instead of notification on error
+
+[33mcommit 33b5e48cf760494b8e3c1060eaf41a3f860b000c[m
+Author: aaarunan <arunan2212@gmail.com>
+Date:   Tue Apr 25 22:52:12 2023 +0200
+
+    refac: remove login component
+
+[33mcommit 4478109561ccb6ba493f75780a92dd457f7cfa9c[m
+Author: aaarunan <arunan2212@gmail.com>
+Date:   Tue Apr 25 22:51:14 2023 +0200
+
+    refac: use alert instead of notification on error
+
+[33mcommit a3171d736d91019b5b28174ef9369ef883272a38[m
+Author: aaarunan <arunan2212@gmail.com>
+Date:   Tue Apr 25 22:40:15 2023 +0200
+
+    chore: run formatter
+
+[33mcommit 69d790e4455d01fafadac24ad07ab791419c5a73[m
+Author: aaarunan <arunan2212@gmail.com>
+Date:   Tue Apr 25 22:39:56 2023 +0200
+
+    refac: remove unecessary css
+
+[33mcommit 9c1b5be4cb1388b5401499697beed14356e13e77[m
+Author: aaarunan <arunan2212@gmail.com>
+Date:   Tue Apr 25 22:20:13 2023 +0200
+
+    feat: add api connection on registration
+
+[33mcommit 97dbd0d9bc29055fae73ab93df5d1048c119c64a[m
+Author: aaarunan <arunan2212@gmail.com>
+Date:   Tue Apr 25 22:10:57 2023 +0200
+
+    feat: add register component
+
+[33mcommit 42ec229a638366a81d45b77bd948650bb099c085[m
+Author: aaarunan <arunan2212@gmail.com>
+Date:   Tue Apr 25 21:12:20 2023 +0200
+
+    chore: run formatter
+
+[33mcommit a3ea3fc59b890dbbf0f88f9114045458fbcdab50[m
+Author: aaarunan <arunan2212@gmail.com>
+Date:   Tue Apr 25 21:12:09 2023 +0200
+
+    feat: add fullScreen meta info for views with no sidenav
+
+[33mcommit ad529f72189bf6030597b3797a74e46d0c3e833f[m
+Author: aaarunan <arunan2212@gmail.com>
+Date:   Tue Apr 25 21:03:56 2023 +0200
+
+    feat: add router guards when a user is not authenticated
+
+[33mcommit 24367d2d293c5dec435a98ddf70218d1ac45eca2[m
+Author: aaarunan <arunan2212@gmail.com>
+Date:   Tue Apr 25 21:03:39 2023 +0200
+
+    style: translate english button to norwegian
+
+[33mcommit b79bd8174e3d791cde375280c0364fc3d72bd2eb[m
+Author: aaarunan <arunan2212@gmail.com>
+Date:   Tue Apr 25 20:52:40 2023 +0200
+
+    style: fix css on login page
+
+[33mcommit 859a1c571a53d56e3ff7df19965ab4e09830bf1b[m
+Author: Eric Bieszczad-Stie <ericbieszczad@gmail.com>
+Date:   Tue Apr 25 16:16:13 2023 +0200
+
+    feat: add API integration to login page
+
+[33mcommit 997042e1ace7acefed7b85524b65b0b4752d30c8[m
+Author: Eric Bieszczad-Stie <ericbieszczad@gmail.com>
+Date:   Tue Apr 25 13:45:14 2023 +0200
+
+    chore: add routerlink to register page
+
+[33mcommit 19ab73dbe56571d87b9733eb8c497f219131a4a7[m
+Author: Eric Bieszczad-Stie <ericbieszczad@gmail.com>
+Date:   Tue Apr 25 13:18:52 2023 +0200
+
+    chore: fix login input with element-plus validation
+
+[33mcommit 734e3046bd6daeb103b331aa0566fd4ca3a67bba[m
+Author: Eric Bieszczad-Stie <ericbieszczad@gmail.com>
+Date:   Tue Apr 25 11:34:06 2023 +0200
+
+    chore: make v-model use reactive state variables intead
+
+[33mcommit 24c7b51027ba57e392da389b6117f0d1e1de7aca[m
+Author: Lund <ma4332@hotmail.com>
+Date:   Tue Apr 25 10:41:02 2023 +0200
+
+    chore: work in progress login page
+
+[33mcommit 47151ed05a855faba5275d9f654fb34dc6db4ee8[m
+Author: Eric Bieszczad-Stie <ericbieszczad@gmail.com>
+Date:   Thu Apr 20 12:47:53 2023 +0200
+
+    chore: hides sidebar when router value is login page
+
+[33mcommit c52f7c5df77953ae83c08af7660dfb81782627fa[m
+Author: Lund <ma4332@hotmail.com>
+Date:   Thu Apr 20 12:13:26 2023 +0200
+
+    testing
+
+[33mcommit 490b79fe6ab91f2eaa3f15f72f46b8bea11798b3[m
+Author: Eric Bieszczad-Stie <ericbieszczad@gmail.com>
+Date:   Tue Apr 25 16:14:23 2023 +0200
+
+    refac: add general show error method
+
+[33mcommit 362f465ae8009a5e7c58e41ce7cbe73bac88282a[m
+Author: Eric Bieszczad-Stie <ericbieszczad@gmail.com>
+Date:   Tue Apr 25 16:11:08 2023 +0200
+
+    chore: update api services
+
+[33mcommit 4157538d041319d88531f89b903dee279101cd91[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Tue Apr 25 16:18:10 2023 +0200
+
+    fix: formatting of shopping list card on mobile view
+
+[33mcommit 592bde0b5c4f3c4d954bddb500792a51dcdd8e72[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Tue Apr 25 15:57:35 2023 +0200
+
+    fix: type check on item to key
+
+[33mcommit a35fe48d32206a2468dce6009bb33a64fa4d3b9e[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Tue Apr 25 15:09:05 2023 +0200
+
+    fix: margin on buttons
+
+[33mcommit f499015a1a72bf274bf8ed2df99d535601c86e86[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Tue Apr 25 14:20:17 2023 +0200
+
+    fix: scrolling view instead
+
+[33mcommit 188d4929096171a546cf16cc6ffdb5cb9346cc73[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Tue Apr 25 13:21:13 2023 +0200
+
+    refac: form on mobile view
+
+[33mcommit 179d6025d5fd57559b4405cfe96d67ea2ed5e359[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Tue Apr 25 11:53:38 2023 +0200
+
+    style: add margin on cards
+
+[33mcommit 820570eb07e2bb49dcb556342d5d6591e1c3ba70[m
+Author: Sebastian Bugge <vkbugge@hotmail.com>
+Date:   Tue Apr 25 13:15:26 2023 +0200
+
+    fix: don't wrap inside of firstname
+
+[33mcommit 264b08568dfb4dbd140ccbb1516fe098e0d216f1[m
+Author: Sebastian Bugge <vkbugge@hotmail.com>
+Date:   Tue Apr 25 12:43:00 2023 +0200
+
+    feat: change message to notification when finishing a shopping list
+
+[33mcommit 8fce573ce4d39460ac4e50172f9e0c135c85e138[m
+Author: Sebastian Bugge <vkbugge@hotmail.com>
+Date:   Tue Apr 25 12:23:47 2023 +0200
+
+    feat: item count defaults to one
+
+[33mcommit f5ec7c87fafa8b2b3035cefe2c3eab89c25356ed[m
+Author: Sebastian Bugge <vkbugge@hotmail.com>
+Date:   Tue Apr 25 12:21:26 2023 +0200
+
+    fix: fix ref typing error
+
+[33mcommit 144327eba7797d83b4a42ee5d4c6b2645e30b49f[m
+Author: Sebastian Bugge <vkbugge@hotmail.com>
+Date:   Tue Apr 25 12:15:56 2023 +0200
+
+    fix: allow item count to be one
+
+[33mcommit 3926b2497f17878a7bd2ff113a69efaca0294d27[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Tue Apr 25 10:47:27 2023 +0200
+
+    feat: toggle browswer when selecting option in mobile view
+
+[33mcommit 207f229628e6b67a68fcfcf0645fa442882ebff8[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Tue Apr 25 10:32:03 2023 +0200
+
+    refac: default header styles
+
+[33mcommit b743e0c73fffcb4a51d71b0c72345cc8e0cc6b02[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Tue Apr 25 10:09:54 2023 +0200
+
+    refac: use skeleton loading instead of full screen loading
+
+[33mcommit f4afcd95f4b03387cead69800c4f42b03769b58f[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Tue Apr 25 10:06:08 2023 +0200
+
+    style: use alert instead of text when no items
+
+[33mcommit d8f3ceeb33dce5b37d3294b664725ecb4bc3c887[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Tue Apr 25 10:02:21 2023 +0200
+
+    style: change color to primary on item card
+
+[33mcommit cb6ebba0385844833169f590f2f9dd3668da1fd2[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Tue Apr 25 09:56:47 2023 +0200
+
+    refac: move skeleton loader to finally
+
+[33mcommit 8ec4c365a73e4ff1db588098012d303bbb9c9048[m[33m ([m[mrefs/bisect/bad[m[33m)[m
+Author: Eric Bieszczad-Stie <ericbi@stud.ntnu.no>
+Date:   Mon Apr 24 23:50:29 2023 +0200
+
+    chore: remove swagger.yaml file
+
+[33mcommit 2f4bd2164be23c1b1b94b12983970b1081bae101[m
+Author: Eric Bieszczad-Stie <ericbi@stud.ntnu.no>
+Date:   Mon Apr 24 23:44:18 2023 +0200
+
+    fix: failing tests because of changed ItemCard coding style
+
+[33mcommit 7f35b906d3e4694a3665e0743b55356d016421b6[m
+Author: Eric Bieszczad-Stie <ericbi@stud.ntnu.no>
+Date:   Mon Apr 24 23:29:13 2023 +0200
+
+    chore: make styling in inventory view and shopping list view match
+
+[33mcommit 8dc354919d1c0f6e1ee7cd422ed51568b8fcc010[m
+Author: Eric Bieszczad-Stie <ericbieszczad@gmail.com>
+Date:   Mon Apr 24 16:54:48 2023 +0200
+
+    chore: add dialog for using food
+
+[33mcommit 810ea36f12e1df3b70bbe2ec18339a0dc9599d56[m
+Author: Eric Bieszczad-Stie <ericbieszczad@gmail.com>
+Date:   Mon Apr 24 15:53:20 2023 +0200
+
+    chore: delete items from inventory
+
+[33mcommit 0144f36a20db97e3df34723e19ac6de7fbb1acb7[m
+Author: Eric Bieszczad-Stie <ericbieszczad@gmail.com>
+Date:   Mon Apr 24 12:44:51 2023 +0200
+
+    chore: add routerlink to /inventory in sidebar
+
+[33mcommit b79eb7281c01a5fb1441b8af2019158f4c170116[m
+Author: Eric Bieszczad-Stie <ericbieszczad@gmail.com>
+Date:   Mon Apr 24 12:12:33 2023 +0200
+
+    refac: move getDaysSinceBought into own file
+
+[33mcommit 166c2b6cf8a1d0f918cef3df6feee49bf75c168e[m
+Author: Eric Bieszczad-Stie <ericbieszczad@gmail.com>
+Date:   Mon Apr 24 12:11:14 2023 +0200
+
+    refac: improve updating items in inventory
+
+[33mcommit 01b7030cfa15367ffcab36cd353cd9fea2d11a42[m
+Author: Eric Bieszczad-Stie <ericbi@stud.ntnu.no>
+Date:   Sun Apr 23 21:08:59 2023 +0200
+
+    chore: add pre-commit file + explanation in README
+
+[33mcommit f1da6265dd0a28953d1af393d94f3e6d70a28240[m
+Author: Eric Bieszczad-Stie <ericbi@stud.ntnu.no>
+Date:   Sun Apr 23 21:01:16 2023 +0200
+
+    chore: add lint:check script
+
+[33mcommit ba34fce04a67e63db3e1e5d7d9fd806c8ab6d416[m
+Author: Eric Bieszczad-Stie <ericbi@stud.ntnu.no>
+Date:   Sat Apr 22 20:56:16 2023 +0200
+
+    chore: dynamically load items from backend
+
+[33mcommit 3f7aefa85fcaf32c61dbbd26e6befc3f71f14dcd[m
+Author: Eric Bieszczad-Stie <ericbieszczad@gmail.com>
+Date:   Fri Apr 21 14:14:04 2023 +0200
+
+    chore: add item card vitest
+
+[33mcommit ed0d10fc061a4586756b43f973a8a776df417429[m
+Author: Eric Bieszczad-Stie <ericbieszczad@gmail.com>
+Date:   Fri Apr 21 10:21:21 2023 +0200
+
+    fix: fix getDaysSinceBought calculation
+
+[33mcommit 55f5ec6b68380c18f37d0947ee44d6a5e4be703c[m
+Author: Eric Bieszczad-Stie <ericbieszczad@gmail.com>
+Date:   Fri Apr 21 09:40:18 2023 +0200
+
+    chore: finish item card
+
+[33mcommit 7c4c3c5e3c2d58ff1bb8b7c39eba95c0ba5ae42b[m
+Author: Eric Bieszczad-Stie <ericbieszczad@gmail.com>
+Date:   Thu Apr 20 17:06:27 2023 +0200
+
+    chore: add item card
+
+[33mcommit 5322587b4281eb5f142b08786bc82b8f7d4b0e38[m
+Author: Eric Bieszczad-Stie <ericbieszczad@gmail.com>
+Date:   Thu Apr 20 16:14:39 2023 +0200
+
+    chore: add inventory page + route for inventory page
+
+[33mcommit 4b10e7087f618b444fb1852ad6f555ca214c9532[m[33m ([m[1;31morigin/feat/shopping-list[m[33m, [m[1;32mfeat/shopping-list[m[33m)[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Mon Apr 24 16:35:01 2023 +0200
+
+    fix: bug on accepting suggested item
+
+[33mcommit bb8954daacf25b4fac02b1c79ae9861fab659268[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Mon Apr 24 15:45:03 2023 +0200
+
+    chore: remove duplication handling
+
+[33mcommit be67319981b3c1aab2669b91ef576f06875ce6b7[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Mon Apr 24 09:49:05 2023 +0200
+
+    fix: formatting bug on skeleton
+
+[33mcommit d43697f0a56332eed1b059a73a4a8eb30bbe2690[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Mon Apr 24 09:12:32 2023 +0200
+
+    fix: bug on empty alert not showing in suggested and bought items
+
+[33mcommit 44c07d21995a78b0ebfb80786e2ccd5b688d8024[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Sun Apr 23 01:38:13 2023 +0200
+
+    refac: reduce count to 1
+
+[33mcommit 78eda0bd9d3ed2ad077b6216b5d3b006d4ec24e9[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Sun Apr 23 01:29:22 2023 +0200
+
+    refac: remove update bug
+
+[33mcommit 30018320e838033dc1b7a0954f4ca33c2ef90268[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Sun Apr 23 00:57:02 2023 +0200
+
+    refac: run webstorm code reformatter
+
+[33mcommit ac074ece11edc8a3059d0e20ef83281649b230a0[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Sun Apr 23 00:55:40 2023 +0200
+
+    style: rename requestedItems to suggestedItems
+
+[33mcommit 82a94bca9289089a9ffd5a91759eef323a6e2a46[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Sun Apr 23 00:54:51 2023 +0200
+
+    refac: re-arrange functions
+
+[33mcommit 9d70d1c903387e4cdcdb4fc178a9e7b651c9886d[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Sun Apr 23 00:47:53 2023 +0200
+
+    refac: improve skeleton loading
+
+[33mcommit e4c6abf6db5f3703764b807aaceceb52ac17ab39[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Sat Apr 22 22:09:05 2023 +0200
+
+    feat: add input validation
+
+[33mcommit 56e33848fcbba9a555b06809f2279bfa7ebdc462[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Sat Apr 22 20:34:50 2023 +0200
+
+    refac: use autocomplete instead of select
+
+[33mcommit 31d24b654eafa3ebd110609150907e86fcde2c36[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Sat Apr 22 20:08:46 2023 +0200
+
+    feat: add api connection on completing shopping
+
+[33mcommit 2506ecd46bd90733448c5957f62e0c5f6cc3c57b[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Sat Apr 22 20:03:22 2023 +0200
+
+    refac: improve user feedback on actions
+
+[33mcommit da8603b93e498825d0fab22b26a5dcbfa30e9bb7[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Sat Apr 22 19:19:49 2023 +0200
+
+    feat: add api connection for accepting requested items
+
+[33mcommit 9b864212b57e383489c133be95d19a4ed86ce8ee[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Sat Apr 22 19:07:46 2023 +0200
+
+    feat: add api connection for marking as checked and adding item
+
+[33mcommit d6172afb32e6c1bf902e2df0f126bcfa7cd0beff[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Fri Apr 21 15:15:46 2023 +0200
+
+    style: fix font sizing
+
+[33mcommit 0e4d0d954eb242cee85f91bb18f1875698742f15[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Fri Apr 21 13:48:35 2023 +0200
+
+    refac: improve user feedback on actions
+
+[33mcommit d2122d9c781432ae41409751cab9a767bae064fd[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Fri Apr 21 13:04:11 2023 +0200
+
+    feat: add deletion of item and improve autoclosing drawers
+
+[33mcommit 73c0475225d40a11f0932e147fe86b06eee2baf8[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Fri Apr 21 12:52:26 2023 +0200
+
+    feat: autoclose drawers when empty
+
+[33mcommit 2fd565089f0137604581280d2a518f8707c69d9c[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Fri Apr 21 12:31:03 2023 +0200
+
+    feat: add info-alert when shopping cart is empty
+
+[33mcommit fc189c8f318de31b4e3d477474c715c4be0a26c8[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Fri Apr 21 11:40:44 2023 +0200
+
+    refac: use drawers instead of dividers for dividing list
+
+[33mcommit 59b984df94c8541524bdc09e343191280809ec0b[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Fri Apr 21 11:26:31 2023 +0200
+
+    feat: add functionality on buttons
+
+[33mcommit f3a85ab9e8ccb0d3c177a4cb4cf8884f946e2649[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Fri Apr 21 11:16:53 2023 +0200
+
+    feat: add functionality on shopping list
+
+[33mcommit 69a5828faf185546393f8fa6a92e115c55058c8f[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Thu Apr 20 10:44:32 2023 +0200
+
+    feat: add layout on shopping list view
+
+[33mcommit 19a18c82acd02a405ec3c6fc9707e944d971aa72[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Wed Apr 19 21:14:43 2023 +0200
+
+    chore: add route for ShoppingListView
+
+[33mcommit 551386de40243f3d5e9b24f771faa3d2c9786711[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Mon Apr 24 15:57:49 2023 +0200
+
+    feat: add not found route
+
+[33mcommit 0dcad277da0413210fb144192882acbd16372670[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Mon Apr 24 13:31:30 2023 +0200
+
+    chore: update swagger service
+
+[33mcommit 81fef98cbf497c0780d74d843f87274d6016596c[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Mon Apr 24 13:23:48 2023 +0200
+
+    feat: add household picker
+
+[33mcommit 916f0a25bbe4776eec3c241a878912215f53b485[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Mon Apr 24 12:23:50 2023 +0200
+
+    feat: add session store
+
+[33mcommit 12a1f53631684e84c62fa430571020ef74bdc3c9[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Mon Apr 24 12:05:45 2023 +0200
+
+    chore: update swagger api
+
+[33mcommit 2924a5c9b713dd58d7fd04c330c4d6879186bced[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Mon Apr 24 11:58:28 2023 +0200
+
+    style: remove color on logout button
+
+[33mcommit 7cb0ccee4da4b62a3c56eb8f5f8936542d24ac44[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Mon Apr 24 11:49:16 2023 +0200
+
+    feat: add mobile view on navbar
+
+[33mcommit 8516d38c99fc47ec3424e51caf07dfdf9941628c[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Mon Apr 24 09:51:39 2023 +0200
+
+    fix: remove https on api
+
+[33mcommit 8ecd6432414f8875d791fc2b5e975d1fa776c1a4[m
+Author: Eric Bieszczad-Stie <ericbieszczad@gmail.com>
+Date:   Fri Apr 21 15:52:39 2023 +0200
+
+    chore: add household store
+
+[33mcommit 3c2fe5c27b5b598117dce2a2fd7d24091274ce9b[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Fri Apr 21 15:47:39 2023 +0200
+
+    docs: add documentation on mocking an api
+
+[33mcommit d1ad8c83d259c090d8b449a130580f819fcd0f1a[m
+Author: Eric Bieszczad-Stie <ericbieszczad@gmail.com>
+Date:   Fri Apr 21 15:11:27 2023 +0200
+
+    chore: add composable function to run promises
+
+[33mcommit a368c1f8ff1d596cec16b932d552f70b57b3067f[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Fri Apr 21 14:58:46 2023 +0200
+
+    feat: add routing on side navigation bar
+
+[33mcommit 6b93554584731f094dec7f6cdf8f2d13a6a01a37[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Fri Apr 21 14:57:32 2023 +0200
+
+    feat: add routing on side navigation bar
+
+[33mcommit b938f29432b86e004e48dc15027fa487316c2e41[m
+Author: Eric Bieszczad-Stie <ericbieszczad@gmail.com>
+Date:   Thu Apr 20 16:06:05 2023 +0200
+
+    chore: remove padding from main tag
+
+[33mcommit 6416874b242fa0cd8f1d9685fe66157fc6f6cd79[m
+Author: Eric Bieszczad-Stie <ericbieszczad@gmail.com>
+Date:   Thu Apr 20 16:04:50 2023 +0200
+
+    chore: add default styling for h1, h2, h3, h4 and h5 tags
+
+[33mcommit 36cc6869dc506056657e92b3f8cec5592982ca22[m
+Author: Eric Bieszczad-Stie <ericbieszczad@gmail.com>
+Date:   Thu Apr 20 16:01:09 2023 +0200
+
+    chore: comment out dark theme css
+
+[33mcommit 6190a698783f4b8fc6b48f6cac62e1f3f282909a[m
+Author: Eric Bieszczad-Stie <ericbieszczad@gmail.com>
+Date:   Thu Apr 20 12:57:41 2023 +0200
+
+    fix: changes cypress job to use cypress docker image
+
+[33mcommit 531cd2afce1a1707d66aa58bd27177c1f3d87b58[m
+Author: Eric Bieszczad-Stie <ericbieszczad@gmail.com>
+Date:   Thu Apr 20 11:53:07 2023 +0200
+
+    chore: changes docker image for ci to node
+
+[33mcommit 74722867be9d158b0f2706c627b34653e7bf4331[m
+Author: Eric Bieszczad-Stie <ericbi@stud.ntnu.no>
+Date:   Thu Apr 20 11:23:55 2023 +0200
+
+    chore: adds CI
+
+[33mcommit e6311afa3e04d4b721fbe23cf7a5a77da6a72972[m
+Author: Eric Bieszczad-Stie <ericbieszczad@gmail.com>
+Date:   Thu Apr 20 10:31:34 2023 +0200
+
+    chore: fixed linter errors + cypress and vitests
+
+[33mcommit 7fcc4a9e2201915c6fa3b9ecfd479161f58168d1[m
+Author: Sebastian Bugge <vkbugge@hotmail.com>
+Date:   Thu Apr 20 09:34:01 2023 +0200
+
+    feat: update generated axios client to match swagger documentation
+
+[33mcommit 3b904901000af9d434850f004eb24574fd861a5a[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Wed Apr 19 17:27:09 2023 +0200
+
+    feat: add non-functional top-nav and side-nav
+
+[33mcommit 1c39998a5b677a0be761744982b1dafd3449464f[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Wed Apr 19 17:26:15 2023 +0200
+
+    chore: remove previous top bar css
+
+[33mcommit d849b891e176668dd97f9f6d9fca0d378ffa8c90[m
+Author: Sebastian Bugge <vkbugge@hotmail.com>
+Date:   Wed Apr 19 15:30:10 2023 +0200
+
+    chore: initial swagger generated axios client
+
+[33mcommit 11bed7ef41c50f8800d9b80da1529ea26c2d0974[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Wed Apr 19 15:27:26 2023 +0200
+
+    chore: remove unecessary css
+
+[33mcommit 73fc310df0f368983946ee2071c62c19eb729782[m
+Author: Eric Bieszczad-Stie <ericbieszczad@gmail.com>
+Date:   Wed Apr 19 14:49:39 2023 +0200
+
+    refac: Changed prettier formatting settings
+
+[33mcommit 025c80a0c1591ab2ddb840fc83320e367dcf594f[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Wed Apr 19 14:45:22 2023 +0200
+
+    chore: add documentation for pre-commit
+
+[33mcommit 163c1f6fab44db3b0a4ee2b26d2e813a32b492bd[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Wed Apr 19 14:42:48 2023 +0200
+
+    chore: remove more unecessary files
+
+[33mcommit 7f783c767c1a392bc32f1aa934008a21d0d6ded9[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Wed Apr 19 14:13:50 2023 +0200
+
+    chore: add element-plus component framework
+
+[33mcommit 8b0043d45ffb14ee20ff8da301444167dd05c936[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Wed Apr 19 14:04:36 2023 +0200
+
+    chore: remove unecessary files
+
+[33mcommit 788a43f9bdc63525c3e4ba266d151c92893e0f29[m
+Author: Arunan Gnanasekaran <arunan2212@gmail.com>
+Date:   Tue Apr 18 15:36:18 2023 +0200
+
+    chore: initialize project

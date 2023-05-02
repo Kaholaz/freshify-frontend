@@ -12,6 +12,7 @@ export * from "./inline-response200";
 export * from "./inline-response2001";
 export * from "./inventory-items";
 export * from "./inventory-items-inner";
+export * from "./inventory-waste-response";
 export * from "./item";
 export * from "./item-state";
 export * from "./item-type";

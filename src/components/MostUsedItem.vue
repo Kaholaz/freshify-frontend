@@ -6,17 +6,17 @@
     show-summary
     default-sort="type"
   >
-    <el-table-column fixed prop="type" label="Vare" sortable />
-    <el-table-column prop="perItem" label="svinn per vare" sortable />
-    <el-table-column prop="total" label="totalt" sortable />
+    <el-table-column fixed prop="name" label="Vare" sortable />
+    <el-table-column prop="amountWasted" label="svinn per vare" sortable />
+    <el-table-column prop="countWasted" label="totalt" sortable />
   </el-table>
 </template>
 <script lang="ts" setup>
 const props = defineProps<{
   tableData: {
-    type: string;
-    perItem: string;
-    total: string;
+    name: string;
+    amountWasted: string;
+    countWasted: string;
   }[];
 }>();
 </script>

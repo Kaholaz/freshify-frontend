@@ -21,8 +21,8 @@ import { Household } from "../models";
 import { HouseholdMember } from "../models";
 import { IdUsersBody } from "../models";
 import { InlineResponse2001 } from "../models";
+import { InventoryWasteResponse } from "../models";
 import { UpdateHouseholdUserType } from "../models";
-import { WastedItemDTO } from "../models";
 /**
  * HouseholdApi - axios parameter creator
  * @export
@@ -362,15 +362,13 @@ export const HouseholdApiAxiosParamCreator = function (configuration?: Configura
      * Returns lists of household waste
      * @summary Returns a list of household waste
      * @param {number} id ID of household to get waste from
-     * @param {string} [startDate] Start date for the time interval (YYYY-MM-DD)
-     * @param {string} [endDate] End date for the time interval (YYYY-MM-DD)
+     * @param {number} numMonths The number of months back to get wasted items from
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     householdIdInventoryWasteGet: async (
       id: number,
-      startDate?: string,
-      endDate?: string,
+      numMonths: number,
       options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       // verify required parameter 'id' is not null or undefined
@@ -378,6 +376,13 @@ export const HouseholdApiAxiosParamCreator = function (configuration?: Configura
         throw new RequiredError(
           "id",
           "Required parameter id was null or undefined when calling householdIdInventoryWasteGet."
+        );
+      }
+      // verify required parameter 'numMonths' is not null or undefined
+      if (numMonths === null || numMonths === undefined) {
+        throw new RequiredError(
+          "numMonths",
+          "Required parameter numMonths was null or undefined when calling householdIdInventoryWasteGet."
         );
       }
       const localVarPath = `/household/{id}/inventory/waste`.replace(
@@ -398,12 +403,8 @@ export const HouseholdApiAxiosParamCreator = function (configuration?: Configura
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
 
-      if (startDate !== undefined) {
-        localVarQueryParameter["start_date"] = startDate;
-      }
-
-      if (endDate !== undefined) {
-        localVarQueryParameter["end_date"] = endDate;
+      if (numMonths !== undefined) {
+        localVarQueryParameter["num_months"] = numMonths;
       }
 
       const query = new URLSearchParams(localVarUrlObj.search);
@@ -849,20 +850,20 @@ export const HouseholdApiFp = function (configuration?: Configuration) {
      * Returns lists of household waste
      * @summary Returns a list of household waste
      * @param {number} id ID of household to get waste from
-     * @param {string} [startDate] Start date for the time interval (YYYY-MM-DD)
-     * @param {string} [endDate] End date for the time interval (YYYY-MM-DD)
+     * @param {number} numMonths The number of months back to get wasted items from
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async householdIdInventoryWasteGet(
       id: number,
-      startDate?: string,
-      endDate?: string,
+      numMonths: number,
       options?: AxiosRequestConfig
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<Array<any>>>> {
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<InventoryWasteResponse>>
+    > {
       const localVarAxiosArgs = await HouseholdApiAxiosParamCreator(
         configuration
-      ).householdIdInventoryWasteGet(id, startDate, endDate, options);
+      ).householdIdInventoryWasteGet(id, numMonths, options);
       return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
         const axiosRequestArgs: AxiosRequestConfig = {
           ...localVarAxiosArgs.options,
@@ -1079,19 +1080,17 @@ export const HouseholdApiFactory = function (
      * Returns lists of household waste
      * @summary Returns a list of household waste
      * @param {number} id ID of household to get waste from
-     * @param {string} [startDate] Start date for the time interval (YYYY-MM-DD)
-     * @param {string} [endDate] End date for the time interval (YYYY-MM-DD)
+     * @param {number} numMonths The number of months back to get wasted items from
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async householdIdInventoryWasteGet(
       id: number,
-      startDate?: string,
-      endDate?: string,
+      numMonths: number,
       options?: AxiosRequestConfig
-    ): Promise<AxiosResponse<Array<any>>> {
+    ): Promise<AxiosResponse<InventoryWasteResponse>> {
       return HouseholdApiFp(configuration)
-        .householdIdInventoryWasteGet(id, startDate, endDate, options)
+        .householdIdInventoryWasteGet(id, numMonths, options)
         .then((request) => request(axios, basePath));
     },
     /**
@@ -1274,20 +1273,18 @@ export class HouseholdApi extends BaseAPI {
    * Returns lists of household waste
    * @summary Returns a list of household waste
    * @param {number} id ID of household to get waste from
-   * @param {string} [startDate] Start date for the time interval (YYYY-MM-DD)
-   * @param {string} [endDate] End date for the time interval (YYYY-MM-DD)
+   * @param {number} numMonths The number of months back to get wasted items from
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof HouseholdApi
    */
   public async householdIdInventoryWasteGet(
     id: number,
-    startDate?: string,
-    endDate?: string,
+    numMonths: number,
     options?: AxiosRequestConfig
-  ): Promise<AxiosResponse<Array<any>>> {
+  ): Promise<AxiosResponse<InventoryWasteResponse>> {
     return HouseholdApiFp(this.configuration)
-      .householdIdInventoryWasteGet(id, startDate, endDate, options)
+      .householdIdInventoryWasteGet(id, numMonths, options)
       .then((request) => request(this.axios, this.basePath));
   }
   /**
