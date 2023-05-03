@@ -47,8 +47,8 @@
         </el-row>
       </el-form>
     </el-card>
-    <el-collapse v-model="drawers">
-      <el-collapse-item name="active">
+    <el-collapse v-model="drawers" class="collapse-item">
+      <el-collapse-item name="active collapse-item" class="collapse-item">
         <template #title>
           <el-text>Varer</el-text>
         </template>
@@ -70,7 +70,7 @@
           <el-alert :closable="false" center title="Det er ingen varer i handlelista" type="info" />
         </div>
       </el-collapse-item>
-      <el-collapse-item name="requested">
+      <el-collapse-item name="requested" class="collapse-item">
         <template #title>
           <el-text>Foreslåtte varer</el-text>
         </template>
@@ -114,7 +114,7 @@
           <el-alert :closable="false" center title="Det er ingen forespurte varer" type="info" />
         </div>
       </el-collapse-item>
-      <el-collapse-item name="bought">
+      <el-collapse-item name="bought" class="collapse-item">
         <template #title>
           <el-text>Kjøpte varer</el-text>
         </template>
@@ -474,5 +474,9 @@ function itemToKey(item: ShoppingListEntry) {
 <style>
 .divider-row {
   margin-bottom: 1rem;
+}
+.collapse-item {
+  --el-collapse-content-bg-color: transparent !important;
+  --el-collapse-header-bg-color: transparent !important;
 }
 </style>

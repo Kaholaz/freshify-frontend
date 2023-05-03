@@ -27,7 +27,7 @@ const isFullScreen = computed(() => router.currentRoute.value.meta?.fullScreen);
 
 <template>
   <el-container style="height: 100vh; display: flex">
-    <el-header>
+    <el-header style="margin: 0; padding: 0; height: max-content">
       <TopNavBar />
     </el-header>
     <div v-if="collapsed">
@@ -44,10 +44,10 @@ const isFullScreen = computed(() => router.currentRoute.value.meta?.fullScreen);
     </div>
     <el-container>
       <el-aside v-if="!collapsed && !isFullScreen" width="300px">
-        <SideNavBar />
+        <SideNavBar id="side-bar" />
       </el-aside>
       <el-drawer v-model="drawer" direction="ltr" size="306px">
-        <SideNavBar @select="drawerToggle()" />
+        <SideNavBar @select="drawerToggle()" style="--el-menu-bg-color: transparent" />
       </el-drawer>
       <el-scrollbar style="width: 100%">
         <el-main>
@@ -70,5 +70,9 @@ const isFullScreen = computed(() => router.currentRoute.value.meta?.fullScreen);
 
 #main-view * {
   overflow: auto;
+}
+
+#side-bar {
+  --el-menu-bg-color: transparent;
 }
 </style>
