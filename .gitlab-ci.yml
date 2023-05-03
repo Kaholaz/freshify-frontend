@@ -49,3 +49,5 @@ deploy:
 
     - npm run build-only
     - scp -o StrictHostKeyChecking=no -o PasswordAuthentication=no -r dist/* freshify@freshify.no:/var/www/freshify.no
+  only:
+    - dev
