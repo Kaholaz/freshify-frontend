@@ -103,7 +103,13 @@
 import RecipeCard from "@/components/RecipeCard.vue";
 import RecipeSelected from "@/components/RecipeSelected.vue";
 import type { Ref } from "vue";
-import type { Recipe, RecipeIngredient, ItemType, AllergenRequest, RecipeCategory } from "@/services/index";
+import type {
+  Recipe,
+  RecipeIngredient,
+  ItemType,
+  AllergenRequest,
+  RecipeCategory,
+} from "@/services/index";
 import { ref } from "vue";
 import { ElMessage } from "element-plus";
 import { Search, ArrowDown } from "@element-plus/icons-vue";
@@ -141,7 +147,7 @@ const recipes = [
       "Taco er for mange selve fredagskosen. Fyll tacoskjell eller tortillalefser med kjøttdeig, grønnsaker, ost, salsa-tacosaus og rømme.",
     estimatedTime: 30,
     steps: "Stek kjøttdeig, kutt grønnsaker, varm lefser, server",
-/*     recipeAmountIngredientsOwned: 5, */
+    /*     recipeAmountIngredientsOwned: 5, */
     recipeIngredients: [
       {
         id: 1,

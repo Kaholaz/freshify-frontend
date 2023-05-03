@@ -40,9 +40,7 @@
       <el-col :span="12"
         ><div class="grid-content ep-bg-purple-light" />
         <h4>Slik gjør du det</h4>
-        <p v-for="(step, index) in recipeSteps" :key="step">
-          {{ index + 1 }} {{ step }}
-        </p>
+        <p v-for="(step, index) in recipeSteps" :key="step">{{ index + 1 }} {{ step }}</p>
         <!-- <p>
           Pastasaus: <br />
           1. Finhakk løk og hvitløk. <br />
@@ -83,7 +81,13 @@
 
 <script setup lang="ts">
 import { Back } from "@element-plus/icons-vue";
-import type { Recipe, RecipeIngredient, ItemType, AllergenRequest, RecipeCategory } from "@/services/index";
+import type {
+  Recipe,
+  RecipeIngredient,
+  ItemType,
+  AllergenRequest,
+  RecipeCategory,
+} from "@/services/index";
 import { computed } from "vue";
 
 const recipeSteps = computed(() => {

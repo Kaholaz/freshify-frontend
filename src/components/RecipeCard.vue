@@ -28,7 +28,13 @@
 <script setup lang="ts">
 import type { Ref } from "vue";
 import { ref, computed, onMounted } from "vue";
-import type { Recipe, RecipeIngredient, ItemType, AllergenRequest, RecipeCategory } from "@/services/index";
+import type {
+  Recipe,
+  RecipeIngredient,
+  ItemType,
+  AllergenRequest,
+  RecipeCategory,
+} from "@/services/index";
 import { Management } from "@element-plus/icons-vue";
 
 // Define APIs and stores
@@ -67,7 +73,7 @@ type Recipe = {
 // Define computed values
 const allergies = computed(() => {
   let allergies = "";
-  props.recipe?.allergens!.forEach(element => {
+  props.recipe?.allergens!.forEach((element) => {
     allergies += element.name + ", ";
   });
   return allergies.slice(0, -2);
