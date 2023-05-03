@@ -2,14 +2,16 @@
 
 describe("Register", () => {
   beforeEach(() => {
-    cy.intercept("GET", "/user/loggedin", { statusCode: 404 }).as("loggedin");
+    cy.intercept("GET", "/user/loggedin", { statusCode: 401 }).as("loggedin");
     cy.visit("/register");
   });
 
   it("should successfully registe and redirect to the inventory page", () => {
     cy.intercept("POST", "/user", { fixture: "login.json" }).as("register");
     cy.intercept("GET", `/user/*/households`, { fixture: "households.json" }).as("user");
-    cy.intercept("POST", "/household", { fixture: "households.json" }).as("household");
+    cy.intercept("GET", `/household/*/inventory`, { fixture: "inventory.json" }).as("user");
+    cy.intercept("GET", `/household/*/users`, { fixture: "users.json" }).as("user");
+    cy.intercept("POST", "/household", { fixture: "household.json" }).as("household");
 
     cy.get("#email-input").type("example@example.org");
     cy.get("#first-name-input").type("password123{enter}");

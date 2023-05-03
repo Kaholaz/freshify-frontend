@@ -1,0 +1,53 @@
+[
+  {
+    "id": 2,
+    "lastChanged": "2023-05-03T08:04:29.000+00:00",
+    "bought": "2023-05-03T08:04:29.000+00:00",
+    "remaining": 1.0,
+    "suggested": false,
+    "status": "INVENTORY",
+    "type": {
+      "id": 355,
+      "name": "Iste"
+    },
+    "addedBy": {
+      "id": 1,
+      "firstName": "asdf",
+      "email": "asdf@asdf.no"
+    }
+  },
+  {
+    "id": 4,
+    "lastChanged": "2023-05-03T08:04:29.000+00:00",
+    "bought": "2023-05-03T08:04:29.000+00:00",
+    "remaining": 1.0,
+    "suggested": false,
+    "status": "INVENTORY",
+    "type": {
+      "id": 355,
+      "name": "Iste"
+    },
+    "addedBy": {
+      "id": 1,
+      "firstName": "asdf",
+      "email": "asdf@asdf.no"
+    }
+  },
+  {
+    "id": 5,
+    "lastChanged": "2023-05-03T08:04:29.000+00:00",
+    "bought": "2023-05-03T08:04:29.000+00:00",
+    "remaining": 1.0,
+    "suggested": false,
+    "status": "INVENTORY",
+    "type": {
+      "id": 355,
+      "name": "Iste"
+    },
+    "addedBy": {
+      "id": 1,
+      "firstName": "asdf",
+      "email": "asdf@asdf.no"
+    }
+  }
+]

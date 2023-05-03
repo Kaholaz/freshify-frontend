@@ -1,0 +1,14 @@
+[
+  {
+    "id": {
+      "householdId": 1,
+      "userId": 1
+    },
+    "user": {
+      "id": 1,
+      "firstName": "asdf",
+      "email": "asdf@asdf.no"
+    },
+    "userType": "SUPERUSER"
+  }
+]
