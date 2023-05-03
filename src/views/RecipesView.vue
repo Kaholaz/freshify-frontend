@@ -40,7 +40,7 @@
             :value="allergen.id"
           />
         </el-select>
-        <el-select  placeholder="Kategori" v-model="selectedCategory">
+        <el-select placeholder="Kategori" v-model="selectedCategory">
           <el-option
             v-for="category in categories"
             :key="category.id"
@@ -131,7 +131,7 @@ allergenApi.getAllergens().then((response) => {
 
 const categories = ref<RecipeCategory[]>([]);
 
-const selectedCategory = ref<number | undefined>()
+const selectedCategory = ref<number | undefined>();
 
 recipeCategoryApi.getAllRecipeCategories().then((response) => {
   categories.value = response.data;
@@ -187,6 +187,7 @@ async function searchRecipes() {
     .getRecipesPaginated(
       householdStore.household?.id!,
       false,
+      recipeSearch.value,
       selectedCategory.value,
       selectedAllergies.value,
       undefined,
