@@ -11,29 +11,41 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { WastedItemDTO } from "./wasted-item-dto";
+import { ItemType } from "./item-type";
 /**
  *
  * @export
- * @interface InventoryWasteResponse
+ * @interface RecipeIngredientResponse
  */
-export interface InventoryWasteResponse {
-  /**
-   *
-   * @type {Array<any>}
-   * @memberof InventoryWasteResponse
-   */
-  wastedItems?: Array<any>;
+export interface RecipeIngredientResponse {
   /**
    *
    * @type {number}
-   * @memberof InventoryWasteResponse
+   * @memberof RecipeIngredientResponse
    */
-  total?: number;
+  id?: number;
+  /**
+   *
+   * @type {ItemType}
+   * @memberof RecipeIngredientResponse
+   */
+  itemType?: ItemType;
   /**
    *
    * @type {number}
-   * @memberof InventoryWasteResponse
+   * @memberof RecipeIngredientResponse
    */
-  average?: number;
+  amount?: number;
+  /**
+   *
+   * @type {string}
+   * @memberof RecipeIngredientResponse
+   */
+  unit?: string;
+  /**
+   *
+   * @type {boolean}
+   * @memberof RecipeIngredientResponse
+   */
+  householdHasIngredient?: boolean;
 }

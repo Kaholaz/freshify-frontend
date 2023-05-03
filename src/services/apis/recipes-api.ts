@@ -16,7 +16,8 @@ import { Configuration } from "../configuration";
 // Some imports not used depending on template conditions
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from "../base";
-import { Recipe } from "../models";
+import { RecipeDTO } from "../models";
+import { RecipeDTOPage } from "../models";
 import { RecipeRequest } from "../models";
 /**
  * RecipesApi - axios parameter creator
@@ -85,6 +86,150 @@ export const RecipesApiAxiosParamCreator = function (configuration?: Configurati
         options: localVarRequestOptions,
       };
     },
+    /**
+     * Retrieves the recipe with the specified ID and each ingredient is also checked against the specified household's fridge.
+     * @summary Gets a recipe by ID
+     * @param {number} householdId ID of the household to check for ingredients
+     * @param {number} id ID of the recipe to retrieve
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getRecipeById: async (
+      householdId: number,
+      id: number,
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'householdId' is not null or undefined
+      if (householdId === null || householdId === undefined) {
+        throw new RequiredError(
+          "householdId",
+          "Required parameter householdId was null or undefined when calling getRecipeById."
+        );
+      }
+      // verify required parameter 'id' is not null or undefined
+      if (id === null || id === undefined) {
+        throw new RequiredError(
+          "id",
+          "Required parameter id was null or undefined when calling getRecipeById."
+        );
+      }
+      const localVarPath = `/recipes/{householdId}/recipe/{id}`
+        .replace(`{${"householdId"}}`, encodeURIComponent(String(householdId)))
+        .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, "https://example.com");
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+      const localVarRequestOptions: AxiosRequestConfig = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      const query = new URLSearchParams(localVarUrlObj.search);
+      for (const key in localVarQueryParameter) {
+        query.set(key, localVarQueryParameter[key]);
+      }
+      for (const key in options.params) {
+        query.set(key, options.params[key]);
+      }
+      localVarUrlObj.search = new URLSearchParams(query).toString();
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * Retrieves a paginated list of recipes that can optionally be filtered by recipe category and/or allergens. For each ingredient in the recipe, it checks whether the household has the specified ingredient item type in the fridge.
+     * @summary Gets a page of recipes that can also be filtered
+     * @param {number} householdId ID of the household to check for ingredients
+     * @param {number} [categoryId] ID of the recipe category to filter by
+     * @param {Array<number>} [allergenIds] Array of IDs of the allergens to filter by
+     * @param {number} [pageNo] Page number to retrieve
+     * @param {number} [pageSize] Number of recipes per page
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getRecipesPaginated: async (
+      householdId: number,
+      categoryId?: number,
+      allergenIds?: Array<number>,
+      pageNo?: number,
+      pageSize?: number,
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'householdId' is not null or undefined
+      if (householdId === null || householdId === undefined) {
+        throw new RequiredError(
+          "householdId",
+          "Required parameter householdId was null or undefined when calling getRecipesPaginated."
+        );
+      }
+      const localVarPath = `/recipes/{householdId}`.replace(
+        `{${"householdId"}}`,
+        encodeURIComponent(String(householdId))
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, "https://example.com");
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+      const localVarRequestOptions: AxiosRequestConfig = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      if (categoryId !== undefined) {
+        localVarQueryParameter["categoryId"] = categoryId;
+      }
+
+      if (allergenIds) {
+        localVarQueryParameter["allergenIds"] = allergenIds;
+      }
+
+      if (pageNo !== undefined) {
+        localVarQueryParameter["pageNo"] = pageNo;
+      }
+
+      if (pageSize !== undefined) {
+        localVarQueryParameter["pageSize"] = pageSize;
+      }
+
+      const query = new URLSearchParams(localVarUrlObj.search);
+      for (const key in localVarQueryParameter) {
+        query.set(key, localVarQueryParameter[key]);
+      }
+      for (const key in options.params) {
+        query.set(key, options.params[key]);
+      }
+      localVarUrlObj.search = new URLSearchParams(query).toString();
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+        options: localVarRequestOptions,
+      };
+    },
   };
 };
 
@@ -104,11 +249,69 @@ export const RecipesApiFp = function (configuration?: Configuration) {
     async createRecipe(
       body: RecipeRequest,
       options?: AxiosRequestConfig
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<Recipe>>> {
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RecipeDTO>>> {
       const localVarAxiosArgs = await RecipesApiAxiosParamCreator(configuration).createRecipe(
         body,
         options
       );
+      return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+        const axiosRequestArgs: AxiosRequestConfig = {
+          ...localVarAxiosArgs.options,
+          url: basePath + localVarAxiosArgs.url,
+        };
+        return axios.request(axiosRequestArgs);
+      };
+    },
+    /**
+     * Retrieves the recipe with the specified ID and each ingredient is also checked against the specified household's fridge.
+     * @summary Gets a recipe by ID
+     * @param {number} householdId ID of the household to check for ingredients
+     * @param {number} id ID of the recipe to retrieve
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getRecipeById(
+      householdId: number,
+      id: number,
+      options?: AxiosRequestConfig
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RecipeDTO>>> {
+      const localVarAxiosArgs = await RecipesApiAxiosParamCreator(configuration).getRecipeById(
+        householdId,
+        id,
+        options
+      );
+      return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+        const axiosRequestArgs: AxiosRequestConfig = {
+          ...localVarAxiosArgs.options,
+          url: basePath + localVarAxiosArgs.url,
+        };
+        return axios.request(axiosRequestArgs);
+      };
+    },
+    /**
+     * Retrieves a paginated list of recipes that can optionally be filtered by recipe category and/or allergens. For each ingredient in the recipe, it checks whether the household has the specified ingredient item type in the fridge.
+     * @summary Gets a page of recipes that can also be filtered
+     * @param {number} householdId ID of the household to check for ingredients
+     * @param {number} [categoryId] ID of the recipe category to filter by
+     * @param {Array<number>} [allergenIds] Array of IDs of the allergens to filter by
+     * @param {number} [pageNo] Page number to retrieve
+     * @param {number} [pageSize] Number of recipes per page
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getRecipesPaginated(
+      householdId: number,
+      categoryId?: number,
+      allergenIds?: Array<number>,
+      pageNo?: number,
+      pageSize?: number,
+      options?: AxiosRequestConfig
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RecipeDTOPage>>
+    > {
+      const localVarAxiosArgs = await RecipesApiAxiosParamCreator(
+        configuration
+      ).getRecipesPaginated(householdId, categoryId, allergenIds, pageNo, pageSize, options);
       return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
         const axiosRequestArgs: AxiosRequestConfig = {
           ...localVarAxiosArgs.options,
@@ -140,9 +343,49 @@ export const RecipesApiFactory = function (
     async createRecipe(
       body: RecipeRequest,
       options?: AxiosRequestConfig
-    ): Promise<AxiosResponse<Recipe>> {
+    ): Promise<AxiosResponse<RecipeDTO>> {
       return RecipesApiFp(configuration)
         .createRecipe(body, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     * Retrieves the recipe with the specified ID and each ingredient is also checked against the specified household's fridge.
+     * @summary Gets a recipe by ID
+     * @param {number} householdId ID of the household to check for ingredients
+     * @param {number} id ID of the recipe to retrieve
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getRecipeById(
+      householdId: number,
+      id: number,
+      options?: AxiosRequestConfig
+    ): Promise<AxiosResponse<RecipeDTO>> {
+      return RecipesApiFp(configuration)
+        .getRecipeById(householdId, id, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     * Retrieves a paginated list of recipes that can optionally be filtered by recipe category and/or allergens. For each ingredient in the recipe, it checks whether the household has the specified ingredient item type in the fridge.
+     * @summary Gets a page of recipes that can also be filtered
+     * @param {number} householdId ID of the household to check for ingredients
+     * @param {number} [categoryId] ID of the recipe category to filter by
+     * @param {Array<number>} [allergenIds] Array of IDs of the allergens to filter by
+     * @param {number} [pageNo] Page number to retrieve
+     * @param {number} [pageSize] Number of recipes per page
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getRecipesPaginated(
+      householdId: number,
+      categoryId?: number,
+      allergenIds?: Array<number>,
+      pageNo?: number,
+      pageSize?: number,
+      options?: AxiosRequestConfig
+    ): Promise<AxiosResponse<RecipeDTOPage>> {
+      return RecipesApiFp(configuration)
+        .getRecipesPaginated(householdId, categoryId, allergenIds, pageNo, pageSize, options)
         .then((request) => request(axios, basePath));
     },
   };
@@ -166,9 +409,51 @@ export class RecipesApi extends BaseAPI {
   public async createRecipe(
     body: RecipeRequest,
     options?: AxiosRequestConfig
-  ): Promise<AxiosResponse<Recipe>> {
+  ): Promise<AxiosResponse<RecipeDTO>> {
     return RecipesApiFp(this.configuration)
       .createRecipe(body, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+  /**
+   * Retrieves the recipe with the specified ID and each ingredient is also checked against the specified household's fridge.
+   * @summary Gets a recipe by ID
+   * @param {number} householdId ID of the household to check for ingredients
+   * @param {number} id ID of the recipe to retrieve
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof RecipesApi
+   */
+  public async getRecipeById(
+    householdId: number,
+    id: number,
+    options?: AxiosRequestConfig
+  ): Promise<AxiosResponse<RecipeDTO>> {
+    return RecipesApiFp(this.configuration)
+      .getRecipeById(householdId, id, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+  /**
+   * Retrieves a paginated list of recipes that can optionally be filtered by recipe category and/or allergens. For each ingredient in the recipe, it checks whether the household has the specified ingredient item type in the fridge.
+   * @summary Gets a page of recipes that can also be filtered
+   * @param {number} householdId ID of the household to check for ingredients
+   * @param {number} [categoryId] ID of the recipe category to filter by
+   * @param {Array<number>} [allergenIds] Array of IDs of the allergens to filter by
+   * @param {number} [pageNo] Page number to retrieve
+   * @param {number} [pageSize] Number of recipes per page
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof RecipesApi
+   */
+  public async getRecipesPaginated(
+    householdId: number,
+    categoryId?: number,
+    allergenIds?: Array<number>,
+    pageNo?: number,
+    pageSize?: number,
+    options?: AxiosRequestConfig
+  ): Promise<AxiosResponse<RecipeDTOPage>> {
+    return RecipesApiFp(this.configuration)
+      .getRecipesPaginated(householdId, categoryId, allergenIds, pageNo, pageSize, options)
       .then((request) => request(this.axios, this.basePath));
   }
 }
