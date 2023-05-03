@@ -131,7 +131,6 @@ const eggChecked = ref(false);
 const fishChecked = ref(false);
 const peanutsChecked = ref(false);
 
-
 /* type Ingredient = {
   id: number;
   ingredientName: string;

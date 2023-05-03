@@ -16,32 +16,21 @@ import { Configuration } from "../configuration";
 // Some imports not used depending on template conditions
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from "../base";
-import { ItemType } from "../models";
+import { RecipeCategory } from "../models";
 /**
- * ItemTypeApi - axios parameter creator
+ * RecipeCategoryApi - axios parameter creator
  * @export
  */
-export const ItemTypeApiAxiosParamCreator = function (configuration?: Configuration) {
+export const RecipeCategoryApiAxiosParamCreator = function (configuration?: Configuration) {
   return {
     /**
-     *
-     * @summary Search through item types
-     * @param {string} name Search string to find item types by name
+     * Returns a list of recipe categories containing all recipe categories from database
+     * @summary Get all recipe categories
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    searchItemTypes: async (
-      name: string,
-      options: AxiosRequestConfig = {}
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'name' is not null or undefined
-      if (name === null || name === undefined) {
-        throw new RequiredError(
-          "name",
-          "Required parameter name was null or undefined when calling searchItemTypes."
-        );
-      }
-      const localVarPath = `/itemtype`;
+    getAllRecipeCategories: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+      const localVarPath = `/recipecategory`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, "https://example.com");
       let baseOptions;
@@ -55,10 +44,6 @@ export const ItemTypeApiAxiosParamCreator = function (configuration?: Configurat
       };
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
-
-      if (name !== undefined) {
-        localVarQueryParameter["name"] = name;
-      }
 
       const query = new URLSearchParams(localVarUrlObj.search);
       for (const key in localVarQueryParameter) {
@@ -84,28 +69,25 @@ export const ItemTypeApiAxiosParamCreator = function (configuration?: Configurat
 };
 
 /**
- * ItemTypeApi - functional programming interface
+ * RecipeCategoryApi - functional programming interface
  * @export
  */
-export const ItemTypeApiFp = function (configuration?: Configuration) {
+export const RecipeCategoryApiFp = function (configuration?: Configuration) {
   return {
     /**
-     *
-     * @summary Search through item types
-     * @param {string} name Search string to find item types by name
+     * Returns a list of recipe categories containing all recipe categories from database
+     * @summary Get all recipe categories
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async searchItemTypes(
-      name: string,
+    async getAllRecipeCategories(
       options?: AxiosRequestConfig
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<Array<ItemType>>>
+      (axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<Array<RecipeCategory>>>
     > {
-      const localVarAxiosArgs = await ItemTypeApiAxiosParamCreator(configuration).searchItemTypes(
-        name,
-        options
-      );
+      const localVarAxiosArgs = await RecipeCategoryApiAxiosParamCreator(
+        configuration
+      ).getAllRecipeCategories(options);
       return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
         const axiosRequestArgs: AxiosRequestConfig = {
           ...localVarAxiosArgs.options,
@@ -118,54 +100,50 @@ export const ItemTypeApiFp = function (configuration?: Configuration) {
 };
 
 /**
- * ItemTypeApi - factory interface
+ * RecipeCategoryApi - factory interface
  * @export
  */
-export const ItemTypeApiFactory = function (
+export const RecipeCategoryApiFactory = function (
   configuration?: Configuration,
   basePath?: string,
   axios?: AxiosInstance
 ) {
   return {
     /**
-     *
-     * @summary Search through item types
-     * @param {string} name Search string to find item types by name
+     * Returns a list of recipe categories containing all recipe categories from database
+     * @summary Get all recipe categories
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async searchItemTypes(
-      name: string,
+    async getAllRecipeCategories(
       options?: AxiosRequestConfig
-    ): Promise<AxiosResponse<Array<ItemType>>> {
-      return ItemTypeApiFp(configuration)
-        .searchItemTypes(name, options)
+    ): Promise<AxiosResponse<Array<RecipeCategory>>> {
+      return RecipeCategoryApiFp(configuration)
+        .getAllRecipeCategories(options)
         .then((request) => request(axios, basePath));
     },
   };
 };
 
 /**
- * ItemTypeApi - object-oriented interface
+ * RecipeCategoryApi - object-oriented interface
  * @export
- * @class ItemTypeApi
+ * @class RecipeCategoryApi
  * @extends {BaseAPI}
  */
-export class ItemTypeApi extends BaseAPI {
+export class RecipeCategoryApi extends BaseAPI {
   /**
-   *
-   * @summary Search through item types
-   * @param {string} name Search string to find item types by name
+   * Returns a list of recipe categories containing all recipe categories from database
+   * @summary Get all recipe categories
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof ItemTypeApi
+   * @memberof RecipeCategoryApi
    */
-  public async searchItemTypes(
-    name: string,
+  public async getAllRecipeCategories(
     options?: AxiosRequestConfig
-  ): Promise<AxiosResponse<Array<ItemType>>> {
-    return ItemTypeApiFp(this.configuration)
-      .searchItemTypes(name, options)
+  ): Promise<AxiosResponse<Array<RecipeCategory>>> {
+    return RecipeCategoryApiFp(this.configuration)
+      .getAllRecipeCategories(options)
       .then((request) => request(this.axios, this.basePath));
   }
 }

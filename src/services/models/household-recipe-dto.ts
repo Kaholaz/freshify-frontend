@@ -11,28 +11,30 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { Household } from "./household";
+import { RecipeDTO } from "./recipe-dto";
 /**
  *
  * @export
- * @interface UserFull
+ * @interface HouseholdRecipeDTO
  */
-export interface UserFull {
+export interface HouseholdRecipeDTO {
   /**
    *
    * @type {number}
-   * @memberof UserFull
+   * @memberof HouseholdRecipeDTO
    */
   id?: number;
   /**
    *
-   * @type {string}
-   * @memberof UserFull
+   * @type {RecipeDTO}
+   * @memberof HouseholdRecipeDTO
    */
-  email?: string;
+  recipe?: RecipeDTO;
   /**
    *
-   * @type {string}
-   * @memberof UserFull
+   * @type {Household}
+   * @memberof HouseholdRecipeDTO
    */
-  firstName?: string;
+  household?: Household;
 }

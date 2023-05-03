@@ -5,6 +5,7 @@ export * from "./create-user";
 export * from "./household";
 export * from "./household-member";
 export * from "./household-member-key";
+export * from "./household-recipe-dto";
 export * from "./household-user-type";
 export * from "./id-inventory-body";
 export * from "./id-users-body";

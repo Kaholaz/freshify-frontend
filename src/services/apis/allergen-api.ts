@@ -16,32 +16,21 @@ import { Configuration } from "../configuration";
 // Some imports not used depending on template conditions
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from "../base";
-import { ItemType } from "../models";
+import { AllergenRequest } from "../models";
 /**
- * ItemTypeApi - axios parameter creator
+ * AllergenApi - axios parameter creator
  * @export
  */
-export const ItemTypeApiAxiosParamCreator = function (configuration?: Configuration) {
+export const AllergenApiAxiosParamCreator = function (configuration?: Configuration) {
   return {
     /**
-     *
-     * @summary Search through item types
-     * @param {string} name Search string to find item types by name
+     * Returns a list of allergens containing all allergens from database
+     * @summary Get all allergens
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    searchItemTypes: async (
-      name: string,
-      options: AxiosRequestConfig = {}
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'name' is not null or undefined
-      if (name === null || name === undefined) {
-        throw new RequiredError(
-          "name",
-          "Required parameter name was null or undefined when calling searchItemTypes."
-        );
-      }
-      const localVarPath = `/itemtype`;
+    getAllergens: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+      const localVarPath = `/allergens`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, "https://example.com");
       let baseOptions;
@@ -55,10 +44,6 @@ export const ItemTypeApiAxiosParamCreator = function (configuration?: Configurat
       };
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
-
-      if (name !== undefined) {
-        localVarQueryParameter["name"] = name;
-      }
 
       const query = new URLSearchParams(localVarUrlObj.search);
       for (const key in localVarQueryParameter) {
@@ -84,26 +69,23 @@ export const ItemTypeApiAxiosParamCreator = function (configuration?: Configurat
 };
 
 /**
- * ItemTypeApi - functional programming interface
+ * AllergenApi - functional programming interface
  * @export
  */
-export const ItemTypeApiFp = function (configuration?: Configuration) {
+export const AllergenApiFp = function (configuration?: Configuration) {
   return {
     /**
-     *
-     * @summary Search through item types
-     * @param {string} name Search string to find item types by name
+     * Returns a list of allergens containing all allergens from database
+     * @summary Get all allergens
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async searchItemTypes(
-      name: string,
+    async getAllergens(
       options?: AxiosRequestConfig
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<Array<ItemType>>>
+      (axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<Array<AllergenRequest>>>
     > {
-      const localVarAxiosArgs = await ItemTypeApiAxiosParamCreator(configuration).searchItemTypes(
-        name,
+      const localVarAxiosArgs = await AllergenApiAxiosParamCreator(configuration).getAllergens(
         options
       );
       return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
@@ -118,54 +100,50 @@ export const ItemTypeApiFp = function (configuration?: Configuration) {
 };
 
 /**
- * ItemTypeApi - factory interface
+ * AllergenApi - factory interface
  * @export
  */
-export const ItemTypeApiFactory = function (
+export const AllergenApiFactory = function (
   configuration?: Configuration,
   basePath?: string,
   axios?: AxiosInstance
 ) {
   return {
     /**
-     *
-     * @summary Search through item types
-     * @param {string} name Search string to find item types by name
+     * Returns a list of allergens containing all allergens from database
+     * @summary Get all allergens
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async searchItemTypes(
-      name: string,
+    async getAllergens(
       options?: AxiosRequestConfig
-    ): Promise<AxiosResponse<Array<ItemType>>> {
-      return ItemTypeApiFp(configuration)
-        .searchItemTypes(name, options)
+    ): Promise<AxiosResponse<Array<AllergenRequest>>> {
+      return AllergenApiFp(configuration)
+        .getAllergens(options)
         .then((request) => request(axios, basePath));
     },
   };
 };
 
 /**
- * ItemTypeApi - object-oriented interface
+ * AllergenApi - object-oriented interface
  * @export
- * @class ItemTypeApi
+ * @class AllergenApi
  * @extends {BaseAPI}
  */
-export class ItemTypeApi extends BaseAPI {
+export class AllergenApi extends BaseAPI {
   /**
-   *
-   * @summary Search through item types
-   * @param {string} name Search string to find item types by name
+   * Returns a list of allergens containing all allergens from database
+   * @summary Get all allergens
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof ItemTypeApi
+   * @memberof AllergenApi
    */
-  public async searchItemTypes(
-    name: string,
+  public async getAllergens(
     options?: AxiosRequestConfig
-  ): Promise<AxiosResponse<Array<ItemType>>> {
-    return ItemTypeApiFp(this.configuration)
-      .searchItemTypes(name, options)
+  ): Promise<AxiosResponse<Array<AllergenRequest>>> {
+    return AllergenApiFp(this.configuration)
+      .getAllergens(options)
       .then((request) => request(this.axios, this.basePath));
   }
 }
