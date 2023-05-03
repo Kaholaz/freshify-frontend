@@ -32,18 +32,16 @@
           placeholder="Søk etter oppskrift"
           :prefix-icon="Search"
         />
-        <el-dropdown :hide-on-click="false">
-          <el-button type="primary">
-            Velg allergier<el-icon class="el-icon--right"><arrow-down /></el-icon>
-          </el-button>
-          <template #dropdown>
-            <el-dropdown-menu class="dropdown-menu">
-              <!--v-model-->
-              <el-checkbox class="allergy-checkbox" size="large" label="Gluten" />
-            </el-dropdown-menu>
-          </template>
-        </el-dropdown>
-        <el-button @click="searchRecipes"> Search </el-button>
+        <el-select multiple v-model="selectedAllergies">
+          <el-option
+            v-for="allergen in allergens"
+            :key="allergen.id"
+            :label="allergen.name"
+            :value="allergen.id"
+          />
+        </el-select>
+
+        <el-button @click="searchRecipes"> Search</el-button>
       </div>
       <!--No recipe selected-->
 
@@ -80,24 +78,14 @@
 <script lang="ts" setup>
 import RecipeCard from "@/components/RecipeCard.vue";
 import RecipeSelected from "@/components/RecipeSelected.vue";
-import type { Ref } from "vue";
-import type {
-  Recipe,
-  RecipeIngredient,
-  ItemType,
-  Item,
-  AllergenRequest,
-  RecipeCategory,
-  RecipeDTO,
-  HouseholdRecipeDTO,
-} from "@/services/index";
 import { ref } from "vue";
+import type { AllergenRequest, Item, Recipe, RecipeCategory, RecipeDTO } from "@/services/index";
+import { InventoryApi, ShoppingListApi } from "@/services/index";
 import { ElMessage } from "element-plus";
-import { Search, ArrowDown } from "@element-plus/icons-vue";
+import { ArrowDown, Search } from "@element-plus/icons-vue";
 import { RecipesApi } from "@/services/apis/recipes-api";
 import { HouseholdRecipeApi } from "@/services/apis/household-recipe-api";
 import { AllergenApi } from "@/services/apis/allergen-api";
-import { ShoppingListApi, InventoryApi } from "@/services/index";
 import { useHouseholdStore } from "@/stores/household";
 
 const recipesApi = new RecipesApi();
@@ -123,6 +111,8 @@ householdRecipeApi.getHouseholdRecipes(householdStore.household?.id!).then((resp
 });
 
 const allergens = ref<AllergenRequest[]>([]);
+
+const selectedAllergies = ref([] as AllergenRequest[]);
 
 allergenApi.getAllergens().then((response) => {
   allergens.value = response.data;
