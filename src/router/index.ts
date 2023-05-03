@@ -113,7 +113,6 @@ router.beforeEach(async (to, from, next) => {
       .then((data) => {
         if (data.status == 200) {
           sessionStore.authenticate(data.data);
-          console.log(sessionStore.isAuthenticated);
         }
       })
       .catch(() => {
