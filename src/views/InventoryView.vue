@@ -188,10 +188,11 @@ const warningPercentage = ref(0);
 const successPercentage = ref(0);
 
 function updateItems() {
-  items.value = null;
-
   let householdId = getHouseholdId();
-  if (householdId == null) return;
+  if (householdId == null) {
+    items.value = null;
+    return;
+  };
 
   let totalDanger = 0;
   let totalWarning = 0;
@@ -215,7 +216,10 @@ function updateItems() {
       warningPercentage.value = (totalWarning / items.value.length) * 100;
       successPercentage.value = (totalSuccess / items.value.length) * 100;
     })
-    .catch(handleError);
+    .catch((err) => {
+      items.value = null;
+      handleError(err);
+    });
 }
 
 function removeItemClientSide(item: Item) {
