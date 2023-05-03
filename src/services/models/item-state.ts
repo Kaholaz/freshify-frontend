@@ -12,12 +12,11 @@
  * Do not edit the class manually.
  */
 /**
- * 
+ *
  * @export
  * @enum {string}
  */
 export enum ItemState {
-    INVENTORY = 'INVENTORY',
-    USED = 'USED'
+  INVENTORY = "INVENTORY",
+  USED = "USED",
 }
-

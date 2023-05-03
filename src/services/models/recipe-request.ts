@@ -11,61 +11,61 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { AllergenRequest } from './allergen-request';
-import { RecipeCategory } from './recipe-category';
-import { RecipeIngredientRequest } from './recipe-ingredient-request';
+import { AllergenRequest } from "./allergen-request";
+import { RecipeCategory } from "./recipe-category";
+import { RecipeIngredientRequest } from "./recipe-ingredient-request";
 /**
- * 
+ *
  * @export
  * @interface RecipeRequest
  */
 export interface RecipeRequest {
-    /**
-     * 
-     * @type {string}
-     * @memberof RecipeRequest
-     */
-    name?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof RecipeRequest
-     */
-    description?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof RecipeRequest
-     */
-    steps?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof RecipeRequest
-     */
-    estimatedTime?: number;
-    /**
-     * 
-     * @type {Array<RecipeIngredientRequest>}
-     * @memberof RecipeRequest
-     */
-    recipeIngredients?: Array<RecipeIngredientRequest>;
-    /**
-     * 
-     * @type {Array<RecipeCategory>}
-     * @memberof RecipeRequest
-     */
-    categories?: Array<RecipeCategory>;
-    /**
-     * 
-     * @type {Array<AllergenRequest>}
-     * @memberof RecipeRequest
-     */
-    allergens?: Array<AllergenRequest>;
-    /**
-     * 
-     * @type {string}
-     * @memberof RecipeRequest
-     */
-    image?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof RecipeRequest
+   */
+  name?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof RecipeRequest
+   */
+  description?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof RecipeRequest
+   */
+  steps?: string;
+  /**
+   *
+   * @type {number}
+   * @memberof RecipeRequest
+   */
+  estimatedTime?: number;
+  /**
+   *
+   * @type {Array<RecipeIngredientRequest>}
+   * @memberof RecipeRequest
+   */
+  recipeIngredients?: Array<RecipeIngredientRequest>;
+  /**
+   *
+   * @type {Array<RecipeCategory>}
+   * @memberof RecipeRequest
+   */
+  categories?: Array<RecipeCategory>;
+  /**
+   *
+   * @type {Array<AllergenRequest>}
+   * @memberof RecipeRequest
+   */
+  allergens?: Array<AllergenRequest>;
+  /**
+   *
+   * @type {string}
+   * @memberof RecipeRequest
+   */
+  image?: string;
 }

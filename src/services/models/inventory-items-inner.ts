@@ -11,61 +11,61 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { ItemState } from './item-state';
-import { ItemType } from './item-type';
-import { UserFull } from './user-full';
+import { ItemState } from "./item-state";
+import { ItemType } from "./item-type";
+import { UserFull } from "./user-full";
 /**
- * 
+ *
  * @export
  * @interface InventoryItemsInner
  */
 export interface InventoryItemsInner {
-    /**
-     * 
-     * @type {number}
-     * @memberof InventoryItemsInner
-     */
-    id?: number;
-    /**
-     * 
-     * @type {ItemState}
-     * @memberof InventoryItemsInner
-     */
-    state?: ItemState;
-    /**
-     * 
-     * @type {number}
-     * @memberof InventoryItemsInner
-     */
-    remaining?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof InventoryItemsInner
-     */
-    lastChanged?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof InventoryItemsInner
-     */
-    bought?: string;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof InventoryItemsInner
-     */
-    suggested?: boolean;
-    /**
-     * 
-     * @type {ItemType}
-     * @memberof InventoryItemsInner
-     */
-    type?: ItemType;
-    /**
-     * 
-     * @type {UserFull}
-     * @memberof InventoryItemsInner
-     */
-    addedBy?: UserFull;
+  /**
+   *
+   * @type {number}
+   * @memberof InventoryItemsInner
+   */
+  id?: number;
+  /**
+   *
+   * @type {ItemState}
+   * @memberof InventoryItemsInner
+   */
+  state?: ItemState;
+  /**
+   *
+   * @type {number}
+   * @memberof InventoryItemsInner
+   */
+  remaining?: number;
+  /**
+   *
+   * @type {string}
+   * @memberof InventoryItemsInner
+   */
+  lastChanged?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof InventoryItemsInner
+   */
+  bought?: string;
+  /**
+   *
+   * @type {boolean}
+   * @memberof InventoryItemsInner
+   */
+  suggested?: boolean;
+  /**
+   *
+   * @type {ItemType}
+   * @memberof InventoryItemsInner
+   */
+  type?: ItemType;
+  /**
+   *
+   * @type {UserFull}
+   * @memberof InventoryItemsInner
+   */
+  addedBy?: UserFull;
 }

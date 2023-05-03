@@ -12,15 +12,15 @@
  * Do not edit the class manually.
  */
 /**
- * 
+ *
  * @export
  * @interface CreateHousehold
  */
 export interface CreateHousehold {
-    /**
-     * 
-     * @type {string}
-     * @memberof CreateHousehold
-     */
-    name?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof CreateHousehold
+   */
+  name?: string;
 }

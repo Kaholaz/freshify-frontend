@@ -12,21 +12,21 @@
  * Do not edit the class manually.
  */
 /**
- * 
+ *
  * @export
  * @interface IdInventoryBody
  */
 export interface IdInventoryBody {
-    /**
-     * 
-     * @type {number}
-     * @memberof IdInventoryBody
-     */
-    itemTypeId?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof IdInventoryBody
-     */
-    count?: number;
+  /**
+   *
+   * @type {number}
+   * @memberof IdInventoryBody
+   */
+  itemTypeId?: number;
+  /**
+   *
+   * @type {number}
+   * @memberof IdInventoryBody
+   */
+  count?: number;
 }

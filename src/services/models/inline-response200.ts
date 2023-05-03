@@ -12,15 +12,15 @@
  * Do not edit the class manually.
  */
 /**
- * 
+ *
  * @export
  * @interface InlineResponse200
  */
 export interface InlineResponse200 {
-    /**
-     * 
-     * @type {number}
-     * @memberof InlineResponse200
-     */
-    userId?: number;
+  /**
+   *
+   * @type {number}
+   * @memberof InlineResponse200
+   */
+  userId?: number;
 }

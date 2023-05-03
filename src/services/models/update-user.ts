@@ -12,33 +12,33 @@
  * Do not edit the class manually.
  */
 /**
- * 
+ *
  * @export
  * @interface UpdateUser
  */
 export interface UpdateUser {
-    /**
-     * 
-     * @type {number}
-     * @memberof UpdateUser
-     */
-    id?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof UpdateUser
-     */
-    email?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof UpdateUser
-     */
-    password?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof UpdateUser
-     */
-    firstName?: string;
+  /**
+   *
+   * @type {number}
+   * @memberof UpdateUser
+   */
+  id?: number;
+  /**
+   *
+   * @type {string}
+   * @memberof UpdateUser
+   */
+  email?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof UpdateUser
+   */
+  password?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof UpdateUser
+   */
+  firstName?: string;
 }

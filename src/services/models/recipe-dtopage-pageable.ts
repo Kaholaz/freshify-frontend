@@ -11,47 +11,47 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { RecipeDTOPagePageableSort } from './recipe-dtopage-pageable-sort';
+import { RecipeDTOPagePageableSort } from "./recipe-dtopage-pageable-sort";
 /**
- * 
+ *
  * @export
  * @interface RecipeDTOPagePageable
  */
 export interface RecipeDTOPagePageable {
-    /**
-     * 
-     * @type {RecipeDTOPagePageableSort}
-     * @memberof RecipeDTOPagePageable
-     */
-    sort?: RecipeDTOPagePageableSort;
-    /**
-     * 
-     * @type {number}
-     * @memberof RecipeDTOPagePageable
-     */
-    offset?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof RecipeDTOPagePageable
-     */
-    pageSize?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof RecipeDTOPagePageable
-     */
-    pageNumber?: number;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof RecipeDTOPagePageable
-     */
-    paged?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof RecipeDTOPagePageable
-     */
-    unpaged?: boolean;
+  /**
+   *
+   * @type {RecipeDTOPagePageableSort}
+   * @memberof RecipeDTOPagePageable
+   */
+  sort?: RecipeDTOPagePageableSort;
+  /**
+   *
+   * @type {number}
+   * @memberof RecipeDTOPagePageable
+   */
+  offset?: number;
+  /**
+   *
+   * @type {number}
+   * @memberof RecipeDTOPagePageable
+   */
+  pageSize?: number;
+  /**
+   *
+   * @type {number}
+   * @memberof RecipeDTOPagePageable
+   */
+  pageNumber?: number;
+  /**
+   *
+   * @type {boolean}
+   * @memberof RecipeDTOPagePageable
+   */
+  paged?: boolean;
+  /**
+   *
+   * @type {boolean}
+   * @memberof RecipeDTOPagePageable
+   */
+  unpaged?: boolean;
 }

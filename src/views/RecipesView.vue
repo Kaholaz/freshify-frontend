@@ -38,31 +38,8 @@
           </el-button>
           <template #dropdown>
             <el-dropdown-menu class="dropdown-menu">
-              <el-checkbox
-                v-model="glutenChecked"
-                class="allergy-checkbox"
-                size="large"
-                label="Gluten"
-              />
-              <el-checkbox
-                v-model="shellfishChecked"
-                class="allergy-checkbox"
-                size="large"
-                label="Skalldyr"
-              />
-              <el-checkbox v-model="eggChecked" class="allergy-checkbox" size="large" label="Egg" />
-              <el-checkbox
-                v-model="fishChecked"
-                class="allergy-checkbox"
-                size="large"
-                label="Fisk"
-              />
-              <el-checkbox
-                v-model="peanutsChecked"
-                class="allergy-checkbox"
-                size="large"
-                label="Peanøtter"
-              />
+              <!--v-model-->
+              <el-checkbox class="allergy-checkbox" size="large" label="Gluten" />
             </el-dropdown-menu>
           </template>
         </el-dropdown>
@@ -119,26 +96,20 @@ import { ElMessage } from "element-plus";
 import { Search, ArrowDown } from "@element-plus/icons-vue";
 import { RecipesApi } from "@/services/apis/recipes-api";
 import { HouseholdRecipeApi } from "@/services/apis/household-recipe-api";
+import { AllergenApi } from "@/services/apis/allergen-api";
 import { ShoppingListApi, InventoryApi } from "@/services/index";
 import { useHouseholdStore } from "@/stores/household";
 
 const recipesApi = new RecipesApi();
 const householdRecipeApi = new HouseholdRecipeApi();
+const allergenApi = new AllergenApi();
 const inventoryApi = new InventoryApi();
 const shoppingListApi = new ShoppingListApi();
 const householdStore = useHouseholdStore();
 
-
-
-const glutenChecked = ref(false);
-const shellfishChecked = ref(false);
-const eggChecked = ref(false);
-const fishChecked = ref(false);
-const peanutsChecked = ref(false);
-
 const recipes = ref<RecipeDTO[]>([]);
 
-recipesApi.getRecipesPaginated(householdStore.household?.id!, 10).then((response) => {
+recipesApi.getRecipesPaginated(householdStore.household?.id!, true).then((response) => {
   recipes.value = response.data.content;
 });
 
@@ -151,6 +122,12 @@ householdRecipeApi.getHouseholdRecipes(householdStore.household?.id!).then((resp
   bookmarkedRecipes.value = response.data.map((r) => r.recipe);
 });
 
+const allergens = ref<AllergenRequest[]>([]);
+
+allergenApi.getAllergens().then((response) => {
+  allergens.value = response.data;
+  console.log(allergens.value);
+});
 
 function onClick(recipeClicked: Recipe) {
   console.log("clicked: " + recipeClicked.name);
@@ -162,12 +139,18 @@ function removeCurrentRecipe() {
   currentRecipe.value = undefined;
 }
 
-//todo: what day of the week?
 function bookmarkRecipe(recipe: Recipe) {
   if (bookmarkedRecipes.value.includes(recipe)) {
     bookmarkedRecipes.value = bookmarkedRecipes.value.filter((r) => r.id !== recipe.id);
-    ElMessage.warning("Fjenrnet bokmerket for oppskrift: " + recipe.name);
-    console.log("remove bookmark: " + recipe.name);
+    householdRecipeApi
+      .removeHouseholdRecipe(householdStore.household?.id!, recipe.id!)
+      .then(() => {
+        ElMessage.warning("Fjernet bokmerket for oppskrift: " + recipe.name);
+        console.log("remove bookmark: " + recipe.name);
+      })
+      .catch(() => {
+        ElMessage.error("Kunne ikke fjerne bokmerket for oppskrift: " + recipe.name);
+      });
     return;
   }
 
@@ -183,20 +166,20 @@ function bookmarkRecipe(recipe: Recipe) {
     });
 }
 
-function searchRecipes(){
-  let allergens: number[] = [1,2,3];
- 
+function searchRecipes() {
+  let allergens: number[] = [1, 2, 3];
+
   let categories: RecipeCategory[] = [];
   if (recipeSearch.value === "") {
     recipesApi
-      .getRecipesPaginated(householdStore.household?.id!, 0, allergens)
+      .getRecipesPaginated(householdStore.household?.id!, false, 0, allergens)
       .then((response) => {
         recipes.value = response.data.content;
       })
       .catch(() => {
         ElMessage.error("Kunne ikke hente oppskrifter");
       });
-  } 
+  }
 }
 
 async function addIngredientsToShoppingList(recipe: Recipe) {

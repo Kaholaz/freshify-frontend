@@ -12,27 +12,27 @@
  * Do not edit the class manually.
  */
 /**
- * 
+ *
  * @export
  * @interface CreateUser
  */
 export interface CreateUser {
-    /**
-     * 
-     * @type {string}
-     * @memberof CreateUser
-     */
-    email?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof CreateUser
-     */
-    password?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof CreateUser
-     */
-    firstName?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof CreateUser
+   */
+  email?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof CreateUser
+   */
+  password?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof CreateUser
+   */
+  firstName?: string;
 }
