@@ -109,6 +109,15 @@ function extendItem(item: Item) {
     showError("Ingen hjem valgt.", "Velg et hjem for å slette et element.", 15000);
     return;
   }
+
+  let boughtDate = item.bought?.split("T")[0];
+  let today = new Date().toISOString().split("T")[0];
+
+  if (boughtDate === today) {
+    showError("Kan ikke forlenge.", "Du kan ikke forlenge en vare som ble kjøpt i dag.", 8000);
+    return;
+  }
+
   inventoryApi
     .updateInventoryItem(householdId, {
       itemId: item.id,
@@ -192,7 +201,7 @@ function updateItems() {
   if (householdId == null) {
     items.value = null;
     return;
-  };
+  }
 
   let totalDanger = 0;
   let totalWarning = 0;
