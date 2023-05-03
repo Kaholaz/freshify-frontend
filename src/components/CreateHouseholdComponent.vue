@@ -9,7 +9,13 @@
     @submit.prevent
   >
     <el-form-item label="Navn på husholdning" prop="householdName">
-      <el-input v-model="householdName" placeholder="husholdning" type="text"></el-input>
+      <el-input
+        v-model="householdName"
+        placeholder="husholdning"
+        type="text"
+        id="household-name-input"
+        @keyup.enter="createHousehold"
+      ></el-input>
     </el-form-item>
     <el-row>
       <div class="spacer"></div>

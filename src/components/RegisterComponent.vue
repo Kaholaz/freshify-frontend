@@ -9,15 +9,27 @@
     @submit.prevent
   >
     <el-form-item label="Email" prop="email">
-      <el-input v-model="email" placeholder="Email" size="large" type="text" />
+      <el-input v-model="email" placeholder="Email" size="large" type="text" id="email-input" />
     </el-form-item>
 
     <el-form-item label="Fornavn" prop="firstName">
-      <el-input v-model="firstName" placeholder="fornavn" size="large" type="text" />
+      <el-input
+        v-model="firstName"
+        placeholder="fornavn"
+        size="large"
+        type="text"
+        id="first-name-input"
+      />
     </el-form-item>
 
     <el-form-item label="Passord" prop="password">
-      <el-input v-model="password" placeholder="Password" size="large" type="password" />
+      <el-input
+        v-model="password"
+        placeholder="Password"
+        size="large"
+        type="password"
+        id="password-input"
+      />
     </el-form-item>
 
     <el-form-item label="Gjenta passord" prop="passwordConfirm">
@@ -27,6 +39,7 @@
         size="large"
         type="password"
         @keyup.enter="submit"
+        id="password-confirm-input"
       />
     </el-form-item>
 
