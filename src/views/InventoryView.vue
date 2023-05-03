@@ -14,6 +14,7 @@
       :key="item.id"
       :item="item"
       style="margin-bottom: 1rem"
+      @extend="extendItem(item)"
       @delete="deleteItem(item)"
       @use="useItemDialog(item)"
     />
@@ -102,6 +103,15 @@ const error = ref<Error | null>(null);
 const isLoading = computed(() => items.value === null && error.value === null);
 
 // Define callbacks
+function extendItem(item: Item) {
+  let householdId = householdStore.household.id;
+  if (!householdId) {
+    showError("Ingen hjem valgt.", "Velg et hjem for å slette et element.", 15000);
+    return;
+  }
+  inventoryApi.updateInventoryItem(householdId, { itemId: item.id, state: item.state, remaining: item.remaining }).catch(handleError);
+}
+
 function deleteItem(item: Item) {
   let householdId = householdStore.household.id;
   if (!householdId) {
