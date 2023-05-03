@@ -109,10 +109,16 @@ import type {
   ItemType,
   AllergenRequest,
   RecipeCategory,
+  RecipeDTO,
 } from "@/services/index";
 import { ref } from "vue";
 import { ElMessage } from "element-plus";
 import { Search, ArrowDown } from "@element-plus/icons-vue";
+import { RecipesApi } from "@/services/apis/recipes-api";
+import { useHouseholdStore } from "@/stores/household";
+
+const recipesApi = new RecipesApi();
+const householdStore = useHouseholdStore();
 
 const glutenChecked = ref(true);
 const shellfishChecked = ref(false);
@@ -139,7 +145,7 @@ const peanutsChecked = ref(false);
 }; */
 
 //test recipes, todo: needs ingredients and steps
-const recipes = [
+const recipesTest = [
   {
     id: 1,
     name: "Taco",
@@ -225,6 +231,12 @@ const recipes = [
     ],
   } as Recipe,
 ];
+
+const recipes = ref<RecipeDTO[]>([]);
+
+recipesApi.getRecipesPaginated(householdStore.household?.id!, 10).then((response) => {
+  recipes.value = response.data.content;
+});
 
 const currentRecipe = ref<Recipe>();
 const recipeSearch = ref<string>("");

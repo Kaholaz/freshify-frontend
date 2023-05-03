@@ -14,7 +14,7 @@
       <p class="text-[#868e96]">Tid: ca {{ recipe?.estimatedTime }} min</p>
       <p class="text-[#868e96]">
         <!--Implement this again-->
-        0 ingredienser i kjøleskap
+        {{ recipe.totalIngredientsInFridge }} ingredienser i kjøleskap
       </p>
       <footer class="mt-2 text-right">
         <header class="mb-5">Allergier:</header>
@@ -34,6 +34,7 @@ import type {
   ItemType,
   AllergenRequest,
   RecipeCategory,
+  RecipeDTO,
 } from "@/services/index";
 import { Management } from "@element-plus/icons-vue";
 
@@ -41,7 +42,7 @@ import { Management } from "@element-plus/icons-vue";
 
 // Define props (will be recipe type)
 const props = defineProps<{
-  recipe: Recipe;
+  recipe: RecipeDTO;
   isBookmarked: boolean;
 }>();
 
