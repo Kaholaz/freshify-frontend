@@ -50,7 +50,7 @@ const props = defineProps<{
   display: flex;
   align-items: center;
   color: white;
-  transition: width 0.6s ease-in-out;
+  transition: width 0.4s ease-in-out;
   text-after-overflow: ellipsis;
 }
 

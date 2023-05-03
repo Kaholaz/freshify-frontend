@@ -66,6 +66,7 @@ import { showError } from "@/utils/error-utils";
 import ItemCard from "@/components/ItemCard.vue";
 import ShoppingListCardSkeleton from "@/components/ShoppingListCardSkeleton.vue";
 import OverviewStatisticsBar from "@/components/OverviewStatisticsBar.vue";
+import { getDaysSinceBought } from "@/utils/item-utils";
 
 // Update items when household is updated
 const emitter = inject("emitter");
@@ -180,9 +181,9 @@ function updateItems() {
     .then((data) => {
       items.value = data;
       items.value.forEach((item) => {
-        if (item.remaining! <= 0) {
+        if (getDaysSinceBought(item) > 14) {
           totalDanger += 1;
-        } else if (item.remaining! <= item.type!.warningThreshold!) {
+        } else if (getDaysSinceBought(item) > 7) {
           totalWarning += 1;
         } else {
           totalSuccess += 1;

@@ -1,5 +1,5 @@
 <template>
-  <LineChartJS :options="options" :data="data" key="mo" />
+  <LineChartJS :options="options" :data="chartData" key="mo" />
 </template>
 
 <script lang="ts">
@@ -25,16 +25,9 @@ export default {
   },
   data() {
     return {
-      data: {
-        labels: ["Januar", "Februar", "Mars"],
-        datasets: [{ data: [40, 20, 12], label: "Bruk" }],
-        borderColor: "#ffffff",
-        fill: true,
-      },
       options: {
         type: "line",
         responsive: true,
-        cubicInterpolationMode: "monotone",
         pointStyle: false,
         interaction: {
           intersect: false,
@@ -59,14 +52,6 @@ export default {
     chartData: {
       type: Object,
       required: true,
-    },
-  },
-  watch: {
-    chartData: {
-      handler() {
-        this.data = this.chartData;
-      },
-      deep: true,
     },
   },
 };
