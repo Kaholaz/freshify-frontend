@@ -4,8 +4,8 @@
     :class="{
       'item-card-wrapper': true,
       'item-card-only-title': !item.addedBy,
-      'warning-age': getDaysSinceBought(item) > 7 && getDaysSinceBought(item) <= 14,
-      'danger-age': getDaysSinceBought(item) > 14,
+      'warning-age': (getDaysSinceLastChanged(item) > 7 && getDaysSinceLastChanged(item) <= 14),
+      'danger-age': getDaysSinceLastChanged(item) > 14,
     }"
     shadow="always"
   >
@@ -17,7 +17,7 @@
         </el-text>
         <el-text v-else-if="item.bought && getDaysSinceBought(item) == 0">Kjøpt i dag</el-text>
         <el-text v-if="item.bought !== item.lastChanged">
-          Sist sjekket: {{ item.lastChanged }}
+          Sist sjekket: {{ getDaysSinceLastChanged(item) }}
         </el-text>
       </div>
 
@@ -34,7 +34,7 @@
 
 <script lang="ts" setup>
 import type { Item } from "@/services/index";
-import { getDaysSinceBought } from "@/utils/item-utils";
+import { getDaysSinceBought, getDaysSinceLastChanged } from "@/utils/item-utils";
 
 // Define props
 defineProps<ItemCardProps>();
