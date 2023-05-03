@@ -22,7 +22,9 @@
       </div>
 
       <div class="buttons">
-        <el-button id="extend-button" type="primary" @click="emit('extend')">Forleng varighet</el-button>
+        <el-button id="extend-button" type="primary" @click="emit('extend')"
+          >Forleng varighet</el-button
+        >
         <el-button id="use-button" type="primary" @click="emit('use', item)">Bruk</el-button>
         <el-button id="delete-button" type="danger" @click="emit('delete', item)">Slett</el-button>
       </div>

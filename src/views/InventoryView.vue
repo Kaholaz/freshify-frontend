@@ -109,7 +109,13 @@ function extendItem(item: Item) {
     showError("Ingen hjem valgt.", "Velg et hjem for å slette et element.", 15000);
     return;
   }
-  inventoryApi.updateInventoryItem(householdId, { itemId: item.id, state: item.state, remaining: item.remaining }).catch(handleError);
+  inventoryApi
+    .updateInventoryItem(householdId, {
+      itemId: item.id,
+      state: item.state,
+      remaining: item.remaining,
+    })
+    .catch(handleError);
 }
 
 function deleteItem(item: Item) {
