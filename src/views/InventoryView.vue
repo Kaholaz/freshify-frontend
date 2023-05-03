@@ -57,7 +57,7 @@
 <script lang="ts" setup>
 import axios from "axios";
 import { computed, inject, onMounted, onUnmounted, ref } from "vue";
-import { ElDialog, ElNotification } from "element-plus";
+import { ElDialog, ElMessage } from "element-plus";
 
 import type { CreateShoppingListEntry, Item, UpdateItem } from "@/services/index";
 import { InventoryApi, ItemState, ShoppingListApi } from "@/services/index";
@@ -112,16 +112,14 @@ function extendItem(item: Item) {
   inventoryApi
     .updateInventoryItem(householdId, {
       itemId: item.id,
-      state: item.state,
+      state: item.state || ItemState.INVENTORY,
       remaining: item.remaining,
     })
     .then(() => {
-      ElNotification({
-        title: "Utvidet",
-        message: `Utvidet ${item.type?.name} med 1 stk.`,
+      ElMessage({
+        message: `Varigheten til ${item.type?.name} ble forlenget.`,
         type: "success",
       });
-      updateItems();
     })
     .catch(handleError);
 }
