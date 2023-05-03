@@ -23,6 +23,7 @@ const router = createRouter({
       component: () => import("@/views/ShoppingListView.vue"),
       meta: {
         requiresAuth: true,
+        fullScreen: false,
       },
     },
     {
@@ -31,6 +32,7 @@ const router = createRouter({
       component: () => import("@/views/InventoryView.vue"),
       meta: {
         requiresAuth: true,
+        fullScreen: false,
       },
     },
     {
@@ -61,11 +63,17 @@ const router = createRouter({
       path: "/edit-household",
       name: "edit household",
       component: () => import("@/views/HouseholdView.vue"),
+      meta: {
+        fullScreen: false,
+      },
     },
     {
       path: "/profile",
       name: "profile",
       component: () => import("@/views/ProfileView.vue"),
+      meta: {
+        fullScreen: false,
+      },
     },
     {
       path: "/privacy",
@@ -91,6 +99,7 @@ const router = createRouter({
       component: () => import("@/views/StatisticsView.vue"),
       meta: {
         requiresAuth: true,
+        fullScreen: false,
       },
     },
     {
@@ -99,6 +108,7 @@ const router = createRouter({
       component: () => import("@/views/RecipesView.vue"),
       meta: {
         requiresAuth: true,
+        fullScreen: false,
       },
     },
   ],

@@ -19,6 +19,7 @@ describe("Register", () => {
     cy.get("#password-confirm-input").type("password123{enter}");
     cy.wait("@register");
     cy.get("#household-name-input").type("mo{enter}");
+    cy.get("#accept-tos").click();
     cy.wait("@household");
     cy.url().should("include", "/inventory");
   });

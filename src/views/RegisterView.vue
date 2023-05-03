@@ -9,7 +9,7 @@
       <a href="/tos"> vilkår og betingelser</a>
     </p>
     <div>
-      <el-button @click="acceptTerms" type="success">Ok</el-button>
+      <el-button @click="acceptTerms" type="success" id="accept-tos">Ok</el-button>
       <el-button @click="exitTerms" type="danger">Avbryt</el-button>
     </div>
   </el-dialog>
