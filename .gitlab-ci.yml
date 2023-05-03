@@ -47,5 +47,5 @@ deploy:
     - chmod 400 $SSH_PRIVATE_KEY
     - ssh-add $SSH_PRIVATE_KEY
 
-    - npm run build
+    - npm run build-only
     - scp -o StrictHostKeyChecking=no -o PasswordAuthentication=no -r dist/* freshify@freshify.no:/var/www/freshify.no
