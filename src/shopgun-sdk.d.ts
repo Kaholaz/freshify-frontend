@@ -1,2 +1,1 @@
-declare module 'shopgun-sdk';
-
+declare module "shopgun-sdk";

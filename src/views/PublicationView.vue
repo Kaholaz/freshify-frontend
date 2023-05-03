@@ -3,19 +3,15 @@
     <button @click="showMapPopup = !showMapPopup">Vis kart</button>
     <teleport to="body">
       <MapPopup
-          v-if="showMapPopup"
-          @closeAndUpdate="closeAndUpdate"
-          :modelValue="{ latitude: params.r_lat, longitude: params.r_lng }"
-          :radius="params.r_radius"
+        v-if="showMapPopup"
+        @closeAndUpdate="closeAndUpdate"
+        :modelValue="{ latitude: params.r_lat, longitude: params.r_lng }"
+        :radius="params.r_radius"
       />
     </teleport>
     <div>
       <h1>Active Publications</h1>
-      <link
-          href="https://js-sdk.tjek.com/sgn-sdk-4.x.x.min.css"
-          rel="stylesheet"
-          type="text/css"
-      />
+      <link href="https://js-sdk.tjek.com/sgn-sdk-4.x.x.min.css" rel="stylesheet" type="text/css" />
       <div id="list-publications"></div>
     </div>
   </div>
@@ -27,13 +23,13 @@ import MapPopup from "@/components/MapPopup.vue";
 
 const showMapPopup = ref(false);
 
-function closeAndUpdate(location:{ longitude: number, latitude: number },rad: number) {
-  showMapPopup.value = false
+function closeAndUpdate(location: { longitude: number; latitude: number }, rad: number) {
+  showMapPopup.value = false;
   params.value.r_radius = rad;
   params.value.r_lat = location.latitude;
   params.value.r_lng = location.longitude;
 
-  const existingScript = document.getElementById('sgn-sdk');
+  const existingScript = document.getElementById("sgn-sdk");
   if (existingScript) {
     existingScript.remove();
   }
@@ -42,25 +38,25 @@ function closeAndUpdate(location:{ longitude: number, latitude: number },rad: nu
 
 const oldOpen = XMLHttpRequest.prototype.open;
 XMLHttpRequest.prototype.open = function (method, url) {
-  if (typeof url === 'string' && url.startsWith('https://squid-api.tjek.com/v2/catalogs?')) {
+  if (typeof url === "string" && url.startsWith("https://squid-api.tjek.com/v2/catalogs?")) {
     const searchParams = new URLSearchParams();
     Object.entries(params.value).forEach(([key, value]) => {
       searchParams.append(key, String(value));
     });
     url = `http://localhost:8080/publications/dealerfront?${searchParams.toString()}`;
 
-    this.responseType = 'json';
-    this.addEventListener('readystatechange', function () {
+    this.responseType = "json";
+    this.addEventListener("readystatechange", function () {
       if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
         const response = new Response(this.response);
         response.json().then((responseJson: any) => {
           const newResponse = responseJson.map((item: any) => {
             return {
               id: item.dealer.id,
-              ern: item.dealer.ern
+              ern: item.dealer.ern,
             };
           });
-          const customEvent = new CustomEvent('new-response', { detail: newResponse });
+          const customEvent = new CustomEvent("new-response", { detail: newResponse });
           this.dispatchEvent(customEvent);
         });
       }
@@ -69,22 +65,29 @@ XMLHttpRequest.prototype.open = function (method, url) {
   oldOpen.apply(this, [method, url, true]);
 };
 
-const businessIds = {coopMega: "de79dm", bunnpris: "5b11sm", kiwi: "257bxm", joker: "80742m", coopPrix: "f5d5lm", rema1000: "faa0Ym" };
+const businessIds = {
+  coopMega: "de79dm",
+  bunnpris: "5b11sm",
+  kiwi: "257bxm",
+  joker: "80742m",
+  coopPrix: "f5d5lm",
+  rema1000: "faa0Ym",
+};
 
 const params = ref({
   r_lat: 63.418901,
-  r_lng:  10.402660,
+  r_lng: 10.40266,
   r_radius: 1500,
   limit: 12,
-  order_by: 'distance,name',
-  types: 'paged,incito',
-  business_category_ids: 'groceries',
+  order_by: "distance,name",
+  types: "paged,incito",
+  business_category_ids: "groceries",
 });
 
 const loadTjekSdk = () => {
-  const script = document.createElement('script');
-  script.src = 'https://js-sdk.tjek.com/sgn-sdk-4.x.x.min.js';
-  script.id = 'sgn-sdk';
+  const script = document.createElement("script");
+  script.src = "https://js-sdk.tjek.com/sgn-sdk-4.x.x.min.js";
+  script.id = "sgn-sdk";
   script.dataset.apiKey = "LJBx2X";
   script.dataset.trackId = "Sw627u";
   script.dataset.businessId = businessIds.rema1000;
@@ -107,8 +110,10 @@ const loadTjekSdk = () => {
   script.dataset.componentPublicationEnableSidebar = "true";
   script.dataset.componentPublicationSidebarPosition = "right";
   script.dataset.translationKeysPublicationViewerDownloadButton = "Download PDF";
-  script.dataset.translationKeysPublicationViewerOfferDateRange = "Tilbudet gjelder fra d. {{{from}}} - {{{till}}}";
-  script.dataset.translationKeysPublicationViewerMenuDateRange = "Tilbudsavisen gelder fra d. {{{from}}} - {{{till}}}";
+  script.dataset.translationKeysPublicationViewerOfferDateRange =
+    "Tilbudet gjelder fra d. {{{from}}} - {{{till}}}";
+  script.dataset.translationKeysPublicationViewerMenuDateRange =
+    "Tilbudsavisen gelder fra d. {{{from}}} - {{{till}}}";
   script.dataset.componentListPublicationsRequestFilter = "r_lat:60,r_lng:10";
   script.defer = true;
   document.body.appendChild(script);
@@ -147,6 +152,4 @@ onMounted(() => {
  */
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
