@@ -32,7 +32,7 @@
           placeholder="Søk etter oppskrift"
           :prefix-icon="Search"
         />
-        <el-select multiple v-model="selectedAllergies">
+        <el-select collapse-tags multiple v-model="selectedAllergies">
           <el-option
             v-for="allergen in allergens"
             :key="allergen.id"
