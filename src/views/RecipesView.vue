@@ -198,49 +198,10 @@ async function searchRecipes() {
     });
 }
 
-async function addIngredientsToShoppingList(recipe: Recipe) {
-  let inventoryItems: Item[];
-  let itemsToAdd = [];
-  await inventoryApi.getInventoryItems(householdStore.household?.id!).then((response) => {
-    inventoryItems = response.data;
+function addIngredientsToShoppingList(recipe: Recipe) {
+  householdRecipeApi.addRecipeToShoppingList(householdStore.household?.id!, recipe.id!).then(() => {
+    ElMessage.success("Ingredienser lagt til i handlelisten");
   });
-  recipe.recipeIngredients?.forEach((ingredient) => {
-    if (inventoryItems?.find((item) => item.type?.id === ingredient.itemType?.id) === undefined) {
-      console.log(
-        "item: " +
-          ingredient.itemType?.name +
-          " not found in inventory, will be added to shopping list"
-      );
-      let ingredientToAdd = {
-        ItemTypeId: ingredient.itemType?.id,
-        count: 1,
-        suggested: false,
-      };
-      itemsToAdd.push(ingredientToAdd);
-    } else {
-      console.log(
-        "item: " +
-          ingredient.itemType?.name +
-          " found in inventory, will not be added to shopping list"
-      );
-    }
-  });
-  if (itemsToAdd.length > 0) {
-    itemsToAdd.forEach((element) => {
-      shoppingListApi
-        .addItem(householdStore.household?.id!, element)
-        .then((response) => {
-          if (response.status === 201) {
-            ElMessage.success("Ingrediens lagt til handleliste: " + element.ItemTypeId);
-          }
-        })
-        .catch((error) => {
-          ElMessage.error(
-            "Kunne ikke legge til ingrediens: " + element.ItemTypeId + " i handlelisten"
-          );
-        });
-    });
-  }
 }
 </script>
 
