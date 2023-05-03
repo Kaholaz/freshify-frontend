@@ -128,29 +128,13 @@ const inventoryApi = new InventoryApi();
 const shoppingListApi = new ShoppingListApi();
 const householdStore = useHouseholdStore();
 
+
+
 const glutenChecked = ref(false);
 const shellfishChecked = ref(false);
 const eggChecked = ref(false);
 const fishChecked = ref(false);
 const peanutsChecked = ref(false);
-
-/* type Ingredient = {
-  id: number;
-  ingredientName: string;
-  ingredientAmount: number;
-  ingredientUnit: string;
-}; */
-
-/* type Recipe = {
-  id: number;
-  recipeTitle: string;
-  recipeDescription: string;
-  recipeTime: number;
-  recipeAmountIngredientsOwned: number;
-  recipeAllergies: string[];
-  recipeIngredients?: Ingredient[];
-  recipeSteps?: string[];
-}; */
 
 const recipes = ref<RecipeDTO[]>([]);
 
@@ -167,7 +151,6 @@ householdRecipeApi.getHouseholdRecipes(householdStore.household?.id!).then((resp
   bookmarkedRecipes.value = response.data.map((r) => r.recipe);
 });
 
-const allergens = ref<AllergenRequest[]>([]);
 
 function onClick(recipeClicked: Recipe) {
   console.log("clicked: " + recipeClicked.name);
@@ -200,9 +183,9 @@ function bookmarkRecipe(recipe: Recipe) {
     });
 }
 
-function searchRecipes() {
-  let allergens: number[] = [1, 2, 3];
-
+function searchRecipes(){
+  let allergens: number[] = [1,2,3];
+ 
   let categories: RecipeCategory[] = [];
   if (recipeSearch.value === "") {
     recipesApi
@@ -213,7 +196,7 @@ function searchRecipes() {
       .catch(() => {
         ElMessage.error("Kunne ikke hente oppskrifter");
       });
-  }
+  } 
 }
 
 async function addIngredientsToShoppingList(recipe: Recipe) {
