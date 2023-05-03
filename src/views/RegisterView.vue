@@ -59,6 +59,7 @@ const user = reactive({
 const accountApi = new AccountApi();
 const sessionStore = useSessionStore();
 const errorMessage = ref<string>("");
+const householdStore = useHouseholdStore();
 
 const active = ref(0);
 const dialogVisible = ref(false);
@@ -115,7 +116,7 @@ function createHousehold() {
   householdApi
     .createHousehold(household)
     .then((data) => {
-      useHouseholdStore().household = data.data;
+      householdStore.household = data.data;
       next();
       router.push({ name: "inventory" });
     })
