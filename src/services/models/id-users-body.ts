@@ -12,15 +12,15 @@
  * Do not edit the class manually.
  */
 /**
- * 
+ *
  * @export
  * @interface IdUsersBody
  */
 export interface IdUsersBody {
-    /**
-     * 
-     * @type {number}
-     * @memberof IdUsersBody
-     */
-    userId?: number;
+  /**
+   *
+   * @type {number}
+   * @memberof IdUsersBody
+   */
+  userId?: number;
 }

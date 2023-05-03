@@ -12,21 +12,21 @@
  * Do not edit the class manually.
  */
 /**
- * 
+ *
  * @export
  * @interface RecipeCategory
  */
 export interface RecipeCategory {
-    /**
-     * 
-     * @type {number}
-     * @memberof RecipeCategory
-     */
-    id?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof RecipeCategory
-     */
-    name?: string;
+  /**
+   *
+   * @type {number}
+   * @memberof RecipeCategory
+   */
+  id?: number;
+  /**
+   *
+   * @type {string}
+   * @memberof RecipeCategory
+   */
+  name?: string;
 }

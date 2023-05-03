@@ -11,48 +11,48 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { ItemType } from './item-type';
-import { UserFull } from './user-full';
+import { ItemType } from "./item-type";
+import { UserFull } from "./user-full";
 /**
- * 
+ *
  * @export
  * @interface ShoppingListEntry
  */
 export interface ShoppingListEntry {
-    /**
-     * 
-     * @type {number}
-     * @memberof ShoppingListEntry
-     */
-    id?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof ShoppingListEntry
-     */
-    count?: number;
-    /**
-     * 
-     * @type {ItemType}
-     * @memberof ShoppingListEntry
-     */
-    type?: ItemType;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof ShoppingListEntry
-     */
-    suggested?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof ShoppingListEntry
-     */
-    checked?: boolean;
-    /**
-     * 
-     * @type {UserFull}
-     * @memberof ShoppingListEntry
-     */
-    addedBy?: UserFull;
+  /**
+   *
+   * @type {number}
+   * @memberof ShoppingListEntry
+   */
+  id?: number;
+  /**
+   *
+   * @type {number}
+   * @memberof ShoppingListEntry
+   */
+  count?: number;
+  /**
+   *
+   * @type {ItemType}
+   * @memberof ShoppingListEntry
+   */
+  type?: ItemType;
+  /**
+   *
+   * @type {boolean}
+   * @memberof ShoppingListEntry
+   */
+  suggested?: boolean;
+  /**
+   *
+   * @type {boolean}
+   * @memberof ShoppingListEntry
+   */
+  checked?: boolean;
+  /**
+   *
+   * @type {UserFull}
+   * @memberof ShoppingListEntry
+   */
+  addedBy?: UserFull;
 }

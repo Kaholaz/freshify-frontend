@@ -12,33 +12,33 @@
  * Do not edit the class manually.
  */
 /**
- * 
+ *
  * @export
  * @interface UpdateShoppingListEntry
  */
 export interface UpdateShoppingListEntry {
-    /**
-     * 
-     * @type {number}
-     * @memberof UpdateShoppingListEntry
-     */
-    id?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof UpdateShoppingListEntry
-     */
-    count?: number;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof UpdateShoppingListEntry
-     */
-    suggested?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof UpdateShoppingListEntry
-     */
-    checked?: boolean;
+  /**
+   *
+   * @type {number}
+   * @memberof UpdateShoppingListEntry
+   */
+  id?: number;
+  /**
+   *
+   * @type {number}
+   * @memberof UpdateShoppingListEntry
+   */
+  count?: number;
+  /**
+   *
+   * @type {boolean}
+   * @memberof UpdateShoppingListEntry
+   */
+  suggested?: boolean;
+  /**
+   *
+   * @type {boolean}
+   * @memberof UpdateShoppingListEntry
+   */
+  checked?: boolean;
 }

@@ -11,73 +11,73 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { AllergenRequest } from './allergen-request';
-import { RecipeCategory } from './recipe-category';
-import { RecipeIngredientResponse } from './recipe-ingredient-response';
+import { AllergenRequest } from "./allergen-request";
+import { RecipeCategory } from "./recipe-category";
+import { RecipeIngredientResponse } from "./recipe-ingredient-response";
 /**
- * 
+ *
  * @export
  * @interface RecipeDTO
  */
 export interface RecipeDTO {
-    /**
-     * 
-     * @type {number}
-     * @memberof RecipeDTO
-     */
-    id?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof RecipeDTO
-     */
-    name?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof RecipeDTO
-     */
-    description?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof RecipeDTO
-     */
-    estimatedTime?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof RecipeDTO
-     */
-    steps?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof RecipeDTO
-     */
-    totalIngredientsInFridge?: number;
-    /**
-     * 
-     * @type {Array<RecipeIngredientResponse>}
-     * @memberof RecipeDTO
-     */
-    recipeIngredients?: Array<RecipeIngredientResponse>;
-    /**
-     * 
-     * @type {Array<RecipeCategory>}
-     * @memberof RecipeDTO
-     */
-    categories?: Array<RecipeCategory>;
-    /**
-     * 
-     * @type {Array<AllergenRequest>}
-     * @memberof RecipeDTO
-     */
-    allergens?: Array<AllergenRequest>;
-    /**
-     * 
-     * @type {string}
-     * @memberof RecipeDTO
-     */
-    image?: string;
+  /**
+   *
+   * @type {number}
+   * @memberof RecipeDTO
+   */
+  id?: number;
+  /**
+   *
+   * @type {string}
+   * @memberof RecipeDTO
+   */
+  name?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof RecipeDTO
+   */
+  description?: string;
+  /**
+   *
+   * @type {number}
+   * @memberof RecipeDTO
+   */
+  estimatedTime?: number;
+  /**
+   *
+   * @type {string}
+   * @memberof RecipeDTO
+   */
+  steps?: string;
+  /**
+   *
+   * @type {number}
+   * @memberof RecipeDTO
+   */
+  totalIngredientsInFridge?: number;
+  /**
+   *
+   * @type {Array<RecipeIngredientResponse>}
+   * @memberof RecipeDTO
+   */
+  recipeIngredients?: Array<RecipeIngredientResponse>;
+  /**
+   *
+   * @type {Array<RecipeCategory>}
+   * @memberof RecipeDTO
+   */
+  categories?: Array<RecipeCategory>;
+  /**
+   *
+   * @type {Array<AllergenRequest>}
+   * @memberof RecipeDTO
+   */
+  allergens?: Array<AllergenRequest>;
+  /**
+   *
+   * @type {string}
+   * @memberof RecipeDTO
+   */
+  image?: string;
 }

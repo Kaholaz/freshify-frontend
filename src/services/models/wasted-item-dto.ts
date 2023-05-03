@@ -11,23 +11,23 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { ItemType } from './item-type';
+import { ItemType } from "./item-type";
 /**
- * 
+ *
  * @export
  * @interface WastedItemDTO
  */
 export interface WastedItemDTO {
-    /**
-     * 
-     * @type {ItemType}
-     * @memberof WastedItemDTO
-     */
-    itemType?: ItemType;
-    /**
-     * 
-     * @type {number}
-     * @memberof WastedItemDTO
-     */
-    amountWasted?: number;
+  /**
+   *
+   * @type {ItemType}
+   * @memberof WastedItemDTO
+   */
+  itemType?: ItemType;
+  /**
+   *
+   * @type {number}
+   * @memberof WastedItemDTO
+   */
+  amountWasted?: number;
 }

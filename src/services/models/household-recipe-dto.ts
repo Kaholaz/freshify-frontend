@@ -11,30 +11,30 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { Household } from './household';
-import { RecipeDTO } from './recipe-dto';
+import { Household } from "./household";
+import { RecipeDTO } from "./recipe-dto";
 /**
- * 
+ *
  * @export
  * @interface HouseholdRecipeDTO
  */
 export interface HouseholdRecipeDTO {
-    /**
-     * 
-     * @type {number}
-     * @memberof HouseholdRecipeDTO
-     */
-    id?: number;
-    /**
-     * 
-     * @type {RecipeDTO}
-     * @memberof HouseholdRecipeDTO
-     */
-    recipe?: RecipeDTO;
-    /**
-     * 
-     * @type {Household}
-     * @memberof HouseholdRecipeDTO
-     */
-    household?: Household;
+  /**
+   *
+   * @type {number}
+   * @memberof HouseholdRecipeDTO
+   */
+  id?: number;
+  /**
+   *
+   * @type {RecipeDTO}
+   * @memberof HouseholdRecipeDTO
+   */
+  recipe?: RecipeDTO;
+  /**
+   *
+   * @type {Household}
+   * @memberof HouseholdRecipeDTO
+   */
+  household?: Household;
 }

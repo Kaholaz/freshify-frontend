@@ -11,29 +11,29 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { ItemState } from './item-state';
+import { ItemState } from "./item-state";
 /**
- * 
+ *
  * @export
  * @interface UpdateItem
  */
 export interface UpdateItem {
-    /**
-     * 
-     * @type {number}
-     * @memberof UpdateItem
-     */
-    itemId?: number;
-    /**
-     * The proportion of the item that was wasted
-     * @type {number}
-     * @memberof UpdateItem
-     */
-    remaining?: number;
-    /**
-     * 
-     * @type {ItemState}
-     * @memberof UpdateItem
-     */
-    state?: ItemState;
+  /**
+   *
+   * @type {number}
+   * @memberof UpdateItem
+   */
+  itemId?: number;
+  /**
+   * The proportion of the item that was wasted
+   * @type {number}
+   * @memberof UpdateItem
+   */
+  remaining?: number;
+  /**
+   *
+   * @type {ItemState}
+   * @memberof UpdateItem
+   */
+  state?: ItemState;
 }
