@@ -125,11 +125,12 @@ const inventoryApi = new InventoryApi();
 const shoppingListApi = new ShoppingListApi();
 const householdStore = useHouseholdStore();
 
-const glutenChecked = ref(true);
+const glutenChecked = ref(false);
 const shellfishChecked = ref(false);
 const eggChecked = ref(false);
 const fishChecked = ref(false);
 const peanutsChecked = ref(false);
+
 
 /* type Ingredient = {
   id: number;
