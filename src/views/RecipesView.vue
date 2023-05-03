@@ -112,15 +112,18 @@ import type {
   AllergenRequest,
   RecipeCategory,
   RecipeDTO,
+  HouseholdRecipeDTO,
 } from "@/services/index";
 import { ref } from "vue";
 import { ElMessage } from "element-plus";
 import { Search, ArrowDown } from "@element-plus/icons-vue";
 import { RecipesApi } from "@/services/apis/recipes-api";
+import { HouseholdRecipeApi } from "@/services/apis/household-recipe-api";
 import { ShoppingListApi, InventoryApi } from "@/services/index";
 import { useHouseholdStore } from "@/stores/household";
 
 const recipesApi = new RecipesApi();
+const householdRecipeApi = new HouseholdRecipeApi();
 const inventoryApi = new InventoryApi();
 const shoppingListApi = new ShoppingListApi();
 const householdStore = useHouseholdStore();
@@ -149,94 +152,6 @@ const peanutsChecked = ref(false);
   recipeSteps?: string[];
 }; */
 
-//test recipes, todo: needs ingredients and steps
-const recipesTest = [
-  {
-    id: 1,
-    name: "Taco",
-    description:
-      "Taco er for mange selve fredagskosen. Fyll tacoskjell eller tortillalefser med kjøttdeig, grønnsaker, ost, salsa-tacosaus og rømme.",
-    estimatedTime: 30,
-    steps: "Stek kjøttdeig, kutt grønnsaker, varm lefser, server",
-    /*     recipeAmountIngredientsOwned: 5, */
-    recipeIngredients: [
-      {
-        id: 1,
-        itemType: {
-          id: 1,
-          name: "kjøttdeig",
-        } as ItemType,
-        amount: 400,
-        unit: "g",
-      },
-      {
-        id: 2,
-        itemType: {
-          id: 2,
-          name: "taco krydder",
-        } as ItemType,
-        amount: 1,
-        unit: "pose",
-      },
-      {
-        id: 3,
-        itemType: {
-          id: 3,
-          name: "tortilla lefser",
-        } as ItemType,
-        amount: 1,
-        unit: "pakke",
-      },
-      {
-        id: 4,
-        itemType: {
-          id: 4,
-          name: "agurk",
-        } as ItemType,
-        amount: 1,
-        unit: "stk",
-      },
-      {
-        id: 5,
-        itemType: {
-          id: 5,
-          name: "tomat",
-        } as ItemType,
-        amount: 1,
-        unit: "stk",
-      },
-      {
-        id: 6,
-        itemType: {
-          id: 6,
-          name: "rømme",
-        } as ItemType,
-        amount: 1,
-        unit: "boks",
-      },
-      {
-        id: 7,
-        itemType: {
-          id: 7,
-          name: "tacosaus",
-        } as ItemType,
-        amount: 1,
-        unit: "boks",
-      },
-    ] as RecipeIngredient[],
-    allergens: [
-      {
-        id: 1,
-        name: "gluten",
-      } as AllergenRequest,
-      {
-        id: 2,
-        name: "egg",
-      } as AllergenRequest,
-    ],
-  } as Recipe,
-];
-
 const recipes = ref<RecipeDTO[]>([]);
 
 recipesApi.getRecipesPaginated(householdStore.household?.id!, 10).then((response) => {
@@ -247,6 +162,10 @@ const currentRecipe = ref<Recipe>();
 const recipeSearch = ref<string>("");
 //api call: householdrecipes
 const bookmarkedRecipes = ref<Recipe[]>([]);
+
+householdRecipeApi.getHouseholdRecipes(householdStore.household?.id!).then((response) => {
+  bookmarkedRecipes.value = response.data.map((r) => r.recipe);
+});
 
 function onClick(recipeClicked: Recipe) {
   console.log("clicked: " + recipeClicked.name);
@@ -266,9 +185,17 @@ function bookmarkRecipe(recipe: Recipe) {
     console.log("remove bookmark: " + recipe.name);
     return;
   }
-  bookmarkedRecipes.value.push(recipe);
-  ElMessage.success("Oppskrift bokmerket: " + recipe.name);
-  console.log("add bookmark: " + recipe.name);
+
+  householdRecipeApi
+    .createHouseholdRecipe(householdStore.household?.id!, recipe.id!)
+    .then(() => {
+      console.log("added recipe to household (bookmarked)");
+      bookmarkedRecipes.value.push(recipe);
+      ElMessage.success("Oppskrift bokmerket: " + recipe.name);
+    })
+    .catch(() => {
+      ElMessage.error("Kunne ikke legge til oppskrift i husstanden");
+    });
 }
 
 async function addIngredientsToShoppingList(recipe: Recipe) {
