@@ -62,8 +62,21 @@
       <el-col :span="8" :xs="24" class="text-container">
         <el-skeleton :row="5" v-if="loading"></el-skeleton>
         <el-text class="centered-text" v-else>
-          <h3>Hurra!</h3>
-          Du harkastet mindre mat enn det du gjore forrige uke!
+          <div v-if="diffFromLastMonth <= 0.15 && diffFromLastMonth >= -0.15"></div>
+          <div v-else-if="diffFromLastMonth > 0.15">
+            <h4>
+              Du har kastet {{ Math.round(Math.abs(diffFromLastMonth) * 100) }}% mer mat enn det du
+              fjorde forrige måned
+            </h4>
+            Det er viktig å sjekke utløpsdatoen, samt se, lukte og smake på maten før du kaster den.
+          </div>
+          <div v-else-if="diffFromLastMonth < 0.15">
+            <h4>
+              Du har kastet {{ Math.round(Math.abs(diffFromLastMonth) * 100) }}% mindre mat enn det
+              du fjorde forrige måned
+            </h4>
+            Fortsett med det gode arbeidet!
+          </div>
         </el-text>
       </el-col>
     </el-row>
@@ -154,9 +167,10 @@ const validationRules = {
 const tableData = ref([] as WastedItemDTO[]);
 
 const foodThrown = ref(0);
-const normalHouseholdFoodThrown = 0.45;
+const normalHouseholdFoodThrown = 0.5;
 
 const ruleFormRef = ref(null as FormInstance | null);
+
 let date = new Date();
 date.setMonth(date.getMonth() - 1);
 const selectedDate = ref(DateTime.fromJSDate(date).toFormat("yyyy-MM"));
@@ -170,6 +184,7 @@ const formModel = computed(() => ({
   selectedDate: selectedDate.value,
 }));
 
+const diffFromLastMonth = ref(0);
 async function getChartData() {
   await inventoryApi
     .householdIdInventoryWastePerMonthGet(houseHoldStore.household.id, getNumOfMonths())
@@ -187,6 +202,8 @@ async function getChartData() {
       clone.datasets = [{ data: data, label: "Bruk" }];
       clone.datasets[0].data = data.reverse();
       chartData.value = clone;
+      diffFromLastMonth.value = (data[0] - data[1]) / data[1];
+      console.log(diffFromLastMonth.value);
     });
 }
 
