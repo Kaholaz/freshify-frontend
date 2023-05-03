@@ -75,7 +75,7 @@
     Fjern bokmerke
   </el-button>
   <el-button type="success" @click="emit('addIngredientsToShoppingList', currentRecipe)">
-    Legg til ingredienser i handleliste</el-button
+    Legg til manglende ingredienser i handleliste</el-button
   >
 </template>
 

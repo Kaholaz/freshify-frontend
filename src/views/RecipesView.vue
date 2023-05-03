@@ -66,11 +66,12 @@
             </el-dropdown-menu>
           </template>
         </el-dropdown>
+        <el-button> Search </el-button>
       </div>
       <!--No recipe selected-->
 
       <el-col
-        v-for="recipe in recipes"
+        v-for="recipe in recipes.sort((a, b) => b.totalIngredientsInFridge! - a.totalIngredientsInFridge!)"
         :key="recipe.id"
         :lg="12"
         :md="24"
@@ -107,6 +108,7 @@ import type {
   Recipe,
   RecipeIngredient,
   ItemType,
+  Item,
   AllergenRequest,
   RecipeCategory,
   RecipeDTO,
@@ -115,9 +117,12 @@ import { ref } from "vue";
 import { ElMessage } from "element-plus";
 import { Search, ArrowDown } from "@element-plus/icons-vue";
 import { RecipesApi } from "@/services/apis/recipes-api";
+import { ShoppingListApi, InventoryApi } from "@/services/index";
 import { useHouseholdStore } from "@/stores/household";
 
 const recipesApi = new RecipesApi();
+const inventoryApi = new InventoryApi();
+const shoppingListApi = new ShoppingListApi();
 const householdStore = useHouseholdStore();
 
 const glutenChecked = ref(true);
@@ -266,12 +271,49 @@ function bookmarkRecipe(recipe: Recipe) {
   console.log("add bookmark: " + recipe.name);
 }
 
-function addIngredientsToShoppingList(recipe: Recipe) {
-  recipe.recipeIngredients?.forEach((ingredient) => {
-    ElMessage.success("Ingrediens lagt til handleliste: " + ingredient.itemType?.name);
-    console.log("add ingredient: " + ingredient.itemType?.name);
-    //api call to add ingredients to shopping list
+async function addIngredientsToShoppingList(recipe: Recipe) {
+  let inventoryItems: Item[];
+  let itemsToAdd = [];
+  await inventoryApi.getInventoryItems(householdStore.household?.id!).then((response) => {
+    inventoryItems = response.data;
   });
+  recipe.recipeIngredients?.forEach((ingredient) => {
+    if (inventoryItems?.find((item) => item.type?.id === ingredient.itemType?.id) === undefined) {
+      console.log(
+        "item: " +
+          ingredient.itemType?.name +
+          " not found in inventory, will be added to shopping list"
+      );
+      let ingredientToAdd = {
+        ItemTypeId: ingredient.itemType?.id,
+        count: 1,
+        suggested: false,
+      };
+      itemsToAdd.push(ingredientToAdd);
+    } else {
+      console.log(
+        "item: " +
+          ingredient.itemType?.name +
+          " found in inventory, will not be added to shopping list"
+      );
+    }
+  });
+  if (itemsToAdd.length > 0) {
+    itemsToAdd.forEach((element) => {
+      shoppingListApi
+        .addItem(householdStore.household?.id!, element)
+        .then((response) => {
+          if (response.status === 201) {
+            ElMessage.success("Ingrediens lagt til handleliste: " + element.ItemTypeId);
+          }
+        })
+        .catch((error) => {
+          ElMessage.error(
+            "Kunne ikke legge til ingrediens: " + element.ItemTypeId + " i handlelisten"
+          );
+        });
+    });
+  }
 }
 </script>
 
