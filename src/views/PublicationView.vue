@@ -1,18 +1,44 @@
 <template>
   <div>
-    <h1>Active Publications</h1>
-    <link
-        href="https://js-sdk.tjek.com/sgn-sdk-4.x.x.min.css"
-        rel="stylesheet"
-        type="text/css"
-    />
-    <div id="list-publications"></div>
+    <button @click="showMapPopup = !showMapPopup">Vis kart</button>
+    <teleport to="body">
+      <MapPopup
+          v-if="showMapPopup"
+          @closeAndUpdate="closeAndUpdate"
+          :modelValue="{ latitude: params.r_lat, longitude: params.r_lng }"
+          :radius="params.r_radius"
+      />
+    </teleport>
+    <div>
+      <h1>Active Publications</h1>
+      <link
+          href="https://js-sdk.tjek.com/sgn-sdk-4.x.x.min.css"
+          rel="stylesheet"
+          type="text/css"
+      />
+      <div id="list-publications"></div>
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue';
-import SGN from "@/sgn"
+import { onMounted, ref } from "vue";
+import MapPopup from "@/components/MapPopup.vue";
+
+const showMapPopup = ref(false);
+
+function closeAndUpdate(location:{ longitude: number, latitude: number },rad: number) {
+  showMapPopup.value = false
+  params.value.r_radius = rad;
+  params.value.r_lat = location.latitude;
+  params.value.r_lng = location.longitude;
+
+  const existingScript = document.getElementById('sgn-sdk');
+  if (existingScript) {
+    existingScript.remove();
+  }
+  loadTjekSdk();
+}
 
 const oldOpen = XMLHttpRequest.prototype.open;
 XMLHttpRequest.prototype.open = function (method, url) {
@@ -43,41 +69,17 @@ XMLHttpRequest.prototype.open = function (method, url) {
   oldOpen.apply(this, [method, url, true]);
 };
 
-
 const businessIds = {coopMega: "de79dm", bunnpris: "5b11sm", kiwi: "257bxm", joker: "80742m", coopPrix: "f5d5lm", rema1000: "faa0Ym" };
-
-const idTable = [
-  "de79dm",
-  "5b11sm",
-  "257bxm",
-  "80742m",
-  "f5d5lm",
-  "faa0Ym",
-]
 
 const params = ref({
   r_lat: 63.418901,
   r_lng:  10.402660,
-  r_radius: 5000,
+  r_radius: 1500,
   limit: 12,
   order_by: 'distance,name',
   types: 'paged,incito',
   business_category_ids: 'groceries',
-
 });
-
-async function getPublications() {
-  const searchParams = new URLSearchParams();
-  Object.entries(params.value).forEach(([key, value]) => {
-    searchParams.append(key, String(value));
-  });
-  const url = `https://etilbudsavis.no/api/squid/v2/dealerfront?${searchParams.toString()}`;
-  const publications = await SGN.CoreKit.request({
-    url,
-    method: 'GET'
-  });
-  return publications;
-}
 
 const loadTjekSdk = () => {
   const script = document.createElement('script');
@@ -93,7 +95,7 @@ const loadTjekSdk = () => {
   script.dataset.componentPublicationsListItemClickBehavior = "open_publication_viewer";
   script.dataset.componentListPublicationsContainer = "#list-publications";
   script.dataset.componentPublicationsViewerPreferredType = "incito";
-  script.dataset.componentPublicationDisableShoppingList = "false";
+  script.dataset.componentPublicationDisableShoppingList = "true";
   script.dataset.componentPublicationDisableClose = "false";
   script.dataset.componentPublicationDisableMenu = "false";
   script.dataset.componentPublicationDisableDownload = "false";
