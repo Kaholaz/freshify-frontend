@@ -57,7 +57,7 @@
 <script lang="ts" setup>
 import axios from "axios";
 import { computed, inject, onMounted, onUnmounted, ref } from "vue";
-import { ElDialog } from "element-plus";
+import { ElDialog, ElNotification } from "element-plus";
 
 import type { CreateShoppingListEntry, Item, UpdateItem } from "@/services/index";
 import { InventoryApi, ItemState, ShoppingListApi } from "@/services/index";
@@ -114,6 +114,14 @@ function extendItem(item: Item) {
       itemId: item.id,
       state: item.state,
       remaining: item.remaining,
+    })
+    .then(() => {
+      ElNotification({
+        title: "Utvidet",
+        message: `Utvidet ${item.type?.name} med 1 stk.`,
+        type: "success",
+      });
+      updateItems();
     })
     .catch(handleError);
 }
