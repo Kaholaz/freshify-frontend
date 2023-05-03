@@ -5,6 +5,7 @@
     :warning-percentage="warningPercentage"
     :success-percentage="successPercentage"
     style="margin-bottom: 2rem"
+    v-if="items?.length"
   >
   </OverviewStatisticsBar>
 
