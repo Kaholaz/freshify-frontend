@@ -11,41 +11,41 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { ItemType } from "./item-type";
+import { ItemType } from './item-type';
 /**
- *
+ * 
  * @export
  * @interface RecipeIngredientResponse
  */
 export interface RecipeIngredientResponse {
-  /**
-   *
-   * @type {number}
-   * @memberof RecipeIngredientResponse
-   */
-  id?: number;
-  /**
-   *
-   * @type {ItemType}
-   * @memberof RecipeIngredientResponse
-   */
-  itemType?: ItemType;
-  /**
-   *
-   * @type {number}
-   * @memberof RecipeIngredientResponse
-   */
-  amount?: number;
-  /**
-   *
-   * @type {string}
-   * @memberof RecipeIngredientResponse
-   */
-  unit?: string;
-  /**
-   *
-   * @type {boolean}
-   * @memberof RecipeIngredientResponse
-   */
-  householdHasIngredient?: boolean;
+    /**
+     * 
+     * @type {number}
+     * @memberof RecipeIngredientResponse
+     */
+    id?: number;
+    /**
+     * 
+     * @type {ItemType}
+     * @memberof RecipeIngredientResponse
+     */
+    itemType?: ItemType;
+    /**
+     * 
+     * @type {number}
+     * @memberof RecipeIngredientResponse
+     */
+    amount?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof RecipeIngredientResponse
+     */
+    unit?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof RecipeIngredientResponse
+     */
+    householdHasIngredient?: boolean;
 }

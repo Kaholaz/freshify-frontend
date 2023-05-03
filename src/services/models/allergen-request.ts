@@ -12,21 +12,21 @@
  * Do not edit the class manually.
  */
 /**
- *
+ * 
  * @export
  * @interface AllergenRequest
  */
 export interface AllergenRequest {
-  /**
-   *
-   * @type {number}
-   * @memberof AllergenRequest
-   */
-  id?: number;
-  /**
-   *
-   * @type {string}
-   * @memberof AllergenRequest
-   */
-  name?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof AllergenRequest
+     */
+    id?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof AllergenRequest
+     */
+    name?: string;
 }

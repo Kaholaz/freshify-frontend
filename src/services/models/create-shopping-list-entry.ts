@@ -12,27 +12,27 @@
  * Do not edit the class manually.
  */
 /**
- *
+ * 
  * @export
  * @interface CreateShoppingListEntry
  */
 export interface CreateShoppingListEntry {
-  /**
-   *
-   * @type {number}
-   * @memberof CreateShoppingListEntry
-   */
-  itemTypeId?: number;
-  /**
-   *
-   * @type {number}
-   * @memberof CreateShoppingListEntry
-   */
-  count?: number;
-  /**
-   *
-   * @type {boolean}
-   * @memberof CreateShoppingListEntry
-   */
-  suggested?: boolean;
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateShoppingListEntry
+     */
+    itemTypeId?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateShoppingListEntry
+     */
+    count?: number;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof CreateShoppingListEntry
+     */
+    suggested?: boolean;
 }

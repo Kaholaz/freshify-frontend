@@ -12,21 +12,21 @@
  * Do not edit the class manually.
  */
 /**
- *
+ * 
  * @export
  * @interface HouseholdMemberKey
  */
 export interface HouseholdMemberKey {
-  /**
-   *
-   * @type {number}
-   * @memberof HouseholdMemberKey
-   */
-  householdId?: number;
-  /**
-   *
-   * @type {number}
-   * @memberof HouseholdMemberKey
-   */
-  userId?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof HouseholdMemberKey
+     */
+    householdId?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof HouseholdMemberKey
+     */
+    userId?: number;
 }

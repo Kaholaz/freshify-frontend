@@ -12,27 +12,27 @@
  * Do not edit the class manually.
  */
 /**
- *
+ * 
  * @export
  * @interface RecipeDTOPagePageableSort
  */
 export interface RecipeDTOPagePageableSort {
-  /**
-   *
-   * @type {boolean}
-   * @memberof RecipeDTOPagePageableSort
-   */
-  empty?: boolean;
-  /**
-   *
-   * @type {boolean}
-   * @memberof RecipeDTOPagePageableSort
-   */
-  sorted?: boolean;
-  /**
-   *
-   * @type {boolean}
-   * @memberof RecipeDTOPagePageableSort
-   */
-  unsorted?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof RecipeDTOPagePageableSort
+     */
+    empty?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof RecipeDTOPagePageableSort
+     */
+    sorted?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof RecipeDTOPagePageableSort
+     */
+    unsorted?: boolean;
 }

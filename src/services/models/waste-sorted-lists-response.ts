@@ -11,23 +11,23 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { WastedItemDTO } from "./wasted-item-dto";
+import { WastedItemDTO } from './wasted-item-dto';
 /**
- *
+ * 
  * @export
  * @interface WasteSortedListsResponse
  */
 export interface WasteSortedListsResponse {
-  /**
-   *
-   * @type {Array<WastedItemDTO>}
-   * @memberof WasteSortedListsResponse
-   */
-  wastedItemsByCount?: Array<WastedItemDTO>;
-  /**
-   *
-   * @type {Array<WastedItemDTO>}
-   * @memberof WasteSortedListsResponse
-   */
-  wastedItemsByAverageAmount?: Array<WastedItemDTO>;
+    /**
+     * 
+     * @type {Array<WastedItemDTO>}
+     * @memberof WasteSortedListsResponse
+     */
+    wastedItemsByCount?: Array<WastedItemDTO>;
+    /**
+     * 
+     * @type {Array<WastedItemDTO>}
+     * @memberof WasteSortedListsResponse
+     */
+    wastedItemsByAverageAmount?: Array<WastedItemDTO>;
 }

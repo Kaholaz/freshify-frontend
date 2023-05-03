@@ -11,61 +11,61 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { ItemState } from "./item-state";
-import { ItemType } from "./item-type";
-import { UserFull } from "./user-full";
+import { ItemState } from './item-state';
+import { ItemType } from './item-type';
+import { UserFull } from './user-full';
 /**
- *
+ * 
  * @export
  * @interface Item
  */
 export interface Item {
-  /**
-   *
-   * @type {number}
-   * @memberof Item
-   */
-  id?: number;
-  /**
-   *
-   * @type {ItemState}
-   * @memberof Item
-   */
-  state?: ItemState;
-  /**
-   *
-   * @type {number}
-   * @memberof Item
-   */
-  remaining?: number;
-  /**
-   *
-   * @type {string}
-   * @memberof Item
-   */
-  bought?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof Item
-   */
-  lastChanged?: string;
-  /**
-   *
-   * @type {boolean}
-   * @memberof Item
-   */
-  suggested?: boolean;
-  /**
-   *
-   * @type {ItemType}
-   * @memberof Item
-   */
-  type?: ItemType;
-  /**
-   *
-   * @type {UserFull}
-   * @memberof Item
-   */
-  addedBy?: UserFull;
+    /**
+     * 
+     * @type {number}
+     * @memberof Item
+     */
+    id?: number;
+    /**
+     * 
+     * @type {ItemState}
+     * @memberof Item
+     */
+    state?: ItemState;
+    /**
+     * 
+     * @type {number}
+     * @memberof Item
+     */
+    remaining?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof Item
+     */
+    bought?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Item
+     */
+    lastChanged?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof Item
+     */
+    suggested?: boolean;
+    /**
+     * 
+     * @type {ItemType}
+     * @memberof Item
+     */
+    type?: ItemType;
+    /**
+     * 
+     * @type {UserFull}
+     * @memberof Item
+     */
+    addedBy?: UserFull;
 }

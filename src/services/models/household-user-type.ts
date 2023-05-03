@@ -12,11 +12,12 @@
  * Do not edit the class manually.
  */
 /**
- *
+ * 
  * @export
  * @enum {string}
  */
 export enum HouseholdUserType {
-  SUPERUSER = "SUPERUSER",
-  USER = "USER",
+    SUPERUSER = 'SUPERUSER',
+    USER = 'USER'
 }
+

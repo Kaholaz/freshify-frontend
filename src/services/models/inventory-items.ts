@@ -11,10 +11,11 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { InventoryItemsInner } from "./inventory-items-inner";
+import { InventoryItemsInner } from './inventory-items-inner';
 /**
- *
+ * 
  * @export
  * @interface InventoryItems
  */
-export interface InventoryItems extends Array<InventoryItemsInner> {}
+export interface InventoryItems extends Array<InventoryItemsInner> {
+}

@@ -12,21 +12,21 @@
  * Do not edit the class manually.
  */
 /**
- *
+ * 
  * @export
  * @interface ItemType
  */
 export interface ItemType {
-  /**
-   *
-   * @type {number}
-   * @memberof ItemType
-   */
-  id?: number;
-  /**
-   *
-   * @type {string}
-   * @memberof ItemType
-   */
-  name?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof ItemType
+     */
+    id?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof ItemType
+     */
+    name?: string;
 }

@@ -12,21 +12,21 @@
  * Do not edit the class manually.
  */
 /**
- *
+ * 
  * @export
  * @interface ItemTypeDTO
  */
 export interface ItemTypeDTO {
-  /**
-   *
-   * @type {number}
-   * @memberof ItemTypeDTO
-   */
-  id?: number;
-  /**
-   *
-   * @type {string}
-   * @memberof ItemTypeDTO
-   */
-  name?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof ItemTypeDTO
+     */
+    id?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof ItemTypeDTO
+     */
+    name?: string;
 }
