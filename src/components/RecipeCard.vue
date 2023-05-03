@@ -5,19 +5,20 @@
     style="height: fit-content"
   >
     <div class="top">
-      <h2 class="mb-5">{{ recipe?.recipeTitle }}</h2>
+      <h2 class="mb-5">{{ recipe?.name }}</h2>
       <el-icon v-if="isBookmarked">
         <Management color="orange" />
       </el-icon>
     </div>
     <div class="content">
-      <p class="text-[#868e96]">Tid: ca {{ recipe?.recipeTime }} min</p>
+      <p class="text-[#868e96]">Tid: ca {{ recipe?.estimatedTime }} min</p>
       <p class="text-[#868e96]">
-        {{ recipe?.recipeAmountIngredientsOwned }} ingredienser i kjøleskap
+        <!--Implement this again-->
+        0 ingredienser i kjøleskap
       </p>
       <footer class="mt-2 text-right">
         <header class="mb-5">Allergier:</header>
-        <p class="text-[#868e96]" v-if="recipe?.recipeAllergies?.length > 0">{{ allergies }}</p>
+        <p class="text-[#868e96]" v-if="recipe?.allergens?.length! > 0">{{ allergies }}</p>
         <p class="text-[#868e96]" v-else>ingen</p>
       </footer>
     </div>
@@ -27,6 +28,7 @@
 <script setup lang="ts">
 import type { Ref } from "vue";
 import { ref, computed, onMounted } from "vue";
+import type { Recipe, RecipeIngredient, ItemType, AllergenRequest, RecipeCategory } from "@/services/index";
 import { Management } from "@element-plus/icons-vue";
 
 // Define APIs and stores
@@ -37,7 +39,7 @@ const props = defineProps<{
   isBookmarked: boolean;
 }>();
 
-type Ingredient = {
+/* type Ingredient = {
   id: number;
   ingredientName: string;
   ingredientAmount: number;
@@ -52,7 +54,7 @@ type Recipe = {
   recipeAllergies: string[];
   recipeIngredients?: Ingredient[];
   recipeSteps?: string[];
-};
+}; */
 
 // Define emits
 /* const emit = defineEmits<{
@@ -64,7 +66,11 @@ type Recipe = {
 
 // Define computed values
 const allergies = computed(() => {
-  return props.recipe.recipeAllergies.join(", ");
+  let allergies = "";
+  props.recipe?.allergens!.forEach(element => {
+    allergies += element.name + ", ";
+  });
+  return allergies.slice(0, -2);
 });
 
 // Define callback functions

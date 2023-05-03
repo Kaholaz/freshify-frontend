@@ -103,6 +103,7 @@
 import RecipeCard from "@/components/RecipeCard.vue";
 import RecipeSelected from "@/components/RecipeSelected.vue";
 import type { Ref } from "vue";
+import type { Recipe, RecipeIngredient, ItemType, AllergenRequest, RecipeCategory } from "@/services/index";
 import { ref } from "vue";
 import { ElMessage } from "element-plus";
 import { Search, ArrowDown } from "@element-plus/icons-vue";
@@ -113,14 +114,14 @@ const eggChecked = ref(false);
 const fishChecked = ref(false);
 const peanutsChecked = ref(false);
 
-type Ingredient = {
+/* type Ingredient = {
   id: number;
   ingredientName: string;
   ingredientAmount: number;
   ingredientUnit: string;
-};
+}; */
 
-type Recipe = {
+/* type Recipe = {
   id: number;
   recipeTitle: string;
   recipeDescription: string;
@@ -129,116 +130,92 @@ type Recipe = {
   recipeAllergies: string[];
   recipeIngredients?: Ingredient[];
   recipeSteps?: string[];
-};
+}; */
 
 //test recipes, todo: needs ingredients and steps
 const recipes = [
   {
     id: 1,
-    recipeTitle: "Taco",
-    recipeDescription:
+    name: "Taco",
+    description:
       "Taco er for mange selve fredagskosen. Fyll tacoskjell eller tortillalefser med kjøttdeig, grønnsaker, ost, salsa-tacosaus og rømme.",
-    recipeTime: 30,
-    recipeAmountIngredientsOwned: 5,
-    recipeAllergies: [],
+    estimatedTime: 30,
+    steps: "Stek kjøttdeig, kutt grønnsaker, varm lefser, server",
+/*     recipeAmountIngredientsOwned: 5, */
     recipeIngredients: [
       {
         id: 1,
-        ingredientName: "kjøttdeig",
-        ingredientAmount: 400,
-        ingredientUnit: "g",
+        itemType: {
+          id: 1,
+          name: "kjøttdeig",
+        } as ItemType,
+        amount: 400,
+        unit: "g",
       },
       {
         id: 2,
-        ingredientName: "taco krydder",
-        ingredientAmount: 1,
-        ingredientUnit: "pose",
+        itemType: {
+          id: 2,
+          name: "taco krydder",
+        } as ItemType,
+        amount: 1,
+        unit: "pose",
       },
       {
         id: 3,
-        ingredientName: "tortilla lefser",
-        ingredientAmount: 1,
-        ingredientUnit: "pakke",
+        itemType: {
+          id: 3,
+          name: "tortilla lefser",
+        } as ItemType,
+        amount: 1,
+        unit: "pakke",
       },
       {
         id: 4,
-        ingredientName: "agurk",
-        ingredientAmount: 1,
-        ingredientUnit: "stk",
+        itemType: {
+          id: 4,
+          name: "agurk",
+        } as ItemType,
+        amount: 1,
+        unit: "stk",
       },
       {
         id: 5,
-        ingredientName: "tomat",
-        ingredientAmount: 1,
-        ingredientUnit: "stk",
+        itemType: {
+          id: 5,
+          name: "tomat",
+        } as ItemType,
+        amount: 1,
+        unit: "stk",
       },
       {
         id: 6,
-        ingredientName: "rømme",
-        ingredientAmount: 1,
-        ingredientUnit: "boks",
+        itemType: {
+          id: 6,
+          name: "rømme",
+        } as ItemType,
+        amount: 1,
+        unit: "boks",
       },
       {
         id: 7,
-        ingredientName: "ost",
-        ingredientAmount: 1,
-        ingredientUnit: "boks",
+        itemType: {
+          id: 7,
+          name: "tacosaus",
+        } as ItemType,
+        amount: 1,
+        unit: "boks",
       },
-    ],
-    recipeSteps: [
-      "Stek kjøttdeig",
-      "Tilsett tacokrydder og vann",
-      "Skjær opp grønnsaker",
-      "Varm tortilla lefser",
-      "Server",
-    ],
-  } as Recipe,
-  {
-    id: 2,
-    recipeTitle: "Pasta Carbonara",
-    recipeDescription:
-      "Pasta carbonara er en klassisk italiensk pastarett med egg, bacon og parmesan. Enkelt og veldig godt!",
-    recipeTime: 30,
-    recipeAmountIngredientsOwned: 5,
-    recipeAllergies: ["melk", "egg", "gluten"],
-    recipeIngredients: [
+    ] as RecipeIngredient[],
+    allergens: [
       {
         id: 1,
-        ingredientName: "bacon",
-        ingredientAmount: 200,
-        ingredientUnit: "g",
-      },
+        name: "gluten",
+      } as AllergenRequest,
       {
         id: 2,
-        ingredientName: "pasta",
-        ingredientAmount: 1,
-        ingredientUnit: "pakke",
-      },
-      {
-        id: 3,
-        ingredientName: "egg",
-        ingredientAmount: 2,
-        ingredientUnit: "stk",
-      },
-      {
-        id: 4,
-        ingredientName: "parmesan",
-        ingredientAmount: 1,
-        ingredientUnit: "boks",
-      },
-      {
-        id: 5,
-        ingredientName: "hvitløk",
-        ingredientAmount: 1,
-        ingredientUnit: "fedd",
-      },
-    ],
-    recipeSteps: [
-      "Kok pasta",
-      "Stek bacon",
-      "Bland egg og parmesan",
-      "Bland pasta, bacon og egg/parmesan",
-      "Server",
+        name: "egg",
+      } as AllergenRequest,
     ],
   } as Recipe,
 ];
@@ -249,7 +226,7 @@ const recipeSearch = ref<string>("");
 const bookmarkedRecipes = ref<Recipe[]>([]);
 
 function onClick(recipeClicked: Recipe) {
-  console.log("clicked: " + recipeClicked.recipeTitle);
+  console.log("clicked: " + recipeClicked.name);
   currentRecipe.value = recipeClicked;
 }
 
@@ -262,19 +239,19 @@ function removeCurrentRecipe() {
 function bookmarkRecipe(recipe: Recipe) {
   if (bookmarkedRecipes.value.includes(recipe)) {
     bookmarkedRecipes.value = bookmarkedRecipes.value.filter((r) => r.id !== recipe.id);
-    ElMessage.warning("Fjenrnet bokmerket for oppskrift: " + recipe.recipeTitle);
-    console.log("remove bookmark: " + recipe.recipeTitle);
+    ElMessage.warning("Fjenrnet bokmerket for oppskrift: " + recipe.name);
+    console.log("remove bookmark: " + recipe.name);
     return;
   }
   bookmarkedRecipes.value.push(recipe);
-  ElMessage.success("Oppskrift bokmerket: " + recipe.recipeTitle);
-  console.log("add bookmark: " + recipe.recipeTitle);
+  ElMessage.success("Oppskrift bokmerket: " + recipe.name);
+  console.log("add bookmark: " + recipe.name);
 }
 
 function addIngredientsToShoppingList(recipe: Recipe) {
   recipe.recipeIngredients?.forEach((ingredient) => {
-    ElMessage.success("Ingrediens lagt til handleliste: " + ingredient.ingredientName);
-    console.log("add ingredient: " + ingredient.ingredientName);
+    ElMessage.success("Ingrediens lagt til handleliste: " + ingredient.itemType?.name);
+    console.log("add ingredient: " + ingredient.itemType?.name);
     //api call to add ingredients to shopping list
   });
 }

@@ -1,16 +1,16 @@
 <template>
   <el-col :lg="24" :md="24" :sm="24" :xl="24" :xs="24">
-    <h2>{{ currentRecipe?.recipeTitle }}</h2>
+    <h2>{{ currentRecipe?.name }}</h2>
     <h3>
-      {{ currentRecipe?.recipeDescription }}
+      {{ currentRecipe?.description }}
     </h3>
     <el-row class="ingredients-steps" :gutter="10">
       <el-col :span="12"
         ><div class="grid-content ep-bg-purple" />
         <h4>Ingredienser</h4>
         <p v-for="ingredient in currentRecipe?.recipeIngredients" :key="ingredient.id">
-          {{ ingredient.ingredientAmount }} {{ ingredient.ingredientUnit }}
-          {{ ingredient.ingredientName }}
+          {{ ingredient.amount }} {{ ingredient.unit }}
+          {{ ingredient.itemType?.name }}
         </p>
         <!-- <p style="word-wrap: normal">
           Pastasaus: 1 stk løk <br />
@@ -40,7 +40,7 @@
       <el-col :span="12"
         ><div class="grid-content ep-bg-purple-light" />
         <h4>Slik gjør du det</h4>
-        <p v-for="(step, index) in currentRecipe?.recipeSteps" :key="step">
+        <p v-for="(step, index) in recipeSteps" :key="step">
           {{ index + 1 }} {{ step }}
         </p>
         <!-- <p>
@@ -83,8 +83,14 @@
 
 <script setup lang="ts">
 import { Back } from "@element-plus/icons-vue";
+import type { Recipe, RecipeIngredient, ItemType, AllergenRequest, RecipeCategory } from "@/services/index";
+import { computed } from "vue";
 
-type Ingredient = {
+const recipeSteps = computed(() => {
+  return props.currentRecipe?.steps!.split(", ");
+});
+
+/* type Ingredient = {
   id: number;
   ingredientName: string;
   ingredientAmount: number;
@@ -100,7 +106,7 @@ type Recipe = {
   recipeAllergies: string[];
   recipeIngredients?: Ingredient[];
   recipeSteps?: string[];
-};
+}; */
 
 const props = defineProps<{
   currentRecipe: Recipe;
