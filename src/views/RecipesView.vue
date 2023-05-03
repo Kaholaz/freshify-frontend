@@ -66,7 +66,7 @@
             </el-dropdown-menu>
           </template>
         </el-dropdown>
-        <el-button> Search </el-button>
+        <el-button @click="searchRecipes"> Search </el-button>
       </div>
       <!--No recipe selected-->
 
@@ -161,11 +161,13 @@ recipesApi.getRecipesPaginated(householdStore.household?.id!, 10).then((response
 const currentRecipe = ref<Recipe>();
 const recipeSearch = ref<string>("");
 //api call: householdrecipes
-const bookmarkedRecipes = ref<Recipe[]>([]);
+const bookmarkedRecipes = ref<RecipeDTO[]>([]);
 
 householdRecipeApi.getHouseholdRecipes(householdStore.household?.id!).then((response) => {
   bookmarkedRecipes.value = response.data.map((r) => r.recipe);
 });
+
+const allergens = ref<AllergenRequest[]>([]);
 
 function onClick(recipeClicked: Recipe) {
   console.log("clicked: " + recipeClicked.name);
@@ -196,6 +198,22 @@ function bookmarkRecipe(recipe: Recipe) {
     .catch(() => {
       ElMessage.error("Kunne ikke legge til oppskrift i husstanden");
     });
+}
+
+function searchRecipes() {
+  let allergens: number[] = [1, 2, 3];
+
+  let categories: RecipeCategory[] = [];
+  if (recipeSearch.value === "") {
+    recipesApi
+      .getRecipesPaginated(householdStore.household?.id!, 0, allergens)
+      .then((response) => {
+        recipes.value = response.data.content;
+      })
+      .catch(() => {
+        ElMessage.error("Kunne ikke hente oppskrifter");
+      });
+  }
 }
 
 async function addIngredientsToShoppingList(recipe: Recipe) {
