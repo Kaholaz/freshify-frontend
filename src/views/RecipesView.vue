@@ -200,7 +200,7 @@ async function searchRecipes() {
 
 function addIngredientsToShoppingList(recipe: Recipe) {
   householdRecipeApi.addRecipeToShoppingList(householdStore.household?.id!, recipe.id!).then(() => {
-    ElMessage.success("Ingredienser lagt til i handlelisten");
+    ElMessage.success("Manglende ingredienser fra oppskrift " + recipe.name + " lagt til i handlelisten");
   });
 }
 </script>
