@@ -32,12 +32,20 @@
           placeholder="Søk etter oppskrift"
           :prefix-icon="Search"
         />
-        <el-select collapse-tags multiple v-model="selectedAllergies">
+        <el-select placeholder="Allergier" collapse-tags multiple v-model="selectedAllergies">
           <el-option
             v-for="allergen in allergens"
             :key="allergen.id"
             :label="allergen.name"
             :value="allergen.id"
+          />
+        </el-select>
+        <el-select  placeholder="Kategori" v-model="selectedCategory">
+          <el-option
+            v-for="category in categories"
+            :key="category.id"
+            :label="category.name"
+            :value="category.id"
           />
         </el-select>
 
@@ -86,11 +94,13 @@ import { ArrowDown, Search } from "@element-plus/icons-vue";
 import { RecipesApi } from "@/services/apis/recipes-api";
 import { HouseholdRecipeApi } from "@/services/apis/household-recipe-api";
 import { AllergenApi } from "@/services/apis/allergen-api";
+import { RecipeCategoryApi } from "@/services/apis/recipe-category-api";
 import { useHouseholdStore } from "@/stores/household";
 
 const recipesApi = new RecipesApi();
 const householdRecipeApi = new HouseholdRecipeApi();
 const allergenApi = new AllergenApi();
+const recipeCategoryApi = new RecipeCategoryApi();
 const inventoryApi = new InventoryApi();
 const shoppingListApi = new ShoppingListApi();
 const householdStore = useHouseholdStore();
@@ -112,11 +122,25 @@ householdRecipeApi.getHouseholdRecipes(householdStore.household?.id!).then((resp
 
 const allergens = ref<AllergenRequest[]>([]);
 
-const selectedAllergies = ref([] as AllergenRequest[]);
+const selectedAllergies = ref([] as number[] | undefined);
 
 allergenApi.getAllergens().then((response) => {
   allergens.value = response.data;
   console.log(allergens.value);
+});
+
+const categories = ref<RecipeCategory[]>([]);
+
+const selectedCategory = ref<number | undefined>()
+
+recipeCategoryApi.getAllRecipeCategories().then((response) => {
+  categories.value = response.data;
+  console.log(categories.value);
+});
+
+recipeCategoryApi.getAllRecipeCategories().then((response) => {
+  categories.value = response.data;
+  console.log(categories.value);
 });
 
 function onClick(recipeClicked: Recipe) {
@@ -156,20 +180,21 @@ function bookmarkRecipe(recipe: Recipe) {
     });
 }
 
-function searchRecipes() {
-  let allergens: number[] = [1, 2, 3];
+async function searchRecipes() {
+  console.log("allergies: " + selectedAllergies.value);
 
-  let categories: RecipeCategory[] = [];
-  if (recipeSearch.value === "") {
-    recipesApi
-      .getRecipesPaginated(householdStore.household?.id!, false, 0, allergens)
-      .then((response) => {
-        recipes.value = response.data.content;
-      })
-      .catch(() => {
-        ElMessage.error("Kunne ikke hente oppskrifter");
-      });
-  }
+  recipesApi
+    .getRecipesPaginated(
+      householdStore.household?.id!,
+      false,
+      selectedCategory.value,
+      selectedAllergies.value,
+      undefined,
+      undefined
+    )
+    .then((response) => {
+      recipes.value = response.data.content;
+    });
 }
 
 async function addIngredientsToShoppingList(recipe: Recipe) {
