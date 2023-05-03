@@ -116,6 +116,5 @@ function skipCreateHousehold() {
 <style scoped>
 .menu {
   height: 100%;
-  border-right: 1px solid #ebeef5;
 }
 </style>
