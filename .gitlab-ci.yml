@@ -48,5 +48,4 @@ deploy:
     - ssh-add $SSH_PRIVATE_KEY
 
     - npm build
-    - apt-get install rsync
-    - rsync -e 'ssh -o StrictHostKeyChecking=no -o PasswordAuthentication=no' -r dist/* freshify@freshify.no:/var/www/freshify.no
+    - scp -o StrictHostKeyChecking=no -o PasswordAuthentication=no -r dist/* freshify@freshify.no:/var/www/freshify.no
