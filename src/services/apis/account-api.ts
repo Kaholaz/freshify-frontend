@@ -186,21 +186,13 @@ export const AccountApiAxiosParamCreator = function (configuration?: Configurati
       };
     },
     /**
-     * Returns a single user
-     * @summary Get user by id
-     * @param {number} id ID of user to return
+     * Returns the details of the logged in user, the details are extracted from the jwt token cookie.
+     * @summary Get the user details from the jwt token cookie
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getLoggedInUser: async (id: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-      // verify required parameter 'id' is not null or undefined
-      if (id === null || id === undefined) {
-        throw new RequiredError(
-          "id",
-          "Required parameter id was null or undefined when calling getLoggedInUser."
-        );
-      }
-      const localVarPath = `/user/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(id)));
+    getLoggedInUser: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+      const localVarPath = `/user/loggedin`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, "https://example.com");
       let baseOptions;
@@ -293,13 +285,21 @@ export const AccountApiAxiosParamCreator = function (configuration?: Configurati
       };
     },
     /**
-     * Returns the details of the logged in user, the details are extracted from the jwt token cookie.
-     * @summary Get the user details from the jwt token cookie
+     * Returns a single user
+     * @summary Get user by id
+     * @param {number} id ID of user to return
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getUserById: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-      const localVarPath = `/user/loggedin`;
+    getUserById: async (id: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      if (id === null || id === undefined) {
+        throw new RequiredError(
+          "id",
+          "Required parameter id was null or undefined when calling getUserById."
+        );
+      }
+      const localVarPath = `/user/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(id)));
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, "https://example.com");
       let baseOptions;
@@ -562,18 +562,15 @@ export const AccountApiFp = function (configuration?: Configuration) {
       };
     },
     /**
-     * Returns a single user
-     * @summary Get user by id
-     * @param {number} id ID of user to return
+     * Returns the details of the logged in user, the details are extracted from the jwt token cookie.
+     * @summary Get the user details from the jwt token cookie
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async getLoggedInUser(
-      id: number,
       options?: AxiosRequestConfig
     ): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<UserFull>>> {
       const localVarAxiosArgs = await AccountApiAxiosParamCreator(configuration).getLoggedInUser(
-        id,
         options
       );
       return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
@@ -610,15 +607,18 @@ export const AccountApiFp = function (configuration?: Configuration) {
       };
     },
     /**
-     * Returns the details of the logged in user, the details are extracted from the jwt token cookie.
-     * @summary Get the user details from the jwt token cookie
+     * Returns a single user
+     * @summary Get user by id
+     * @param {number} id ID of user to return
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async getUserById(
+      id: number,
       options?: AxiosRequestConfig
     ): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<UserFull>>> {
       const localVarAxiosArgs = await AccountApiAxiosParamCreator(configuration).getUserById(
+        id,
         options
       );
       return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
@@ -751,18 +751,14 @@ export const AccountApiFactory = function (
         .then((request) => request(axios, basePath));
     },
     /**
-     * Returns a single user
-     * @summary Get user by id
-     * @param {number} id ID of user to return
+     * Returns the details of the logged in user, the details are extracted from the jwt token cookie.
+     * @summary Get the user details from the jwt token cookie
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async getLoggedInUser(
-      id: number,
-      options?: AxiosRequestConfig
-    ): Promise<AxiosResponse<UserFull>> {
+    async getLoggedInUser(options?: AxiosRequestConfig): Promise<AxiosResponse<UserFull>> {
       return AccountApiFp(configuration)
-        .getLoggedInUser(id, options)
+        .getLoggedInUser(options)
         .then((request) => request(axios, basePath));
     },
     /**
@@ -781,14 +777,15 @@ export const AccountApiFactory = function (
         .then((request) => request(axios, basePath));
     },
     /**
-     * Returns the details of the logged in user, the details are extracted from the jwt token cookie.
-     * @summary Get the user details from the jwt token cookie
+     * Returns a single user
+     * @summary Get user by id
+     * @param {number} id ID of user to return
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async getUserById(options?: AxiosRequestConfig): Promise<AxiosResponse<UserFull>> {
+    async getUserById(id: number, options?: AxiosRequestConfig): Promise<AxiosResponse<UserFull>> {
       return AccountApiFp(configuration)
-        .getUserById(options)
+        .getUserById(id, options)
         .then((request) => request(axios, basePath));
     },
     /**
@@ -888,19 +885,15 @@ export class AccountApi extends BaseAPI {
       .then((request) => request(this.axios, this.basePath));
   }
   /**
-   * Returns a single user
-   * @summary Get user by id
-   * @param {number} id ID of user to return
+   * Returns the details of the logged in user, the details are extracted from the jwt token cookie.
+   * @summary Get the user details from the jwt token cookie
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof AccountApi
    */
-  public async getLoggedInUser(
-    id: number,
-    options?: AxiosRequestConfig
-  ): Promise<AxiosResponse<UserFull>> {
+  public async getLoggedInUser(options?: AxiosRequestConfig): Promise<AxiosResponse<UserFull>> {
     return AccountApiFp(this.configuration)
-      .getLoggedInUser(id, options)
+      .getLoggedInUser(options)
       .then((request) => request(this.axios, this.basePath));
   }
   /**
@@ -920,15 +913,19 @@ export class AccountApi extends BaseAPI {
       .then((request) => request(this.axios, this.basePath));
   }
   /**
-   * Returns the details of the logged in user, the details are extracted from the jwt token cookie.
-   * @summary Get the user details from the jwt token cookie
+   * Returns a single user
+   * @summary Get user by id
+   * @param {number} id ID of user to return
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof AccountApi
    */
-  public async getUserById(options?: AxiosRequestConfig): Promise<AxiosResponse<UserFull>> {
+  public async getUserById(
+    id: number,
+    options?: AxiosRequestConfig
+  ): Promise<AxiosResponse<UserFull>> {
     return AccountApiFp(this.configuration)
-      .getUserById(options)
+      .getUserById(id, options)
       .then((request) => request(this.axios, this.basePath));
   }
   /**

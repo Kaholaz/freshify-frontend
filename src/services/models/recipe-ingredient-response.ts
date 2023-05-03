@@ -15,19 +15,37 @@ import { ItemType } from "./item-type";
 /**
  *
  * @export
- * @interface WastedItemDTO
+ * @interface RecipeIngredientResponse
  */
-export interface WastedItemDTO {
+export interface RecipeIngredientResponse {
+  /**
+   *
+   * @type {number}
+   * @memberof RecipeIngredientResponse
+   */
+  id?: number;
   /**
    *
    * @type {ItemType}
-   * @memberof WastedItemDTO
+   * @memberof RecipeIngredientResponse
    */
   itemType?: ItemType;
   /**
    *
    * @type {number}
-   * @memberof WastedItemDTO
+   * @memberof RecipeIngredientResponse
    */
-  amountWasted?: number;
+  amount?: number;
+  /**
+   *
+   * @type {string}
+   * @memberof RecipeIngredientResponse
+   */
+  unit?: string;
+  /**
+   *
+   * @type {boolean}
+   * @memberof RecipeIngredientResponse
+   */
+  householdHasIngredient?: boolean;
 }

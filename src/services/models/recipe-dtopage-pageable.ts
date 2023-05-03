@@ -11,23 +11,47 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { ItemType } from "./item-type";
+import { RecipeDTOPagePageableSort } from "./recipe-dtopage-pageable-sort";
 /**
  *
  * @export
- * @interface WastedItemDTO
+ * @interface RecipeDTOPagePageable
  */
-export interface WastedItemDTO {
+export interface RecipeDTOPagePageable {
   /**
    *
-   * @type {ItemType}
-   * @memberof WastedItemDTO
+   * @type {RecipeDTOPagePageableSort}
+   * @memberof RecipeDTOPagePageable
    */
-  itemType?: ItemType;
+  sort?: RecipeDTOPagePageableSort;
   /**
    *
    * @type {number}
-   * @memberof WastedItemDTO
+   * @memberof RecipeDTOPagePageable
    */
-  amountWasted?: number;
+  offset?: number;
+  /**
+   *
+   * @type {number}
+   * @memberof RecipeDTOPagePageable
+   */
+  pageSize?: number;
+  /**
+   *
+   * @type {number}
+   * @memberof RecipeDTOPagePageable
+   */
+  pageNumber?: number;
+  /**
+   *
+   * @type {boolean}
+   * @memberof RecipeDTOPagePageable
+   */
+  paged?: boolean;
+  /**
+   *
+   * @type {boolean}
+   * @memberof RecipeDTOPagePageable
+   */
+  unpaged?: boolean;
 }
