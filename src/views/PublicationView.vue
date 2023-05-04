@@ -1,6 +1,11 @@
 <template>
-  <div>
-    <button @click="showMapPopup = !showMapPopup">Vis kart</button>
+  <div style="padding: 10px">
+    <el-button class="menu-item-button" @click="showMapPopup = !showMapPopup">
+      <el-icon>
+        <TurnOff />
+      </el-icon>
+      <span>Vis kart</span>
+    </el-button>
     <teleport to="body">
       <MapPopup
         v-if="showMapPopup"
@@ -20,6 +25,7 @@
 <script lang="ts" setup>
 import { onMounted, ref } from "vue";
 import MapPopup from "@/components/MapPopup.vue";
+import { TurnOff } from "@element-plus/icons-vue";
 
 const showMapPopup = ref(false);
 
