@@ -9,7 +9,6 @@ import type { UserFull } from "@/services/index";
 import { useHouseholdStore } from "../../stores/household";
 import { mock } from "node:test";
 
-
 beforeEach(() => {
   const loggedInUser = {
     id: 14,
@@ -21,8 +20,8 @@ beforeEach(() => {
   useHouseholdStore().isSuperuser = () => true;
 });
 
-describe("EditProfile",  () => {
-   it("emits change user when button is clicked", async () => {
+describe("EditProfile", () => {
+  it("emits change user when button is clicked", async () => {
     const wrapper = mount(EditProfile);
     await wrapper.vm.$nextTick();
     expect(wrapper.find("el-button[type=primary]").exists()).toBe(true);
@@ -32,7 +31,6 @@ describe("EditProfile",  () => {
 
     await wrapper.vm.$nextTick(); */
     //expect(wrapper.emitted("change:user")).toBeTruthy();
-    
   });
   it("show change password button changes to hide when clicked", async () => {
     const wrapper = mount(EditProfile);
