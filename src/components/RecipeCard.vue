@@ -4,24 +4,25 @@
     shadow="hover"
     style="height: fit-content"
   >
-    <div class="top">
-      <h2 class="mb-5">{{ recipe?.name }}</h2>
-      <el-icon v-if="isBookmarked">
-        <Management color="orange" />
-      </el-icon>
-    </div>
-    <div class="content">
-      <p class="text-[#868e96]">Tid: ca {{ recipe?.estimatedTime }} min</p>
-      <p class="text-[#868e96]">
-        <!--Implement this again-->
-        {{ recipe.totalIngredientsInFridge }} ingredienser i kjøleskap
-      </p>
-      <footer class="mt-2 text-right">
-        <header class="mb-5">Allergier:</header>
-        <p class="text-[#868e96]" v-if="recipe?.allergens?.length! > 0">{{ allergies }}</p>
-        <p class="text-[#868e96]" v-else>ingen</p>
-      </footer>
-    </div>
+    <el-row>
+      <img :src="recipe.image" style="width: 100%" />
+      <div class="content">
+        <h2>{{ recipe?.name }}</h2>
+        <el-icon v-if="isBookmarked">
+          <Management color="orange" />
+        </el-icon>
+        <p>Tid: ca {{ recipe?.estimatedTime }} min</p>
+        <p>
+          <!--Implement this again-->
+          {{ recipe.totalIngredientsInFridge }} ingredienser i kjøleskap
+        </p>
+        <footer class="mt-2 text-right">
+          <h5 class="mb-5">Allergier:</h5>
+          <p class="text-[#868e96]" v-if="recipe?.allergens?.length! > 0">{{ allergies }}</p>
+          <p class="text-[#868e96]" v-else>ingen</p>
+        </footer>
+      </div>
+    </el-row>
   </el-card>
 </template>
 
@@ -45,31 +46,7 @@ const props = defineProps<{
   recipe: RecipeDTO;
   isBookmarked: boolean;
 }>();
-
-/* type Ingredient = {
-  id: number;
-  ingredientName: string;
-  ingredientAmount: number;
-  ingredientUnit: string;
-};
-
-type Recipe = {
-  id: number;
-  recipeTitle: string;
-  recipeTime: number;
-  recipeAmountIngredientsOwned: number;
-  recipeAllergies: string[];
-  recipeIngredients?: Ingredient[];
-  recipeSteps?: string[];
-}; */
-
-// Define emits
-/* const emit = defineEmits<{
-  (event: "some-event", ...args: any[]): void;
-}>(); */
-
 // Define refs
-/* const value = ref(null) as Ref<HTMLElement | null>; */
 
 // Define computed values
 const allergies = computed(() => {
@@ -79,10 +56,6 @@ const allergies = computed(() => {
   });
   return allergies.slice(0, -2);
 });
-
-// Define callback functions
-/* function onClick() {} */
-
 // Vue hooks
 onMounted(() => {});
 

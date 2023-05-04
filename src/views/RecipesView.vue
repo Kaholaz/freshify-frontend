@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 v-if="currentRecipe === undefined">Oppskrifter</h1>
+    <h1>Oppskrifter</h1>
     <div v-if="bookmarkedRecipes.length > 0 && currentRecipe === undefined">
       <el-divider content-position="left">Bokmerkede oppskrifter</el-divider>
 
@@ -69,40 +69,27 @@
           @click="onClick(recipe)"
         />
       </el-col>
-
-      <!--Recipe selected-->
     </el-row>
-    <RecipeSelected
-      v-else
-      :is-bookmarked="bookmarkedRecipes.includes(currentRecipe!)"
-      :current-recipe="currentRecipe!"
-      @remove-recipe="removeCurrentRecipe"
-      @bookmark-recipe="bookmarkRecipe(currentRecipe!)"
-      @add-ingredients-to-shopping-list="addIngredientsToShoppingList(currentRecipe!)"
-    />
   </div>
 </template>
 
 <script lang="ts" setup>
 import RecipeCard from "@/components/RecipeCard.vue";
-import RecipeSelected from "@/components/RecipeSelected.vue";
 import { ref } from "vue";
 import type { AllergenRequest, Item, Recipe, RecipeCategory, RecipeDTO } from "@/services/index";
-import { InventoryApi, ShoppingListApi } from "@/services/index";
 import { ElMessage } from "element-plus";
-import { ArrowDown, Search } from "@element-plus/icons-vue";
+import { Search } from "@element-plus/icons-vue";
 import { RecipesApi } from "@/services/apis/recipes-api";
 import { HouseholdRecipeApi } from "@/services/apis/household-recipe-api";
 import { AllergenApi } from "@/services/apis/allergen-api";
 import { RecipeCategoryApi } from "@/services/apis/recipe-category-api";
 import { useHouseholdStore } from "@/stores/household";
+import router from "@/router";
 
 const recipesApi = new RecipesApi();
 const householdRecipeApi = new HouseholdRecipeApi();
 const allergenApi = new AllergenApi();
 const recipeCategoryApi = new RecipeCategoryApi();
-const inventoryApi = new InventoryApi();
-const shoppingListApi = new ShoppingListApi();
 const householdStore = useHouseholdStore();
 
 const recipes = ref<RecipeDTO[]>([]);
@@ -113,7 +100,7 @@ recipesApi.getRecipesPaginated(householdStore.household?.id!, true).then((respon
 
 const currentRecipe = ref<Recipe>();
 const recipeSearch = ref<string>("");
-//api call: householdrecipes
+
 const bookmarkedRecipes = ref<RecipeDTO[]>([]);
 
 householdRecipeApi.getHouseholdRecipes(householdStore.household?.id!).then((response) => {
@@ -144,8 +131,7 @@ recipeCategoryApi.getAllRecipeCategories().then((response) => {
 });
 
 function onClick(recipeClicked: Recipe) {
-  console.log("clicked: " + recipeClicked.name);
-  currentRecipe.value = recipeClicked;
+  router.push({ name: "recipe-view", params: { id: recipeClicked.id.toString() } });
 }
 
 function removeCurrentRecipe() {
@@ -224,16 +210,5 @@ function addIngredientsToShoppingList(recipe: Recipe) {
   width: 100%;
   margin-bottom: 20px;
   display: flex;
-}
-
-.dropdown-menu {
-  display: flex;
-  align-items: left;
-  flex-direction: column;
-  justify-content: left;
-}
-
-.allergy-checkbox {
-  margin-left: 1rem;
 }
 </style>

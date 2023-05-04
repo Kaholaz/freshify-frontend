@@ -125,6 +125,11 @@ const router = createRouter({
       path: "/publication",
       name: "publication",
       component: () => import("@/views/PublicationView.vue"),
+    },
+    {
+      path: "/recipes/:id",
+      name: "recipe-view",
+      component: () => import("@/views/RecipeView.vue"),
       meta: {
         requiresAuth: true,
         fullScreen: false,
