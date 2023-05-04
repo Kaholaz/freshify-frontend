@@ -35,7 +35,7 @@ const isFullScreen = computed(() => {
     <el-header>
       <TopNavBar />
     </el-header>
-    <div v-if="collapsed">
+    <div v-if="collapsed" style="flex-shrink: 0; height: fit-content">
       <el-menu v-if="!isFullScreen" style="--el-menu-hover-bg-color: var(--el-menu-bg-color)">
         <el-menu-item>
           <el-button @click="drawerToggle()">
