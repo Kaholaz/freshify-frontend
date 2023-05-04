@@ -19,7 +19,7 @@
         <el-row>
           <el-form-item label="Vare" prop="itemTypeId" required>
             <el-autocomplete
-              id = "add-item-selection-input"
+              id="add-item-selection-input"
               v-model="itemTypeAutocomplete"
               :debounce="300"
               :fetch-suggestions="searchItemType"
@@ -30,9 +30,9 @@
               @select="newItem.itemTypeId = $event.id"
             />
           </el-form-item>
-          <el-form-item  label="Antall" prop="count" required>
+          <el-form-item label="Antall" prop="count" required>
             <el-input
-              id = "add-item-count-input"
+              id="add-item-count-input"
               v-model="newItem.count"
               placeholder="Antall"
               type="number"
@@ -41,7 +41,7 @@
           </el-form-item>
           <div class="spacer"></div>
           <el-form-item style="margin-right: 0">
-            <el-button type="primary" @click="validateAndAddNewItem(newItem)">
+            <el-button id="add-item-button" type="primary" @click="validateAndAddNewItem(newItem)">
               <span v-if="houseHoldStore.isSuperuser()">legg til</span>
               <span v-else>foreslå</span>
             </el-button>
@@ -49,7 +49,7 @@
         </el-row>
       </el-form>
     </el-card>
-    <el-collapse id = "items-collapse" v-model="drawers">
+    <el-collapse id="items-collapse" v-model="drawers">
       <el-collapse-item name="active">
         <template #title>
           <el-text>Varer</el-text>
