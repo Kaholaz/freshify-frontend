@@ -11,8 +11,8 @@
           :lg="12"
           :md="24"
           :sm="24"
-          :xl="12"
-          :xs="24"
+          :xl="6"
+          :xs="6"
         >
           <RecipeCard
             class="recipe-card"
@@ -59,8 +59,8 @@
         :lg="12"
         :md="24"
         :sm="24"
-        :xl="12"
-        :xs="24"
+        :xl="6"
+        :xs="6"
       >
         <RecipeCard
           class="recipe-card"
@@ -76,8 +76,7 @@
 <script lang="ts" setup>
 import RecipeCard from "@/components/RecipeCard.vue";
 import { ref } from "vue";
-import type { AllergenRequest, Item, Recipe, RecipeCategory, RecipeDTO } from "@/services/index";
-import { ElMessage } from "element-plus";
+import type { AllergenRequest, Recipe, RecipeCategory, RecipeDTO } from "@/services/index";
 import { Search } from "@element-plus/icons-vue";
 import { RecipesApi } from "@/services/apis/recipes-api";
 import { HouseholdRecipeApi } from "@/services/apis/household-recipe-api";
@@ -134,41 +133,7 @@ function onClick(recipeClicked: Recipe) {
   router.push({ name: "recipe-view", params: { id: recipeClicked.id.toString() } });
 }
 
-function removeCurrentRecipe() {
-  //todo: better way of doing this?
-  currentRecipe.value = undefined;
-}
-
-function bookmarkRecipe(recipe: Recipe) {
-  if (bookmarkedRecipes.value.includes(recipe)) {
-    bookmarkedRecipes.value = bookmarkedRecipes.value.filter((r) => r.id !== recipe.id);
-    householdRecipeApi
-      .removeHouseholdRecipe(householdStore.household?.id!, recipe.id!)
-      .then(() => {
-        ElMessage.warning("Fjernet bokmerket for oppskrift: " + recipe.name);
-        console.log("remove bookmark: " + recipe.name);
-      })
-      .catch(() => {
-        ElMessage.error("Kunne ikke fjerne bokmerket for oppskrift: " + recipe.name);
-      });
-    return;
-  }
-
-  householdRecipeApi
-    .createHouseholdRecipe(householdStore.household?.id!, recipe.id!)
-    .then(() => {
-      console.log("added recipe to household (bookmarked)");
-      bookmarkedRecipes.value.push(recipe);
-      ElMessage.success("Oppskrift bokmerket: " + recipe.name);
-    })
-    .catch(() => {
-      ElMessage.error("Kunne ikke legge til oppskrift i husstanden");
-    });
-}
-
 async function searchRecipes() {
-  console.log("allergies: " + selectedAllergies.value);
-
   recipesApi
     .getRecipesPaginated(
       householdStore.household?.id!,
@@ -182,14 +147,6 @@ async function searchRecipes() {
     .then((response) => {
       recipes.value = response.data.content;
     });
-}
-
-function addIngredientsToShoppingList(recipe: Recipe) {
-  householdRecipeApi.addRecipeToShoppingList(householdStore.household?.id!, recipe.id!).then(() => {
-    ElMessage.success(
-      "Manglende ingredienser fra oppskrift " + recipe.name + " lagt til i handlelisten"
-    );
-  });
 }
 </script>
 
