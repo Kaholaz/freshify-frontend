@@ -2,7 +2,7 @@
   <div style="padding: 10px">
     <el-button class="menu-item-button" @click="showMapPopup = !showMapPopup">
       <el-icon>
-        <TurnOff />
+        <MapLocation />
       </el-icon>
       <span>Vis kart</span>
     </el-button>
@@ -25,7 +25,7 @@
 <script lang="ts" setup>
 import { onMounted, ref } from "vue";
 import MapPopup from "@/components/MapPopup.vue";
-import { TurnOff } from "@element-plus/icons-vue";
+import { MapLocation } from "@element-plus/icons-vue";
 
 const showMapPopup = ref(false);
 
