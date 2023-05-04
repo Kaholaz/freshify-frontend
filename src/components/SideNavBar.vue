@@ -80,7 +80,15 @@
 
 <script lang="ts" setup>
 import router from "@/router";
-import { DataAnalysis, Dish, HomeFilled, List, Management, Setting, Notebook } from "@element-plus/icons-vue";
+import {
+  DataAnalysis,
+  Dish,
+  HomeFilled,
+  List,
+  Management,
+  Setting,
+  Notebook,
+} from "@element-plus/icons-vue";
 import { inject, onMounted, ref } from "vue";
 import { useHouseholdStore } from "@/stores/household";
 import { CreateHousehold, Household, HouseholdApi } from "@/services/index";
