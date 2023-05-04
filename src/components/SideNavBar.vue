@@ -56,6 +56,12 @@
       </el-icon>
       <span>Oppskrifter</span>
     </el-menu-item>
+    <el-menu-item index="/publication">
+      <el-icon>
+        <Notebook />
+      </el-icon>
+      <span>Kundeavis</span>
+    </el-menu-item>
     <el-menu-item index="/edit-household">
       <el-icon>
         <Setting />
@@ -74,8 +80,8 @@
 
 <script lang="ts" setup>
 import router from "@/router";
-import { DataAnalysis, Dish, HomeFilled, List, Management, Setting } from "@element-plus/icons-vue";
-import { onMounted, ref } from "vue";
+import { DataAnalysis, Dish, HomeFilled, List, Management, Setting, Notebook } from "@element-plus/icons-vue";
+import { inject, onMounted, ref } from "vue";
 import { useHouseholdStore } from "@/stores/household";
 import { CreateHousehold, Household, HouseholdApi } from "@/services/index";
 import CreateHouseholdComponent from "@/components/CreateHouseholdComponent.vue";
