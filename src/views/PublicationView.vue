@@ -10,7 +10,7 @@
       />
     </teleport>
     <div>
-      <h1>Active Publications</h1>
+      <h1>Kundeaviser i nærheten</h1>
       <link href="https://js-sdk.tjek.com/sgn-sdk-4.x.x.min.css" rel="stylesheet" type="text/css" />
       <div id="list-publications"></div>
     </div>
