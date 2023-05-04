@@ -13,7 +13,8 @@ const router = createRouter({
       name: "home",
       component: HomeView,
       meta: {
-        requiresAuth: true,
+        requiresAuth: false,
+        fullScreen: true,
       },
     },
     {
@@ -22,6 +23,7 @@ const router = createRouter({
       component: () => import("@/views/ShoppingListView.vue"),
       meta: {
         requiresAuth: true,
+        fullScreen: false,
       },
     },
     {
@@ -30,6 +32,7 @@ const router = createRouter({
       component: () => import("@/views/InventoryView.vue"),
       meta: {
         requiresAuth: true,
+        fullScreen: false,
       },
     },
     {
@@ -60,24 +63,87 @@ const router = createRouter({
       path: "/edit-household",
       name: "edit household",
       component: () => import("@/views/HouseholdView.vue"),
+      meta: {
+        fullScreen: false,
+      },
+    },
+    {
+      path: "/profile",
+      name: "profile",
+      component: () => import("@/views/ProfileView.vue"),
+      meta: {
+        fullScreen: false,
+      },
+    },
+    {
+      path: "/privacy",
+      name: "privacy",
+      component: () => import("@/views/PrivacyView.vue"),
+      meta: {
+        requiresAuth: false,
+        fullScreen: true,
+      },
+    },
+    {
+      path: "/tos",
+      name: "tos",
+      component: () => import("@/views/TosView.vue"),
+      meta: {
+        requiresAuth: false,
+        fullScreen: true,
+      },
+    },
+    {
+      path: "/statistics",
+      name: "statistics",
+      component: () => import("@/views/StatisticsView.vue"),
+      meta: {
+        requiresAuth: true,
+        fullScreen: false,
+      },
+    },
+    {
+      path: "/recipes",
+      name: "recipes",
+      component: () => import("@/views/RecipesView.vue"),
+      meta: {
+        requiresAuth: true,
+        fullScreen: false,
+      },
+    },
+    {
+      path: "/publication",
+      name: "publication",
+      component: () => import("@/views/PublicationView.vue"),
+      meta: {
+        requiresAuth: true,
+        fullScreen: false,
+      },
     },
   ],
 });
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   const sessionStore = useSessionStore();
   const accountApi = new AccountApi();
   if (startup) {
-    accountApi.getLoggedInUser().then((data) => {
-      if (data.status == 200) {
-        sessionStore.authenticate(data.data);
-        console.log(sessionStore.isAuthenticated);
-      }
-    });
+    await accountApi
+      .getLoggedInUser()
+      .then((data) => {
+        if (data.status == 200) {
+          sessionStore.authenticate(data.data);
+        }
+      })
+      .catch(() => {
+        sessionStore.timeout();
+      });
     startup = false;
   }
+
   if (to.meta.requiresAuth && !sessionStore.isAuthenticated) {
     next({ name: "login" });
+  } else if (to.meta.requiresAuth == false && sessionStore.isAuthenticated) {
+    next({ name: "inventory" });
   } else {
     next();
   }

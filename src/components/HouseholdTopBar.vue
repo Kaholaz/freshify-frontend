@@ -1,18 +1,15 @@
 <template>
-  <el-container>
-    <el-text type="primary" size="large" class="menu-item-text">
-      Legg til nytt medlem i husholdningen
-    </el-text>
-
-    <el-button class="menu-item-add-button" @click="dialogFormVisible = true" type="primary">
+  <el-row>
+    <el-button v-if="householdStore.isSuperuser()" type="primary" @click="dialogFormVisible = true">
       <el-icon>
         <Plus />
       </el-icon>
+      <span> Legg til bruker</span>
     </el-button>
 
     <el-dialog v-model="dialogFormVisible" title="Legg til nytt medlem i husholdningen">
-      <el-form ref="ruleFormRef" :rules="rules" :model="form">
-        <el-form-item label="Brukerens epost" :label-width="formLabelWidth" prop="newUserEmail">
+      <el-form ref="ruleFormRef" :model="form" :rules="rules">
+        <el-form-item :label-width="formLabelWidth" label="Brukerens epost" prop="newUserEmail">
           <el-input v-model="form.newUserEmail" autocomplete="off" />
         </el-form-item>
       </el-form>
@@ -26,32 +23,33 @@
       </template>
     </el-dialog>
 
-    <div class="flex-grow" />
+    <div class="spacer" />
     <el-popconfirm
-      confirm-button-text="Yes"
-      cancel-button-text="No"
-      :icon="WarnTriangleFilled"
+      cancel-button-text="Nei"
+      confirm-button-text="Ja"
       icon-color="#F89898"
-      title="Are you sure to delete this?"
+      title="Slett husholdning"
       @confirm="emit('deleteHousehold')"
     >
       <template #reference>
-        <el-button type="danger" class="menu-item-button">
+        <el-button v-if="householdStore.isSuperuser()" class="menu-item-button" type="danger">
           <span>Slett Husholdning</span>
         </el-button>
       </template>
     </el-popconfirm>
-  </el-container>
+  </el-row>
 </template>
 
-<script setup lang="ts">
-import { ref, reactive } from "vue";
-import { Plus, WarnTriangleFilled } from "@element-plus/icons-vue";
+<script lang="ts" setup>
+import { reactive, ref } from "vue";
+import { useHouseholdStore } from "@/stores/household";
+import { Plus } from "@element-plus/icons-vue";
 import type { FormInstance, FormRules } from "element-plus";
 
 const dialogFormVisible = ref(false);
 const formLabelWidth = "140px";
 const ruleFormRef = ref<FormInstance>();
+const householdStore = useHouseholdStore();
 
 const form = reactive({
   newUserEmail: "" as string,
@@ -68,11 +66,9 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   await formEl.validate((valid, fields) => {
     if (valid) {
-      console.log("submit!");
       emit("addUser", form.newUserEmail as string);
       dialogFormVisible.value = false;
-    } else {
-      console.log("error submit!!", fields);
+      formEl.resetFields();
     }
   });
 };
@@ -82,22 +78,3 @@ const emit = defineEmits<{
   (event: "deleteHousehold"): void;
 }>();
 </script>
-
-<style scoped>
-.menu {
-  padding: 10px;
-}
-
-.flex-grow {
-  flex-grow: 1;
-}
-
-.menu-item-add-button {
-  margin: auto 1rem;
-  align-content: right;
-}
-
-.menu-item-text {
-  padding-left: 0px;
-}
-</style>

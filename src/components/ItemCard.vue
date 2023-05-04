@@ -3,40 +3,53 @@
     id="item-card"
     :class="{
       'item-card-wrapper': true,
-      'item-card-only-title': computed(() => !item.addedBy),
+      'item-card-only-title': !item.addedBy,
+      'warning-age': getDaysSinceLastChanged(item) > 7 && getDaysSinceLastChanged(item) <= 14,
+      'danger-age': getDaysSinceLastChanged(item) > 14,
     }"
     shadow="always"
   >
     <div class="card-body">
       <div class="info">
         <h3>{{ item.type?.name }}</h3>
-        <p v-if="item.bought">Kjøpt for {{ getDaysSinceBought(item) }} dager siden.</p>
+        <el-text v-if="item.bought && getDaysSinceBought(item) > 0"
+          >Kjøpt for {{ getDaysSinceBought(item) }} dager siden.
+        </el-text>
+        <el-text v-else-if="item.bought && getDaysSinceBought(item) == 0">Kjøpt i dag</el-text>
+        <el-text v-if="item.bought !== item.lastChanged">
+          Sist sjekket: {{ getDaysSinceLastChanged(item) }}
+        </el-text>
       </div>
 
       <div class="buttons">
-        <el-button type="primary" @click="emit('use', item)">Bruk</el-button>
-        <el-button type="danger" @click="emit('delete', item)">Slett</el-button>
+        <el-button id="extend-button" type="primary" @click="emit('extend')"
+          >Forleng varighet</el-button
+        >
+        <el-button id="use-button" type="primary" @click="emit('use', item)">Bruk</el-button>
+        <el-button id="delete-button" type="danger" @click="emit('delete', item)">Slett</el-button>
       </div>
     </div>
   </el-card>
 </template>
 
-<script setup lang="ts">
-import { computed } from "vue";
-
+<script lang="ts" setup>
 import type { Item } from "@/services/index";
-import { getDaysSinceBought } from "@/utils/item-utils";
+import { getDaysSinceBought, getDaysSinceLastChanged } from "@/utils/item-utils";
 
 // Define props
 defineProps<ItemCardProps>();
+
 export interface ItemCardProps {
   item: Item;
 }
 
 // Define emits
 const emit = defineEmits<ItemCardEmits>();
+
 export interface ItemCardEmits {
+  (event: "extend"): void;
   (event: "use", item: Item): void;
+
   (event: "delete", item: Item): void;
 }
 </script>
@@ -60,5 +73,13 @@ export interface ItemCardEmits {
   margin: 0;
   font-size: 0.8rem;
   color: #9e9e9e;
+}
+
+.warning-age {
+  border: 1px solid orange !important;
+}
+
+.danger-age {
+  border: 1px solid red !important;
 }
 </style>

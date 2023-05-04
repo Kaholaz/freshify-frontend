@@ -1,16 +1,20 @@
 <template>
   <div>
     <h1>Handleliste</h1>
-    <el-card style="margin-bottom: 1rem" v-loading="loadingSubmit">
-      <h5>Legg til ny vare</h5>
+    <el-card v-loading="loadingSubmit" style="margin-bottom: 1rem">
+      <h5>
+        <span v-if="houseHoldStore.isSuperuser()">Legg til ny vare</span>
+        <span v-else>Foreslå ny vare</span>
+      </h5>
       <el-form
         ref="ruleFormRef"
         :model="newItem"
         :rules="validationRules"
-        style="margin-top: 0.5rem"
+        inline
         label-position="left"
         label-width="70px"
-        inline
+        style="margin-top: 0.5rem"
+        @submit.prevent
       >
         <el-row>
           <el-form-item label="Vare" prop="itemTypeId" required>
@@ -26,11 +30,19 @@
             />
           </el-form-item>
           <el-form-item label="Antall" prop="count" required>
-            <el-input v-model="newItem.count" placeholder="Antall" type="number" />
+            <el-input
+              v-model="newItem.count"
+              placeholder="Antall"
+              type="number"
+              @keyup.enter="validateAndAddNewItem"
+            />
           </el-form-item>
           <div class="spacer"></div>
           <el-form-item style="margin-right: 0">
-            <el-button type="primary" @click="validateAndAddNewItem(newItem)">legg til</el-button>
+            <el-button type="primary" @click="validateAndAddNewItem(newItem)">
+              <span v-if="houseHoldStore.isSuperuser()">legg til</span>
+              <span v-else>foreslå</span>
+            </el-button>
           </el-form-item>
         </el-row>
       </el-form>
@@ -52,7 +64,7 @@
           ></ShoppingListCard>
         </div>
         <div v-else-if="loading == true">
-          <ShoppingListCardSkeleton></ShoppingListCardSkeleton>
+          <ShoppingListCardSkeleton :count="3"></ShoppingListCardSkeleton>
         </div>
         <div v-else-if="loading == false && !activeItems.size">
           <el-alert :closable="false" center title="Det er ingen varer i handlelista" type="info" />
@@ -65,12 +77,20 @@
         <div v-if="suggestedItems.size">
           <el-row class="divider-row">
             <div style="flex-grow: 1"></div>
-            <el-popconfirm title="Godkjenn alle varer" @confirm="acceptAllSuggestions">
+            <el-popconfirm
+              v-if="houseHoldStore.isSuperuser()"
+              title="Godkjenn alle varer"
+              @confirm="acceptAllSuggestions"
+            >
               <template #reference>
                 <el-button plain type="success">Godta alle</el-button>
               </template>
             </el-popconfirm>
-            <el-popconfirm title="Slett alle varer" @confirm="declineAllSuggestions">
+            <el-popconfirm
+              v-if="houseHoldStore.getHouseholdMemberType() === HouseholdUserType.SUPERUSER"
+              title="Slett alle varer"
+              @confirm="declineAllSuggestions"
+            >
               <template #reference>
                 <el-button plain type="danger">Avslå alle</el-button>
               </template>
@@ -82,14 +102,13 @@
               .reverse()"
             :key="item.id"
             :item="item"
-            :loading="loading"
             @accept="acceptSuggestion(item)"
             @click="handleClickCheckbox(item)"
             @delete="deleteItem(item)"
           ></ShoppingListCard>
         </div>
         <div v-else-if="loading == true">
-          <ShoppingListCardSkeleton></ShoppingListCardSkeleton>
+          <ShoppingListCardSkeleton :count="3"></ShoppingListCardSkeleton>
         </div>
         <div v-else-if="loading == false && !suggestedItems.size">
           <el-alert :closable="false" center title="Det er ingen forespurte varer" type="info" />
@@ -110,13 +129,12 @@
               .reverse()"
             :key="item.id"
             :item="item"
-            :loading="loading"
             @click="handleClickCheckbox(item)"
             @delete="deleteItem(item)"
           ></ShoppingListCard>
         </div>
         <div v-else-if="loading == true">
-          <ShoppingListCardSkeleton></ShoppingListCardSkeleton>
+          <ShoppingListCardSkeleton :count="3"></ShoppingListCardSkeleton>
         </div>
         <div v-else-if="loading == false && !boughtItems.size">
           <el-alert
@@ -135,19 +153,22 @@
 import ShoppingListCard from "@/components/ShoppingListCard.vue";
 import type {
   CreateShoppingListEntry,
-  ShoppinglistBuyBody,
   ShoppingListEntry,
   UpdateShoppingListEntry,
 } from "@/services";
-import { inject, Ref, ref } from "vue";
+import { HouseholdUserType } from "@/services/index";
+import { inject, onMounted, onUnmounted, Ref, ref } from "vue";
 import { ElMessage, ElNotification, FormInstance } from "element-plus";
-import { ItemTypeApi, ShoppingListApi } from "@/services/index";
+import { HouseholdApi, ItemTypeApi, ShoppingListApi } from "@/services/index";
 import ShoppingListCardSkeleton from "@/components/ShoppingListCardSkeleton.vue";
 import { useHouseholdStore } from "@/stores/household";
+import { useSessionStore } from "@/stores/session";
+import { showError } from "@/utils/error-utils";
 
 const drawers = ref(["active", "requested", "bought"] as string[]);
 
 const ruleFormRef = ref<FormInstance>();
+
 const newItem = ref({
   itemTypeId: undefined,
   count: 1,
@@ -191,7 +212,6 @@ const itemTypesApi = new ItemTypeApi();
 
 const houseHoldStore = useHouseholdStore();
 
-const householdId = houseHoldStore.household.id;
 const itemTypeAutocomplete = ref(null as any);
 const loading = ref(undefined) as Ref<undefined | boolean>;
 const loadingSubmit = ref(false);
@@ -199,12 +219,23 @@ const loadingSubmit = ref(false);
 const timeout = setTimeout(() => (loading.value = true), 100);
 const emitter = inject("emitter");
 
-emitter.on("household-updated", () => {
+// Update shopping list when household is changed
+onMounted(() => {
   getShoppingList();
+  emitter.on("household-updated", getShoppingList);
 });
 
-getShoppingList();
+onUnmounted(() => {
+  emitter.off("household-updated", getShoppingList);
+});
+
 function getShoppingList() {
+  if (houseHoldStore.household?.id == null) {
+    showError("Husholdning ikke valgt", "Vennligst velg en husholdning i menyen", 0);
+    clearTimeout(timeout);
+    loading.value = false;
+    return;
+  }
   shoppingListApi
     .getShoppingList(houseHoldStore.household?.id)
     .then((response) => {
@@ -215,11 +246,8 @@ function getShoppingList() {
         setItemLocal(item);
       });
     })
-    .catch((error) => {
-      ElMessage.error({
-        message: "Noe gikk galt ved henting av handleliste",
-        type: "error",
-      });
+    .catch(() => {
+      showError("Noe gikk galt ved henting av handleliste", "Vennligt prøv igjen senere", 0);
     })
     .finally(() => {
       clearTimeout(timeout);
@@ -270,7 +298,7 @@ function acceptSuggestion(item: ShoppingListEntry, showSuccessMessage = true) {
   cloneItem.suggested = false;
 
   return shoppingListApi
-    .updateShoppingListEntry(householdId, {
+    .updateShoppingListEntry(houseHoldStore.household.id, {
       id: cloneItem.id,
       count: cloneItem.count,
       suggested: cloneItem.suggested,
@@ -288,10 +316,7 @@ function acceptSuggestion(item: ShoppingListEntry, showSuccessMessage = true) {
       return true;
     })
     .catch(() => {
-      ElMessage({
-        message: "En feil oppstod ved godkjenning av vare",
-        type: "error",
-      });
+      showError("En feil oppstod ved godkjenning av vare", "Vennligt prøv igjen senere", 0);
       return false;
     });
 }
@@ -333,28 +358,29 @@ function completeShopping() {
       boughtItems.value.clear();
     })
     .catch(() => {
-      ElMessage({
-        message: "En feil oppstod ved avslutning av handleliste",
-        type: "error",
-      });
+      showError("En feil oppstod ved avslutning av handleliste", "Vennligt prøv igjen senere", 0);
     });
 }
 
-function saveItem(item: CreateShoppingListEntry) {
+const householdApi = new HouseholdApi();
+
+async function saveItem(item: CreateShoppingListEntry) {
+  await householdApi.getUsers(houseHoldStore.household.id).then((response) => {
+    const users = response.data;
+    const user = users.find((user) => user.user.id === useSessionStore().getUser().id);
+    item.suggested = user.userType !== "SUPERUSER";
+  });
   return shoppingListApi
-    .addItem(householdId, item)
+    .addItem(houseHoldStore.household.id, item)
     .then((response) => {
       ElMessage({
-        message: "Vare har blitt oppdatert",
-        type: "info",
+        message: "Var har blitt lagt til",
+        type: "success",
       });
       setItemLocal(response.data);
     })
     .catch(() => {
-      ElMessage({
-        message: "En feil oppstod ved lagring av vare",
-        type: "error",
-      });
+      showError("En feil oppstod ved lagring av vare", "Vennligt prøv igjen senere", 0);
     });
 }
 
@@ -368,7 +394,7 @@ async function updateItem(item: ShoppingListEntry, showSuccessMessage = true) {
   } as UpdateShoppingListEntry;
 
   return shoppingListApi
-    .updateShoppingListEntry(householdId, updateItem)
+    .updateShoppingListEntry(houseHoldStore.household.id, updateItem)
     .then(() => {
       if (showSuccessMessage) {
         ElMessage({
@@ -380,17 +406,14 @@ async function updateItem(item: ShoppingListEntry, showSuccessMessage = true) {
       return true;
     })
     .catch(() => {
-      ElMessage({
-        message: "Vare kunne ikke bli oppdatert",
-        type: "error",
-      });
+      showError("Vare kunne ikke bli oppdatert", "Vennligt prøv igjen senere", 0);
       return false;
     });
 }
 
 function deleteItem(item: ShoppingListEntry, showSuccessMessage = true) {
   return shoppingListApi
-    .deleteShoppingListEntry(householdId, item.id)
+    .deleteShoppingListEntry(houseHoldStore.household.id, item.id)
     .then(() => {
       if (showSuccessMessage) {
         ElMessage({

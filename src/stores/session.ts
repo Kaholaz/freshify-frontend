@@ -3,14 +3,16 @@ import { defineStore } from "pinia";
 import type { UserFull } from "@/services/index";
 import { AccountApi } from "@/services/apis/account-api";
 import router from "@/router";
+import { useHouseholdStore } from "@/stores/household";
 
 export const useSessionStore = defineStore("sessionStore", () => {
   const user = ref(null as UserFull | null);
-  const EXPIRY_TIME = 1 * 10 * 1000 * 60;
+  const EXPIRY_TIME = 10 * 60 * 1000;
   const accountApi = new AccountApi();
   let id = 0 as number;
 
   const isAuthenticated = computed(() => {
+    getUser();
     return user.value != null;
   });
 
@@ -33,9 +35,9 @@ export const useSessionStore = defineStore("sessionStore", () => {
       clearTimeout(id);
     }
     id = setTimeout(() => {
-      if (confirm("Er du der? Trykk ok for å ikke bli logget ut om et minutt")) {
+      if (confirm("Er du der? Trykk ok for å ikke bli logget ut om et minutt") && user.value?.id) {
         accountApi
-          .getUserById(user.value!.id)
+          .getUserById(user.value.id)
           .then(() => {
             refreshNotification();
           })
@@ -57,7 +59,7 @@ export const useSessionStore = defineStore("sessionStore", () => {
   }
 
   function timeout() {
-    sessionStorage.removeItem("user");
+    sessionStorage.clear();
     clearTimeout(id);
     user.value = null;
   }
@@ -75,7 +77,7 @@ export const useSessionStore = defineStore("sessionStore", () => {
   }
 
   function getHighestRole() {
-    return user.value!.admin ? "ADMIN" : "USER";
+    return "USER";
   }
 
   return {

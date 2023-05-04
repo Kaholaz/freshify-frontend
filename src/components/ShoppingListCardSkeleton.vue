@@ -1,5 +1,5 @@
 <template>
-  <el-skeleton :count="1" :throttle="50" animated>
+  <el-skeleton :count="count" :throttle="50" animated>
     <template #template>
       <el-row align="middle" style="margin-bottom: 4rem">
         <el-col :span="2"></el-col>
@@ -25,4 +25,11 @@
     </template>
   </el-skeleton>
 </template>
-<script setup lang="ts"></script>
+<script lang="ts" setup>
+defineProps({
+  count: {
+    type: Number,
+    required: true,
+  },
+});
+</script>

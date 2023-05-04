@@ -1,10 +1,10 @@
 <template>
-  <el-menu @select="$emit('select')" :default-active="defaultActive" router>
+  <el-menu class="menu" :default-active="defaultActive" router @select="$emit('select')">
     <el-button
+      v-if="houseHoldStore.households?.length == 0"
       style="width: calc(100% - 2rem); margin: 1rem"
       type="primary"
-      @click="isCreateHousehold = true"
-      v-if="households?.length == 0"
+      @click="isCreateHouseholdDialog = true"
     >
       <el-icon>
         <HomeFilled />
@@ -12,18 +12,19 @@
       <span>Legg til husholdning</span>
     </el-button>
     <el-select
-      style="width: calc(100% - 2rem); margin: 1rem"
+      v-else-if="houseHoldStore.households?.length > 0"
       :model-value="houseHoldStore.household.name"
-      v-else-if="households?.length > 0"
+      style="width: calc(100% - 2rem); margin: 1rem"
+      @change="$emit('select')"
     >
       <el-option
-        v-for="item in households"
+        v-for="item in houseHoldStore.households"
         :key="item.id"
         :label="item.name"
-        @click="houseHoldStore.household = item"
         :value="item"
+        @click="houseHoldStore.household = item"
       ></el-option>
-      <el-button style="width: 100%" type="primary" @click="isCreateHousehold = true">
+      <el-button style="width: 100%" type="primary" @click="isCreateHouseholdDialog = true">
         <el-icon>
           <HomeFilled />
         </el-icon>
@@ -43,17 +44,23 @@
       </el-icon>
       <span>Oversikt</span>
     </el-menu-item>
-    <el-menu-item index="/statistics" disabled>
+    <el-menu-item index="/statistics">
       <el-icon>
         <DataAnalysis />
       </el-icon>
       <span>Statistikk</span>
     </el-menu-item>
-    <el-menu-item index="/recipies" disabled>
+    <el-menu-item disabled index="/recipies">
       <el-icon>
         <Dish />
       </el-icon>
       <span>Oppskrifter</span>
+    </el-menu-item>
+    <el-menu-item index="/publication">
+      <el-icon>
+        <Notebook />
+      </el-icon>
+      <span>Kundeavis</span>
     </el-menu-item>
     <el-menu-item index="/edit-household">
       <el-icon>
@@ -62,67 +69,53 @@
       <span>Rediger husholdning</span>
     </el-menu-item>
   </el-menu>
-  <el-dialog v-model="isCreateHousehold" show-close>
+  <el-dialog v-model="isCreateHouseholdDialog" show-close>
     <CreateHouseholdComponent
       v-model:household-name="newHousehold.name"
-      @submit="createHousehold"
       @skip="skipCreateHousehold"
+      @submit="createHousehold"
     ></CreateHouseholdComponent>
   </el-dialog>
 </template>
 
 <script lang="ts" setup>
 import router from "@/router";
-import { DataAnalysis, Dish, HomeFilled, List, Management, Setting } from "@element-plus/icons-vue";
+import {
+  DataAnalysis,
+  Dish,
+  HomeFilled,
+  List,
+  Management,
+  Setting,
+  Notebook,
+} from "@element-plus/icons-vue";
 import { inject, onMounted, ref } from "vue";
 import { useHouseholdStore } from "@/stores/household";
 import { CreateHousehold, Household, HouseholdApi } from "@/services/index";
-import { useSessionStore } from "@/stores/session";
 import CreateHouseholdComponent from "@/components/CreateHouseholdComponent.vue";
 import { showError } from "@/utils/error-utils";
 
-const defaultActive = ref("/");
-onMounted(async () => {
-  await router.isReady();
-  defaultActive.value = router.currentRoute.value.path;
-});
-
 const houseHoldStore = useHouseholdStore();
 const houseHoldApi = new HouseholdApi();
-const sessionStore = useSessionStore();
-const isCreateHousehold = ref(false);
-const emitter = inject("emitter");
 
-const households = ref(null as Household[] | null);
+const defaultActive = ref("/");
 const newHousehold = ref({
   name: "",
 } as CreateHousehold);
+const isCreateHouseholdDialog = ref(false);
 
-emitter.on("household-removed", () => {
-  console.log("removing");
-  getHouseholds();
+onMounted(async () => {
+  await router.isReady();
+  defaultActive.value = router.currentRoute.value.path;
+  houseHoldStore.fetchHouseholds();
 });
-
-getHouseholds();
-function getHouseholds() {
-  houseHoldApi.getHouseholds(sessionStore.getUser()?.id!).then((res) => {
-    households.value = res.data;
-    if (households.value?.length > 0 && !houseHoldStore.household?.id) {
-      houseHoldStore.household = households.value[0];
-    }
-  });
-}
 
 function createHousehold() {
   houseHoldApi
     .createHousehold(newHousehold.value)
     .then((res) => {
-      if (households.value === null) {
-        households.value = [];
-      }
-      households.value.push(res.data);
-      isCreateHousehold.value = false;
-      houseHoldStore.household = res.data;
+      houseHoldStore.addHousehold(res.data);
+      isCreateHouseholdDialog.value = false;
     })
     .catch(() => {
       showError("En uventet feil oppstod", "vennligst prøv igjen senere", 0);
@@ -130,6 +123,13 @@ function createHousehold() {
 }
 
 function skipCreateHousehold() {
-  isCreateHousehold.value = false;
+  isCreateHouseholdDialog.value = false;
 }
 </script>
+
+<style scoped>
+.menu {
+  height: 100%;
+  border-right: 1px solid #ebeef5;
+}
+</style>

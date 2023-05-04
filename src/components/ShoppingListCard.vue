@@ -24,10 +24,16 @@
         <el-row>
           <div class="spacer"></div>
           <el-button text type="primary">x {{ props.item.count }}</el-button>
-          <el-button v-if="props.item.suggested" text type="success" @click="emit('accept', item)"
+          <el-button
+            v-if="props.item.suggested && householdStore.isSuperuser()"
+            text
+            type="success"
+            @click="emit('accept', item)"
             >godta
           </el-button>
-          <el-button text type="danger" @click="emit('delete', item)">slett</el-button>
+          <el-button v-if="canDelete()" text type="danger" @click="emit('delete', item)"
+            >slett</el-button
+          >
         </el-row>
       </el-col>
     </el-row>
@@ -35,16 +41,30 @@
 </template>
 <script lang="ts" setup>
 import type { ShoppingListEntry } from "@/services/index";
+import { HouseholdUserType } from "@/services/index";
+import { defineEmits, defineProps } from "vue";
+import { useSessionStore } from "@/stores/session";
+import { useHouseholdStore } from "@/stores/household";
 
 const props = defineProps<{
   item: ShoppingListEntry;
 }>();
+
+const sessionStore = useSessionStore();
+const householdStore = useHouseholdStore();
 
 const emit = defineEmits<{
   (event: "click", args: boolean): void;
   (event: "delete", args: ShoppingListEntry): void;
   (event: "accept", args: ShoppingListEntry): void;
 }>();
+
+function canDelete() {
+  return (
+    householdStore.isSuperuser() ||
+    (props.item.suggested && props.item?.addedBy?.id === sessionStore?.getUser()?.id)
+  );
+}
 </script>
 <style scoped>
 .checkbox {

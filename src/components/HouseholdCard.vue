@@ -1,67 +1,61 @@
 <template>
   <el-card
-    shadow="never"
-    :body-style="{
-      padding: '30px',
-      overflow: 'hidden',
-    }"
     class="relative m-2 w-full max-w-xl overflow-visible"
+    :class="{ me: householdMember.user?.id === sessionStore.getUser()?.id }"
+    shadow="never"
+    style="height: 11rem"
   >
-    <h2 class="mb-5">{{ user.firstName }}</h2>
-    <p class="text-[#868e96]">{{ userType }}</p>
-    <p class="text-[#868e96]">{{ user.email }}</p>
-    <div class="absolute -top-10 right-5">
-      <el-icon color="black" size="80">
-        <UserFilled />
-      </el-icon>
-    </div>
-    <footer class="mt-2 text-right">
-      <el-button
-        v-if="userType == 'USER' && currentUser?.id != user.id"
-        type="primary"
-        @click="emit('updateUserPrivelige', user)"
-      >
-        Utnevn til superbruker
+    <h2 class="mb-5">{{ householdMember.user?.firstName }}</h2>
+    <p class="text-[#868e96]">
+      {{ householdMember.userType === HouseholdUserType.SUPERUSER ? "SUPERBRUKER" : "BRUKER" }}
+    </p>
+    <p class="text-[#868e96]">{{ householdMember.user?.email }}</p>
+    <footer
+      class="mt-2 text-right"
+      v-if="householdStore.isSuperuser() && sessionStore.getUser()?.id !== householdMember.user?.id"
+    >
+      <el-button type="primary" @click="emitUpdateUserPrivilege()">
+        <span v-if="householdMember.userType === HouseholdUserType.USER">Promoter bruker</span>
+        <span v-else>Degrader bruker</span>
       </el-button>
-      <el-button
-        v-else-if="currentUser?.id != user.id"
-        type="primary"
-        @click="emit('updateUserPrivelige', user)"
-      >
-        Degrader til bruker
-      </el-button>
-      <el-button v-if="currentUser?.id != user.id" type="danger" @click="emit('removeUser', user)">
-        Fjern bruker fra husholdning
-      </el-button>
+      <el-button type="danger" @click="emitRemoveUser"> Fjern bruker </el-button>
     </footer>
   </el-card>
 </template>
 
-<script setup lang="ts">
-import type { UserFull } from "@/services";
-import { UserFilled } from "@element-plus/icons-vue";
+<script lang="ts" setup>
+import { UserFull } from "@/services/index";
+import { HouseholdUserType } from "@/services/index";
 import { useSessionStore } from "@/stores/session";
+import { useHouseholdStore } from "@/stores/household";
 
 const sessionStore = useSessionStore();
+const householdStore = useHouseholdStore();
 
-//make use of sessionstore (remove) prop
-/* var currentUser = ref({
-  id: 1,
-  email: "tore@gmail.com",
-  firstName: "Tore",
-} as UserFull); */
+type HouseholdMember = { user?: UserFull; userType?: HouseholdUserType };
 
-const currentUser = sessionStore.getUser();
+function emitUpdateUserPrivilege() {
+  if (!props.householdMember.user) return;
+  emit("updateUserPrivilege", props.householdMember);
+}
+
+function emitRemoveUser() {
+  if (!props.householdMember.user) return;
+  emit("removeUser", props.householdMember);
+}
 
 const emit = defineEmits<{
-  (event: "removeUser", args: UserFull): void;
-  (event: "updateUserPrivelige", args: UserFull): void;
+  (event: "removeUser", args: HouseholdMember): void;
+  (event: "updateUserPrivilege", args: HouseholdMember): void;
 }>();
 
 const props = defineProps<{
-  user: UserFull;
-  userType: String;
+  householdMember: HouseholdMember;
 }>();
 </script>
 
-<style scoped></style>
+<style scoped>
+.me {
+  border: 2px solid var(--el-color-primary);
+}
+</style>

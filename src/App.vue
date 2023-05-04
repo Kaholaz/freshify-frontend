@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { computed, onMounted, ref } from "vue";
 import { Expand } from "@element-plus/icons-vue";
 import { useToggle } from "@vueuse/core";
@@ -22,16 +22,21 @@ const collapsed = computed(() => {
 
 const [drawer, drawerToggle] = useToggle();
 
-const isFullScreen = computed(() => router.currentRoute.value.meta?.fullScreen);
+const isFullScreen = computed(() => {
+  console.log("mo");
+  console.log(router.currentRoute.value.meta?.fullsScreen);
+  if (router.currentRoute.value.meta?.fullScreen === undefined) return true;
+  return router.currentRoute.value.meta?.fullScreen;
+});
 </script>
 
 <template>
   <el-container style="height: 100vh; display: flex">
     <el-header>
-      <TopNavBar @menu="drawerToggle()" />
+      <TopNavBar />
     </el-header>
-    <div v-if="collapsed">
-      <el-menu style="--el-menu-hover-bg-color: var(--el-menu-bg-color)" v-if="!isFullScreen">
+    <div v-if="collapsed" style="flex-shrink: 0; height: fit-content">
+      <el-menu v-if="!isFullScreen" style="--el-menu-hover-bg-color: var(--el-menu-bg-color)">
         <el-menu-item>
           <el-button @click="drawerToggle()">
             <el-icon>
@@ -43,15 +48,15 @@ const isFullScreen = computed(() => router.currentRoute.value.meta?.fullScreen);
       </el-menu>
     </div>
     <el-container>
-      <el-aside width="300px" v-if="!collapsed && !isFullScreen">
-        <SideNavBar class="sidenav" />
+      <el-aside v-if="!collapsed && !isFullScreen" width="300px">
+        <SideNavBar />
       </el-aside>
-      <el-drawer v-model="drawer" direction="ltr" size="306px">
-        <SideNavBar class="sidenav" @select="drawerToggle()" />
+      <el-drawer v-else-if="collapsed" v-model="drawer" direction="ltr" size="306px">
+        <SideNavBar @select="drawerToggle()" />
       </el-drawer>
       <el-scrollbar style="width: 100%">
         <el-main>
-          <RouterView />
+          <RouterView id="main-view" />
         </el-main>
       </el-scrollbar>
     </el-container>
@@ -61,5 +66,14 @@ const isFullScreen = computed(() => router.currentRoute.value.meta?.fullScreen);
 <style scoped>
 .sidenav {
   height: 100%;
+}
+
+/* Prevent scrolling on anything but router view */
+* {
+  overflow: hidden;
+}
+
+#main-view * {
+  overflow: auto;
 }
 </style>

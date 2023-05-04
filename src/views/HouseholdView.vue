@@ -1,174 +1,145 @@
 <template>
-  <div id="householdview" class="householdview-wrapper">
-    <h1 v-if="householdStore.household?.id">{{ householdStore.household?.name }}</h1>
-    <h1 v-else>Velg husholdning i meny</h1>
-    <div class="top-bar" v-if="householdStore.household?.id">
-      <HouseholdTopBar @delete-household="deleteHousehold()" @add-user="addUser" />
-    </div>
-    <div>
-      <el-row gutter="20">
-        <el-col
-          v-for="user in users.sort((a, b) => a.userType.localeCompare(b.userType))"
-          :key="user.user.id"
-          :xs="24"
-          :sm="12"
-          :md="12"
-          :lg="12"
-          :xl="16"
-          class="mb-5"
-        >
-          <UserCard
-            :user="user.user"
-            :user-type="user.userType"
-            @remove-user="removeUser(user.user)"
-            @update-user-privelige="updateUserPrivelige(user.user)"
-          />
-        </el-col>
-      </el-row>
-    </div>
+  <h1 v-if="householdStore.household?.id">{{ householdStore.household.name }}</h1>
+  <el-alert v-else center>Velg eller lag en ny husholdning for å redigere den</el-alert>
+  <div v-if="householdStore.household?.id" class="top-bar">
+    <HouseholdTopBar @delete-household="deleteHousehold()" @add-user="addUser" />
+  </div>
+  <div>
+    <el-row :gutter="10" style="width: 100%; margin: 0">
+      <el-col
+        v-for="householdMember in householdMembers.sort((a, b) =>
+          a.userType?.toString().localeCompare(b.userType?.toString())
+        )"
+        :key="householdMember.user?.id"
+        :lg="12"
+        :md="24"
+        :sm="24"
+        :xl="12"
+        :xs="24"
+      >
+        <UserCard
+          :household-member="householdMember"
+          @remove-user="removeUser(householdMember)"
+          @update-user-privilege="updateUserPrivilege(householdMember)"
+        />
+      </el-col>
+    </el-row>
   </div>
 </template>
 
-<script setup lang="ts">
-import { inject, onMounted, ref } from "vue";
-import type { UserFull } from "@/services";
+<script lang="ts" setup>
+import { inject, onMounted, onUnmounted, ref } from "vue";
+import type { UpdateHouseholdUserType, UserFull } from "@/services/index";
+import { HouseholdUserType } from "@/services/index";
 import UserCard from "@/components/HouseholdCard.vue";
 import HouseholdTopBar from "@/components/HouseholdTopBar.vue";
 import { useHouseholdStore } from "@/stores/household";
-import { useSessionStore } from "@/stores/session";
-import { HouseholdApi, AccountApi } from "@/services/index";
+import { AccountApi, HouseholdApi } from "@/services/index";
 import { ElMessage } from "element-plus";
 
 const householdStore = useHouseholdStore();
-/* const sessionStore = useSessionStore(); */
 const householdApi = new HouseholdApi();
 const accountApi = new AccountApi();
 
-let users = ref([]);
-const emitter = inject("emitter");
+type HouseholdMember = { user?: UserFull; userType?: HouseholdUserType };
+const householdMembers = ref([] as HouseholdMember[]);
 
-emitter.on("household-updated", () => {
+// Update users when household is updated
+const emitter = inject("emitter");
+onMounted(() => {
   getUsers();
+  emitter.on("household-updated", getUsers);
 });
 
-getUsers();
+onUnmounted(() => {
+  emitter.off("household-updated", getUsers);
+});
 
 function getUsers() {
-  householdApi.getUsers(householdStore.household?.id!).then((data) => {
-    users.value = data.data;
-  });
+  if (householdStore.household?.id) {
+    householdApi.getUsers(householdStore.household?.id!).then((data) => {
+      householdMembers.value = data.data;
+    });
+  }
 }
 
-function removeUser(user: UserFull) {
+function removeUser(user: HouseholdMember) {
   return householdApi
-    .removeUserFromHousehold(23, user.id!)
+    .removeUserFromHousehold(householdStore.household?.id!, user.id!)
     .then(() => {
       ElMessage.success("Fjernet " + user.firstName + " fra husholdning");
-      users.value = users.value.filter((u) => u.user.id !== user.id);
-      console.log("removed user: " + user.firstName);
+      householdMembers.value = householdMembers.value.filter((u) => u.user.id !== user.id);
     })
     .catch((error) => {
       ElMessage.error("Kunne ikke fjerne bruker fra husholdning" + error);
-      console.log(error);
     });
 }
 
-function updateUserPrivelige(user: UserFull) {
-  console.log(user.email);
-  let userToUpdate = users.value.filter((u) => u.user.id === user.id)[0];
-  console.log("userToUpdateType: " + userToUpdate.userType);
-  if (userToUpdate.userType === "SUPERUSER") {
-    userToUpdate.userType = "USER";
-  } else {
-    userToUpdate.userType = "SUPERUSER";
-  }
+function updateUserPrivilege(householdMember: HouseholdMember) {
+  console.log(householdMember);
+  if (!householdMember.user) return;
+  if (!householdMember.userType) return;
+  console.log(householdMember);
+
+  let updatePrivileges =
+    householdMember.userType === HouseholdUserType.USER
+      ? HouseholdUserType.SUPERUSER
+      : HouseholdUserType.USER;
+  let updateHouseholdUserType: UpdateHouseholdUserType = {
+    userId: householdMember.user.id,
+    type: updatePrivileges,
+  };
+
   return householdApi
-    .updateHouseholdMemberRole(23, userToUpdate.id, userToUpdate.userType)
-    .then((data) => {
-      ElMessage.success("Oppdaterte bruker " + user.firstName + " til: " + userToUpdate.userType);
-      users.value = users.value.map((u) => {
-        if (u.user.id === user.id && u.userType === "USER") {
-          u.userType = "USER";
-        } else if (u.user.id === user.id && u.userType === "SUPERUSER") {
-          u.userType = "SUPERUSER";
-        }
+    .updateHouseholdMemberRole(householdStore.household?.id!, updateHouseholdUserType)
+    .then(() => {
+      ElMessage.success(
+        "Oppdaterte bruker " + householdMember.user!.firstName + " til: " + updatePrivileges
+      );
+      householdMembers.value = householdMembers.value.map((u) => {
+        if (u?.user?.id === householdMember.user?.id) u.userType = updatePrivileges;
         return u;
       });
-      console.log(
-        "updated user: " +
-          user.firstName +
-          ", status: " +
-          data.status +
-          " to " +
-          userToUpdate.userType
-      );
     })
     .catch((error) => {
       ElMessage.error("Kunne ikke oppdatere bruker" + error);
-      console.log(error);
     });
 }
 
-async function addUser(value: string) {
-  console.log("add user: " + value);
-  //todo: fix this
-  let userId: number = -1;
-  await accountApi
-    .getUserByEmail(value)
-    .then((data) => {
-      console.log("data from emailApi:" + data.data.userId);
-      console.log(data.status)
-      console.log(data.data.userId)
-      if (data.data.userId) {
-        userId = data.data.userId;
-      }
-    })
-    .catch((error) => {
-      ElMessage.error("Kunne ikke finne bruker med epost: " + value);
-      console.log(error);
-    });
-  return await householdApi
-    .addUser(householdStore.household?.id!, { userId })
-    .then((data) => {
-      ElMessage.success("La til " + value + " i husholdning");
-      addUserLocally(userId);
-      console.log("added user: " + value + ", status: " + data.status);
-    })
-    .catch((error) => {
-      ElMessage.error("Kunne ikke finne bruker med epost: " + value);
-      console.log(error);
-    });
-}
+async function addUser(email: string) {
+  // Get user ID
+  let userId: number;
+  try {
+    const data = await accountApi.getUserByEmail(email);
+    if (!data.data.userId) throw new Error();
+    userId = data.data.userId;
+  } catch {
+    ElMessage.error("Kunne ikke finne bruker med epost: " + email);
+    return;
+  }
 
-function addUserLocally(id: number) {
-  console.log("add user locally: " + id);
-  return accountApi
-    .getUserById(id)
-    .then((data) => {
-      users.value.push({ user: data.data, userType: "USER" });
-      console.log("added user: " + data.data.firstName);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  // Add user to household
+  try {
+    await householdApi.addUser(householdStore.household?.id!, { userId });
+    ElMessage.success(email + "ble lagt til");
+    getUsers();
+  } catch {
+    ElMessage.error("Kunne ikke legge til bruker med epost: " + email);
+  }
 }
-
 function deleteHousehold() {
+  if (!householdStore.household?.id) return ElMessage.error("Kunne ikke slette husholdning");
   householdApi
     .deleteHousehold(householdStore.household?.id!)
     .then(() => {
-      ElMessage.success("Slettet husholdning");
-      console.log("deleted household: " + householdStore.household?.name);
+      householdMembers.value = [];
       householdStore.removeHousehold();
+      ElMessage.success("Slettet husholdning");
     })
     .catch((error) => {
       ElMessage.error("Kunne ikke slette husholdning" + error);
-      console.log(error);
     });
-  console.log("deleted household");
 }
-
-onMounted(() => {});
 </script>
 
 <style scoped>
@@ -178,13 +149,5 @@ onMounted(() => {});
 
 .top-bar {
   margin-bottom: 20px;
-}
-
-.householdview-wrapper {
-  width: 100%;
-  height: 100%;
-  padding: 1rem 2rem;
-  margin: 0;
-  overflow: hidden;
 }
 </style>

@@ -2,40 +2,60 @@
   <h2 class="my-3">Registrer deg</h2>
   <el-form
     ref="ruleFormRef"
-    label-position="top"
     :model="newUser"
     :rules="validationRules"
+    label-position="top"
     status-icon
+    @submit.prevent
   >
     <el-form-item label="Email" prop="email">
-      <el-input placeholder="Email" type="text" v-model="email" size="large" />
+      <el-input v-model="email" placeholder="Email" size="large" type="text" id="email-input" />
     </el-form-item>
 
     <el-form-item label="Fornavn" prop="firstName">
-      <el-input placeholder="fornavn" type="text" v-model="firstName" size="large" />
+      <el-input
+        v-model="firstName"
+        placeholder="fornavn"
+        size="large"
+        type="text"
+        id="first-name-input"
+      />
     </el-form-item>
 
     <el-form-item label="Passord" prop="password">
-      <el-input type="password" v-model="password" placeholder="Password" size="large" />
+      <el-input
+        v-model="password"
+        placeholder="Password"
+        size="large"
+        type="password"
+        id="password-input"
+      />
     </el-form-item>
 
     <el-form-item label="Gjenta passord" prop="passwordConfirm">
-      <el-input type="password" v-model="passwordConfirm" placeholder="Password" size="large" />
+      <el-input
+        v-model="passwordConfirm"
+        placeholder="Password"
+        size="large"
+        type="password"
+        @keyup.enter="submit"
+        id="password-confirm-input"
+      />
     </el-form-item>
 
-    <el-button ref="submitButton" type="primary" size="large" @click="submit"
+    <el-button ref="submitButton" size="large" type="primary" @click="submit"
       >Registrer deg
     </el-button>
   </el-form>
   <el-alert
-    type="error"
-    show-icon
-    :title="errorMessage"
     v-if="errorMessage"
+    :title="errorMessage"
+    show-icon
     style="margin-top: 1rem"
+    type="error"
   />
 </template>
-<script setup lang="ts">
+<script lang="ts" setup>
 import type { CreateUser } from "@/services";
 import { computed, ref } from "vue";
 import type { FormInstance } from "element-plus";
@@ -49,10 +69,10 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-  "update:firstName": (firstName: string) => void;
-  "update:password": (password: string) => void;
-  "update:email": (email: string) => void;
-  submit: () => void;
+  (event: "update:firstName", firstName: string): void;
+  (event: "update:password", password: string): void;
+  (event: "update:email", email: string): void;
+  (event: "submit"): void;
 }>();
 
 const passwordConfirm = ref<string>("");
