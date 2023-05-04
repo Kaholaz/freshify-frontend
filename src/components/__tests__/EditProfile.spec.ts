@@ -26,11 +26,8 @@ describe("EditProfile", () => {
     await wrapper.vm.$nextTick();
     expect(wrapper.find("el-button[type=primary]").exists()).toBe(true);
     /* await wrapper.find("el-button[type=primary]").trigger("click");
-    ^^
-    GETS TYPE ERROR HERE WHEN RUNNING TESTS BUT NOT WHEN RUNNING APP
-
-    await wrapper.vm.$nextTick(); */
-    //expect(wrapper.emitted("change:user")).toBeTruthy();
+    await wrapper.vm.$nextTick(); 
+    expect(wrapper.emitted("change:user")).toBeTruthy(); */
   });
   it("show change password button changes to hide when clicked", async () => {
     const wrapper = mount(EditProfile);
