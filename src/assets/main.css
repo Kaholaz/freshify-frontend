@@ -4,11 +4,10 @@ body {
   padding: 0;
   --el-main-padding: 500px;
   background-color: #78c4a4; /* fallback for older browsers */
-  background-image: linear-gradient(to bottom, #2c9576, #258266);
-  --el-bg-color-overlay: red;
+  background-image: linear-gradient(to bottom, #0f4a39, #258266);
   --el-menu-text-color: white;
   --el-menu-bg-color: #0f4a39;
-  --el-menu-border-color: #0f4a39;
+  --el-menu-border-color: transparent;
   --el-text-color: white;
   --el-text-color-primary: white;
   --el-text-color-regular: white;
