@@ -32,7 +32,6 @@
         </el-button>
       </el-option>
     </el-select>
-
     <el-menu-item index="/shopping-list">
       <el-icon>
         <List />
@@ -51,7 +50,7 @@
       </el-icon>
       <span>Statistikk</span>
     </el-menu-item>
-    <el-menu-item disabled index="/recipies">
+    <el-menu-item index="/recipes">
       <el-icon>
         <Dish />
       </el-icon>
