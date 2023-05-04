@@ -25,11 +25,18 @@
   <div class="search-bar">
     <el-input
       v-model="recipeSearch"
+      @input="searchInputDelayHandler.searchWithDelay(() => searchRecipes())"
       class="recipe-search"
       placeholder="Søk etter oppskrift"
       :prefix-icon="Search"
     />
-    <el-select placeholder="Allergier" collapse-tags multiple v-model="selectedAllergies">
+    <el-select
+      placeholder="Allergier"
+      collapse-tags
+      multiple
+      v-model="selectedAllergies"
+      @update:modelValue="searchRecipes"
+    >
       <el-option
         v-for="allergen in allergens"
         :key="allergen.id"
@@ -37,7 +44,12 @@
         :value="allergen.id"
       />
     </el-select>
-    <el-select placeholder="Kategori" v-model="selectedCategory">
+    <el-select
+      placeholder="Kategori"
+      v-model="selectedCategory"
+      @update:modelValue="searchRecipes"
+      class="category-picker"
+    >
       <el-option
         v-for="category in categories"
         :key="category.id"
@@ -45,7 +57,6 @@
         :value="category.id"
       />
     </el-select>
-    <el-button @click="searchRecipes"> Search</el-button>
   </div>
   <el-pagination
     v-model:current-page="currentPage"
@@ -90,6 +101,7 @@ import { AllergenApi } from "@/services/apis/allergen-api";
 import { RecipeCategoryApi } from "@/services/apis/recipe-category-api";
 import { useHouseholdStore } from "@/stores/household";
 import router from "@/router";
+import { InputHandler } from "@/utils/input-delay";
 
 const recipesApi = new RecipesApi();
 const householdRecipeApi = new HouseholdRecipeApi();
@@ -104,6 +116,8 @@ const currentPage = ref<number>(1);
 
 const currentRecipe = ref<Recipe>();
 const recipeSearch = ref<string>("");
+
+const searchInputDelayHandler = new InputHandler(500);
 
 const bookmarkedRecipes = ref<RecipeDTO[]>([]);
 
@@ -172,5 +186,19 @@ async function searchRecipes() {
   width: 100%;
   margin-bottom: 20px;
   display: flex;
+}
+
+.category-picker {
+  margin-left: 1rem;
+}
+
+@media only screen and (max-width: 768px) {
+  .search-bar {
+    flex-direction: column;
+  }
+  .category-picker {
+    margin-left: 0;
+    margin-top: 1rem;
+  }
 }
 </style>
