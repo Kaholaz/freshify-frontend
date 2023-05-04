@@ -1,18 +1,18 @@
 <template>
   <div>
+    <el-pagination></el-pagination>
     <h1>Oppskrifter</h1>
     <div v-if="bookmarkedRecipes.length > 0 && currentRecipe === undefined">
       <el-divider content-position="left">Bokmerkede oppskrifter</el-divider>
-
       <el-row :gutter="10" style="width: 100%; margin: 0">
         <el-col
           v-for="recipe in bookmarkedRecipes"
           :key="recipe.id"
           :lg="12"
-          :md="24"
+          :md="12"
           :sm="24"
           :xl="6"
-          :xs="6"
+          :xs="24"
         >
           <RecipeCard
             class="recipe-card"
@@ -57,10 +57,10 @@
         v-for="recipe in recipes.sort((a, b) => b.totalIngredientsInFridge! - a.totalIngredientsInFridge!)"
         :key="recipe.id"
         :lg="12"
-        :md="24"
+        :md="12"
         :sm="24"
         :xl="6"
-        :xs="6"
+        :xs="24"
       >
         <RecipeCard
           class="recipe-card"
