@@ -25,7 +25,6 @@
     "leaflet": "^1.9.3",
     "mitt": "^3.0.0",
     "pinia": "^2.0.32",
-    "shopgun-sdk": "^4.13.2",
     "vue": "^3.2.47",
     "vue-chartjs": "^5.2.0",
     "vue-router": "^4.1.6",
