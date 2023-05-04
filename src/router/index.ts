@@ -125,6 +125,10 @@ const router = createRouter({
       path: "/publication",
       name: "publication",
       component: () => import("@/views/PublicationView.vue"),
+      meta: {
+        requiresAuth: true,
+        fullScreen: false,
+      },
     },
     {
       path: "/recipes/:id",
