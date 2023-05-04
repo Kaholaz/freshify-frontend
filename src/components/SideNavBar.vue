@@ -44,7 +44,7 @@
       </el-icon>
       <span>Oversikt</span>
     </el-menu-item>
-    <el-menu-item disabled index="/statistics">
+    <el-menu-item index="/statistics">
       <el-icon>
         <DataAnalysis />
       </el-icon>

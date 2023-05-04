@@ -1,11 +1,20 @@
 <template>
   <h1>Mitt kjøleskap</h1>
+  <OverviewStatisticsBar
+    :danger-percentage="dangerPercentage"
+    :warning-percentage="warningPercentage"
+    :success-percentage="successPercentage"
+    style="margin-bottom: 2rem"
+    v-if="items?.length"
+  >
+  </OverviewStatisticsBar>
   <div v-if="!isLoading && items" class="inventory-items-list">
     <ItemCard
       v-for="item in items"
       :key="item.id"
       :item="item"
       style="margin-bottom: 1rem"
+      @extend="extendItem(item)"
       @delete="deleteItem(item)"
       @use="useItemDialog(item)"
     />
@@ -35,8 +44,8 @@
     </div>
     <div class="re-add">
       <el-checkbox v-model="dialogReAdd"
-        >Legge til en ny {{ dialogItem.type?.name }} i handlekurven?</el-checkbox
-      >
+        >Legge til en ny {{ dialogItem.type?.name }} i handlekurven?
+      </el-checkbox>
     </div>
     <span class="dialog-footer">
       <el-button type="danger" @click="useItemDialogVisible = false">Avbryt</el-button>
@@ -48,15 +57,17 @@
 <script lang="ts" setup>
 import axios from "axios";
 import { computed, inject, onMounted, onUnmounted, ref } from "vue";
-import { ElDialog } from "element-plus";
+import { ElDialog, ElMessage } from "element-plus";
 
-import type { Item, UpdateItem, CreateShoppingListEntry } from "@/services/index";
-import { InventoryApi, ShoppingListApi, ItemState } from "@/services/index";
+import type { CreateShoppingListEntry, Item, UpdateItem } from "@/services/index";
+import { InventoryApi, ItemState, ShoppingListApi } from "@/services/index";
 import { useHouseholdStore } from "@/stores/household";
 import { showError } from "@/utils/error-utils";
 
 import ItemCard from "@/components/ItemCard.vue";
 import ShoppingListCardSkeleton from "@/components/ShoppingListCardSkeleton.vue";
+import OverviewStatisticsBar from "@/components/OverviewStatisticsBar.vue";
+import { getDaysSinceBought } from "@/utils/item-utils";
 
 // Update items when household is updated
 const emitter = inject("emitter");
@@ -92,6 +103,36 @@ const error = ref<Error | null>(null);
 const isLoading = computed(() => items.value === null && error.value === null);
 
 // Define callbacks
+function extendItem(item: Item) {
+  let householdId = householdStore.household.id;
+  if (!householdId) {
+    showError("Ingen hjem valgt.", "Velg et hjem for å slette et element.", 15000);
+    return;
+  }
+
+  let boughtDate = item.bought?.split("T")[0];
+  let today = new Date().toISOString().split("T")[0];
+
+  if (boughtDate === today) {
+    showError("Kan ikke forlenge.", "Du kan ikke forlenge en vare som ble kjøpt i dag.", 8000);
+    return;
+  }
+
+  inventoryApi
+    .updateInventoryItem(householdId, {
+      itemId: item.id,
+      state: item.state || ItemState.INVENTORY,
+      remaining: item.remaining,
+    })
+    .then(() => {
+      ElMessage({
+        message: `Varigheten til ${item.type?.name} ble forlenget.`,
+        type: "success",
+      });
+    })
+    .catch(handleError);
+}
+
 function deleteItem(item: Item) {
   let householdId = householdStore.household.id;
   if (!householdId) {
@@ -151,18 +192,43 @@ function useItem(item: Item, amount: number | null) {
   }
 }
 
+const dangerPercentage = ref(0);
+const warningPercentage = ref(0);
+const successPercentage = ref(0);
+
 function updateItems() {
-  items.value = null;
-
   let householdId = getHouseholdId();
-  if (householdId == null) return;
+  if (householdId == null) {
+    items.value = null;
+    return;
+  }
 
+  let totalDanger = 0;
+  let totalWarning = 0;
+  let totalSuccess = 0;
   // Load inventory items
   inventoryApi
     .getInventoryItems(householdId)
     .then((response) => response.data)
-    .then((data) => (items.value = data))
-    .catch(handleError);
+    .then((data) => {
+      items.value = data;
+      items.value.forEach((item) => {
+        if (getDaysSinceBought(item) > 14) {
+          totalDanger += 1;
+        } else if (getDaysSinceBought(item) > 7) {
+          totalWarning += 1;
+        } else {
+          totalSuccess += 1;
+        }
+      });
+      dangerPercentage.value = (totalDanger / items.value.length) * 100;
+      warningPercentage.value = (totalWarning / items.value.length) * 100;
+      successPercentage.value = (totalSuccess / items.value.length) * 100;
+    })
+    .catch((err) => {
+      items.value = null;
+      handleError(err);
+    });
 }
 
 function removeItemClientSide(item: Item) {

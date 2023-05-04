@@ -23,6 +23,7 @@ const router = createRouter({
       component: () => import("@/views/ShoppingListView.vue"),
       meta: {
         requiresAuth: true,
+        fullScreen: false,
       },
     },
     {
@@ -31,6 +32,7 @@ const router = createRouter({
       component: () => import("@/views/InventoryView.vue"),
       meta: {
         requiresAuth: true,
+        fullScreen: false,
       },
     },
     {
@@ -61,11 +63,35 @@ const router = createRouter({
       path: "/edit-household",
       name: "edit household",
       component: () => import("@/views/HouseholdView.vue"),
+      meta: {
+        fullScreen: false,
+      },
     },
     {
       path: "/profile",
       name: "profile",
       component: () => import("@/views/ProfileView.vue"),
+      meta: {
+        fullScreen: false,
+      },
+    },
+    {
+      path: "/privacy",
+      name: "privacy",
+      component: () => import("@/views/PrivacyView.vue"),
+      meta: {
+        requiresAuth: false,
+        fullScreen: true,
+      },
+    },
+    {
+      path: "/tos",
+      name: "tos",
+      component: () => import("@/views/TosView.vue"),
+      meta: {
+        requiresAuth: false,
+        fullScreen: true,
+      },
     },
     {
       path: "/statistics",
@@ -73,6 +99,7 @@ const router = createRouter({
       component: () => import("@/views/StatisticsView.vue"),
       meta: {
         requiresAuth: true,
+        fullScreen: false,
       },
     },
     {
@@ -81,6 +108,7 @@ const router = createRouter({
       component: () => import("@/views/RecipesView.vue"),
       meta: {
         requiresAuth: true,
+        fullScreen: false,
       },
     },
   ],
@@ -95,7 +123,6 @@ router.beforeEach(async (to, from, next) => {
       .then((data) => {
         if (data.status == 200) {
           sessionStore.authenticate(data.data);
-          console.log(sessionStore.isAuthenticated);
         }
       })
       .catch(() => {
