@@ -15,7 +15,7 @@
     <el-form-item label="Fornavn" prop="firstName">
       <el-input
         v-model="firstName"
-        placeholder="fornavn"
+        placeholder="Fornavn"
         size="large"
         type="text"
         id="first-name-input"
@@ -25,7 +25,7 @@
     <el-form-item label="Passord" prop="password">
       <el-input
         v-model="password"
-        placeholder="Password"
+        placeholder="Passord"
         size="large"
         type="password"
         id="password-input"
@@ -35,7 +35,7 @@
     <el-form-item label="Gjenta passord" prop="passwordConfirm">
       <el-input
         v-model="passwordConfirm"
-        placeholder="Password"
+        placeholder="Passord"
         size="large"
         type="password"
         @keyup.enter="submit"
