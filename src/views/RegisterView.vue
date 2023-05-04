@@ -6,7 +6,7 @@
   >
     <p class="tostext">
       Du kan lese vilkårene her:
-      <a href="/tos"> vilkår og betingelser</a>
+      <a href="/tos" target="_blank"> vilkår og betingelser</a>
     </p>
     <div>
       <el-button @click="acceptTerms" type="success" id="accept-tos">Ok</el-button>
