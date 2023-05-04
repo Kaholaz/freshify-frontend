@@ -38,4 +38,23 @@ describe("Shopping list", () => {
   it("Checks that the el-collapse is not collapsed", () => {
     cy.get("#items-collapse").should("not.have.class", "is-collapsed");
   });
+
+  it("Test adding an item to the shopping list", () => {
+    cy.intercept("POST", "/household/*/shoppinglist", { fixture: "add-item-to-shopping-list.json" }).as("add-to-shoppinglist");
+    cy.get("#add-item-selection-input").clear();
+    cy.get("#add-item-selection-input").type("a");  // Doesn't matter what we write. The response is mocked
+    cy.wait("@itemtype");
+    cy.get(".el-autocomplete-suggestion__list").children("li").first().click();  // Select the first item in the list (And)
+    cy.get("#add-item-selection-input").should("have.value", "And");
+
+    // Add 5 to shopping list
+    cy.get("#add-item-count-input").clear();
+    cy.get("#add-item-count-input").type("5");
+    cy.get("#add-item-count-input").should("have.value", "5");
+
+    cy.get("#add-item-button").click();
+    cy.wait("@add-to-shoppinglist");
+
+    cy.get("#shopping-list-added-items").contains("And");
+  });
 });

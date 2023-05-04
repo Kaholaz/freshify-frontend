@@ -50,7 +50,7 @@
       </el-form>
     </el-card>
     <el-collapse id="items-collapse" v-model="drawers">
-      <el-collapse-item name="active">
+      <el-collapse-item name="active" id="shopping-list-added-items">
         <template #title>
           <el-text>Varer</el-text>
         </template>
@@ -375,7 +375,7 @@ async function saveItem(item: CreateShoppingListEntry) {
   await householdApi.getUsers(houseHoldStore.household.id).then((response) => {
     const users = response.data;
     const user = users.find((user) => user.user.id === useSessionStore().getUser().id);
-    item.suggested = user.userType !== "SUPERUSER";
+    item.suggested = user?.userType !== "SUPERUSER";
   });
   return shoppingListApi
     .addItem(houseHoldStore.household.id, item)

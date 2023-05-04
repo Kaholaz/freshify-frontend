@@ -1,0 +1,15 @@
+{
+  "id": 1,
+  "count": 1,
+  "suggested": false,
+  "checked": false,
+  "type": {
+    "id": 16,
+    "name": "And"
+  },
+  "addedBy": {
+    "id": 1,
+    "firstName": "example",
+    "email": "example@example.org"
+  }
+}
