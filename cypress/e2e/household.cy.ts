@@ -15,7 +15,14 @@ describe("Household", () => {
     cy.intercept("PUT", "/household/*/users", { statusCode: 200 })
     cy.intercept("PUT", "/household/*/users", { fixture: "demote.json" }).as("demote");
     cy.intercept("PUT", "/household/*/users", { fixture: "demote.json" }).as("demote");
+    cy.contains('button', 'Degrader bruker').should('be.enabled');
     cy.contains('button', 'Promoter bruker').should('be.enabled');
     cy.contains('button', 'Degrader bruker').should('not.exist');
+    
+  });
+  it("Superuser can remove user", () => {
+    cy.url().should("include", "/edit-household");
+    cy.contains("Fjern bruker").click();
+    cy.intercept("DELETE", "/household/*/users/*", { statusCode: 200 })
   });
 });
