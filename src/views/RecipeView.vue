@@ -20,6 +20,12 @@
     </el-page-header>
     <img :src="currentRecipe?.image" alt="" class="recipe-image" />
     <h1>{{ currentRecipe?.name }}</h1>
+    <el-tag
+      :key="category.id"
+      style="margin-right: 0.2rem"
+      v-for="category in currentRecipe?.categories"
+      >{{ category.name }}</el-tag
+    >
     <h3>
       {{ currentRecipe?.description }}
     </h3>

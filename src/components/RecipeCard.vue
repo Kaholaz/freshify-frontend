@@ -15,6 +15,14 @@
             <Management color="orange" />
           </el-icon>
         </el-row>
+        <el-row>
+          <el-tag
+            :key="category.id"
+            style="margin-right: 0.2rem"
+            v-for="category in props.recipe.categories"
+            >{{ category.name }}</el-tag
+          >
+        </el-row>
         <p>Tid: ca {{ recipe?.estimatedTime }} min</p>
         <p>{{ recipe?.totalIngredientsInFridge }} ingredienser i kjøleskap</p>
         <p v-if="allIngredientsInFridge" style="color: var(--el-color-primary)">
