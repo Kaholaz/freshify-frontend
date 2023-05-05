@@ -121,7 +121,7 @@ async function addUser(email: string) {
   // Add user to household
   try {
     await householdApi.addUser(householdStore.household?.id!, { userId });
-    ElMessage.success(email + "ble lagt til");
+    ElMessage.success(email + " ble lagt til i");
     getUsers();
   } catch {
     ElMessage.error("Kunne ikke legge til bruker med epost: " + email);
