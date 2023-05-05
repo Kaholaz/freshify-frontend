@@ -50,7 +50,7 @@
     <el-divider></el-divider>
 
     <h4>Slik gjør du det</h4>
-    <p v-for="(step, index) in recipeSteps" :key="step">{{ index + 1 }} {{ step }}</p>
+    <p v-for="(step, index) in recipeSteps" :key="index">{{ step }}</p>
   </div>
 </template>
 
