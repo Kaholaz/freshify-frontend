@@ -256,6 +256,7 @@ function getShoppingList() {
 }
 
 async function searchItemType(queryString: string, cb: any) {
+  if (!queryString) return;
   const results = await itemTypesApi.searchItemTypes(queryString).then((response) => {
     return response.data;
   });
