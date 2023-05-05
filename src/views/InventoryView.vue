@@ -184,7 +184,7 @@ function useItem(item: Item, amount: number | null) {
     let newShoppingListEntry: CreateShoppingListEntry = {
       itemTypeId: item.type!.id,
       count: 1,
-      suggested: sessionStorage.getHighestRole === "USER",
+      suggested: !householdStore.isSuperuser(),
     };
     shoppingListApi
       .addItem(houseHoldId, newShoppingListEntry)
