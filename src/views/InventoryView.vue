@@ -39,7 +39,7 @@
       <el-button round type="info" @click="dialogAmount = 0"> Ingenting</el-button>
       <el-button round type="info" @click="dialogAmount = 0.25"> 0.25</el-button>
       <el-button round type="info" @click="dialogAmount = 0.5"> 0.5</el-button>
-      <el-button round type="info" @click="dialogAmount = 0.75"> 0.75</el-button>
+      <el-button round type="info" @click="dialogAmount = 0.75" id="use"> 0.75</el-button>
       <el-button round type="info" @click="dialogAmount = 1"> Hele</el-button>
     </div>
     <div class="re-add">
@@ -49,7 +49,9 @@
     </div>
     <span class="dialog-footer">
       <el-button type="danger" @click="useItemDialogVisible = false">Avbryt</el-button>
-      <el-button type="warning" @click="useItem(dialogItem, dialogAmount)"> Bruk </el-button>
+      <el-button type="warning" @click="useItem(dialogItem, dialogAmount)" id="submit">
+        Bruk
+      </el-button>
     </span>
   </el-dialog>
 </template>
