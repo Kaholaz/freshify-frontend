@@ -47,7 +47,7 @@ const emitter = inject("emitter");
 }
 
 .menu {
-  transition: all 0.5s ease;
+  transition: all 0.3s ease;
   background-color: #186332;
   margin: 0;
 }

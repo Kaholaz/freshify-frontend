@@ -72,42 +72,45 @@ import { inject, onMounted, onUnmounted } from "vue";
 const emitter = inject("emitter");
 
 onMounted(async () => {
-  emitter.on("scroll", () => myFunction());
+  emitter.on("scroll", (event: Event) => {
+    if (event.scrollTop < 10) {
+      enableTransparentBar();
+    } else {
+      disableTransparentBar();
+    }
+  });
+  enableTransparentBar();
+
+  return;
+});
+
+onUnmounted(() => {
+  disableTransparentBar();
+  emitter.off("scroll", () => disableTransparentBar());
+});
+
+function enableTransparentBar() {
   const topNav = document.getElementById("topNav");
   const img = document.getElementById("logo-img");
-
   if (!topNav || !img) return;
-
   if (topNav.classList?.contains("solid-menu")) {
     topNav.classList.remove("solid-menu");
   }
   if (!img.classList?.contains("invert")) {
     img.classList.add("invert");
   }
-  return;
-
-  function myFunction() {
-    if (!topNav || !img) return;
-    if (!topNav.classList?.contains("solid-menu")) {
-      topNav.classList.add("solid-menu");
-    }
-    if (img.classList?.contains("invert")) {
-      img.classList.remove("invert");
-    }
-  }
-});
-
-onUnmounted(() => {
+}
+function disableTransparentBar() {
   const topNav = document.getElementById("topNav");
   const img = document.getElementById("logo-img");
-  if (!topNav) return;
+  if (!topNav || !img) return;
   if (!topNav.classList?.contains("solid-menu")) {
     topNav.classList.add("solid-menu");
   }
   if (img.classList?.contains("invert")) {
     img.classList.remove("invert");
   }
-});
+}
 </script>
 <style scoped>
 .container {

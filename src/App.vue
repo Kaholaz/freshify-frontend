@@ -30,8 +30,8 @@ const isFullScreen = computed(() => {
 });
 
 const emitter = inject("emitter");
-function onScroll() {
-  emitter.emit("scroll");
+function onScroll(event: Event) {
+  emitter.emit("scroll", event);
 }
 </script>
 
@@ -59,7 +59,7 @@ function onScroll() {
       <el-drawer v-else-if="collapsed" v-model="drawer" direction="ltr" size="306px">
         <SideNavBar @select="drawerToggle()" />
       </el-drawer>
-      <el-scrollbar style="width: 100%" @scroll="onScroll()">
+      <el-scrollbar style="width: 100%" @scroll="onScroll($event)">
         <el-main>
           <RouterView id="main-view" />
         </el-main>
