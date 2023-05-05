@@ -26,7 +26,7 @@
         <div class="spacer"></div>
         <img
           src="src/assets/logo-no-background.svg"
-          style="width: 100%; padding-bottom: 4rem"
+          style="width: 100%; padding-bottom: 4rem; max-width: 600px"
           class="fade-in-text"
         />
       </el-col>
@@ -73,7 +73,7 @@ const emitter = inject("emitter");
 
 onMounted(async () => {
   emitter.on("scroll", (event: Event) => {
-    if (event.scrollTop < 10) {
+    if (event.scrollTop < 90) {
       enableTransparentBar();
     } else {
       disableTransparentBar();
@@ -123,7 +123,7 @@ function disableTransparentBar() {
 .wrapper {
   height: 100%;
   width: 100%;
-  background-image: url("/src/assets/landing-page.svg");
+  background-image: url("/src/assets/layered-waves-haikei.svg");
   background-repeat: no-repeat;
   background-size: cover;
 }
