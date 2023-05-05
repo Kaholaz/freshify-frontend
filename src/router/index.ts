@@ -24,6 +24,7 @@ const router = createRouter({
       meta: {
         requiresAuth: true,
         fullScreen: false,
+        title: "Handleliste"
       },
     },
     {
@@ -33,6 +34,7 @@ const router = createRouter({
       meta: {
         requiresAuth: true,
         fullScreen: false,
+        title: "Oversikt"
       },
     },
     {
@@ -41,6 +43,7 @@ const router = createRouter({
       component: () => import("@/views/LoginView.vue"),
       meta: {
         fullScreen: true,
+        title: "Freshify | Logg inn"
       },
     },
     {
@@ -49,6 +52,7 @@ const router = createRouter({
       component: () => import("@/views/RegisterView.vue"),
       meta: {
         fullScreen: true,
+        title: "Freshify | Registrering"
       },
     },
     {
@@ -65,6 +69,7 @@ const router = createRouter({
       component: () => import("@/views/HouseholdView.vue"),
       meta: {
         fullScreen: false,
+        title: "Rediger husholdning",
       },
     },
     {
@@ -73,6 +78,7 @@ const router = createRouter({
       component: () => import("@/views/ProfileView.vue"),
       meta: {
         fullScreen: false,
+        title: "Min profil",
       },
     },
     {
@@ -82,6 +88,7 @@ const router = createRouter({
       meta: {
         requiresAuth: false,
         fullScreen: true,
+        title: "Personvernerklæring",
       },
     },
     {
@@ -91,6 +98,7 @@ const router = createRouter({
       meta: {
         requiresAuth: false,
         fullScreen: true,
+        title: "Vilkår og betingelser"
       },
     },
     {
@@ -100,6 +108,7 @@ const router = createRouter({
       meta: {
         requiresAuth: true,
         fullScreen: false,
+        title: "Statistikk",
       },
     },
     {
@@ -109,6 +118,7 @@ const router = createRouter({
       meta: {
         requiresAuth: true,
         fullScreen: false,
+        title: "Oppskrifter",
       },
     },
     {
@@ -118,6 +128,7 @@ const router = createRouter({
       meta: {
         requiresAuth: true,
         fullScreen: false,
+        title: "Kundeavis",
       },
     },
   ],
@@ -138,6 +149,13 @@ router.beforeEach(async (to, from, next) => {
         sessionStore.timeout();
       });
     startup = false;
+  }
+
+  const title: any = to.meta.title
+  if (title) {
+    document.title = title
+  } else {
+    document.title = "Freshify"
   }
 
   if (to.meta.requiresAuth && !sessionStore.isAuthenticated) {
