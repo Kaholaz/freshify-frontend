@@ -7,7 +7,7 @@
       sortable
       :formatter="(row: any) => Math.trunc((Number(row.amountWasted)*100))"
     />
-    <el-table-column prop="countWasted" label="totalt" sortable />
+    <el-table-column prop="countWasted" label="antall brukt" sortable />
   </el-table>
 </template>
 <script lang="ts" setup>

@@ -6,9 +6,12 @@
     style="height: 11rem"
   >
     <h2 class="mb-5">{{ householdMember.user?.firstName }}</h2>
-    <p class="text-[#868e96]">
+    <el-tag
+      class="ml-2"
+      :type="householdMember.userType === HouseholdUserType.SUPERUSER ? 'success' : 'info'"
+    >
       {{ householdMember.userType === HouseholdUserType.SUPERUSER ? "SUPERBRUKER" : "BRUKER" }}
-    </p>
+    </el-tag>
     <p class="text-[#868e96]">{{ householdMember.user?.email }}</p>
     <footer
       class="mt-2 text-right"
