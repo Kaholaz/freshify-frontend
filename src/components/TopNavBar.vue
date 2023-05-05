@@ -1,7 +1,7 @@
 <template>
   <nav>
     <el-menu
-      style="min-height: 60px"
+      style="min-height: 65px"
       class="menu solid-menu"
       :default-active="activeIndex"
       :ellipsis="false"
@@ -38,7 +38,9 @@ const activeIndex = ref("1");
 
 const sessionStore = useSessionStore();
 
-const emitter = inject("emitter");
+function logOut() {
+  sessionStore.logOut();
+}
 </script>
 
 <style scoped>
