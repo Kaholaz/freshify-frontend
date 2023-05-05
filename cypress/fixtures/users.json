@@ -6,8 +6,20 @@
     },
     "user": {
       "id": 1,
-      "firstName": "asdf",
-      "email": "asdf@asdf.no"
+      "firstName": "John",
+      "email": "example@example.org"
+    },
+    "userType": "SUPERUSER"
+  },
+  {
+    "id": {
+      "householdId": 1,
+      "userId": 10
+    },
+    "user": {
+      "id": 10,
+      "firstName": "InvitedUser",
+      "email": "Invited@example.org"
     },
     "userType": "SUPERUSER"
   }

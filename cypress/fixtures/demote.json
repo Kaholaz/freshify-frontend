@@ -1,0 +1,5 @@
+{
+  "id": { "householdId": 123, "userId": 10 },
+  "user": { "id": 10, "firstName": "InvitedUser", "email": "Invited@example.org" },
+  "userType": "USER"
+}
