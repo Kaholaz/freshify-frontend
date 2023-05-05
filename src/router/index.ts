@@ -168,10 +168,12 @@ router.beforeEach(async (to, from, next) => {
     document.title = "Freshify";
   }
 
-  if (to.meta.requiresAuth && !sessionStore.isAuthenticated) {
-    next({ name: "login" });
+  if (to.name === 'privacy') {
+    next();
+  } else if (to.meta.requiresAuth && !sessionStore.isAuthenticated) {
+    next({ name: 'login' });
   } else if (to.meta.requiresAuth == false && sessionStore.isAuthenticated) {
-    next({ name: "inventory" });
+    next({ name: 'inventory' });
   } else {
     next();
   }
