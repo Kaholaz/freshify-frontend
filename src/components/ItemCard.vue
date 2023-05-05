@@ -4,7 +4,8 @@
     :class="{
       'item-card-wrapper': true,
       'item-card-only-title': !item.addedBy,
-      'warning-age': getDaysSinceLastChanged(item).value > 7 && getDaysSinceLastChanged(item).value <= 14,
+      'warning-age':
+        getDaysSinceLastChanged(item).value > 7 && getDaysSinceLastChanged(item).value <= 14,
       'danger-age': getDaysSinceLastChanged(item).value > 14,
     }"
     shadow="always"
