@@ -1,23 +1,29 @@
 <template>
-  <div style="padding: 10px">
-    <el-button class="menu-item-button" @click="showMapPopup = !showMapPopup">
-      <el-icon>
-        <MapLocation />
-      </el-icon>
-      <span>Vis kart</span>
-    </el-button>
-    <teleport to="body">
-      <MapPopup
-        v-if="showMapPopup"
-        @closeAndUpdate="closeAndUpdate"
-        :modelValue="{ latitude: params.r_lat, longitude: params.r_lng }"
-        :radius="params.r_radius"
-      />
-    </teleport>
+  <div>
     <div>
       <h1>Kundeaviser i nærheten</h1>
+      <el-button
+        type="primary"
+        plain
+        class="menu-item-button"
+        @click="showMapPopup = !showMapPopup"
+        style="margin: 10px"
+      >
+        <el-icon>
+          <MapLocation />
+        </el-icon>
+        <span>Vis kart</span>
+      </el-button>
+      <teleport to="body" style="padding: 10px">
+        <MapPopup
+          v-if="showMapPopup"
+          @closeAndUpdate="closeAndUpdate"
+          :modelValue="{ latitude: params.r_lat, longitude: params.r_lng }"
+          :radius="params.r_radius"
+        />
+      </teleport>
       <link href="https://js-sdk.tjek.com/sgn-sdk-4.x.x.min.css" rel="stylesheet" type="text/css" />
-      <div id="list-publications"></div>
+      <div style="padding: 10px" id="list-publications"></div>
     </div>
   </div>
 </template>
