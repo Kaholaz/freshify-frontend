@@ -191,7 +191,7 @@ function disableTransparentBar() {
 .section {
   margin: 0;
   padding: 5rem;
-  height: 100vh;
+  height: calc(100vh - 60px);
 }
 
 .fade-in-text {
