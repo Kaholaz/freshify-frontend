@@ -128,6 +128,15 @@ const router = createRouter({
       meta: {
         requiresAuth: true,
         fullScreen: false,
+      },
+    },
+    {
+      path: "/recipes/:id",
+      name: "recipe-view",
+      component: () => import("@/views/RecipeView.vue"),
+      meta: {
+        requiresAuth: true,
+        fullScreen: false,
         title: "Kundeavis",
       },
     },

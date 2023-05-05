@@ -71,7 +71,7 @@ function removeUser(user: HouseholdMember) {
       householdMembers.value = householdMembers.value.filter((u) => u.user?.id !== user.user?.id);
     })
     .catch((error) => {
-      ElMessage.error("Kunne ikke fjerne bruker fra husholdning" + error);
+      ElMessage.error("Kunne ikke fjerne bruker fra husholdning: " + error);
     });
 }
 
@@ -94,7 +94,10 @@ function updateUserPrivilege(householdMember: HouseholdMember) {
     .updateHouseholdMemberRole(householdStore.household?.id!, updateHouseholdUserType)
     .then(() => {
       ElMessage.success(
-        "Oppdaterte bruker " + householdMember.user!.firstName + " til: " + updatePrivileges
+        "Oppdaterte bruker " +
+          householdMember.user!.firstName +
+          " til: " +
+          (updatePrivileges === "USER" ? "Bruker" : "Superbruker")
       );
       householdMembers.value = householdMembers.value.map((u) => {
         if (u?.user?.id === householdMember.user?.id) u.userType = updatePrivileges;
@@ -102,7 +105,7 @@ function updateUserPrivilege(householdMember: HouseholdMember) {
       });
     })
     .catch((error) => {
-      ElMessage.error("Kunne ikke oppdatere bruker" + error);
+      ElMessage.error("Kunne ikke oppdatere bruker: " + error);
     });
 }
 
@@ -121,7 +124,7 @@ async function addUser(email: string) {
   // Add user to household
   try {
     await householdApi.addUser(householdStore.household?.id!, { userId });
-    ElMessage.success(email + "ble lagt til");
+    ElMessage.success(email + " ble lagt til i husholdningen");
     getUsers();
   } catch {
     ElMessage.error("Kunne ikke legge til bruker med epost: " + email);
@@ -137,7 +140,7 @@ function deleteHousehold() {
       ElMessage.success("Slettet husholdning");
     })
     .catch((error) => {
-      ElMessage.error("Kunne ikke slette husholdning" + error);
+      ElMessage.error("Kunne ikke slette husholdning: " + error);
     });
 }
 </script>
