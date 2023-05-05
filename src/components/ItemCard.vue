@@ -4,8 +4,8 @@
     :class="{
       'item-card-wrapper': true,
       'item-card-only-title': !item.addedBy,
-      'warning-age': getDaysSinceBought(item) > 7 && getDaysSinceBought(item) <= 14,
-      'danger-age': getDaysSinceBought(item) > 14,
+      'warning-age': getDaysSinceLastChanged(item) > 7 && getDaysSinceLastChanged(item) <= 14,
+      'danger-age': getDaysSinceLastChanged(item) > 14,
     }"
     shadow="always"
   >
@@ -15,10 +15,16 @@
         <el-text v-if="item.bought && getDaysSinceBought(item) > 0"
           >Kjøpt for {{ getDaysSinceBought(item) }} dager siden.
         </el-text>
-        <el-text v-else-if="item.bought && getDaysSinceBought(item) == 0"> Kjøpt i dag</el-text>
+        <el-text v-else-if="item.bought && getDaysSinceBought(item) == 0">Kjøpt i dag</el-text>
+        <el-text v-if="item.bought !== item.lastChanged">
+          Sist sjekket: {{ getDaysSinceLastChanged(item) }}
+        </el-text>
       </div>
 
       <div class="buttons">
+        <el-button id="extend-button" type="primary" @click="emit('extend')"
+          >Forleng varighet</el-button
+        >
         <el-button id="use-button" type="primary" @click="emit('use', item)">Bruk</el-button>
         <el-button id="delete-button" type="danger" @click="emit('delete', item)">Slett</el-button>
       </div>
@@ -28,7 +34,7 @@
 
 <script lang="ts" setup>
 import type { Item } from "@/services/index";
-import { getDaysSinceBought } from "@/utils/item-utils";
+import { getDaysSinceBought, getDaysSinceLastChanged } from "@/utils/item-utils";
 
 // Define props
 defineProps<ItemCardProps>();
@@ -41,6 +47,7 @@ export interface ItemCardProps {
 const emit = defineEmits<ItemCardEmits>();
 
 export interface ItemCardEmits {
+  (event: "extend"): void;
   (event: "use", item: Item): void;
 
   (event: "delete", item: Item): void;

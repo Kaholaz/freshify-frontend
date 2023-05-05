@@ -9,15 +9,21 @@
     @submit.prevent
   >
     <el-form-item label="Navn på husholdning" prop="householdName">
-      <el-input v-model="householdName" placeholder="husholdning" type="text"></el-input>
+      <el-input
+        v-model="householdName"
+        placeholder="husholdning"
+        type="text"
+        id="household-name-input"
+        @keyup.enter="createHousehold"
+      ></el-input>
     </el-form-item>
-    <el-row>
+    <el-row style="margin-top: 1rem">
+      <el-form-item style="margin: 0">
+        <el-button type="primary" @click="createHousehold">Lag husholdning</el-button>
+      </el-form-item>
       <div class="spacer"></div>
       <el-link @click="$emit('skip')">Jeg ønsker ikke å lage husholdning</el-link>
     </el-row>
-    <el-form-item>
-      <el-button type="primary" @click="createHousehold">Lag husholdning</el-button>
-    </el-form-item>
   </el-form>
 </template>
 <script lang="ts" setup>

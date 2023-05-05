@@ -1,7 +1,9 @@
 <template>
   <nav>
     <el-menu :default-active="activeIndex" :ellipsis="false" mode="horizontal" router>
-      <el-menu-item :index="'/inventory'">LOGO</el-menu-item>
+      <el-menu-item :index="'/inventory'" id="logo-menu-item">
+        <img src="@/assets/logo-color.png" alt="logo" id="logo-img" />
+      </el-menu-item>
       <div class="flex-grow" />
       <el-menu-item v-if="sessionStore.isAuthenticated" index="/profile">
         <el-icon>
@@ -40,5 +42,18 @@ function logOut() {
 .menu-item-button {
   margin: auto 1rem;
   align-content: center;
+}
+
+#logo-menu-item {
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: none;
+  border: none;
+}
+
+#logo-img {
+  height: 40px;
 }
 </style>

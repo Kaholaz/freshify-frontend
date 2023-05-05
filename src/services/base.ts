@@ -15,8 +15,9 @@ import { Configuration } from "./configuration";
 // Some imports not used depending on template conditions
 // @ts-ignore
 import globalAxios, { AxiosInstance, AxiosRequestConfig } from "axios";
+import { useSessionStore } from "../stores/session";
 
-export const BASE_PATH = "http://localhost:8080".replace(/\/+$/, "");
+export const BASE_PATH = import.meta.env.VITE_BACKEND_URI.replace(/\/+$/, "");
 
 /**
  *
@@ -57,6 +58,19 @@ export class BaseAPI {
       this.basePath = configuration.basePath || this.basePath;
     }
     axios.defaults.withCredentials = true;
+    this.axios.interceptors.response.use(
+      (response) => {
+        useSessionStore().refreshNotification();
+        return response;
+      },
+      (error) => {
+        if (error.response.status === 401 && useSessionStore().isAuthenticated) {
+          useSessionStore().timeout();
+        }
+        useSessionStore().refreshNotification();
+        throw error;
+      }
+    );
   }
 }
 

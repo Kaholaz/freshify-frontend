@@ -15,9 +15,9 @@
       </el-form>
       <template #footer>
         <span class="dialog-footer">
-          <el-button @click="dialogFormVisible = false">Cancel</el-button>
+          <el-button @click="dialogFormVisible = false">Avbryt</el-button>
           <el-button ref="confirmButton" type="primary" @click="submitForm(ruleFormRef)">
-            Confirm
+            Legg til
           </el-button>
         </span>
       </template>
@@ -57,8 +57,8 @@ const form = reactive({
 
 const rules = reactive<FormRules>({
   newUserEmail: [
-    { required: true, message: "Please input email", trigger: "blur" },
-    { type: "email", message: "Please input correct email", trigger: "blur" },
+    { required: true, message: "Epost kreves", trigger: "blur" },
+    { type: "email", message: "Epost må være en gyldig epost", trigger: "blur" },
   ],
 });
 

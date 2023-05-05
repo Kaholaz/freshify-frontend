@@ -6,6 +6,7 @@ default:
 stages:
   - code-quality
   - test
+  - deploy
 
 lint-job:
   stage: code-quality
@@ -25,7 +26,7 @@ unit-test-job:
   stage: test
   script:
     - echo "Running unit tests..."
-    - npm run test:unit
+    - npx vitest --mode development
     - echo "Finished running unit tests."
 
 e2e-test-job:
@@ -35,3 +36,18 @@ e2e-test-job:
     - echo "Running end to end tests..."
     - npm run test:e2e
     - echo "Finished running end to end tests."
+
+deploy:
+  stage: deploy
+  script:
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+
+    - eval `ssh-agent -s`
+    - chmod 400 $SSH_PRIVATE_KEY
+    - ssh-add $SSH_PRIVATE_KEY
+
+    - npm run build-only
+    - scp -o StrictHostKeyChecking=no -o PasswordAuthentication=no -r dist/* freshify@freshify.no:/var/www/freshify.no
+  only:
+    - dev

@@ -23,6 +23,8 @@ const router = createRouter({
       component: () => import("@/views/ShoppingListView.vue"),
       meta: {
         requiresAuth: true,
+        fullScreen: false,
+        title: "Handleliste",
       },
     },
     {
@@ -31,6 +33,8 @@ const router = createRouter({
       component: () => import("@/views/InventoryView.vue"),
       meta: {
         requiresAuth: true,
+        fullScreen: false,
+        title: "Oversikt",
       },
     },
     {
@@ -39,6 +43,7 @@ const router = createRouter({
       component: () => import("@/views/LoginView.vue"),
       meta: {
         fullScreen: true,
+        title: "Freshify | Logg inn",
       },
     },
     {
@@ -47,6 +52,7 @@ const router = createRouter({
       component: () => import("@/views/RegisterView.vue"),
       meta: {
         fullScreen: true,
+        title: "Freshify | Registrering",
       },
     },
     {
@@ -61,11 +67,39 @@ const router = createRouter({
       path: "/edit-household",
       name: "edit household",
       component: () => import("@/views/HouseholdView.vue"),
+      meta: {
+        fullScreen: false,
+        title: "Rediger husholdning",
+      },
     },
     {
       path: "/profile",
       name: "profile",
       component: () => import("@/views/ProfileView.vue"),
+      meta: {
+        fullScreen: false,
+        title: "Min profil",
+      },
+    },
+    {
+      path: "/privacy",
+      name: "privacy",
+      component: () => import("@/views/PrivacyView.vue"),
+      meta: {
+        requiresAuth: false,
+        fullScreen: true,
+        title: "Personvernerklæring",
+      },
+    },
+    {
+      path: "/tos",
+      name: "tos",
+      component: () => import("@/views/TosView.vue"),
+      meta: {
+        requiresAuth: false,
+        fullScreen: true,
+        title: "Vilkår og betingelser",
+      },
     },
     {
       path: "/statistics",
@@ -73,6 +107,8 @@ const router = createRouter({
       component: () => import("@/views/StatisticsView.vue"),
       meta: {
         requiresAuth: true,
+        fullScreen: false,
+        title: "Statistikk",
       },
     },
     {
@@ -81,6 +117,18 @@ const router = createRouter({
       component: () => import("@/views/RecipesView.vue"),
       meta: {
         requiresAuth: true,
+        fullScreen: false,
+        title: "Oppskrifter",
+      },
+    },
+    {
+      path: "/publication",
+      name: "publication",
+      component: () => import("@/views/PublicationView.vue"),
+      meta: {
+        requiresAuth: true,
+        fullScreen: false,
+        title: "Kundeavis",
       },
     },
   ],
@@ -95,13 +143,19 @@ router.beforeEach(async (to, from, next) => {
       .then((data) => {
         if (data.status == 200) {
           sessionStore.authenticate(data.data);
-          console.log(sessionStore.isAuthenticated);
         }
       })
       .catch(() => {
         sessionStore.timeout();
       });
     startup = false;
+  }
+
+  const title: any = to.meta.title;
+  if (title) {
+    document.title = title;
+  } else {
+    document.title = "Freshify";
   }
 
   if (to.meta.requiresAuth && !sessionStore.isAuthenticated) {

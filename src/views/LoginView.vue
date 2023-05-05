@@ -1,6 +1,6 @@
 <template>
   <el-card class="container">
-    <h2>Log in</h2>
+    <h2>Logg inn</h2>
 
     <el-form ref="form" :model="data" class="login-form" label-position="top">
       <el-form-item label="Email" prop="email">
@@ -15,7 +15,7 @@
         />
       </el-form-item>
 
-      <el-form-item label="Password" prop="password">
+      <el-form-item label="Passord" prop="password">
         <el-input
           id="password-input"
           v-if="data"

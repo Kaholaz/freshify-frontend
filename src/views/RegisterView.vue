@@ -1,4 +1,18 @@
 <template>
+  <el-dialog
+    title="Du må godta vilkårene for å registrere deg som bruker"
+    v-model="dialogVisible"
+    style="max-width: 350px"
+  >
+    <p class="tostext">
+      Du kan lese vilkårene her:
+      <a href="/tos" target="_blank"> vilkår og betingelser</a>
+    </p>
+    <div>
+      <el-button @click="acceptTerms" type="success" id="accept-tos">Ok</el-button>
+      <el-button @click="exitTerms" type="danger">Avbryt</el-button>
+    </div>
+  </el-dialog>
   <el-steps
     :active="active"
     align-center
@@ -45,14 +59,21 @@ const user = reactive({
 const accountApi = new AccountApi();
 const sessionStore = useSessionStore();
 const errorMessage = ref<string>("");
+const householdStore = useHouseholdStore();
 
 const active = ref(0);
+const dialogVisible = ref(false);
+const acceptedTerms = ref(false);
 
 const next = () => {
   if (active.value++ > 2) active.value = 0;
 };
 
 function submit() {
+  if (!acceptedTerms.value) {
+    dialogVisible.value = true;
+    return;
+  }
   accountApi
     .createUser(user)
     .then((data) => {
@@ -71,6 +92,16 @@ function submit() {
     });
 }
 
+function acceptTerms() {
+  acceptedTerms.value = true;
+  dialogVisible.value = false;
+  submit();
+}
+
+function exitTerms() {
+  dialogVisible.value = false;
+}
+
 const household = reactive({
   name: "",
 } as CreateHousehold);
@@ -85,7 +116,7 @@ function createHousehold() {
   householdApi
     .createHousehold(household)
     .then((data) => {
-      useHouseholdStore().household = data.data;
+      householdStore.household = data.data;
       next();
       router.push({ name: "inventory" });
     })
@@ -106,5 +137,9 @@ function createHousehold() {
   width: 90%;
   margin: 10vh auto;
   max-width: 500px;
+}
+
+.tostext {
+  margin-bottom: 20px;
 }
 </style>

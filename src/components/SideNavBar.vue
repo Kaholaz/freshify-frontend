@@ -15,21 +15,22 @@
       v-else-if="houseHoldStore.households?.length > 0"
       :model-value="houseHoldStore.household.name"
       style="width: calc(100% - 2rem); margin: 1rem"
-      @change="$emit('select')"
     >
       <el-option
         v-for="item in houseHoldStore.households"
         :key="item.id"
         :label="item.name"
         :value="item"
-        @click="houseHoldStore.household = item"
+        @click="(houseHoldStore.household = item) && $emit('select')"
       ></el-option>
-      <el-button style="width: 100%" type="primary" @click="isCreateHouseholdDialog = true">
-        <el-icon>
-          <HomeFilled />
-        </el-icon>
-        <span>Legg til husholdning</span>
-      </el-button>
+      <el-option @click="isCreateHouseholdDialog = true" style="padding: 0; margin-bottom: -6px">
+        <el-button style="width: 100%" type="primary">
+          <el-icon>
+            <HomeFilled />
+          </el-icon>
+          <span>Legg til husholdning</span>
+        </el-button>
+      </el-option>
     </el-select>
 
     <el-menu-item index="/shopping-list">
@@ -56,6 +57,12 @@
       </el-icon>
       <span>Oppskrifter</span>
     </el-menu-item>
+    <el-menu-item index="/publication">
+      <el-icon>
+        <Notebook />
+      </el-icon>
+      <span>Kundeavis</span>
+    </el-menu-item>
     <el-menu-item index="/edit-household">
       <el-icon>
         <Setting />
@@ -63,7 +70,7 @@
       <span>Rediger husholdning</span>
     </el-menu-item>
   </el-menu>
-  <el-dialog v-model="isCreateHouseholdDialog" show-close>
+  <el-dialog v-model="isCreateHouseholdDialog" show-close style="width: 95%; max-width: 500px">
     <CreateHouseholdComponent
       v-model:household-name="newHousehold.name"
       @skip="skipCreateHousehold"
@@ -74,8 +81,16 @@
 
 <script lang="ts" setup>
 import router from "@/router";
-import { DataAnalysis, Dish, HomeFilled, List, Management, Setting } from "@element-plus/icons-vue";
-import { onMounted, ref } from "vue";
+import {
+  DataAnalysis,
+  Dish,
+  HomeFilled,
+  List,
+  Management,
+  Setting,
+  Notebook,
+} from "@element-plus/icons-vue";
+import { inject, onMounted, ref } from "vue";
 import { useHouseholdStore } from "@/stores/household";
 import { CreateHousehold, Household, HouseholdApi } from "@/services/index";
 import CreateHouseholdComponent from "@/components/CreateHouseholdComponent.vue";
