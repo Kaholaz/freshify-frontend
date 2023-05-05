@@ -23,8 +23,6 @@ const collapsed = computed(() => {
 const [drawer, drawerToggle] = useToggle();
 
 const isFullScreen = computed(() => {
-  console.log("mo");
-  console.log(router.currentRoute.value.meta?.fullsScreen);
   if (router.currentRoute.value.meta?.fullScreen === undefined) return true;
   return router.currentRoute.value.meta?.fullScreen;
 });

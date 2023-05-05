@@ -159,7 +159,6 @@ function updateMissingIngredients() {
 
 onMounted(async () => {
   await router.isReady();
-  console.log(recipeId.value);
   fetchRecipe();
 });
 
@@ -174,13 +173,9 @@ function fetchRecipe() {
     .then((data) => {
       currentRecipe.value = data.data;
       isBookmarked.value = data.data.isInHousehold;
-      console.log(currentRecipe.value?.totalIngredientsInFridge);
-      console.log(currentRecipe.value?.recipeIngredients?.length);
     })
     .catch((error) => {
-      console.log(error.response?.status);
       if (error.response?.status == 404) {
-        console.log("heiheihei");
         doesExist.value = false;
       } else {
         showError("Kunne ikke hente bokmerkede oppskrifter", "Prøv igjen senere", 0);
@@ -192,9 +187,7 @@ function removeFromBookmarked() {
   isBookmarked.value = !isBookmarked.value;
   householdRecipeApi
     .removeHouseholdRecipe(householdStore.household?.id!, currentRecipe.value?.id!)
-    .then(() => {
-      console.log("remove bookmark: " + currentRecipe.value?.name);
-    })
+    .then(() => {})
     .catch(() => {
       ElMessage.error("Kunne ikke fjerne bokmerket for oppskrift: " + currentRecipe.value?.name);
     });
@@ -216,7 +209,6 @@ function addMissingIngredientsToShoppingList() {
   if (!householdStore.household) return;
   for (const itemId in missingIngredientsDraft.value) {
     let count = missingIngredientsDraft.value[itemId];
-    console.info(`Create ${count} shopping list entries for item id: ${itemId}`);
     if (!count) continue;
     shoppingListApi
       .addItem(householdStore.household?.id!, {

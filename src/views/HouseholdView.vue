@@ -75,10 +75,8 @@ function removeUser(user: HouseholdMember) {
 }
 
 function updateUserPrivilege(householdMember: HouseholdMember) {
-  console.log(householdMember);
   if (!householdMember.user) return;
   if (!householdMember.userType) return;
-  console.log(householdMember);
 
   let updatePrivileges =
     householdMember.userType === HouseholdUserType.USER
