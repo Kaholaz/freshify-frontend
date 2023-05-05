@@ -94,7 +94,10 @@ function updateUserPrivilege(householdMember: HouseholdMember) {
     .updateHouseholdMemberRole(householdStore.household?.id!, updateHouseholdUserType)
     .then(() => {
       ElMessage.success(
-        "Oppdaterte bruker " + householdMember.user!.firstName + " til: " + updatePrivileges
+        "Oppdaterte bruker " +
+          householdMember.user!.firstName +
+          " til: " +
+          (updatePrivileges === "USER" ? "Bruker" : "Superbruker")
       );
       householdMembers.value = householdMembers.value.map((u) => {
         if (u?.user?.id === householdMember.user?.id) u.userType = updatePrivileges;
