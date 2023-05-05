@@ -90,15 +90,6 @@ const rules = ref({
   ],
 });
 
-// Define callback functions
-function validatePasswordConfirm() {
-  if (passwordData.value.password !== passwordData.value.passwordConfirm) {
-    return Promise.reject("Passordene må være like!");
-  } else {
-    return Promise.resolve();
-  }
-}
-
 // Other script logic
 </script>
 
