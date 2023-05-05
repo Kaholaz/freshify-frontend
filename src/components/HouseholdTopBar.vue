@@ -33,6 +33,7 @@
       confirm-button-text="Ja"
       icon-color="#F89898"
       title="Slett husholdning"
+      width="160px"
       @confirm="emit('deleteHousehold')"
     >
       <template #reference>

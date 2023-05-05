@@ -45,9 +45,10 @@ function logOut() {
 }
 
 #logo-menu-item {
-  height: 60px;
+  height: 100%;
   display: flex;
   justify-content: center;
+  align-self: center;
   align-items: center;
   background: none;
   border: none;
