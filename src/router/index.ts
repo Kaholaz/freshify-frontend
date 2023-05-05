@@ -171,7 +171,7 @@ router.beforeEach(async (to, from, next) => {
   if (to.name === "privacy") {
     next();
   } else if (to.meta.requiresAuth && !sessionStore.isAuthenticated) {
-    next({ name: "login" });
+    next("/");
   } else if (to.meta.requiresAuth == false && sessionStore.isAuthenticated) {
     next({ name: "inventory" });
   } else {
