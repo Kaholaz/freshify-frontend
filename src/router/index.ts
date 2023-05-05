@@ -128,6 +128,7 @@ const router = createRouter({
       meta: {
         requiresAuth: true,
         fullScreen: false,
+        title: "Kundeaviser",
       },
     },
     {
