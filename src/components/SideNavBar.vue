@@ -60,7 +60,7 @@
       <el-icon>
         <Notebook />
       </el-icon>
-      <span>Kundeavis</span>
+      <span>Kundeaviser</span>
     </el-menu-item>
     <el-menu-item index="/edit-household">
       <el-icon>
