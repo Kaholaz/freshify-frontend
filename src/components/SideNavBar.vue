@@ -69,7 +69,7 @@
       <span>Rediger husholdning</span>
     </el-menu-item>
   </el-menu>
-  <el-dialog v-model="isCreateHouseholdDialog" show-close>
+  <el-dialog v-model="isCreateHouseholdDialog" show-close style="width: 95%; max-width: 500px">
     <CreateHouseholdComponent
       v-model:household-name="newHousehold.name"
       @skip="skipCreateHousehold"
