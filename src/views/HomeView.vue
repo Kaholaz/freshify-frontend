@@ -30,6 +30,7 @@
           style="width: 100%; padding-bottom: 4rem; max-width: 600px"
         />
       </el-col>
+      <div id="scroll-indicator"></div>
     </el-row>
     <el-row class="section wrapper-2">
       <el-col :sm="12" :span="24" class="flex">
@@ -237,6 +238,30 @@ function disableTransparentBar() {
 @media only screen and (max-width: 1500px) {
   .section {
     padding: 1rem;
+  }
+}
+
+#scroll-indicator {
+  position: absolute;
+  top: calc(100vh - 110px);
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  border-bottom: 3px solid rgba(0, 0, 0, 0.4);
+  border-right: 3px solid rgba(0, 0, 0, 0.4);
+  height: 30px;
+  width: 30px;
+  animation: bobbing 1.2s infinite ease-in-out;
+}
+
+@keyframes bobbing {
+  0% {
+    transform: translate(-50%, 0px) rotate(45deg);
+  }
+  50% {
+    transform: translate(-50%, -14px) rotate(45deg);
+  }
+  100% {
+    transform: translate(-50%, 0px) rotate(45deg);
   }
 }
 </style>

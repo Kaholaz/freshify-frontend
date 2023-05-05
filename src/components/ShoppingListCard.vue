@@ -1,5 +1,5 @@
 <template>
-  <el-card style="margin-bottom: 1rem">
+  <el-card style="margin-bottom: 1rem" shadow="hover">
     <el-row align="middle">
       <el-col :span="2">
         <el-checkbox

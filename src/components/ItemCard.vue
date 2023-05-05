@@ -8,7 +8,7 @@
         getDaysSinceLastChanged(item).value > 7 && getDaysSinceLastChanged(item).value <= 14,
       'danger-age': getDaysSinceLastChanged(item).value > 14,
     }"
-    shadow="always"
+    shadow="hover"
   >
     <div class="card-body">
       <div class="info">

@@ -71,7 +71,7 @@ describe("LoginView.vue", () => {
   });
 
   it("displays an error message when there is an authentication error", async () => {
-    const errorMessage = "Feil brukernavn eller passord";
+    const errorMessage = "Feil e-post eller passord";
 
     vi.mock("@/services/index", () => ({
       AccountApi: vi.fn().mockImplementation(() => ({
