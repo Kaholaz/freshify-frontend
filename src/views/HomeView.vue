@@ -25,7 +25,7 @@
       <el-col :span="24" :sm="12" class="col flex">
         <div class="spacer"></div>
         <img
-          src="src/assets/logo-no-background.svg"
+          src="/src/assets/logo-no-background.svg"
           style="width: 100%; padding-bottom: 4rem; max-width: 600px"
           class="fade-in-text"
         />
@@ -44,7 +44,7 @@
     </el-row>
     <el-row class="section wrapper-3">
       <el-col :span="24" :sm="12" class="flex center">
-        <img src="src/assets/snap.png" class="img" />
+        <img src="/src/assets/snap.png" class="img" />
       </el-col>
       <el-col :span="24" :sm="12" style="background-color: transparent">
         <h1>Bruk varene med to trykk</h1>
@@ -60,7 +60,7 @@
         <div class="spacer"></div>
       </el-col>
       <el-col :span="24" :sm="12" style="background-color: transparent" class="flex center">
-        <img src="src/assets/recipe.png" class="img" />
+        <img src="/src/assets/recipe.png" class="img" />
       </el-col>
     </el-row>
   </div>
