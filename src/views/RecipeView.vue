@@ -81,10 +81,15 @@
     </div>
     <div id="add-ingredients-draft" style="margin-top: 20px">
       <h5>Velg antall av hver vare som du vil legge til i handlelista:</h5>
-      <p v-for="ingredient in missingIngredients" :key="ingredient.id" style="margin-top: 5px">
-        {{ ingredient.itemType?.name }}:
-        <el-input v-model="missingIngredientsDraft[ingredient.id!]" type="number"></el-input>
-      </p>
+      <el-form label-position="left" label-width="150px">
+        <el-form-item
+          v-for="ingredient in missingIngredients"
+          :label="ingredient.itemType?.name"
+          :key="ingredient.id"
+        >
+          <el-input v-model="missingIngredientsDraft[ingredient.id!]" type="number"></el-input>
+        </el-form-item>
+      </el-form>
     </div>
     <div class="buttons" style="margin-top: 18px">
       <el-button type="success" @click="addMissingIngredientsToShoppingList">
