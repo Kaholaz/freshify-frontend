@@ -18,7 +18,10 @@
     />
   </div>
   <div class="recipe-container" v-else-if="recipes === undefined">
-    <RecipeSkeleton count="5"></RecipeSkeleton>
+    <RecipeSkeleton :count="1"></RecipeSkeleton>
+    <RecipeSkeleton :count="1"></RecipeSkeleton>
+    <RecipeSkeleton :count="1"></RecipeSkeleton>
+    <RecipeSkeleton :count="1"></RecipeSkeleton>
   </div>
   <div v-else>
     <slot></slot>
@@ -36,7 +39,6 @@ import RecipeCard from "@/components/RecipeCard.vue";
 import { Recipe, RecipeDTO } from "@/services/index";
 import router from "@/router";
 import { computed } from "vue";
-import ShoppingListCardSkeleton from "@/components/ShoppingListCardSkeleton.vue";
 import RecipeSkeleton from "@/components/RecipeSkeleton.vue";
 
 const props = defineProps<{
@@ -61,7 +63,7 @@ function onClick(recipeClicked: Recipe) {
 <style scoped>
 .recipe-container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
   grid-gap: 20px;
   width: 100%;
   transition: 2s;

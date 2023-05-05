@@ -65,7 +65,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue";
+import {ref, onMounted, onUnmounted, inject} from "vue";
 import type { AllergenRequest, Recipe, RecipeCategory, RecipeDTO } from "@/services/index";
 import { Search } from "@element-plus/icons-vue";
 import { RecipesApi } from "@/services/apis/recipes-api";
@@ -101,6 +101,18 @@ const selectedAllergies = ref([] as number[]);
 const categories = ref<RecipeCategory[]>([]);
 const selectedCategories = ref<number[]>([]);
 
+const emitter = inject("emitter");
+
+// Update bookmarkes when household is changed
+onMounted(() => {
+  getBookmarkedRecipes();
+  emitter.on("household-updated", getBookmarkedRecipes);
+});
+
+onUnmounted(() => {
+  emitter.off("household-updated", getBookmarkedRecipes);
+});
+
 allergenApi.getAllergens().then((response) => {
   allergens.value = response.data;
   console.log(allergens.value);
@@ -112,7 +124,6 @@ recipeCategoryApi.getAllRecipeCategories().then((response) => {
 
 const bookmarkedCurrentPage = ref<number>(1);
 const bookMarkedTotalPages = ref<number>(0);
-getBookmarkedRecipes();
 
 async function getBookmarkedRecipes() {
   if (householdStore.household) {

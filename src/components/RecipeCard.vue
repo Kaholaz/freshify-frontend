@@ -1,6 +1,5 @@
 <template>
   <el-card
-    class="relative m-2 w-full max-w-xl overflow-visible"
     shadow="hover"
     style="height: fit-content; cursor: pointer"
     :style="{ 'border-color': allIngredientsInFridge ? 'var(--el-color-primary)' : '' }"
@@ -28,10 +27,16 @@
         <p v-if="allIngredientsInFridge" style="color: var(--el-color-primary)">
           alle ingredienser er i kjøleskap
         </p>
-        <footer class="mt-2 text-right">
-          <h5 class="mb-5">Allergier:</h5>
-          <p class="text-[#868e96]" v-if="recipe?.allergens?.length! > 0">{{ allergies }}</p>
-          <p class="text-[#868e96]" v-else>ingen</p>
+        <footer v-if="recipe?.allergens.length > 0">
+          <el-row>
+            <el-tag
+              :key="allergen.id"
+              style="margin-right: 0.2rem"
+              type="danger"
+              v-for="allergen in props.recipe.allergens"
+              >{{ allergen.name }}</el-tag
+            >
+          </el-row>
         </footer>
       </div>
     </el-row>
@@ -71,5 +76,10 @@ const allergies = computed(() => {
 .content {
   margin-top: 13px;
   align-items: center;
+}
+
+img {
+  aspect-ratio: 16/9;
+  object-fit: cover;
 }
 </style>

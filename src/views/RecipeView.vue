@@ -26,6 +26,13 @@
       v-for="category in currentRecipe?.categories"
       >{{ category.name }}</el-tag
     >
+    <el-tag
+      :key="allergen.id"
+      style="margin-right: 0.2rem"
+      type="danger"
+      v-for="allergen in currentRecipe?.allergens"
+      >{{ allergen.name }}</el-tag
+    >
     <h3>
       {{ currentRecipe?.description }}
     </h3>
