@@ -2,17 +2,21 @@
   <div class="wrapper">
     <el-tooltip content="Estimert godt">
       <div class="success bar start" :style="{ width: props.successPercentage + '%' }">
-        <span v-if="props.successPercentage >= 10"> {{ props.successPercentage }}%</span>
+        <span v-if="props.successPercentage >= 10">
+          {{ Math.round(props.successPercentage) }}%</span
+        >
       </div>
     </el-tooltip>
     <el-tooltip content="Kan være dårlig">
       <div class="warning bar" :style="{ width: props.warningPercentage + '%' }">
-        <span v-if="props.warningPercentage >= 10"> {{ props.warningPercentage }}%</span>
+        <span v-if="props.warningPercentage >= 10">
+          {{ Math.round(props.warningPercentage) }}%</span
+        >
       </div>
     </el-tooltip>
     <el-tooltip content="Bør brukes">
       <div class="danger bar end" :style="{ width: props.dangerPercentage + '%' }">
-        <span v-if="props.dangerPercentage >= 10"> {{ props.dangerPercentage }}%</span>
+        <span v-if="props.dangerPercentage >= 10"> {{ Math.round(props.dangerPercentage) }}%</span>
       </div>
     </el-tooltip>
   </div>
