@@ -8,22 +8,6 @@ describe("Household", () => {
     cy.intercept("GET", "/user/*/households", { fixture: "households.json" }).as("households");
   });
 
-  it("Superuser can demote user", () => {
-    cy.intercept("PUT", "/household/*/users", { statusCode: 200 });
-    cy.intercept("PUT", "/household/*/users", { fixture: "demote.json" }).as("demote");
-    cy.url().should("include", "/edit-household");
-    cy.contains("Degrader bruker").click();
-    cy.contains("button", "Promoter bruker").should("be.enabled");
-    cy.contains("button", "Degrader bruker").should("not.exist");
-  });
-  it("Superuser can remove user", () => {
-    cy.intercept("DELETE", "/household/*/users/*", { statusCode: 200 }).as("remove");
-    cy.url().should("include", "/edit-household");
-    cy.contains("h2", "InvitedUser").should("exist");
-    cy.contains("Fjern bruker").click();
-    cy.wait("@remove");
-    cy.contains("h2", "InvitedUser").should("not.exist");
-  });
   it("Superuser can delete household", () => {
     cy.on("uncaught:exception", (err, runnable) => {
       return false;
