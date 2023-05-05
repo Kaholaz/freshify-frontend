@@ -82,4 +82,15 @@ export interface ItemCardEmits {
 .danger-age {
   border: 1px solid red !important;
 }
+
+@media (max-width: 450px) {
+  .card-body {
+    flex-direction: column;
+  }
+
+  .card-body > .buttons {
+    margin-top: 0.5rem;
+    justify-content: flex-start;
+  }
+}
 </style>

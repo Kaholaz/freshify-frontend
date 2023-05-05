@@ -65,10 +65,10 @@ function getUsers() {
 
 function removeUser(user: HouseholdMember) {
   return householdApi
-    .removeUserFromHousehold(householdStore.household?.id!, user.id!)
+    .removeUserFromHousehold(householdStore.household?.id!, user.user?.id!)
     .then(() => {
-      ElMessage.success("Fjernet " + user.firstName + " fra husholdning");
-      householdMembers.value = householdMembers.value.filter((u) => u.user.id !== user.id);
+      ElMessage.success("Fjernet " + user.user?.firstName + " fra husholdning");
+      householdMembers.value = householdMembers.value.filter((u) => u.user?.id !== user.user?.id);
     })
     .catch((error) => {
       ElMessage.error("Kunne ikke fjerne bruker fra husholdning" + error);
