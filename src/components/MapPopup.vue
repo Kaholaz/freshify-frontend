@@ -2,8 +2,8 @@
   <div class="map-popup-container" @click="emit('closeAndUpdate', modelValue, +radius)">
     <div class="content-container">
       <div
-        ref="mapContainer"
         id="map"
+        ref="mapContainer"
         style="width: 100%; height: 100%; z-index: 1; position: relative"
         @click.stop
       ></div>
@@ -11,11 +11,11 @@
         <label for="radius-slider">Radius:</label>
         <input
           id="radius"
-          type="range"
-          min="100"
-          max="20000"
-          step="100"
           v-model="radius"
+          max="20000"
+          min="100"
+          step="100"
+          type="range"
           @click.stop
         />
         <div class="range-indicator">{{ radius / 1000 }} km</div>
@@ -24,7 +24,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import leaflet from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { onMounted, ref, watch } from "vue";
@@ -216,6 +216,7 @@ onMounted(() => {
   padding-left: 10px;
   padding-right: 10px;
 }
+
 .map-popup-container {
   position: fixed;
   top: 0;

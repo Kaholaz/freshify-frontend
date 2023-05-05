@@ -1,12 +1,12 @@
 <template>
-  <el-skeleton style="width: 100%" :count="count">
+  <el-skeleton :count="count" style="width: 100%">
     <template #template>
-      <el-skeleton-item variant="image" style="width: 100%; height: 300px" />
+      <el-skeleton-item style="width: 100%; height: 300px" variant="image" />
       <div style="padding: 14px">
-        <el-skeleton-item variant="p" style="width: 50%" />
+        <el-skeleton-item style="width: 50%" variant="p" />
         <div style="display: flex; align-items: center; justify-items: space-between">
-          <el-skeleton-item variant="text" style="margin-right: 16px" />
-          <el-skeleton-item variant="text" style="width: 30%" />
+          <el-skeleton-item style="margin-right: 16px" variant="text" />
+          <el-skeleton-item style="width: 30%" variant="text" />
         </div>
       </div>
     </template>

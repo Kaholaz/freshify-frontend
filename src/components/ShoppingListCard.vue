@@ -32,8 +32,8 @@
             >godta
           </el-button>
           <el-button v-if="canDelete()" text type="danger" @click="emit('delete', item)"
-            >slett</el-button
-          >
+            >slett
+          </el-button>
         </el-row>
       </el-col>
     </el-row>
@@ -41,7 +41,6 @@
 </template>
 <script lang="ts" setup>
 import type { ShoppingListEntry } from "@/services/index";
-import { HouseholdUserType } from "@/services/index";
 import { defineEmits, defineProps } from "vue";
 import { useSessionStore } from "@/stores/session";
 import { useHouseholdStore } from "@/stores/household";

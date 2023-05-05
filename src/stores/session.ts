@@ -3,7 +3,6 @@ import { defineStore } from "pinia";
 import type { UserFull } from "@/services/index";
 import { AccountApi } from "@/services/apis/account-api";
 import router from "@/router";
-import { useHouseholdStore } from "@/stores/household";
 
 export const useSessionStore = defineStore("sessionStore", () => {
   const user = ref(null as UserFull | null);

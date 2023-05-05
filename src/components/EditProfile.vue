@@ -5,14 +5,14 @@
       <h3>Sett nytt navn og/eller e-post</h3>
     </div>
     <!-- Username and email form -->
-    <el-form ref="userFormData" label-position="top" :model="userData" :rules="rules" status-icon>
+    <el-form ref="userFormData" :model="userData" :rules="rules" label-position="top" status-icon>
       <!-- First name input -->
-      <el-form-item prop="firstName" label="Fornavn">
+      <el-form-item label="Fornavn" prop="firstName">
         <el-input v-model="userData.firstName" />
       </el-form-item>
 
       <!-- Email input -->
-      <el-form-item prop="email" label="E-post">
+      <el-form-item label="E-post" prop="email">
         <el-input v-model="userData.email" />
       </el-form-item>
 
@@ -36,20 +36,20 @@
     <!-- Password repeat form -->
     <el-form
       ref="passwordFormData"
-      label-position="top"
       :model="passwordData"
       :rules="passwordRules"
-      status-icon
       :style="{
         height: passwordEditable ? '200px' : 0,
         overflow: 'hidden',
       }"
+      label-position="top"
+      status-icon
     >
-      <el-form-item prop="password" label="Passord">
+      <el-form-item label="Passord" prop="password">
         <el-input v-model="passwordData.password" type="password" />
       </el-form-item>
 
-      <el-form-item prop="passwordConfirm" label="Gjenta passord">
+      <el-form-item label="Gjenta passord" prop="passwordConfirm">
         <el-input v-model="passwordData.passwordConfirm" type="password" />
       </el-form-item>
 
@@ -58,7 +58,7 @@
   </el-card>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { ref } from "vue";
 
 import type { FormInstance } from "element-plus";

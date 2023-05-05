@@ -5,8 +5,8 @@
     <el-form ref="form" :model="data" class="login-form" label-position="top">
       <el-form-item label="E-post" prop="email">
         <el-input
-          id="email-input"
           v-if="data"
+          id="email-input"
           v-model="data.email"
           placeholder="E-post"
           size="large"
@@ -17,8 +17,8 @@
 
       <el-form-item label="Passord" prop="password">
         <el-input
-          id="password-input"
           v-if="data"
+          id="password-input"
           v-model="data.password"
           placeholder="Passord"
           size="large"
@@ -31,11 +31,11 @@
       <p class="no-account">
         Har du ikke konto?
         <el-link style="font-size: 15px" type="primary" @click="router.push({ name: 'register' })"
-          >Registrer deg!</el-link
-        >
+          >Registrer deg!
+        </el-link>
       </p>
 
-      <el-button ref="submitButton" type="primary" size="large" @click="(vitest) => signIn(vitest)"
+      <el-button ref="submitButton" size="large" type="primary" @click="(vitest) => signIn(vitest)"
         >Logg inn
       </el-button>
       <el-alert
@@ -100,7 +100,7 @@ function signIn() {
     })
     .catch((error) => {
       if (error.response.status === 401) {
-        errorMessage.value = "Feil brukernavn eller passord";
+        errorMessage.value = "Feil e-post eller passord";
       } else {
         errorMessage.value = "En uventet feil oppstod";
       }

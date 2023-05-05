@@ -3,9 +3,8 @@ import LoginView from "@/views/LoginView.vue";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { nextTick } from "vue";
 import { createPinia, setActivePinia } from "pinia";
-import { ElInput, ElFormItem, ElLink, ElButton, ElAlert, ElForm, ElCard } from "element-plus";
+import { ElAlert, ElButton, ElCard, ElForm, ElFormItem, ElInput, ElLink } from "element-plus";
 import mitt from "mitt";
-import router from "../../router";
 
 const globalComponents = {
   components: {

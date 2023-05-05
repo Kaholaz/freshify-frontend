@@ -1,5 +1,5 @@
 <template>
-  <el-menu class="menu" :default-active="defaultActive" router @select="$emit('select')">
+  <el-menu :default-active="defaultActive" class="menu" router @select="$emit('select')">
     <el-button
       v-if="houseHoldStore.households?.length == 0"
       style="width: calc(100% - 2rem); margin: 1rem"
@@ -23,7 +23,7 @@
         :value="item"
         @click="(houseHoldStore.household = item) && $emit('select')"
       ></el-option>
-      <el-option @click="isCreateHouseholdDialog = true" style="padding: 0; margin-bottom: -6px">
+      <el-option style="padding: 0; margin-bottom: -6px" @click="isCreateHouseholdDialog = true">
         <el-button style="width: 100%" type="primary">
           <el-icon>
             <HomeFilled />
@@ -86,12 +86,12 @@ import {
   HomeFilled,
   List,
   Management,
-  Setting,
   Notebook,
+  Setting,
 } from "@element-plus/icons-vue";
-import { inject, onMounted, ref } from "vue";
+import { onMounted, ref } from "vue";
 import { useHouseholdStore } from "@/stores/household";
-import { CreateHousehold, Household, HouseholdApi } from "@/services/index";
+import { CreateHousehold, HouseholdApi } from "@/services/index";
 import CreateHouseholdComponent from "@/components/CreateHouseholdComponent.vue";
 import { showError } from "@/utils/error-utils";
 

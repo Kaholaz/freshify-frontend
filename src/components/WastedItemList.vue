@@ -9,13 +9,13 @@
     </div>
     <el-table :data="tableDataWastedItemsByCount" style="width: 100%">
       <el-table-column type="index" width="50" />
-      <el-table-column prop="itemType" label="Vare" />
-      <el-table-column prop="amountWasted" label="Antall svunnet" />
+      <el-table-column label="Vare" prop="itemType" />
+      <el-table-column label="Antall svunnet" prop="amountWasted" />
     </el-table>
   </el-card>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { ref } from "vue";
 import type { Item } from "@/services/index";
 import { InventoryApi } from "@/services/index";

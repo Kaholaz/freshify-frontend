@@ -11,9 +11,10 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { RecipeDTO } from "./recipe-dto";
-import { RecipeDTOPagePageable } from "./recipe-dtopage-pageable";
-import { RecipeDTOPagePageableSort } from "./recipe-dtopage-pageable-sort";
+import {RecipeDTO} from "./recipe-dto";
+import {RecipeDTOPagePageable} from "./recipe-dtopage-pageable";
+import {RecipeDTOPagePageableSort} from "./recipe-dtopage-pageable-sort";
+
 /**
  *
  * @export

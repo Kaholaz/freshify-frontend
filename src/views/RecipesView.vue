@@ -2,27 +2,27 @@
   <h1>Oppskrifter</h1>
   <el-divider content-position="left">Bokmerkede oppskrifter</el-divider>
   <RecipeContainer
+    v-model="bookmarkedCurrentPage"
     :recipes="bookmarkedRecipes"
     :totalPages="bookMarkedTotalPages"
-    v-model="bookmarkedCurrentPage"
     @search="getBookmarkedRecipes"
   >
-    <el-alert title="Du har ingen bokmerkede oppskrifter" type="info" center show-icon></el-alert>
+    <el-alert center show-icon title="Du har ingen bokmerkede oppskrifter" type="info"></el-alert>
   </RecipeContainer>
   <el-divider content-position="left">Oppskrifter</el-divider>
   <div class="search-bar">
     <el-input
       v-model="recipeSearch"
-      @input="searchInputDelayHandler.searchWithDelay(() => searchRecipes())"
+      :prefix-icon="Search"
       class="recipe-search"
       placeholder="Søk etter oppskrift"
-      :prefix-icon="Search"
+      @input="searchInputDelayHandler.searchWithDelay(() => searchRecipes())"
     />
     <el-select
-      placeholder="Allergier"
+      v-model="selectedAllergies"
       collapse-tags
       multiple
-      v-model="selectedAllergies"
+      placeholder="Allergier"
       @update:modelValue="searchRecipes"
     >
       <el-option
@@ -33,12 +33,12 @@
       />
     </el-select>
     <el-select
-      placeholder="Kategori"
       v-model="selectedCategories"
-      @update:modelValue="searchRecipes"
       class="category-picker"
       collapse-tags
       multiple
+      placeholder="Kategori"
+      @update:modelValue="searchRecipes"
     >
       <el-option
         v-for="category in categories"
@@ -49,23 +49,23 @@
     </el-select>
   </div>
   <RecipeContainer
+    v-model="currentPage"
     :recipes="recipes"
     :totalPages="totalPages"
-    v-model="currentPage"
     @search="searchRecipes"
   >
     <el-alert
+      v-if="recipes.length === 0 && recipeSearch.length > 0"
+      center
+      show-icon
       title="Fant ingen oppskrifter"
       type="info"
-      show-icon
-      center
-      v-if="recipes.length === 0 && recipeSearch.length > 0"
     ></el-alert>
   </RecipeContainer>
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, onUnmounted, inject } from "vue";
+import { inject, onMounted, onUnmounted, ref } from "vue";
 import type { AllergenRequest, Recipe, RecipeCategory, RecipeDTO } from "@/services/index";
 import { Search } from "@element-plus/icons-vue";
 import { RecipesApi } from "@/services/apis/recipes-api";

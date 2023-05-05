@@ -14,8 +14,8 @@
   <el-col>
     <el-row>
       <div class="spacer"></div>
-      <el-form ref="ruleFormRef" :rules="validationRules" :model="formModel">
-        <el-form-item prop="selectedDate" label="Velg start måned" label-position="left">
+      <el-form ref="ruleFormRef" :model="formModel" :rules="validationRules">
+        <el-form-item label="Velg start måned" label-position="left" prop="selectedDate">
           <el-input
             v-model="selectedDate"
             placeholder="Intervall"
@@ -32,8 +32,8 @@
     </el-row>
     <el-row class="row">
       <el-col :span="17" :xs="24" class="text-container">
-        <el-skeleton :row="5" v-if="loading"></el-skeleton>
-        <el-text class="centered-text" v-else>
+        <el-skeleton v-if="loading" :row="5"></el-skeleton>
+        <el-text v-else class="centered-text">
           Din husholdning kaster
           <h2 v-if="normalHouseholdFoodThrown != foodThrown">
             {{
@@ -52,7 +52,7 @@
       </el-col>
       <el-col :span="7" :xs="24">
         <el-text>Bruk i %</el-text>
-        <EvaluationBar :percentage="foodThrown" :normal-household="normalHouseholdFoodThrown" />
+        <EvaluationBar :normal-household="normalHouseholdFoodThrown" :percentage="foodThrown" />
       </el-col>
     </el-row>
     <el-row class="row odd">
@@ -60,8 +60,8 @@
         <line-chart :chart-data="chartData" />
       </el-col>
       <el-col :span="8" :xs="24" class="text-container">
-        <el-skeleton :row="5" v-if="loading"></el-skeleton>
-        <el-text class="centered-text" v-else>
+        <el-skeleton v-if="loading" :row="5"></el-skeleton>
+        <el-text v-else class="centered-text">
           <div v-if="diffFromLastMonth <= 0.15 && diffFromLastMonth >= -0.15"></div>
           <div v-else-if="diffFromLastMonth > 0.15">
             <h4>
@@ -84,9 +84,9 @@
       <h3 style="margin-top: 2rem">Varestatistikk</h3>
     </el-row>
     <el-row class="row">
-      <el-col :span="10" :xs="24">
-        <el-skeleton :rows="5" v-if="loading" />
-        <el-text class="centered-text" v-else>
+      <el-col :span="10" :xs="24" style="margin: 0rem, 1rem">
+        <el-skeleton v-if="loading" :rows="5" />
+        <el-text v-else class="centered-text" style="margin-right: 1rem">
           <div v-if="mostWastedItem.amountWasted > 0.2">
             <h2>
               Du kaster {{ Math.round(mostWastedItem?.amountWasted * 100) }}% av hver
@@ -186,6 +186,7 @@ const formModel = computed(() => ({
 }));
 
 const diffFromLastMonth = ref(0);
+
 async function getChartData() {
   await inventoryApi
     .householdIdInventoryWastePerMonthGet(houseHoldStore.household.id, getNumOfMonths())

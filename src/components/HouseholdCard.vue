@@ -1,34 +1,33 @@
 <template>
   <el-card
-    class="relative m-2 w-full max-w-xl overflow-visible"
     :class="{ me: householdMember.user?.id === sessionStore.getUser()?.id }"
+    class="relative m-2 w-full max-w-xl overflow-visible"
     shadow="never"
     style="height: 11rem"
   >
     <h2 class="mb-5">{{ householdMember.user?.firstName }}</h2>
     <el-tag
-      class="ml-2"
       :type="householdMember.userType === HouseholdUserType.SUPERUSER ? 'success' : 'info'"
+      class="ml-2"
     >
       {{ householdMember.userType === HouseholdUserType.SUPERUSER ? "SUPERBRUKER" : "BRUKER" }}
     </el-tag>
     <p class="text-[#868e96]">{{ householdMember.user?.email }}</p>
     <footer
-      class="mt-2 text-right"
       v-if="householdStore.isSuperuser() && sessionStore.getUser()?.id !== householdMember.user?.id"
+      class="mt-2 text-right"
     >
       <el-button type="primary" @click="emitUpdateUserPrivilege()">
         <span v-if="householdMember.userType === HouseholdUserType.USER">Promoter bruker</span>
         <span v-else>Degrader bruker</span>
       </el-button>
-      <el-button type="danger" @click="emitRemoveUser"> Fjern bruker </el-button>
+      <el-button type="danger" @click="emitRemoveUser"> Fjern bruker</el-button>
     </footer>
   </el-card>
 </template>
 
 <script lang="ts" setup>
-import { UserFull } from "@/services/index";
-import { HouseholdUserType } from "@/services/index";
+import { HouseholdUserType, UserFull } from "@/services/index";
 import { useSessionStore } from "@/stores/session";
 import { useHouseholdStore } from "@/stores/household";
 

@@ -11,17 +11,13 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import globalAxios, { AxiosResponse, AxiosInstance, AxiosRequestConfig } from "axios";
-import { Configuration } from "../configuration";
+import globalAxios, {AxiosInstance, AxiosRequestConfig, AxiosResponse} from "axios";
+import {Configuration} from "../configuration";
 // Some imports not used depending on template conditions
 // @ts-ignore
-import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from "../base";
-import { CreateUser } from "../models";
-import { Household } from "../models";
-import { InlineResponse200 } from "../models";
-import { LoginUser } from "../models";
-import { UpdateUser } from "../models";
-import { UserFull } from "../models";
+import {BASE_PATH, BaseAPI, COLLECTION_FORMATS, RequestArgs, RequiredError} from "../base";
+import {CreateUser, Household, InlineResponse200, LoginUser, UpdateUser, UserFull} from "../models";
+
 /**
  * AccountApi - axios parameter creator
  * @export
@@ -855,6 +851,7 @@ export class AccountApi extends BaseAPI {
       .createUser(body, options)
       .then((request) => request(this.axios, this.basePath));
   }
+
   /**
    * Deletes a user
    * @summary Delete user
@@ -868,6 +865,7 @@ export class AccountApi extends BaseAPI {
       .deleteUser(id, options)
       .then((request) => request(this.axios, this.basePath));
   }
+
   /**
    * Gets a list of households of a given user
    * @summary Get a user's households
@@ -884,6 +882,7 @@ export class AccountApi extends BaseAPI {
       .getHouseholds(id, options)
       .then((request) => request(this.axios, this.basePath));
   }
+
   /**
    * Returns the details of the logged in user, the details are extracted from the jwt token cookie.
    * @summary Get the user details from the jwt token cookie
@@ -896,6 +895,7 @@ export class AccountApi extends BaseAPI {
       .getLoggedInUser(options)
       .then((request) => request(this.axios, this.basePath));
   }
+
   /**
    * Returns a single user by email
    * @summary Get user by email
@@ -912,6 +912,7 @@ export class AccountApi extends BaseAPI {
       .getUserByEmail(email, options)
       .then((request) => request(this.axios, this.basePath));
   }
+
   /**
    * Returns a single user
    * @summary Get user by id
@@ -928,6 +929,7 @@ export class AccountApi extends BaseAPI {
       .getUserById(id, options)
       .then((request) => request(this.axios, this.basePath));
   }
+
   /**
    * Logs in a user
    * @summary Login user
@@ -944,6 +946,7 @@ export class AccountApi extends BaseAPI {
       .loginUser(body, options)
       .then((request) => request(this.axios, this.basePath));
   }
+
   /**
    * Logs out a user
    * @summary Logout user
@@ -956,6 +959,7 @@ export class AccountApi extends BaseAPI {
       .logoutUser(options)
       .then((request) => request(this.axios, this.basePath));
   }
+
   /**
    * Updates a user
    * @summary Update user

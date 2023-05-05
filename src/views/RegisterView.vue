@@ -1,16 +1,16 @@
 <template>
   <el-dialog
-    title="Du må godta vilkårene for å registrere deg som bruker"
     v-model="dialogVisible"
     style="max-width: 350px"
+    title="Du må godta vilkårene for å registrere deg som bruker"
   >
     <p class="tostext">
       Du kan lese vilkårene her:
       <a href="/tos" target="_blank"> vilkår og betingelser</a>
     </p>
     <div>
-      <el-button @click="acceptTerms" type="success" id="accept-tos">Ok</el-button>
-      <el-button @click="exitTerms" type="danger">Avbryt</el-button>
+      <el-button id="accept-tos" type="success" @click="acceptTerms">Ok</el-button>
+      <el-button type="danger" @click="exitTerms">Avbryt</el-button>
     </div>
   </el-dialog>
   <el-steps
@@ -40,7 +40,7 @@
     ></CreateHouseholdComponent>
   </el-card>
   <div class="privacyButton">
-    <router-link to="/privacy" target="_blank">
+    <router-link target="_blank" to="/privacy">
       <el-button>Personvernserklæring</el-button>
     </router-link>
   </div>

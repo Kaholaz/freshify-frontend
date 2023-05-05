@@ -11,9 +11,10 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { AllergenRequest } from "./allergen-request";
-import { RecipeCategory } from "./recipe-category";
-import { RecipeIngredientRequest } from "./recipe-ingredient-request";
+import {AllergenRequest} from "./allergen-request";
+import {RecipeCategory} from "./recipe-category";
+import {RecipeIngredientRequest} from "./recipe-ingredient-request";
+
 /**
  *
  * @export

@@ -1,8 +1,8 @@
 <template>
   <el-card
+    :style="{ 'border-color': allIngredientsInFridge ? 'var(--el-color-primary)' : '' }"
     shadow="hover"
     style="height: fit-content; cursor: pointer"
-    :style="{ 'border-color': allIngredientsInFridge ? 'var(--el-color-primary)' : '' }"
   >
     <el-row>
       <img :src="recipe?.image" style="width: 100%" />
@@ -16,11 +16,11 @@
         </el-row>
         <el-row>
           <el-tag
+            v-for="category in props.recipe.categories"
             :key="category.id"
             style="margin-right: 0.2rem"
-            v-for="category in props.recipe.categories"
-            >{{ category.name }}</el-tag
-          >
+            >{{ category.name }}
+          </el-tag>
         </el-row>
         <p>Tid: ca {{ recipe?.estimatedTime }} min</p>
         <p>{{ recipe?.totalIngredientsInFridge }} ingredienser i kjøleskap</p>
@@ -30,12 +30,12 @@
         <footer v-if="recipe?.allergens.length > 0">
           <el-row>
             <el-tag
+              v-for="allergen in props.recipe.allergens"
               :key="allergen.id"
               style="margin-right: 0.2rem"
               type="danger"
-              v-for="allergen in props.recipe.allergens"
-              >{{ allergen.name }}</el-tag
-            >
+              >{{ allergen.name }}
+            </el-tag>
           </el-row>
         </footer>
       </div>
@@ -43,7 +43,7 @@
   </el-card>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { computed } from "vue";
 import type { RecipeDTO } from "@/services/index";
 import { Management } from "@element-plus/icons-vue";

@@ -11,14 +11,13 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import globalAxios, { AxiosResponse, AxiosInstance, AxiosRequestConfig } from "axios";
-import { Configuration } from "../configuration";
+import globalAxios, {AxiosInstance, AxiosRequestConfig, AxiosResponse} from "axios";
+import {Configuration} from "../configuration";
 // Some imports not used depending on template conditions
 // @ts-ignore
-import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from "../base";
-import { RecipeDTO } from "../models";
-import { RecipeDTOPage } from "../models";
-import { RecipeRequest } from "../models";
+import {BASE_PATH, BaseAPI, COLLECTION_FORMATS, RequestArgs, RequiredError} from "../base";
+import {RecipeDTO, RecipeDTOPage, RecipeRequest} from "../models";
+
 /**
  * RecipesApi - axios parameter creator
  * @export
@@ -464,6 +463,7 @@ export class RecipesApi extends BaseAPI {
       .createRecipe(body, options)
       .then((request) => request(this.axios, this.basePath));
   }
+
   /**
    * Retrieves the recipe with the specified ID and each ingredient is also checked against the specified household's fridge.
    * @summary Gets a recipe by ID
@@ -482,6 +482,7 @@ export class RecipesApi extends BaseAPI {
       .getRecipeById(householdId, id, options)
       .then((request) => request(this.axios, this.basePath));
   }
+
   /**
    * Retrieves a paginated list of recipes that can optionally be filtered. For each ingredient in the recipe it also checks whether the household has the specified ingredient item type in the fridge.
    * @summary Gets a page of recipes that can also be filtered

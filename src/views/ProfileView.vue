@@ -2,7 +2,7 @@
   <EditProfile @change:user="updateUser" @change:password="updatePassword" />
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { reactive } from "vue";
 import { ElMessage } from "element-plus";
 
