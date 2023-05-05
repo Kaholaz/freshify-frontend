@@ -15,21 +15,22 @@
       v-else-if="houseHoldStore.households?.length > 0"
       :model-value="houseHoldStore.household.name"
       style="width: calc(100% - 2rem); margin: 1rem"
-      @change="$emit('select')"
     >
       <el-option
         v-for="item in houseHoldStore.households"
         :key="item.id"
         :label="item.name"
         :value="item"
-        @click="houseHoldStore.household = item"
+        @click="(houseHoldStore.household = item) && $emit('select')"
       ></el-option>
-      <el-button style="width: 100%" type="primary" @click="isCreateHouseholdDialog = true">
-        <el-icon>
-          <HomeFilled />
-        </el-icon>
-        <span>Legg til husholdning</span>
-      </el-button>
+      <el-option @click="isCreateHouseholdDialog = true" style="padding: 0; margin-bottom: -6px">
+        <el-button style="width: 100%" type="primary">
+          <el-icon>
+            <HomeFilled />
+          </el-icon>
+          <span>Legg til husholdning</span>
+        </el-button>
+      </el-option>
     </el-select>
 
     <el-menu-item index="/shopping-list">
@@ -69,7 +70,7 @@
       <span>Rediger husholdning</span>
     </el-menu-item>
   </el-menu>
-  <el-dialog v-model="isCreateHouseholdDialog" show-close>
+  <el-dialog v-model="isCreateHouseholdDialog" show-close style="width: 95%; max-width: 500px">
     <CreateHouseholdComponent
       v-model:household-name="newHousehold.name"
       @skip="skipCreateHousehold"

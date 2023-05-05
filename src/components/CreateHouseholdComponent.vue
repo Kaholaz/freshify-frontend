@@ -17,13 +17,13 @@
         @keyup.enter="createHousehold"
       ></el-input>
     </el-form-item>
-    <el-row>
+    <el-row style="margin-top: 1rem">
+      <el-form-item style="margin: 0">
+        <el-button type="primary" @click="createHousehold">Lag husholdning</el-button>
+      </el-form-item>
       <div class="spacer"></div>
       <el-link @click="$emit('skip')">Jeg ønsker ikke å lage husholdning</el-link>
     </el-row>
-    <el-form-item>
-      <el-button type="primary" @click="createHousehold">Lag husholdning</el-button>
-    </el-form-item>
   </el-form>
 </template>
 <script lang="ts" setup>

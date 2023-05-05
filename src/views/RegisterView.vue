@@ -2,7 +2,7 @@
   <el-dialog
     title="Du må godta vilkårene for å registrere deg som bruker"
     v-model="dialogVisible"
-    width="30%"
+    style="max-width: 350px"
   >
     <p class="tostext">
       Du kan lese vilkårene her:
