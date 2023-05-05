@@ -84,9 +84,9 @@
       <h3 style="margin-top: 2rem">Varestatistikk</h3>
     </el-row>
     <el-row class="row">
-      <el-col style="margin: 0rem, 1rem;" :span="10" :xs="24">
+      <el-col style="margin: 0rem, 1rem" :span="10" :xs="24">
         <el-skeleton :rows="5" v-if="loading" />
-        <el-text style="margin-right: 1rem;" class="centered-text" v-else>
+        <el-text style="margin-right: 1rem" class="centered-text" v-else>
           <div v-if="mostWastedItem.amountWasted > 0.2">
             <h2>
               Du kaster {{ Math.round(mostWastedItem?.amountWasted * 100) }}% av hver
