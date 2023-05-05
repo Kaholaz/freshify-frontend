@@ -59,7 +59,7 @@ function onScroll(event: Event) {
         <SideNavBar @select="drawerToggle()" />
       </el-drawer>
       <el-scrollbar style="width: 100%" @scroll="onScroll($event)">
-        <el-main>
+        <el-main style="overflow-x: hidden">
           <RouterView id="main-view" />
         </el-main>
       </el-scrollbar>

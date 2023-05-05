@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" @scroll="onScroll">
     <el-row class="section wrapper">
       <el-col :sm="12" :span="24">
         <h1 class="contrast-text fade-in-text">Freshify</h1>
@@ -70,10 +70,13 @@ import router from "@/router";
 import { inject, onMounted, onUnmounted } from "vue";
 
 const emitter = inject("emitter");
+function onScroll(event: Event) {
+  emitter.emit("scroll", event);
+}
 
 onMounted(async () => {
   emitter.on("scroll", (event: Event) => {
-    if (event.scrollTop < 90) {
+    if (event.target.scrollTop < 90) {
       enableTransparentBar();
     } else {
       disableTransparentBar();
@@ -115,10 +118,31 @@ function disableTransparentBar() {
 </script>
 <style scoped>
 .container {
-  height: 100%;
-  width: calc(100% + 2rem);
+  height: calc(100vh - 60px);
+  width: calc(100% + 3rem);
   margin: calc(-1.2rem - 1px);
   padding: 0;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+}
+
+/* Customize container scrollbar */
+.container::-webkit-scrollbar {
+  width: 0.5rem;
+}
+
+.container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.container::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 0.5rem;
+}
+
+.container > div {
+  scroll-snap-align: center;
 }
 
 .wrapper {
