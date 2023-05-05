@@ -76,13 +76,8 @@ export const useSessionStore = defineStore("sessionStore", () => {
       });
   }
 
-  function getHighestRole() {
-    return "USER";
-  }
-
   return {
     isAuthenticated,
-    getHighestRole,
     timeout,
     getUser,
     authenticate,
