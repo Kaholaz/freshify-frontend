@@ -1,0 +1,39 @@
+[
+    {
+      "id": {
+        "householdId": 1,
+        "userId": 1
+      },
+      "user": {
+        "id": 1,
+        "firstName": "John",
+        "email": "example@example.org"
+      },
+      "userType": "SUPERUSER"
+    },
+    {
+      "id": {
+        "householdId": 1,
+        "userId": 10
+      },
+      "user": {
+        "id": 10,
+        "firstName": "InvitedUser",
+        "email": "Invited@example.org"
+      },
+      "userType": "SUPERUSER"
+    },
+    {
+        "id": {
+          "householdId": 1,
+          "userId": 11
+        },
+        "user": {
+          "id": 11,
+          "firstName": "newlyInvitedUser",
+          "email": "newlyInvited@example.org"
+        },
+        "userType": "SUPERUSER"
+      }
+  ]
+  
