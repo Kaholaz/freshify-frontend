@@ -19,6 +19,7 @@
         <el-row>
           <el-form-item label="Vare" prop="itemTypeId" required>
             <el-autocomplete
+              id="add-item-selection-input"
               v-model="itemTypeAutocomplete"
               :debounce="300"
               :fetch-suggestions="searchItemType"
@@ -31,6 +32,7 @@
           </el-form-item>
           <el-form-item label="Antall" prop="count" required>
             <el-input
+              id="add-item-count-input"
               v-model="newItem.count"
               placeholder="Antall"
               type="number"
@@ -39,7 +41,7 @@
           </el-form-item>
           <div class="spacer"></div>
           <el-form-item style="margin-right: 0">
-            <el-button type="primary" @click="validateAndAddNewItem(newItem)">
+            <el-button id="add-item-button" type="primary" @click="validateAndAddNewItem(newItem)">
               <span v-if="houseHoldStore.isSuperuser()">legg til</span>
               <span v-else>foreslå</span>
             </el-button>
@@ -47,8 +49,8 @@
         </el-row>
       </el-form>
     </el-card>
-    <el-collapse v-model="drawers">
-      <el-collapse-item name="active">
+    <el-collapse id="items-collapse" v-model="drawers">
+      <el-collapse-item name="active" id="shopping-list-added-items">
         <template #title>
           <el-text>Varer</el-text>
         </template>
@@ -384,13 +386,13 @@ async function saveItem(item: CreateShoppingListEntry) {
   await householdApi.getUsers(houseHoldStore.household.id).then((response) => {
     const users = response.data;
     const user = users.find((user) => user.user.id === useSessionStore().getUser().id);
-    item.suggested = user.userType !== "SUPERUSER";
+    item.suggested = user?.userType !== "SUPERUSER";
   });
   return shoppingListApi
     .addItem(houseHoldStore.household.id, item)
     .then((response) => {
       ElMessage({
-        message: "Var har blitt lagt til",
+        message: "Varen har blitt lagt til",
         type: "success",
       });
       setItemLocal(response.data);

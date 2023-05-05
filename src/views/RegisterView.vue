@@ -39,6 +39,11 @@
       @submit="createHousehold"
     ></CreateHouseholdComponent>
   </el-card>
+  <div class="privacyButton">
+    <router-link to="/privacy" target="_blank">
+      <el-button>Personvernserklæring</el-button>
+    </router-link>
+  </div>
 </template>
 <script lang="ts" setup>
 import { reactive, ref } from "vue";
@@ -141,5 +146,9 @@ function createHousehold() {
 
 .tostext {
   margin-bottom: 20px;
+}
+
+.privacyButton {
+  text-align: center;
 }
 </style>
