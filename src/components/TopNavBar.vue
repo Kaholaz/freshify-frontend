@@ -56,4 +56,12 @@ function logOut() {
 #logo-img {
   height: 40px;
 }
+
+@media only screen and (max-width: 420px) {
+  #logo-img {
+    width: 40px;
+    object-fit: cover;
+    object-position: 0%;
+  }
+}
 </style>
