@@ -1,14 +1,14 @@
 <template>
   <el-card class="container">
-    <h2>Logg inn</h2>
+    <h2 style="margin-bottom: 10px">Logg inn</h2>
 
     <el-form ref="form" :model="data" class="login-form" label-position="top">
-      <el-form-item label="Email" prop="email">
+      <el-form-item label="E-post" prop="email">
         <el-input
           id="email-input"
           v-if="data"
           v-model="data.email"
-          placeholder="eksempel@gmail.com"
+          placeholder="E-post"
           size="large"
           type="text"
           @input="errorMessage = ''"
@@ -20,7 +20,7 @@
           id="password-input"
           v-if="data"
           v-model="data.password"
-          placeholder="passord"
+          placeholder="Passord"
           size="large"
           type="password"
           @input="errorMessage = ''"
@@ -30,7 +30,9 @@
 
       <p class="no-account">
         Har du ikke konto?
-        <el-link type="primary" @click="router.push({ name: 'register' })">Registrer deg!</el-link>
+        <el-link style="font-size: 15px" type="primary" @click="router.push({ name: 'register' })"
+          >Registrer deg!</el-link
+        >
       </p>
 
       <el-button ref="submitButton" type="primary" size="large" @click="(vitest) => signIn(vitest)"
@@ -114,6 +116,9 @@ function signIn() {
 }
 
 .no-account {
+  display: flex;
+  justify-content: end;
   text-align: end;
+  gap: 5px;
 }
 </style>

@@ -2,7 +2,7 @@
   <el-card id="edit-profile" class="edit-profile-wrapper">
     <h2>Rediger profil</h2>
     <div class="change-label">
-      <h3>Sett nytt navn og/eller email</h3>
+      <h3>Sett nytt navn og/eller e-post</h3>
     </div>
     <!-- Username and email form -->
     <el-form ref="userFormData" label-position="top" :model="userData" :rules="rules" status-icon>

@@ -1,5 +1,5 @@
 <template>
-  <h2 class="my-3">Registrer deg</h2>
+  <h2 class="my-3" style="margin-bottom: 10px">Registrer deg</h2>
   <el-form
     ref="ruleFormRef"
     :model="newUser"
@@ -8,8 +8,8 @@
     status-icon
     @submit.prevent
   >
-    <el-form-item label="Email" prop="email">
-      <el-input v-model="email" placeholder="Email" size="large" type="text" id="email-input" />
+    <el-form-item label="E-post" prop="email">
+      <el-input v-model="email" placeholder="E-post" size="large" type="text" id="email-input" />
     </el-form-item>
 
     <el-form-item label="Fornavn" prop="firstName">
@@ -83,8 +83,8 @@ const validationRules = ref({
     { min: 2, message: "Fornavn må være minst 2 tegn", trigger: "blur" },
   ],
   email: [
-    { required: true, message: "Email er påkrevd", trigger: "blur" },
-    { type: "email", message: "Email må være en gyldig email", trigger: "blur" },
+    { required: true, message: "E-post er påkrevd", trigger: "blur" },
+    { type: "email", message: "E-post må være en gyldig e-post", trigger: "blur" },
   ],
   password: [
     { required: true, message: "Passord er påkrevd", trigger: "blur" },
