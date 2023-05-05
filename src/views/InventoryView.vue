@@ -129,6 +129,9 @@ function extendItem(item: Item) {
         message: `Varigheten til ${item.type?.name} ble forlenget.`,
         type: "success",
       });
+      if (item) {
+        item.lastChanged = new Date().toISOString();
+      }
     })
     .catch(handleError);
 }
