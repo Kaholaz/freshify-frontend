@@ -15,7 +15,7 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import {WastedItemDTO} from "./wasted-item-dto";
+import { WastedItemDTO } from "./wasted-item-dto";
 
 /**
  *

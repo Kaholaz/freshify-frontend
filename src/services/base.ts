@@ -11,11 +11,11 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import {Configuration} from "./configuration";
+import { Configuration } from "./configuration";
 // Some imports not used depending on template conditions
 // @ts-ignore
-import globalAxios, {AxiosInstance, AxiosRequestConfig} from "axios";
-import {useSessionStore} from "../stores/session";
+import globalAxios, { AxiosInstance, AxiosRequestConfig } from "axios";
+import { useSessionStore } from "../stores/session";
 
 export const BASE_PATH = import.meta.env.VITE_BACKEND_URI.replace(/\/+$/, "");
 
