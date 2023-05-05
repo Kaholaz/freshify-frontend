@@ -44,6 +44,9 @@ export default {
             beginAtZero: true,
             max: 100,
           },
+          x: {
+            reverse: true,
+          }
         },
       },
     };
