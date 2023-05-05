@@ -2,7 +2,7 @@
   <nav>
     <el-menu
       style="min-height: 60px"
-      class="menu"
+      class="menu solid-menu"
       :default-active="activeIndex"
       :ellipsis="false"
       mode="horizontal"
@@ -10,7 +10,7 @@
       id="topNav"
     >
       <el-menu-item :index="'/inventory'" id="logo-menu-item">
-        <img src="@/assets/logo-color.png" alt="logo" id="logo-img" />
+        <img src="@/assets/logo-no-background.svg" alt="logo" id="logo-img" />
       </el-menu-item>
       <div class="flex-grow" />
       <el-menu-item v-if="sessionStore.isAuthenticated" index="/profile">
@@ -32,23 +32,13 @@
 import { inject, onMounted, ref } from "vue";
 import { TurnOff, User } from "@element-plus/icons-vue";
 import { useSessionStore } from "@/stores/session";
+import router from "@/router";
 
 const activeIndex = ref("1");
 
 const sessionStore = useSessionStore();
 
 const emitter = inject("emitter");
-
-onMounted(() => {
-  emitter.on("scroll", () => myFunction());
-  const topNav = document.getElementById("topNav");
-  function myFunction() {
-    if (!topNav) return;
-    if (!topNav.classList?.contains("solid-menu")) {
-      topNav.classList.add("solid-menu");
-    }
-  }
-});
 </script>
 
 <style scoped>
@@ -65,6 +55,10 @@ onMounted(() => {
 .solid-menu {
   background-color: #fff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.invert {
+  filter: invert(1) contrast(50%) saturate(0%) brightness(100%);
 }
 
 .menu-item-button {

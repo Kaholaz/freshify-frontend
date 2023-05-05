@@ -38,7 +38,7 @@ function onScroll() {
 <template>
   <el-container style="height: 100vh; display: flex">
     <el-header style="padding: 0">
-      <TopNavBar ref="topnav" />
+      <TopNavBar />
     </el-header>
     <div v-if="collapsed" style="flex-shrink: 0; height: fit-content">
       <el-menu v-if="!isFullScreen" style="--el-menu-hover-bg-color: var(--el-menu-bg-color)">
@@ -60,7 +60,7 @@ function onScroll() {
         <SideNavBar @select="drawerToggle()" />
       </el-drawer>
       <el-scrollbar style="width: 100%" @scroll="onScroll()">
-        <el-main style="padding: 0">
+        <el-main>
           <RouterView id="main-view" />
         </el-main>
       </el-scrollbar>
@@ -76,9 +76,5 @@ function onScroll() {
 
 #main-view * {
   overflow: auto;
-}
-
-el-header {
-  padding: 0 !important;
 }
 </style>
