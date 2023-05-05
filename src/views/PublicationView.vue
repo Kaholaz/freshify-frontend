@@ -49,7 +49,7 @@ XMLHttpRequest.prototype.open = function (method, url) {
     Object.entries(params.value).forEach(([key, value]) => {
       searchParams.append(key, String(value));
     });
-    url = `http://localhost:8080/publications/dealerfront?${searchParams.toString()}`;
+    url = import.meta.env.VITE_BACKEND_URI + `publications/dealerfront?${searchParams.toString()}`;
 
     this.responseType = "json";
     this.addEventListener("readystatechange", function () {
