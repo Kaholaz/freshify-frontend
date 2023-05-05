@@ -1,6 +1,12 @@
 <template>
   <nav>
-    <el-menu :default-active="activeIndex" :ellipsis="false" mode="horizontal" router>
+    <el-menu
+      style="min-height: 60px"
+      :default-active="activeIndex"
+      :ellipsis="false"
+      mode="horizontal"
+      router
+    >
       <el-menu-item :index="'/inventory'" id="logo-menu-item">
         <img src="@/assets/logo-color.png" alt="logo" id="logo-img" />
       </el-menu-item>
