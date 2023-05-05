@@ -7,7 +7,11 @@
       <span> Legg til bruker</span>
     </el-button>
 
-    <el-dialog v-model="dialogFormVisible" title="Legg til nytt medlem i husholdningen">
+    <el-dialog
+      id="el-dialog"
+      v-model="dialogFormVisible"
+      title="Legg til nytt medlem i husholdningen"
+    >
       <el-form ref="ruleFormRef" :model="form" :rules="rules">
         <el-form-item :label-width="formLabelWidth" label="Brukerens epost" prop="newUserEmail">
           <el-input v-model="form.newUserEmail" autocomplete="off" />
@@ -78,3 +82,10 @@ const emit = defineEmits<{
   (event: "deleteHousehold"): void;
 }>();
 </script>
+
+<style>
+#el-dialog {
+  width: 500px;
+  max-width: 95%;
+}
+</style>
