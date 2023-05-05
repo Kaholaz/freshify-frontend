@@ -73,7 +73,7 @@
 
 <script setup lang="ts">
 import type { RecipeDTO } from "@/services/index";
-import { HouseholdRecipeApi, RecipesApi } from "@/services/index";
+import { HouseholdRecipeApi, RecipesApi, HouseholdApi } from "@/services/index";
 import { computed, onMounted, ref } from "vue";
 import router from "@/router";
 import { useHouseholdStore } from "@/stores/household";
@@ -83,11 +83,18 @@ import { totalIngredients } from "@/utils/total-ingredients";
 
 const recipeApi = new RecipesApi();
 const householdRecipeApi = new HouseholdRecipeApi();
+const householdApi = new HouseholdApi();
 
 const householdStore = useHouseholdStore();
 
 const currentRecipe = ref<RecipeDTO>();
 const recipePortions = ref(4);
+
+if (householdStore.household) {
+  householdApi
+    .getUsers(householdStore.household.id!)
+    .then((response) => (recipePortions.value = response.data.length));
+}
 
 const recipeSteps = computed(() => {
   if (!currentRecipe.value) return [];
