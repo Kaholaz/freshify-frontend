@@ -1,27 +1,15 @@
 <template>
   <h1>Oppskrifter</h1>
-  <div v-if="bookmarkedRecipes.length > 0 && currentRecipe === undefined">
-    <el-divider content-position="left">Bokmerkede oppskrifter</el-divider>
-    <el-row :gutter="10" style="width: 100%; margin: 0">
-      <el-col
-        v-for="recipe in bookmarkedRecipes"
-        :key="recipe.id"
-        :lg="12"
-        :md="12"
-        :sm="24"
-        :xl="6"
-        :xs="24"
-      >
-        <RecipeCard
-          class="recipe-card"
-          :recipe="recipe"
-          :isBookmarked="true"
-          @click="onClick(recipe)"
-        />
-      </el-col>
-      <el-divider content-position="left">Oppskrifter</el-divider>
-    </el-row>
-  </div>
+  <el-divider content-position="left">Bokmerkede oppskrifter</el-divider>
+  <RecipeContainer
+    :recipes="bookmarkedRecipes"
+    :totalPages="bookMarkedTotalPages"
+    v-model="bookmarkedCurrentPage"
+    @search="getBookmarkedRecipes"
+  >
+    <el-alert title="Du har ingen bokmerkede oppskrifter" type="info" center show-icon></el-alert>
+  </RecipeContainer>
+  <el-divider content-position="left">Oppskrifter</el-divider>
   <div class="search-bar">
     <el-input
       v-model="recipeSearch"
@@ -46,9 +34,11 @@
     </el-select>
     <el-select
       placeholder="Kategori"
-      v-model="selectedCategory"
+      v-model="selectedCategories"
       @update:modelValue="searchRecipes"
       class="category-picker"
+      collapse-tags
+      multiple
     >
       <el-option
         v-for="category in categories"
@@ -58,40 +48,23 @@
       />
     </el-select>
   </div>
-  <el-pagination
-    v-model:current-page="currentPage"
-    layout="prev, pager, next"
-    :page-count="totalPages"
-    @update:current-page="searchRecipes"
-    hide-on-single-page
-  ></el-pagination>
-  <el-col
-    v-for="recipe in recipes.sort((a, b) => b.totalIngredientsInFridge! - a.totalIngredientsInFridge!)"
-    :key="recipe.id"
-    :lg="12"
-    :md="12"
-    :sm="24"
-    :xl="6"
-    :xs="24"
+  <RecipeContainer
+    :recipes="recipes"
+    :totalPages="totalPages"
+    v-model="currentPage"
+    @search="searchRecipes"
   >
-    <RecipeCard
-      class="recipe-card"
-      :recipe="recipe"
-      :is-bookmarked="false"
-      @click="onClick(recipe)"
-    />
-  </el-col>
-  <el-pagination
-    v-model:current-page="currentPage"
-    @update:current-page="searchRecipes"
-    layout="prev, pager, next"
-    :page-count="totalPages"
-    hide-on-single-page
-  ></el-pagination>
+    <el-alert
+      title="Fant ingen oppskrifter"
+      type="info"
+      show-icon
+      center
+      v-if="recipes.length === 0 && recipeSearch.length > 0"
+    ></el-alert>
+  </RecipeContainer>
 </template>
 
 <script lang="ts" setup>
-import RecipeCard from "@/components/RecipeCard.vue";
 import { ref } from "vue";
 import type { AllergenRequest, Recipe, RecipeCategory, RecipeDTO } from "@/services/index";
 import { Search } from "@element-plus/icons-vue";
@@ -100,8 +73,9 @@ import { HouseholdRecipeApi } from "@/services/apis/household-recipe-api";
 import { AllergenApi } from "@/services/apis/allergen-api";
 import { RecipeCategoryApi } from "@/services/apis/recipe-category-api";
 import { useHouseholdStore } from "@/stores/household";
-import router from "@/router";
 import { InputHandler } from "@/utils/input-delay";
+import RecipeContainer from "@/components/RecipeContainer.vue";
+import { showError } from "@/utils/error-utils";
 
 const recipesApi = new RecipesApi();
 const householdRecipeApi = new HouseholdRecipeApi();
@@ -125,7 +99,7 @@ const allergens = ref<AllergenRequest[]>([]);
 const selectedAllergies = ref([] as number[]);
 
 const categories = ref<RecipeCategory[]>([]);
-const selectedCategory = ref<number[]>([]);
+const selectedCategories = ref<number[]>([]);
 
 allergenApi.getAllergens().then((response) => {
   allergens.value = response.data;
@@ -136,20 +110,31 @@ recipeCategoryApi.getAllRecipeCategories().then((response) => {
   categories.value = response.data;
 });
 
-recipeCategoryApi.getAllRecipeCategories().then((response) => {
-  categories.value = response.data;
-  console.log(categories.value);
-});
+const bookmarkedCurrentPage = ref<number>(1);
+const bookMarkedTotalPages = ref<number>(0);
+getBookmarkedRecipes();
 
-householdRecipeApi.getHouseholdRecipes(householdStore.household?.id!).then((response) => {
-  bookmarkedRecipes.value = response.data.map((r) => r.recipe);
-});
+async function getBookmarkedRecipes() {
+  if (householdStore.household) {
+    recipesApi
+      .getRecipesPaginated(
+        householdStore.household?.id,
+        true,
+        undefined,
+        undefined,
+        undefined,
+        true,
+        bookmarkedCurrentPage.value - 1,
+        20
+      )
+      .then((response) => {
+        console.log(response.data.content);
+        bookmarkedRecipes.value = response.data.content;
+      });
+  }
+}
 
 searchRecipes();
-
-function onClick(recipeClicked: Recipe) {
-  router.push({ name: "recipe-view", params: { id: recipeClicked.id.toString() } });
-}
 
 async function searchRecipes() {
   recipesApi
@@ -157,8 +142,9 @@ async function searchRecipes() {
       householdStore.household?.id!,
       true,
       recipeSearch.value ? recipeSearch.value : undefined,
-      selectedCategory.value ? selectedCategory.value : undefined,
+      selectedCategories.value ? selectedCategories.value : undefined,
       selectedAllergies.value ? selectedAllergies.value : undefined,
+      false,
       currentPage.value - 1,
       20
     )
@@ -170,13 +156,6 @@ async function searchRecipes() {
 </script>
 
 <style scoped>
-.recipe-card:hover {
-  background-color: #f5f5f5;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
 .recipe-search {
   margin-bottom: 20px;
   margin-right: 1rem;
@@ -196,6 +175,7 @@ async function searchRecipes() {
   .search-bar {
     flex-direction: column;
   }
+
   .category-picker {
     margin-left: 0;
     margin-top: 1rem;

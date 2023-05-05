@@ -55,7 +55,10 @@ export interface RecipeDTO {
    * @type {number}
    * @memberof RecipeDTO
    */
+
   totalIngredientsInFridge?: number;
+
+  isInHousehold?: boolean;
   /**
    *
    * @type {Array<RecipeIngredientResponse>}

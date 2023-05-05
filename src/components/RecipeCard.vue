@@ -2,19 +2,23 @@
   <el-card
     class="relative m-2 w-full max-w-xl overflow-visible"
     shadow="hover"
-    style="height: fit-content"
+    style="height: fit-content; cursor: pointer"
+    :style="{ 'border-color': allIngredientsInFridge ? 'var(--el-color-primary)' : '' }"
   >
     <el-row>
-      <img :src="recipe.image" style="width: 100%" />
+      <img :src="recipe?.image" style="width: 100%" />
       <div class="content">
-        <h2>{{ recipe?.name }}</h2>
-        <el-icon v-if="isBookmarked">
-          <Management color="orange" />
-        </el-icon>
+        <el-row>
+          <h2>{{ recipe?.name }}</h2>
+          <div class="spacer"></div>
+          <el-icon v-if="recipe?.isInHousehold">
+            <Management color="orange" />
+          </el-icon>
+        </el-row>
         <p>Tid: ca {{ recipe?.estimatedTime }} min</p>
-        <p>
-          <!--Implement this again-->
-          {{ recipe.totalIngredientsInFridge }} ingredienser i kjøleskap
+        <p>{{ recipe?.totalIngredientsInFridge }} ingredienser i kjøleskap</p>
+        <p v-if="allIngredientsInFridge" style="color: var(--el-color-primary)">
+          alle ingredienser er i kjøleskap
         </p>
         <footer class="mt-2 text-right">
           <h5 class="mb-5">Allergier:</h5>
@@ -27,26 +31,22 @@
 </template>
 
 <script setup lang="ts">
-import type { Ref } from "vue";
-import { ref, computed, onMounted } from "vue";
-import type {
-  Recipe,
-  RecipeIngredient,
-  ItemType,
-  AllergenRequest,
-  RecipeCategory,
-  RecipeDTO,
-} from "@/services/index";
+import { computed } from "vue";
+import type { RecipeDTO } from "@/services/index";
 import { Management } from "@element-plus/icons-vue";
-
-// Define APIs and stores
+import { totalIngredients } from "@/utils/total-ingredients";
 
 // Define props (will be recipe type)
 const props = defineProps<{
   recipe: RecipeDTO;
-  isBookmarked: boolean;
 }>();
 // Define refs
+
+const allIngredientsInFridge = computed(() => {
+  return (
+    props.recipe?.totalIngredientsInFridge == totalIngredients(props.recipe?.recipeIngredients)
+  );
+});
 
 // Define computed values
 const allergies = computed(() => {
@@ -56,25 +56,10 @@ const allergies = computed(() => {
   });
   return allergies.slice(0, -2);
 });
-// Vue hooks
-onMounted(() => {});
-
 // Other script logic
 </script>
 
 <style scoped>
-.recipe-card-wrapper {
-}
-
-.top {
-  margin-top: 13px;
-  line-height: 12px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
-}
-
 .content {
   margin-top: 13px;
   align-items: center;
