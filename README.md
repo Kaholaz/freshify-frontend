@@ -1,11 +1,33 @@
 # smartmat-frontend
 
+This application is created by NTNU students as part of a SCRUM agile project. The applications main purpose is to reduce food waste by helping the user keep track of what food items they currently own. The app also tracks statistics about what items are producing the most food waste as well as letting the user keep a handy shopping list that multiple household members can contribute to.
+
+
+Backend repo:
+[SmartMat Backend](https://gitlab.stud.idi.ntnu.no/idatt2106-v23-10/smartmat-backend)
+
+
+
+
+## Clone Repo
+
+```sh
+Frontend:
+git clone git@gitlab.stud.idi.ntnu.no:idatt2106-v23-10/smartmat-frontend.git
+
+Backend:
+git clone git@gitlab.stud.idi.ntnu.no:idatt2106-v23-10/smartmat-backend.git
+
+```
+
+---
 ## Project Setup
+To run the application, clone the repo and open the project folder. Run the following command.
 
 ```sh
 npm install
 ```
-
+You can now open a browser and navigate to localhost:5173
 ### Compile and Hot-Reload for Development
 
 ```sh
@@ -17,6 +39,8 @@ npm run dev
 ```sh
 npm run build
 ```
+---
+## Running tests
 
 ### Run Unit Tests with [Vitest](https://vitest.dev/)
 
@@ -45,7 +69,7 @@ npm run test:e2e
 ```sh
 npm run lint
 ```
-
+---
 ## Contributing
 
 ### Setup
