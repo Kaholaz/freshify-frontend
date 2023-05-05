@@ -72,4 +72,9 @@ const allergies = computed(() => {
   margin-top: 13px;
   align-items: center;
 }
+
+img {
+  aspect-ratio: 16/9;
+  object-fit: cover;
+}
 </style>
