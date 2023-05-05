@@ -73,7 +73,7 @@
           <div v-else-if="diffFromLastMonth < 0.15">
             <h4>
               Du har kastet {{ Math.round(Math.abs(diffFromLastMonth) * 100) }}% mindre mat enn det
-              du fjorde forrige måned
+              du gjorde forrige måned
             </h4>
             Fortsett med det gode arbeidet!
           </div>
