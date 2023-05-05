@@ -83,7 +83,7 @@ const allergenApi = new AllergenApi();
 const recipeCategoryApi = new RecipeCategoryApi();
 const householdStore = useHouseholdStore();
 
-const recipes = ref<RecipeDTO[]>([]);
+const recipes = ref<RecipeDTO[] | undefined>(undefined);
 
 const totalPages = ref<number>(0);
 const currentPage = ref<number>(1);
@@ -93,7 +93,7 @@ const recipeSearch = ref<string>("");
 
 const searchInputDelayHandler = new InputHandler(500);
 
-const bookmarkedRecipes = ref<RecipeDTO[]>([]);
+const bookmarkedRecipes = ref<RecipeDTO[] | undefined>(undefined);
 
 const allergens = ref<AllergenRequest[]>([]);
 const selectedAllergies = ref([] as number[]);
@@ -116,6 +116,9 @@ getBookmarkedRecipes();
 
 async function getBookmarkedRecipes() {
   if (householdStore.household) {
+    const id = setTimeout(() => {
+      bookmarkedRecipes.value = undefined;
+    }, 100);
     recipesApi
       .getRecipesPaginated(
         householdStore.household?.id,
@@ -129,7 +132,13 @@ async function getBookmarkedRecipes() {
       )
       .then((response) => {
         console.log(response.data.content);
+        clearTimeout(id);
         bookmarkedRecipes.value = response.data.content;
+      })
+      .catch(() => {
+        showError("Kunne ikke hente bokmerkede oppskrifter", "vennligst prøv igjen senere", 0);
+        clearTimeout(id);
+        bookmarkedRecipes.value = [];
       });
   }
 }
@@ -137,6 +146,9 @@ async function getBookmarkedRecipes() {
 searchRecipes();
 
 async function searchRecipes() {
+  const id = setTimeout(() => {
+    recipes.value = undefined;
+  }, 100);
   recipesApi
     .getRecipesPaginated(
       householdStore.household?.id!,
@@ -149,8 +161,14 @@ async function searchRecipes() {
       20
     )
     .then((data) => {
+      clearTimeout(id);
       recipes.value = data.data.content;
       totalPages.value = data.data.totalPages;
+    })
+    .catch(() => {
+      showError("Kunne ikke hente bokmerkede oppskrifter", "vennligst prøv igjen senere", 0);
+      clearTimeout(id);
+      recipes.value = [];
     });
 }
 </script>

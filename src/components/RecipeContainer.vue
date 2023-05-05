@@ -17,6 +17,9 @@
       @click="onClick(recipe)"
     />
   </div>
+  <div class="recipe-container" v-else-if="recipes === undefined">
+    <RecipeSkeleton count="5"></RecipeSkeleton>
+  </div>
   <div v-else>
     <slot></slot>
   </div>
@@ -33,6 +36,8 @@ import RecipeCard from "@/components/RecipeCard.vue";
 import { Recipe, RecipeDTO } from "@/services";
 import router from "@/router";
 import { computed } from "vue";
+import ShoppingListCardSkeleton from "@/components/ShoppingListCardSkeleton.vue";
+import RecipeSkeleton from "@/components/RecipeSkeleton.vue";
 
 const props = defineProps<{
   recipes: RecipeDTO[];
