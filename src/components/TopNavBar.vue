@@ -2,10 +2,12 @@
   <nav>
     <el-menu
       style="min-height: 60px"
+      class="menu"
       :default-active="activeIndex"
       :ellipsis="false"
       mode="horizontal"
       router
+      id="topNav"
     >
       <el-menu-item :index="'/inventory'" id="logo-menu-item">
         <img src="@/assets/logo-color.png" alt="logo" id="logo-img" />
@@ -27,7 +29,7 @@
   </nav>
 </template>
 <script lang="ts" setup>
-import { ref } from "vue";
+import { inject, onMounted, ref } from "vue";
 import { TurnOff, User } from "@element-plus/icons-vue";
 import { useSessionStore } from "@/stores/session";
 
@@ -35,14 +37,34 @@ const activeIndex = ref("1");
 
 const sessionStore = useSessionStore();
 
-function logOut() {
-  sessionStore.logOut();
-}
+const emitter = inject("emitter");
+
+onMounted(() => {
+  emitter.on("scroll", () => myFunction());
+  const topNav = document.getElementById("topNav");
+  function myFunction() {
+    if (!topNav) return;
+    if (!topNav.classList?.contains("solid-menu")) {
+      topNav.classList.add("solid-menu");
+    }
+  }
+});
 </script>
 
 <style scoped>
 .flex-grow {
   flex-grow: 1;
+}
+
+.menu {
+  transition: all 0.5s ease;
+  background-color: #186332;
+  margin: 0;
+}
+
+.solid-menu {
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 .menu-item-button {

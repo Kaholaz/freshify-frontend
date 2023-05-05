@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, onMounted, ref } from "vue";
+import { computed, inject, onMounted, ref } from "vue";
 import { Expand } from "@element-plus/icons-vue";
 import { useToggle } from "@vueuse/core";
 import { RouterView } from "vue-router";
@@ -28,12 +28,17 @@ const isFullScreen = computed(() => {
   if (router.currentRoute.value.meta?.fullScreen === undefined) return true;
   return router.currentRoute.value.meta?.fullScreen;
 });
+
+const emitter = inject("emitter");
+function onScroll() {
+  emitter.emit("scroll");
+}
 </script>
 
 <template>
   <el-container style="height: 100vh; display: flex">
-    <el-header>
-      <TopNavBar />
+    <el-header style="padding: 0">
+      <TopNavBar ref="topnav" />
     </el-header>
     <div v-if="collapsed" style="flex-shrink: 0; height: fit-content">
       <el-menu v-if="!isFullScreen" style="--el-menu-hover-bg-color: var(--el-menu-bg-color)">
@@ -54,8 +59,8 @@ const isFullScreen = computed(() => {
       <el-drawer v-else-if="collapsed" v-model="drawer" direction="ltr" size="306px">
         <SideNavBar @select="drawerToggle()" />
       </el-drawer>
-      <el-scrollbar style="width: 100%">
-        <el-main>
+      <el-scrollbar style="width: 100%" @scroll="onScroll()">
+        <el-main style="padding: 0">
           <RouterView id="main-view" />
         </el-main>
       </el-scrollbar>
@@ -64,10 +69,6 @@ const isFullScreen = computed(() => {
 </template>
 
 <style scoped>
-.sidenav {
-  height: 100%;
-}
-
 /* Prevent scrolling on anything but router view */
 * {
   overflow: hidden;
@@ -75,5 +76,9 @@ const isFullScreen = computed(() => {
 
 #main-view * {
   overflow: auto;
+}
+
+el-header {
+  padding: 0 !important;
 }
 </style>
