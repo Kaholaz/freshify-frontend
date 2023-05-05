@@ -168,7 +168,7 @@ const validationRules = {
 const tableData = ref([] as WastedItemDTO[]);
 
 const foodThrown = ref(0);
-const normalHouseholdFoodThrown = 0.5;
+const normalHouseholdFoodThrown = 0.25;
 
 const ruleFormRef = ref(null as FormInstance | null);
 
