@@ -4,8 +4,8 @@
     :class="{
       'item-card-wrapper': true,
       'item-card-only-title': !item.addedBy,
-      'warning-age': getDaysSinceLastChanged(item) > 7 && getDaysSinceLastChanged(item) <= 14,
-      'danger-age': getDaysSinceLastChanged(item) > 14,
+      'warning-age': getDaysSinceLastChanged(item).value > 7 && getDaysSinceLastChanged(item).value <= 14,
+      'danger-age': getDaysSinceLastChanged(item).value > 14,
     }"
     shadow="always"
   >
@@ -13,7 +13,7 @@
       <div class="info">
         <el-row style="display: flex; align-items: center; padding-bottom: 0.5rem">
           <h3 style="padding-right: 0.5rem">{{ item.type?.name }}</h3>
-          <el-space wrap :size="5" v-if="getDaysSinceLastChanged(item) > 14">
+          <el-space wrap :size="5" v-if="getDaysSinceLastChanged(item).value > 14">
             <el-tag
               style="background-color: #ebf5e1; border-color: #ffffff; --el-color-primary: #007225"
             >
@@ -24,7 +24,7 @@
         <el-text v-if="item.bought && getDaysSinceBought(item) > 0"
           >Kjøpt for {{ getDaysSinceBought(item) }} dager siden.
         </el-text>
-        <el-text v-else-if="item.bought && getDaysSinceBought(item) == 0">Kjøpt i dag</el-text>
+        <el-text v-else-if="item.bought && getDaysSinceBought(item) === 0">Kjøpt i dag</el-text>
         <el-text v-if="item.bought !== item.lastChanged">
           Sjekket for {{ getDaysSinceLastChanged(item) }} dager siden
         </el-text>
