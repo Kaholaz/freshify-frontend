@@ -100,7 +100,7 @@ function signIn() {
     })
     .catch((error) => {
       if (error.response.status === 401) {
-        errorMessage.value = "Feil brukernavn eller passord";
+        errorMessage.value = "Feil e-post eller passord";
       } else {
         errorMessage.value = "En uventet feil oppstod";
       }
