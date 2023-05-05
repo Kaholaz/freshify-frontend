@@ -37,9 +37,19 @@
       {{ currentRecipe?.description }}
     </h3>
     <el-divider />
-    <h4>Ingredienser</h4>
+    <h4>
+      <span>
+        Ingredienser (<el-input
+          id="portion-input"
+          v-model="recipePortions"
+          type="number"
+        ></el-input>
+        porsjoner)
+      </span>
+    </h4>
     <p v-for="ingredient in currentRecipe?.recipeIngredients" :key="ingredient.id">
-      {{ ingredient.amount }} {{ ingredient.unit }}
+      {{ ingredient.amount ? (ingredient.amount * recipePortions) / 4 : "??" }}
+      {{ ingredient.unit }}
       {{ ingredient.itemType?.name }}
     </p>
     <el-button
@@ -77,6 +87,7 @@ const householdRecipeApi = new HouseholdRecipeApi();
 const householdStore = useHouseholdStore();
 
 const currentRecipe = ref<RecipeDTO>();
+const recipePortions = ref(4);
 
 const recipeSteps = computed(() => {
   if (!currentRecipe.value) return [];
@@ -163,5 +174,9 @@ function goBack() {
   max-height: 30rem;
   object-fit: cover;
   margin-top: 1rem;
+}
+
+.el-input {
+  max-width: 4rem;
 }
 </style>
