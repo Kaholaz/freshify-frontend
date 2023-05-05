@@ -13,8 +13,6 @@ describe("Household", () => {
     cy.intercept("PUT", "/household/*/users", { fixture: "demote.json" }).as("demote");
     cy.url().should("include", "/edit-household");
     cy.contains("Degrader bruker").click();
-
-    cy.contains("button", "Degrader bruker").should("be.enabled");
     cy.contains("button", "Promoter bruker").should("be.enabled");
     cy.contains("button", "Degrader bruker").should("not.exist");
   });
@@ -38,7 +36,6 @@ describe("Household", () => {
     cy.contains("button", "Ja").click();
 
     cy.wait("@delete");
-    cy.contains("p", "Velg eller lag en ny husholdning").should("exist");
     cy.contains("h2", "InvitedUser").should("be.visible");
     cy.contains("p", "Velg eller lag en ny husholdning").should("not.exist");
   });
