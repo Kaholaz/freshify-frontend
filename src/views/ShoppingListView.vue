@@ -214,7 +214,7 @@ const validationRules = ref({
           callback();
         }
       },
-      message: "Antall må være mindre enn 10",
+      message: "Antall kan ikke overstige 10",
       trigger: "change",
     },
   ],
