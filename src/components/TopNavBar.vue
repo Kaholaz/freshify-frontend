@@ -2,7 +2,7 @@
   <nav>
     <el-menu :default-active="activeIndex" :ellipsis="false" mode="horizontal" router>
       <el-menu-item :index="'/inventory'" id="logo-menu-item">
-        <img src="@/assets/logo-color.png" alt="logo" id="logo-img">
+        <img src="@/assets/logo-color.png" alt="logo" id="logo-img" />
       </el-menu-item>
       <div class="flex-grow" />
       <el-menu-item v-if="sessionStore.isAuthenticated" index="/profile">

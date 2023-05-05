@@ -24,7 +24,7 @@ const router = createRouter({
       meta: {
         requiresAuth: true,
         fullScreen: false,
-        title: "Handleliste"
+        title: "Handleliste",
       },
     },
     {
@@ -34,7 +34,7 @@ const router = createRouter({
       meta: {
         requiresAuth: true,
         fullScreen: false,
-        title: "Oversikt"
+        title: "Oversikt",
       },
     },
     {
@@ -43,7 +43,7 @@ const router = createRouter({
       component: () => import("@/views/LoginView.vue"),
       meta: {
         fullScreen: true,
-        title: "Freshify | Logg inn"
+        title: "Freshify | Logg inn",
       },
     },
     {
@@ -52,7 +52,7 @@ const router = createRouter({
       component: () => import("@/views/RegisterView.vue"),
       meta: {
         fullScreen: true,
-        title: "Freshify | Registrering"
+        title: "Freshify | Registrering",
       },
     },
     {
@@ -98,7 +98,7 @@ const router = createRouter({
       meta: {
         requiresAuth: false,
         fullScreen: true,
-        title: "Vilkår og betingelser"
+        title: "Vilkår og betingelser",
       },
     },
     {
@@ -151,11 +151,11 @@ router.beforeEach(async (to, from, next) => {
     startup = false;
   }
 
-  const title: any = to.meta.title
+  const title: any = to.meta.title;
   if (title) {
-    document.title = title
+    document.title = title;
   } else {
-    document.title = "Freshify"
+    document.title = "Freshify";
   }
 
   if (to.meta.requiresAuth && !sessionStore.isAuthenticated) {
