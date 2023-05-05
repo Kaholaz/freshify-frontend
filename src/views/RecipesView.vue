@@ -65,7 +65,7 @@
 </template>
 
 <script lang="ts" setup>
-import {ref, onMounted, onUnmounted, inject} from "vue";
+import { ref, onMounted, onUnmounted, inject } from "vue";
 import type { AllergenRequest, Recipe, RecipeCategory, RecipeDTO } from "@/services/index";
 import { Search } from "@element-plus/icons-vue";
 import { RecipesApi } from "@/services/apis/recipes-api";
