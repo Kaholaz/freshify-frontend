@@ -1,38 +1,38 @@
 <template>
   <div class="container">
     <el-row class="section wrapper">
-      <el-col :span="24" :sm="12">
+      <el-col :sm="12" :span="24">
         <h1 class="contrast-text fade-in-text">Freshify</h1>
         <h3 class="contrast-text fade-in-text">
           Handle smartere, ikke hardere - vi håndterer datoen for deg
         </h3>
         <el-button
           class="contrast-text animate-buttons contrast-bg"
-          type="primary"
-          size="large"
-          @click="router.push('/login')"
           round
+          size="large"
+          type="primary"
+          @click="router.push('/login')"
           >Logg inn
         </el-button>
         <el-link
           class="animate-buttons contrast-text"
+          style="margin-left: 1rem"
           type="primary"
           @click="router.push({ name: 'register' })"
-          style="margin-left: 1rem"
           >eller registrer deg
         </el-link>
       </el-col>
-      <el-col :span="24" :sm="12" class="col flex">
+      <el-col :sm="12" :span="24" class="col flex">
         <div class="spacer"></div>
         <img
+          class="fade-in-text"
           src="/src/assets/logo-no-background.svg"
           style="width: 100%; padding-bottom: 4rem; max-width: 600px"
-          class="fade-in-text"
         />
       </el-col>
     </el-row>
     <el-row class="section wrapper-2">
-      <el-col :span="24" :sm="12" class="flex">
+      <el-col :sm="12" :span="24" class="flex">
         <h1>Freshify er lett å bruke</h1>
         <h3>- akkurat som en handleliste</h3>
         <div class="spacer"></div>
@@ -40,27 +40,27 @@
           Varene du har handlet havner i oversikt - og vi holder styr over de som du har hatt lengst
         </h3>
       </el-col>
-      <el-col :span="24" :sm="12"></el-col>
+      <el-col :sm="12" :span="24"></el-col>
     </el-row>
     <el-row class="section wrapper-3">
-      <el-col :span="24" :sm="12" class="flex center">
-        <img src="/src/assets/snap.png" class="img" />
+      <el-col :sm="12" :span="24" class="flex center">
+        <img class="img" src="/src/assets/snap.png" />
       </el-col>
-      <el-col :span="24" :sm="12" style="background-color: transparent">
+      <el-col :sm="12" :span="24" style="background-color: transparent">
         <h1>Bruk varene med to trykk</h1>
         <h3>Du bruker hele varer og svinner resten enkelt i oversikten</h3>
         <div class="spacer"></div>
       </el-col>
     </el-row>
     <el-row class="section wrapper-4">
-      <el-col :span="24" :sm="12">
+      <el-col :sm="12" :span="24">
         <h1>Sulten?</h1>
         <h3>Vi har gode oppskrifter som prioriterer varene du har hatt lengst.</h3>
         <h4 style="margin-top: 1rem">Slik hjelper vi deg med å redusere matsvinnet ditt</h4>
         <div class="spacer"></div>
       </el-col>
-      <el-col :span="24" :sm="12" style="background-color: transparent" class="flex center">
-        <img src="/src/assets/recipe.png" class="img" />
+      <el-col :sm="12" :span="24" class="flex center" style="background-color: transparent">
+        <img class="img" src="/src/assets/recipe.png" />
       </el-col>
     </el-row>
   </div>
@@ -100,6 +100,7 @@ function enableTransparentBar() {
     img.classList.add("invert");
   }
 }
+
 function disableTransparentBar() {
   const topNav = document.getElementById("topNav");
   const img = document.getElementById("logo-img");

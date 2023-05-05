@@ -1,11 +1,11 @@
 <template>
   <h1>Mitt kjøleskap</h1>
   <OverviewStatisticsBar
-    :danger-percentage="dangerPercentage"
-    :warning-percentage="warningPercentage"
-    :success-percentage="successPercentage"
-    style="margin-bottom: 2rem"
     v-if="items?.length"
+    :danger-percentage="dangerPercentage"
+    :success-percentage="successPercentage"
+    :warning-percentage="warningPercentage"
+    style="margin-bottom: 2rem"
   >
   </OverviewStatisticsBar>
   <div v-if="!isLoading && items" class="inventory-items-list">
@@ -14,8 +14,8 @@
       :key="item.id"
       :item="item"
       style="margin-bottom: 1rem"
-      @extend="extendItem(item)"
       @delete="deleteItem(item)"
+      @extend="extendItem(item)"
       @use="useItemDialog(item)"
     />
     <el-alert v-if="!items?.length" center>
@@ -29,17 +29,17 @@
   <!-- Use item dialog -->
   <el-dialog
     v-if="dialogItem"
+    id="use-item-dialog"
     v-model="useItemDialogVisible"
     title="Registrer matbruk"
     width="500px"
-    id="use-item-dialog"
   >
     <span>Velg hvor mye av varen du har brukt. Resten blir markert som svinn</span>
     <div class="amount-selection-row">
       <el-button round type="info" @click="dialogAmount = 0"> Ingenting</el-button>
       <el-button round type="info" @click="dialogAmount = 0.25"> 0.25</el-button>
       <el-button round type="info" @click="dialogAmount = 0.5"> 0.5</el-button>
-      <el-button round type="info" @click="dialogAmount = 0.75" id="use"> 0.75</el-button>
+      <el-button id="use" round type="info" @click="dialogAmount = 0.75"> 0.75</el-button>
       <el-button round type="info" @click="dialogAmount = 1"> Hele</el-button>
     </div>
     <div class="re-add">
@@ -49,7 +49,7 @@
     </div>
     <span class="dialog-footer">
       <el-button type="danger" @click="useItemDialogVisible = false">Avbryt</el-button>
-      <el-button type="warning" @click="useItem(dialogItem, dialogAmount)" id="submit">
+      <el-button id="submit" type="warning" @click="useItem(dialogItem, dialogAmount)">
         Bruk
       </el-button>
     </span>

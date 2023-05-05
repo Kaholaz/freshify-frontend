@@ -1,16 +1,16 @@
 <template>
   <nav>
     <el-menu
-      style="min-height: 65px"
-      class="menu solid-menu"
+      id="topNav"
       :default-active="activeIndex"
       :ellipsis="false"
+      class="menu solid-menu"
       mode="horizontal"
       router
-      id="topNav"
+      style="min-height: 65px"
     >
-      <el-menu-item :index="'/inventory'" id="logo-menu-item">
-        <img src="@/assets/logo-no-background.svg" alt="logo" id="logo-img" />
+      <el-menu-item id="logo-menu-item" :index="'/inventory'">
+        <img id="logo-img" alt="logo" src="@/assets/logo-no-background.svg" />
       </el-menu-item>
       <div class="flex-grow" />
       <el-menu-item v-if="sessionStore.isAuthenticated" index="/profile">
@@ -29,10 +29,9 @@
   </nav>
 </template>
 <script lang="ts" setup>
-import { inject, onMounted, ref } from "vue";
+import { ref } from "vue";
 import { TurnOff, User } from "@element-plus/icons-vue";
 import { useSessionStore } from "@/stores/session";
-import router from "@/router";
 
 const activeIndex = ref("1");
 

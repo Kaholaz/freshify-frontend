@@ -14,7 +14,7 @@
       <div class="info">
         <el-row style="display: flex; align-items: center; padding-bottom: 0.5rem">
           <h3 style="padding-right: 0.5rem">{{ item.type?.name }}</h3>
-          <el-space wrap :size="5" v-if="getDaysSinceLastChanged(item).value > 14">
+          <el-space v-if="getDaysSinceLastChanged(item).value > 14" :size="5" wrap>
             <el-tag
               style="background-color: #ebf5e1; border-color: #ffffff; --el-color-primary: #007225"
             >
@@ -33,8 +33,8 @@
 
       <div class="buttons">
         <el-button id="extend-button" type="primary" @click="emit('extend')"
-          >Forleng varighet</el-button
-        >
+          >Forleng varighet
+        </el-button>
         <el-button id="use-button" type="primary" @click="emit('use', item)">Bruk</el-button>
         <el-button id="delete-button" type="danger" @click="emit('delete', item)">Slett</el-button>
       </div>
@@ -58,6 +58,7 @@ const emit = defineEmits<ItemCardEmits>();
 
 export interface ItemCardEmits {
   (event: "extend"): void;
+
   (event: "use", item: Item): void;
 
   (event: "delete", item: Item): void;

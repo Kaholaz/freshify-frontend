@@ -1,12 +1,12 @@
 <template>
-  <div class="probability-bar" ref="barRef" @cange="console.log('mo')">
+  <div ref="barRef" class="probability-bar" @cange="console.log('mo')">
     <div class="spacer"></div>
-    <div class="inner-bar" :style="{ height: inPercentage + '%' }">
+    <div :style="{ height: inPercentage + '%' }" class="inner-bar">
       <h2>{{ Math.round(inPercentage) }}%</h2>
     </div>
   </div>
   <el-tooltip content="Gjennomsnittlig norsk husholdning">
-    <div class="normalHousehold" :style="{ marginTop: -marginBottom - 10 + 'px' }"></div>
+    <div :style="{ marginTop: -marginBottom - 10 + 'px' }" class="normalHousehold"></div>
     <!-- 10px is half of the width of the triangle -->>
   </el-tooltip>
 </template>

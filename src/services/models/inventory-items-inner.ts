@@ -11,9 +11,10 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { ItemState } from "./item-state";
-import { ItemType } from "./item-type";
-import { UserFull } from "./user-full";
+import {ItemState} from "./item-state";
+import {ItemType} from "./item-type";
+import {UserFull} from "./user-full";
+
 /**
  *
  * @export

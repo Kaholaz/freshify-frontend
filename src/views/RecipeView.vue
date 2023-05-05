@@ -1,6 +1,6 @@
 <template>
   <div v-if="!doesExist">
-    <el-alert title="Fant ingen oppskrift" type="info" show-icon center v-if="!doesExist">
+    <el-alert v-if="!doesExist" center show-icon title="Fant ingen oppskrift" type="info">
     </el-alert>
   </div>
   <div v-else>
@@ -21,18 +21,18 @@
     <img :src="currentRecipe?.image" alt="" class="recipe-image" />
     <h1>{{ currentRecipe?.name }}</h1>
     <el-tag
+      v-for="category in currentRecipe?.categories"
       :key="category.id"
       style="margin-right: 0.2rem"
-      v-for="category in currentRecipe?.categories"
-      >{{ category.name }}</el-tag
-    >
+      >{{ category.name }}
+    </el-tag>
     <el-tag
+      v-for="allergen in currentRecipe?.allergens"
       :key="allergen.id"
       style="margin-right: 0.2rem"
       type="danger"
-      v-for="allergen in currentRecipe?.allergens"
-      >{{ allergen.name }}</el-tag
-    >
+      >{{ allergen.name }}
+    </el-tag>
     <h3>
       {{ currentRecipe?.description }}
     </h3>
@@ -53,15 +53,15 @@
       {{ ingredient.itemType?.name }}
     </p>
     <el-button
+      v-if="
+        totalIngredients(currentRecipe?.recipeIngredients) !=
+        currentRecipe?.totalIngredientsInFridge
+      "
       style="margin-top: 1rem"
       type="primary"
       @click="
         updateMissingIngredients();
         addToShoppingDialogVisible = true;
-      "
-      v-if="
-        totalIngredients(currentRecipe?.recipeIngredients) !=
-        currentRecipe?.totalIngredientsInFridge
       "
     >
       Legg til manglende varer på handlelista
@@ -95,17 +95,16 @@
   </el-dialog>
 </template>
 
-<script setup lang="ts">
-import type { Ref } from "vue";
+<script lang="ts" setup>
+import { computed, onMounted, ref } from "vue";
 import type { RecipeDTO, RecipeIngredient } from "@/services/index";
 import {
-  ShoppingListApi,
-  HouseholdRecipeApi,
-  RecipesApi,
   HouseholdApi,
+  HouseholdRecipeApi,
   InventoryApi,
+  RecipesApi,
+  ShoppingListApi,
 } from "@/services/index";
-import { computed, handleError, onMounted, ref } from "vue";
 import router from "@/router";
 import { useHouseholdStore } from "@/stores/household";
 import { ElMessage } from "element-plus";
@@ -167,6 +166,7 @@ onMounted(async () => {
 const isBookmarked = ref(false);
 
 const doesExist = ref(true as boolean);
+
 function fetchRecipe() {
   if (!householdStore.household) return;
   recipeApi

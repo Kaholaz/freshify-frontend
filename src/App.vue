@@ -30,6 +30,7 @@ const isFullScreen = computed(() => {
 });
 
 const emitter = inject("emitter");
+
 function onScroll(event: Event) {
   emitter.emit("scroll", event);
 }

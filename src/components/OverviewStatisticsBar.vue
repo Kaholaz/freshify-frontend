@@ -1,23 +1,23 @@
 <template>
   <div class="wrapper">
     <el-tooltip content="Estimert godt">
-      <div class="success bar start" :style="{ width: props.successPercentage + '%' }">
+      <div :style="{ width: props.successPercentage + '%' }" class="success bar start">
         <span v-if="props.successPercentage >= 10"> {{ props.successPercentage }}%</span>
       </div>
     </el-tooltip>
     <el-tooltip content="Kan være dårlig">
-      <div class="warning bar" :style="{ width: props.warningPercentage + '%' }">
+      <div :style="{ width: props.warningPercentage + '%' }" class="warning bar">
         <span v-if="props.warningPercentage >= 10"> {{ props.warningPercentage }}%</span>
       </div>
     </el-tooltip>
     <el-tooltip content="Bør brukes">
-      <div class="danger bar end" :style="{ width: props.dangerPercentage + '%' }">
+      <div :style="{ width: props.dangerPercentage + '%' }" class="danger bar end">
         <span v-if="props.dangerPercentage >= 10"> {{ props.dangerPercentage }}%</span>
       </div>
     </el-tooltip>
   </div>
 </template>
-<script setup lang="ts">
+<script lang="ts" setup>
 const props = defineProps<{
   dangerPercentage: {
     type: number;

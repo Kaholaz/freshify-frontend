@@ -10,10 +10,10 @@
   >
     <el-form-item label="Navn på husholdning" prop="householdName">
       <el-input
+        id="household-name-input"
         v-model="householdName"
         placeholder="husholdning"
         type="text"
-        id="household-name-input"
         @keyup.enter="createHousehold"
       ></el-input>
     </el-form-item>
@@ -27,7 +27,7 @@
   </el-form>
 </template>
 <script lang="ts" setup>
-import { computed, ref, defineEmits } from "vue";
+import { computed, defineEmits, ref } from "vue";
 import type { FormInstance } from "element-plus";
 import type { CreateHousehold } from "@/services/index";
 

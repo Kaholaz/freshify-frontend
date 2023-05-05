@@ -11,8 +11,9 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { Household } from "./household";
-import { RecipeDTO } from "./recipe-dto";
+import {Household} from "./household";
+import {RecipeDTO} from "./recipe-dto";
+
 /**
  *
  * @export

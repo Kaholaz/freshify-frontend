@@ -1,5 +1,5 @@
 <template>
-  <LineChartJS :options="options" :data="chartData" key="mo" />
+  <LineChartJS key="mo" :data="chartData" :options="options" />
 </template>
 
 <script lang="ts">

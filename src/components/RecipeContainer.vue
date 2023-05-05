@@ -1,23 +1,23 @@
 <template>
   <el-pagination
     v-model:current-page="currentPage"
-    layout="prev, pager, next"
     :page-count="totalPages"
-    @update:current-page="$emit('search')"
     hide-on-single-page
+    layout="prev, pager, next"
+    @update:current-page="$emit('search')"
   >
   </el-pagination>
-  <div class="recipe-container" v-if="recipes?.length > 0">
+  <div v-if="recipes?.length > 0" class="recipe-container">
     <RecipeCard
       v-for="recipe in recipes"
       :key="recipe.id"
-      class="recipe-card"
-      :recipe="recipe"
       :is-bookmarked="false"
+      :recipe="recipe"
+      class="recipe-card"
       @click="onClick(recipe)"
     />
   </div>
-  <div class="recipe-container" v-else-if="recipes === undefined">
+  <div v-else-if="recipes === undefined" class="recipe-container">
     <RecipeSkeleton :count="1"></RecipeSkeleton>
     <RecipeSkeleton :count="1"></RecipeSkeleton>
     <RecipeSkeleton :count="1"></RecipeSkeleton>
@@ -28,13 +28,13 @@
   </div>
   <el-pagination
     v-model:current-page="currentPage"
-    @update:current-page="$emit('search')"
-    layout="prev, pager, next"
     :page-count="totalPages"
     hide-on-single-page
+    layout="prev, pager, next"
+    @update:current-page="$emit('search')"
   ></el-pagination>
 </template>
-<script setup lang="ts">
+<script lang="ts" setup>
 import RecipeCard from "@/components/RecipeCard.vue";
 import { Recipe, RecipeDTO } from "@/services/index";
 import router from "@/router";

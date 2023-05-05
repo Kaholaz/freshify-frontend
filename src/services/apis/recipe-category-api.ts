@@ -11,12 +11,13 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import globalAxios, { AxiosResponse, AxiosInstance, AxiosRequestConfig } from "axios";
-import { Configuration } from "../configuration";
+import globalAxios, {AxiosInstance, AxiosRequestConfig, AxiosResponse} from "axios";
+import {Configuration} from "../configuration";
 // Some imports not used depending on template conditions
 // @ts-ignore
-import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from "../base";
-import { RecipeCategory } from "../models";
+import {BASE_PATH, BaseAPI, COLLECTION_FORMATS, RequestArgs, RequiredError} from "../base";
+import {RecipeCategory} from "../models";
+
 /**
  * RecipeCategoryApi - axios parameter creator
  * @export

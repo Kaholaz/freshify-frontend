@@ -11,9 +11,10 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { HouseholdMemberKey } from "./household-member-key";
-import { HouseholdUserType } from "./household-user-type";
-import { UserFull } from "./user-full";
+import {HouseholdMemberKey} from "./household-member-key";
+import {HouseholdUserType} from "./household-user-type";
+import {UserFull} from "./user-full";
+
 /**
  *
  * @export

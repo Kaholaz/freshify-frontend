@@ -30,11 +30,10 @@
 <script lang="ts" setup>
 import { inject, onMounted, onUnmounted, ref } from "vue";
 import type { UpdateHouseholdUserType, UserFull } from "@/services/index";
-import { HouseholdUserType } from "@/services/index";
+import { AccountApi, HouseholdApi, HouseholdUserType } from "@/services/index";
 import UserCard from "@/components/HouseholdCard.vue";
 import HouseholdTopBar from "@/components/HouseholdTopBar.vue";
 import { useHouseholdStore } from "@/stores/household";
-import { AccountApi, HouseholdApi } from "@/services/index";
 import { ElMessage } from "element-plus";
 
 const householdStore = useHouseholdStore();
@@ -130,6 +129,7 @@ async function addUser(email: string) {
     ElMessage.error("Kunne ikke legge til bruker med epost: " + email);
   }
 }
+
 function deleteHousehold() {
   if (!householdStore.household?.id) return ElMessage.error("Kunne ikke slette husholdning");
   householdApi

@@ -11,13 +11,13 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import globalAxios, { AxiosResponse, AxiosInstance, AxiosRequestConfig } from "axios";
-import { Configuration } from "../configuration";
+import globalAxios, {AxiosInstance, AxiosRequestConfig, AxiosResponse} from "axios";
+import {Configuration} from "../configuration";
 // Some imports not used depending on template conditions
 // @ts-ignore
-import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from "../base";
-import { HouseholdRecipeDTO } from "../models";
-import { RecipeIngredientDTO } from "../models";
+import {BASE_PATH, BaseAPI, COLLECTION_FORMATS, RequestArgs, RequiredError} from "../base";
+import {HouseholdRecipeDTO, RecipeIngredientDTO} from "../models";
+
 /**
  * HouseholdRecipeApi - axios parameter creator
  * @export
@@ -396,6 +396,7 @@ export class HouseholdRecipeApi extends BaseAPI {
       .addRecipeToShoppingList(householdId, id, options)
       .then((request) => request(this.axios, this.basePath));
   }
+
   /**
    * Adds a recipe as bookmarked to the given household.
    * @summary Adds a recipe to a household
@@ -414,6 +415,7 @@ export class HouseholdRecipeApi extends BaseAPI {
       .createHouseholdRecipe(householdId, id, options)
       .then((request) => request(this.axios, this.basePath));
   }
+
   /**
    * Removes a recipe from a household. It will no longer be bookmarked in that household.
    * @summary Removes a recipe from a household
