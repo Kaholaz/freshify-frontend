@@ -33,7 +33,7 @@
 </template>
 <script setup lang="ts">
 import RecipeCard from "@/components/RecipeCard.vue";
-import { Recipe, RecipeDTO } from "@/services";
+import { Recipe, RecipeDTO } from "@/services/index";
 import router from "@/router";
 import { computed } from "vue";
 import ShoppingListCardSkeleton from "@/components/ShoppingListCardSkeleton.vue";
