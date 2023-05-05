@@ -11,13 +11,22 @@
   >
     <div class="card-body">
       <div class="info">
-        <h3>{{ item.type?.name }}</h3>
+        <el-row style="display: flex; align-items: center; padding-bottom: 0.5rem">
+          <h3 style="padding-right: 0.5rem">{{ item.type?.name }}</h3>
+          <el-space wrap :size="5" v-if="getDaysSinceLastChanged(item) > 14">
+            <el-tag
+              style="background-color: #ebf5e1; border-color: #ffffff; --el-color-primary: #007225"
+            >
+              Obs! Se, lukt, smak!
+            </el-tag>
+          </el-space>
+        </el-row>
         <el-text v-if="item.bought && getDaysSinceBought(item) > 0"
           >Kjøpt for {{ getDaysSinceBought(item) }} dager siden.
         </el-text>
         <el-text v-else-if="item.bought && getDaysSinceBought(item) == 0">Kjøpt i dag</el-text>
         <el-text v-if="item.bought !== item.lastChanged">
-          Sist sjekket: {{ getDaysSinceLastChanged(item) }}
+          Sjekket for {{ getDaysSinceLastChanged(item) }} dager siden
         </el-text>
       </div>
 
