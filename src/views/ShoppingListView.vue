@@ -204,6 +204,17 @@ const validationRules = ref({
       message: "Antall må være større enn 0",
       trigger: "change",
     },
+    {
+      validator: (rule: any, value: any, callback: any) => {
+        if (value > 10) {
+          callback(new Error());
+        } else {
+          callback();
+        }
+      },
+      message: "Antall må være mindre enn 10",
+      trigger: "change",
+    },
   ],
 });
 
