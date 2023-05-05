@@ -79,6 +79,8 @@
             <div style="flex-grow: 1"></div>
             <el-popconfirm
               v-if="houseHoldStore.isSuperuser()"
+              confirm-button-text="Ja"
+              cancel-button-text="Nei"
               title="Godkjenn alle varer"
               @confirm="acceptAllSuggestions"
             >
@@ -88,6 +90,8 @@
             </el-popconfirm>
             <el-popconfirm
               v-if="houseHoldStore.getHouseholdMemberType() === HouseholdUserType.SUPERUSER"
+              confirm-button-text="Ja"
+              cancel-button-text="Nei"
               title="Slett alle varer"
               @confirm="declineAllSuggestions"
             >
